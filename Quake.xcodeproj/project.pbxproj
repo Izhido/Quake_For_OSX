@@ -68,7 +68,6 @@
 		2839AE9F1C5D6FFD00CEC48E /* r_vars.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE541C5D6FFD00CEC48E /* r_vars.c */; };
 		2839AEA01C5D6FFD00CEC48E /* sbar.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE561C5D6FFD00CEC48E /* sbar.c */; };
 		2839AEA11C5D6FFD00CEC48E /* screen.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE581C5D6FFD00CEC48E /* screen.c */; };
-		2839AEA21C5D6FFD00CEC48E /* snd_null.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE5B1C5D6FFD00CEC48E /* snd_null.c */; };
 		2839AEA31C5D6FFD00CEC48E /* sv_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE5E1C5D6FFD00CEC48E /* sv_main.c */; };
 		2839AEA41C5D6FFD00CEC48E /* sv_move.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE5F1C5D6FFD00CEC48E /* sv_move.c */; };
 		2839AEA51C5D6FFD00CEC48E /* sv_phys.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE601C5D6FFD00CEC48E /* sv_phys.c */; };
@@ -135,7 +134,6 @@
 		2873B1441C5D7F1800CE4775 /* r_vars.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE541C5D6FFD00CEC48E /* r_vars.c */; };
 		2873B1451C5D7F1800CE4775 /* sbar.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE561C5D6FFD00CEC48E /* sbar.c */; };
 		2873B1461C5D7F1800CE4775 /* screen.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE581C5D6FFD00CEC48E /* screen.c */; };
-		2873B1471C5D7F1800CE4775 /* snd_null.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE5B1C5D6FFD00CEC48E /* snd_null.c */; };
 		2873B1481C5D7F1800CE4775 /* sv_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE5E1C5D6FFD00CEC48E /* sv_main.c */; };
 		2873B1491C5D7F1800CE4775 /* sv_move.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE5F1C5D6FFD00CEC48E /* sv_move.c */; };
 		2873B14A1C5D7F1800CE4775 /* sv_phys.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE601C5D6FFD00CEC48E /* sv_phys.c */; };
@@ -149,6 +147,10 @@
 		28C3BDC51C5D77AA00CBB0D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C3BDC41C5D77AA00CBB0D9 /* ViewController.swift */; };
 		28C3BDC81C5D77AA00CBB0D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28C3BDC61C5D77AA00CBB0D9 /* Main.storyboard */; };
 		28C3BDCA1C5D77AA00CBB0D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28C3BDC91C5D77AA00CBB0D9 /* Assets.xcassets */; };
+		6D54BA841C625804004687A6 /* snd_dma.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA821C625804004687A6 /* snd_dma.c */; };
+		6D54BA851C625804004687A6 /* snd_mix.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA831C625804004687A6 /* snd_mix.c */; };
+		6D54BA871C6266E2004687A6 /* snd_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA861C6266E2004687A6 /* snd_mem.c */; };
+		6D54BA891C626F77004687A6 /* snd_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA881C626F77004687A6 /* snd_osx.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -250,7 +252,6 @@
 		2839AE581C5D6FFD00CEC48E /* screen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = screen.c; sourceTree = "<group>"; };
 		2839AE591C5D6FFD00CEC48E /* screen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = screen.h; sourceTree = "<group>"; };
 		2839AE5A1C5D6FFD00CEC48E /* server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = server.h; sourceTree = "<group>"; };
-		2839AE5B1C5D6FFD00CEC48E /* snd_null.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_null.c; sourceTree = "<group>"; };
 		2839AE5C1C5D6FFD00CEC48E /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sound.h; sourceTree = "<group>"; };
 		2839AE5D1C5D6FFD00CEC48E /* spritegn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spritegn.h; sourceTree = "<group>"; };
 		2839AE5E1C5D6FFD00CEC48E /* sv_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sv_main.c; sourceTree = "<group>"; };
@@ -280,6 +281,10 @@
 		28C3BDC71C5D77AA00CBB0D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28C3BDC91C5D77AA00CBB0D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28C3BDCB1C5D77AA00CBB0D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6D54BA821C625804004687A6 /* snd_dma.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_dma.c; sourceTree = "<group>"; };
+		6D54BA831C625804004687A6 /* snd_mix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_mix.c; sourceTree = "<group>"; };
+		6D54BA861C6266E2004687A6 /* snd_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_mem.c; sourceTree = "<group>"; };
+		6D54BA881C626F77004687A6 /* snd_osx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_osx.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -331,6 +336,7 @@
 				2839ADF81C5D6F8B00CEC48E /* Quake_OSX-Bridging-Header.h */,
 				2839ADF91C5D6F8B00CEC48E /* Shaders.metal */,
 				2839ADF61C5D6F8B00CEC48E /* in_osx.c */,
+				6D54BA881C626F77004687A6 /* snd_osx.c */,
 				2839ADFA1C5D6F8B00CEC48E /* sys_osx.c */,
 				2839ADFB1C5D6F8B00CEC48E /* vid_osx.c */,
 			);
@@ -376,8 +382,8 @@
 				2839AE251C5D6FFD00CEC48E /* d_vars.c */,
 				2839AE261C5D6FFD00CEC48E /* draw.c */,
 				2839AE271C5D6FFD00CEC48E /* draw.h */,
-				2839AE281C5D6FFD00CEC48E /* host.c */,
 				2839AE291C5D6FFD00CEC48E /* host_cmd.c */,
+				2839AE281C5D6FFD00CEC48E /* host.c */,
 				2839AE2A1C5D6FFD00CEC48E /* input.h */,
 				2839AE2B1C5D6FFD00CEC48E /* keys.c */,
 				2839AE2C1C5D6FFD00CEC48E /* keys.h */,
@@ -388,13 +394,13 @@
 				2839AE311C5D6FFD00CEC48E /* model.c */,
 				2839AE321C5D6FFD00CEC48E /* model.h */,
 				2839AE331C5D6FFD00CEC48E /* modelgen.h */,
-				2839AE341C5D6FFD00CEC48E /* net.h */,
 				2839AE351C5D6FFD00CEC48E /* net_loop.c */,
 				2839AE361C5D6FFD00CEC48E /* net_loop.h */,
 				2839AE371C5D6FFD00CEC48E /* net_main.c */,
 				2839AE381C5D6FFD00CEC48E /* net_none.c */,
 				2839AE391C5D6FFD00CEC48E /* net_vcr.c */,
 				2839AE3A1C5D6FFD00CEC48E /* net_vcr.h */,
+				2839AE341C5D6FFD00CEC48E /* net.h */,
 				2839AE3B1C5D6FFD00CEC48E /* nonintel.c */,
 				2839AE3C1C5D6FFD00CEC48E /* pr_cmds.c */,
 				2839AE3D1C5D6FFD00CEC48E /* pr_comp.h */,
@@ -427,7 +433,9 @@
 				2839AE581C5D6FFD00CEC48E /* screen.c */,
 				2839AE591C5D6FFD00CEC48E /* screen.h */,
 				2839AE5A1C5D6FFD00CEC48E /* server.h */,
-				2839AE5B1C5D6FFD00CEC48E /* snd_null.c */,
+				6D54BA821C625804004687A6 /* snd_dma.c */,
+				6D54BA861C6266E2004687A6 /* snd_mem.c */,
+				6D54BA831C625804004687A6 /* snd_mix.c */,
 				2839AE5C1C5D6FFD00CEC48E /* sound.h */,
 				2839AE5D1C5D6FFD00CEC48E /* spritegn.h */,
 				2839AE5E1C5D6FFD00CEC48E /* sv_main.c */,
@@ -580,6 +588,7 @@
 				2839AEAA1C5D6FFD00CEC48E /* zone.c in Sources */,
 				2839AE781C5D6FFD00CEC48E /* d_edge.c in Sources */,
 				2839AE931C5D6FFD00CEC48E /* r_alias.c in Sources */,
+				6D54BA871C6266E2004687A6 /* snd_mem.c in Sources */,
 				2839AD441C5D6EF700CEC48E /* AppDelegate.swift in Sources */,
 				2839AE741C5D6FFD00CEC48E /* common.c in Sources */,
 				2839AEA61C5D6FFD00CEC48E /* sv_user.c in Sources */,
@@ -606,12 +615,13 @@
 				2839AE851C5D6FFD00CEC48E /* keys.c in Sources */,
 				2839AE7F1C5D6FFD00CEC48E /* d_sprite.c in Sources */,
 				2839AE721C5D6FFD00CEC48E /* cl_tent.c in Sources */,
+				6D54BA851C625804004687A6 /* snd_mix.c in Sources */,
 				2839AEA81C5D6FFD00CEC48E /* wad.c in Sources */,
 				2839ADFF1C5D6F8B00CEC48E /* Shaders.metal in Sources */,
+				6D54BA841C625804004687A6 /* snd_dma.c in Sources */,
 				2839AEA71C5D6FFD00CEC48E /* view.c in Sources */,
 				2839AE811C5D6FFD00CEC48E /* d_vars.c in Sources */,
 				2839AE8B1C5D6FFD00CEC48E /* net_none.c in Sources */,
-				2839AEA21C5D6FFD00CEC48E /* snd_null.c in Sources */,
 				2839AE991C5D6FFD00CEC48E /* r_main.c in Sources */,
 				2839AE9C1C5D6FFD00CEC48E /* r_sky.c in Sources */,
 				2839AE971C5D6FFD00CEC48E /* r_efrag.c in Sources */,
@@ -636,6 +646,7 @@
 				2839AE921C5D6FFD00CEC48E /* r_aclip.c in Sources */,
 				2839AE951C5D6FFD00CEC48E /* r_draw.c in Sources */,
 				2839AE821C5D6FFD00CEC48E /* draw.c in Sources */,
+				6D54BA891C626F77004687A6 /* snd_osx.c in Sources */,
 				2839AE961C5D6FFD00CEC48E /* r_edge.c in Sources */,
 				2839AE791C5D6FFD00CEC48E /* d_init.c in Sources */,
 				2839ADFD1C5D6F8B00CEC48E /* in_osx.c in Sources */,
@@ -703,7 +714,6 @@
 				2873B1441C5D7F1800CE4775 /* r_vars.c in Sources */,
 				2873B1451C5D7F1800CE4775 /* sbar.c in Sources */,
 				2873B1461C5D7F1800CE4775 /* screen.c in Sources */,
-				2873B1471C5D7F1800CE4775 /* snd_null.c in Sources */,
 				2873B1481C5D7F1800CE4775 /* sv_main.c in Sources */,
 				2873B1491C5D7F1800CE4775 /* sv_move.c in Sources */,
 				2873B14A1C5D7F1800CE4775 /* sv_phys.c in Sources */,
