@@ -9,6 +9,8 @@
 #include "quakedef.h"
 #include "errno.h"
 
+extern double CACurrentMediaTime();
+
 qboolean isDedicated;
 
 static quakeparms_t parms;
@@ -171,11 +173,7 @@ void Sys_Quit (void)
 
 double Sys_FloatTime (void)
 {
-    static double t;
-    
-    t += frame_lapse;
-    
-    return t;
+    return CACurrentMediaTime();
 }
 
 char *Sys_ConsoleInput (void)

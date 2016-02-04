@@ -46,7 +46,6 @@
 		2839AE881C5D6FFD00CEC48E /* model.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE311C5D6FFD00CEC48E /* model.c */; };
 		2839AE891C5D6FFD00CEC48E /* net_loop.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE351C5D6FFD00CEC48E /* net_loop.c */; };
 		2839AE8A1C5D6FFD00CEC48E /* net_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE371C5D6FFD00CEC48E /* net_main.c */; };
-		2839AE8B1C5D6FFD00CEC48E /* net_none.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE381C5D6FFD00CEC48E /* net_none.c */; };
 		2839AE8C1C5D6FFD00CEC48E /* net_vcr.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE391C5D6FFD00CEC48E /* net_vcr.c */; };
 		2839AE8D1C5D6FFD00CEC48E /* nonintel.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE3B1C5D6FFD00CEC48E /* nonintel.c */; };
 		2839AE8E1C5D6FFD00CEC48E /* pr_cmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE3C1C5D6FFD00CEC48E /* pr_cmds.c */; };
@@ -112,7 +111,6 @@
 		2873B12E1C5D7F1800CE4775 /* model.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE311C5D6FFD00CEC48E /* model.c */; };
 		2873B12F1C5D7F1800CE4775 /* net_loop.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE351C5D6FFD00CEC48E /* net_loop.c */; };
 		2873B1301C5D7F1800CE4775 /* net_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE371C5D6FFD00CEC48E /* net_main.c */; };
-		2873B1311C5D7F1800CE4775 /* net_none.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE381C5D6FFD00CEC48E /* net_none.c */; };
 		2873B1321C5D7F1800CE4775 /* net_vcr.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE391C5D6FFD00CEC48E /* net_vcr.c */; };
 		2873B1331C5D7F1800CE4775 /* nonintel.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE3B1C5D6FFD00CEC48E /* nonintel.c */; };
 		2873B1341C5D7F1800CE4775 /* pr_cmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE3C1C5D6FFD00CEC48E /* pr_cmds.c */; };
@@ -143,6 +141,9 @@
 		2873B14E1C5D7F1800CE4775 /* world.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE681C5D6FFD00CEC48E /* world.c */; };
 		2873B14F1C5D7F1800CE4775 /* zone.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE6A1C5D6FFD00CEC48E /* zone.c */; };
 		2873B1551C5D83BF00CE4775 /* id1 in Resources */ = {isa = PBXBuildFile; fileRef = 2873B1541C5D83BF00CE4775 /* id1 */; };
+		289A0AEB1C63054F0007B2C4 /* net_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AE91C63054F0007B2C4 /* net_udp.c */; };
+		289A0AEE1C63074B0007B2C4 /* net_dgrm.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEC1C63074B0007B2C4 /* net_dgrm.c */; };
+		289A0AF01C6307C70007B2C4 /* net_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEF1C6307C70007B2C4 /* net_osx.c */; };
 		28C3BDC31C5D77AA00CBB0D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C3BDC21C5D77AA00CBB0D9 /* AppDelegate.swift */; };
 		28C3BDC51C5D77AA00CBB0D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C3BDC41C5D77AA00CBB0D9 /* ViewController.swift */; };
 		28C3BDC81C5D77AA00CBB0D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28C3BDC61C5D77AA00CBB0D9 /* Main.storyboard */; };
@@ -217,7 +218,6 @@
 		2839AE351C5D6FFD00CEC48E /* net_loop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_loop.c; sourceTree = "<group>"; };
 		2839AE361C5D6FFD00CEC48E /* net_loop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_loop.h; sourceTree = "<group>"; };
 		2839AE371C5D6FFD00CEC48E /* net_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_main.c; sourceTree = "<group>"; };
-		2839AE381C5D6FFD00CEC48E /* net_none.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_none.c; sourceTree = "<group>"; };
 		2839AE391C5D6FFD00CEC48E /* net_vcr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_vcr.c; sourceTree = "<group>"; };
 		2839AE3A1C5D6FFD00CEC48E /* net_vcr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_vcr.h; sourceTree = "<group>"; };
 		2839AE3B1C5D6FFD00CEC48E /* nonintel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nonintel.c; sourceTree = "<group>"; };
@@ -275,6 +275,11 @@
 		2873B10C1C5D7E0F00CE4775 /* vid_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vid_tvos.c; sourceTree = "<group>"; };
 		2873B1101C5D7E8900CE4775 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		2873B1541C5D83BF00CE4775 /* id1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = id1; path = "../../../Downloads/Quake Shareware (1_06) PAK/id1"; sourceTree = "<group>"; };
+		289A0AE91C63054F0007B2C4 /* net_udp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_udp.c; sourceTree = "<group>"; };
+		289A0AEA1C63054F0007B2C4 /* net_udp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_udp.h; sourceTree = "<group>"; };
+		289A0AEC1C63074B0007B2C4 /* net_dgrm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_dgrm.c; sourceTree = "<group>"; };
+		289A0AED1C63074B0007B2C4 /* net_dgrm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_dgrm.h; sourceTree = "<group>"; };
+		289A0AEF1C6307C70007B2C4 /* net_osx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_osx.c; sourceTree = "<group>"; };
 		28C3BDC01C5D77AA00CBB0D9 /* Quake_tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quake_tvOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C3BDC21C5D77AA00CBB0D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28C3BDC41C5D77AA00CBB0D9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -336,6 +341,7 @@
 				2839ADF81C5D6F8B00CEC48E /* Quake_OSX-Bridging-Header.h */,
 				2839ADF91C5D6F8B00CEC48E /* Shaders.metal */,
 				2839ADF61C5D6F8B00CEC48E /* in_osx.c */,
+				289A0AEF1C6307C70007B2C4 /* net_osx.c */,
 				6D54BA881C626F77004687A6 /* snd_osx.c */,
 				2839ADFA1C5D6F8B00CEC48E /* sys_osx.c */,
 				2839ADFB1C5D6F8B00CEC48E /* vid_osx.c */,
@@ -394,10 +400,13 @@
 				2839AE311C5D6FFD00CEC48E /* model.c */,
 				2839AE321C5D6FFD00CEC48E /* model.h */,
 				2839AE331C5D6FFD00CEC48E /* modelgen.h */,
+				289A0AEC1C63074B0007B2C4 /* net_dgrm.c */,
+				289A0AED1C63074B0007B2C4 /* net_dgrm.h */,
 				2839AE351C5D6FFD00CEC48E /* net_loop.c */,
 				2839AE361C5D6FFD00CEC48E /* net_loop.h */,
 				2839AE371C5D6FFD00CEC48E /* net_main.c */,
-				2839AE381C5D6FFD00CEC48E /* net_none.c */,
+				289A0AE91C63054F0007B2C4 /* net_udp.c */,
+				289A0AEA1C63054F0007B2C4 /* net_udp.h */,
 				2839AE391C5D6FFD00CEC48E /* net_vcr.c */,
 				2839AE3A1C5D6FFD00CEC48E /* net_vcr.h */,
 				2839AE341C5D6FFD00CEC48E /* net.h */,
@@ -621,13 +630,15 @@
 				6D54BA841C625804004687A6 /* snd_dma.c in Sources */,
 				2839AEA71C5D6FFD00CEC48E /* view.c in Sources */,
 				2839AE811C5D6FFD00CEC48E /* d_vars.c in Sources */,
-				2839AE8B1C5D6FFD00CEC48E /* net_none.c in Sources */,
 				2839AE991C5D6FFD00CEC48E /* r_main.c in Sources */,
+				289A0AEB1C63054F0007B2C4 /* net_udp.c in Sources */,
 				2839AE9C1C5D6FFD00CEC48E /* r_sky.c in Sources */,
 				2839AE971C5D6FFD00CEC48E /* r_efrag.c in Sources */,
 				2839AEA91C5D6FFD00CEC48E /* world.c in Sources */,
 				2839AEA41C5D6FFD00CEC48E /* sv_move.c in Sources */,
 				2839AEA51C5D6FFD00CEC48E /* sv_phys.c in Sources */,
+				289A0AF01C6307C70007B2C4 /* net_osx.c in Sources */,
+				289A0AEE1C63074B0007B2C4 /* net_dgrm.c in Sources */,
 				2839AE9E1C5D6FFD00CEC48E /* r_surf.c in Sources */,
 				2839AE891C5D6FFD00CEC48E /* net_loop.c in Sources */,
 				2839AE771C5D6FFD00CEC48E /* cvar.c in Sources */,
@@ -692,7 +703,6 @@
 				2873B12E1C5D7F1800CE4775 /* model.c in Sources */,
 				2873B12F1C5D7F1800CE4775 /* net_loop.c in Sources */,
 				2873B1301C5D7F1800CE4775 /* net_main.c in Sources */,
-				2873B1311C5D7F1800CE4775 /* net_none.c in Sources */,
 				2873B1321C5D7F1800CE4775 /* net_vcr.c in Sources */,
 				2873B1331C5D7F1800CE4775 /* nonintel.c in Sources */,
 				2873B1341C5D7F1800CE4775 /* pr_cmds.c in Sources */,
