@@ -20,12 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "quakedef.h"
 #include <AudioToolbox/AudioQueue.h>
 
-AudioQueueRef snd_audioqueue;
+AudioQueueRef snd_audioqueue = NULL;
 
-AudioQueueBufferRef snd_audiobuffer1;
-AudioQueueBufferRef snd_audiobuffer2;
-
-volatile int snd_current_sample_pos;
+volatile int snd_current_sample_pos = 0;
 
 void SNDDMA_Callback(void *userdata, AudioQueueRef queue, AudioQueueBufferRef buffer)
 {
@@ -76,23 +73,59 @@ qboolean SNDDMA_Init(void)
     format.mBytesPerPacket = format.mBytesPerFrame * format.mFramesPerPacket;
     format.mReserved = 0;
     
-    AudioQueueNewOutput(&format, SNDDMA_Callback, NULL, NULL, 0, 0, &snd_audioqueue);
+    OSStatus status = AudioQueueNewOutput(&format, SNDDMA_Callback, NULL, NULL, 0, 0, &snd_audioqueue);
     
-    AudioQueueAllocateBuffer(snd_audioqueue, shm->samples >> 2, &snd_audiobuffer1);
-    
-    snd_audiobuffer1->mAudioDataByteSize = shm->samples >> 2;
-    
-    AudioQueueEnqueueBuffer(snd_audioqueue, snd_audiobuffer1, 0, NULL);
+    if (status != 0)
+    {
+        return false;
+    }
 
-    AudioQueueAllocateBuffer(snd_audioqueue, shm->samples >> 2, &snd_audiobuffer2);
+    AudioQueueBufferRef buffer;
     
-    snd_audiobuffer2->mAudioDataByteSize = shm->samples >> 2;
+    status = AudioQueueAllocateBuffer(snd_audioqueue, shm->samples >> 2, &buffer);
     
-    AudioQueueEnqueueBuffer(snd_audioqueue, snd_audiobuffer2, 0, NULL);
+    if (status != 0)
+    {
+        return false;
+    }
+    
+    buffer->mAudioDataByteSize = shm->samples >> 2;
+    
+    status = AudioQueueEnqueueBuffer(snd_audioqueue, buffer, 0, NULL);
 
-    AudioQueueStart(snd_audioqueue, NULL);
+    if (status != 0)
+    {
+        AudioQueueFreeBuffer(snd_audioqueue, buffer);
+
+        return false;
+    }
     
-    snd_current_sample_pos = 0;
+    status = AudioQueueAllocateBuffer(snd_audioqueue, shm->samples >> 2, &buffer);
+    
+    if (status != 0)
+    {
+        return false;
+    }
+    
+    buffer->mAudioDataByteSize = shm->samples >> 2;
+    
+    AudioQueueEnqueueBuffer(snd_audioqueue, buffer, 0, NULL);
+
+    if (status != 0)
+    {
+        AudioQueueFreeBuffer(snd_audioqueue, buffer);
+        
+        return false;
+    }
+    
+    status = AudioQueueStart(snd_audioqueue, NULL);
+    
+    if (status != 0)
+    {
+        return false;
+    }
+    
+    snd_current_sample_pos = shm->samples >> 1;
     
     return true;
 }
@@ -133,7 +166,13 @@ Reset the sound device for exiting
 */
 void SNDDMA_Shutdown(void)
 {
-    AudioQueueStop(snd_audioqueue, false);
-    AudioQueueDispose(snd_audioqueue, false);
+    if (snd_audioqueue != NULL)
+    {
+        AudioQueueStop(snd_audioqueue, false);
+
+        AudioQueueDispose(snd_audioqueue, false);
+    }
+    
+    snd_audioqueue = NULL;
 }
 
