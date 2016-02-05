@@ -212,6 +212,7 @@ static int PartialIPAddress (char *in, struct qsockaddr *hostaddr)
 	else
 		port = net_hostport;
 
+    hostaddr->sa_len = 16;
 	hostaddr->sa_family = AF_INET;
 	((struct sockaddr_in *)hostaddr)->sin_port = htons((short)port);	
 	((struct sockaddr_in *)hostaddr)->sin_addr.s_addr = (myAddr & htonl(mask)) | htonl(addr);
@@ -323,6 +324,7 @@ int UDP_StringToAddr (char *string, struct qsockaddr *addr)
 	sscanf(string, "%d.%d.%d.%d:%d", &ha1, &ha2, &ha3, &ha4, &hp);
 	ipaddr = (ha1 << 24) | (ha2 << 16) | (ha3 << 8) | ha4;
 
+    addr->sa_len = 16;
 	addr->sa_family = AF_INET;
 	((struct sockaddr_in *)addr)->sin_addr.s_addr = htonl(ipaddr);
 	((struct sockaddr_in *)addr)->sin_port = htons(hp);
@@ -375,6 +377,7 @@ int UDP_GetAddrFromName(char *name, struct qsockaddr *addr)
 	if (!hostentry)
 		return -1;
 
+    addr->sa_len = 16;
 	addr->sa_family = AF_INET;
 	((struct sockaddr_in *)addr)->sin_port = htons(net_hostport);	
 	((struct sockaddr_in *)addr)->sin_addr.s_addr = *(int *)hostentry->h_addr_list[0];
@@ -386,6 +389,9 @@ int UDP_GetAddrFromName(char *name, struct qsockaddr *addr)
 
 int UDP_AddrCompare (struct qsockaddr *addr1, struct qsockaddr *addr2)
 {
+    if (addr1->sa_len != addr2->sa_len)
+        return -1;
+    
 	if (addr1->sa_family != addr2->sa_family)
 		return -1;
 
