@@ -10,10 +10,14 @@ To run the OS X target:
 - Open the project in Xcode.
 - Select the "Quake_OSX" target.
 - "Edit Scheme" - "Run" - "Arguments Passed on Launch".
-- Modify the command line to specify the"id1" folder containing the shareware / full game PAK files.
+- Modify the command line to specify the"id1" folder containing the shareware / full game PAK files. If there is no command line specified, just add the following line:
+
+    -basedir "/Users/heribertodelgado/Downloads/Quake Shareware (1_06) PAK"
+
+  (You might want to change the specified username, or the folder containing your id1/pak0.pak files.)
+
 - "Product" - "Run" to start the application.
 
-The OS X target currently has no sound, network, or gamepad support, but it can be played using a keyboard and mouse.
 NOTE: Since it is a port of the original Quake engine, things like Mouse Look mode and playing by using WASD keys are not enabled by default; you will need to enable/bind them all from the console if you want to use them.
 
 To run the tvOS target:
@@ -24,7 +28,7 @@ To run the tvOS target:
 - Connect your Apple TV to your computer, then assign it to the "Quake_tvOS" target.
 - "Product" - "Run" to start the application.
 
-The tvOS target, just like the OS X target, currently has no sound, network, or external gamepad support; the game can be played using the Siri Remote that comes with the Apple TV.
+The tvOS target, currently, has no sound, network, or external gamepad support; the game can be played using the Siri Remote that comes with the Apple TV.
 
 Controls for the tvOS target are as follows:
 - To access the main menu, press the "Menu" button. Tap lightly on the touch surface up, down, left and right to move around the options; click firmly on the touch surface to select an option.
