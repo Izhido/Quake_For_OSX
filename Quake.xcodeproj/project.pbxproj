@@ -144,6 +144,13 @@
 		289A0AEB1C63054F0007B2C4 /* net_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AE91C63054F0007B2C4 /* net_udp.c */; };
 		289A0AEE1C63074B0007B2C4 /* net_dgrm.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEC1C63074B0007B2C4 /* net_dgrm.c */; };
 		289A0AF01C6307C70007B2C4 /* net_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEF1C6307C70007B2C4 /* net_osx.c */; };
+		28BA6D4A1CA5F6A7000E5BAB /* snd_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA881C626F77004687A6 /* snd_osx.c */; };
+		28BA6D4B1CA5F6CD000E5BAB /* net_dgrm.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEC1C63074B0007B2C4 /* net_dgrm.c */; };
+		28BA6D4C1CA5F6EE000E5BAB /* net_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AE91C63054F0007B2C4 /* net_udp.c */; };
+		28BA6D4D1CA5F706000E5BAB /* snd_dma.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA821C625804004687A6 /* snd_dma.c */; };
+		28BA6D4E1CA5F722000E5BAB /* snd_mix.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA831C625804004687A6 /* snd_mix.c */; };
+		28BA6D4F1CA5F73E000E5BAB /* snd_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA861C6266E2004687A6 /* snd_mem.c */; };
+		28BA6D511CA5F8BE000E5BAB /* net_tvos.c in Sources */ = {isa = PBXBuildFile; fileRef = 28BA6D501CA5F8BE000E5BAB /* net_tvos.c */; };
 		28C3BDC31C5D77AA00CBB0D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C3BDC21C5D77AA00CBB0D9 /* AppDelegate.swift */; };
 		28C3BDC51C5D77AA00CBB0D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C3BDC41C5D77AA00CBB0D9 /* ViewController.swift */; };
 		28C3BDC81C5D77AA00CBB0D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28C3BDC61C5D77AA00CBB0D9 /* Main.storyboard */; };
@@ -280,6 +287,7 @@
 		289A0AEC1C63074B0007B2C4 /* net_dgrm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_dgrm.c; sourceTree = "<group>"; };
 		289A0AED1C63074B0007B2C4 /* net_dgrm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_dgrm.h; sourceTree = "<group>"; };
 		289A0AEF1C6307C70007B2C4 /* net_osx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_osx.c; sourceTree = "<group>"; };
+		28BA6D501CA5F8BE000E5BAB /* net_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_tvos.c; sourceTree = "<group>"; };
 		28C3BDC01C5D77AA00CBB0D9 /* Quake_tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quake_tvOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C3BDC21C5D77AA00CBB0D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28C3BDC41C5D77AA00CBB0D9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -487,6 +495,7 @@
 				2873B10A1C5D7E0F00CE4775 /* in_tvos.c */,
 				2873B10B1C5D7E0F00CE4775 /* sys_tvos.c */,
 				2873B10C1C5D7E0F00CE4775 /* vid_tvos.c */,
+				28BA6D501CA5F8BE000E5BAB /* net_tvos.c */,
 			);
 			path = Quake_tvOS;
 			sourceTree = "<group>";
@@ -673,6 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2873B1121C5D7F1800CE4775 /* cd_null.c in Sources */,
+				28BA6D4C1CA5F6EE000E5BAB /* net_udp.c in Sources */,
 				2873B1131C5D7F1800CE4775 /* chase.c in Sources */,
 				2873B1141C5D7F1800CE4775 /* cl_demo.c in Sources */,
 				2873B1151C5D7F1800CE4775 /* cl_input.c in Sources */,
@@ -699,6 +709,7 @@
 				2873B12A1C5D7F1800CE4775 /* host_cmd.c in Sources */,
 				2873B12B1C5D7F1800CE4775 /* keys.c in Sources */,
 				2873B12C1C5D7F1800CE4775 /* mathlib.c in Sources */,
+				28BA6D4E1CA5F722000E5BAB /* snd_mix.c in Sources */,
 				2873B12D1C5D7F1800CE4775 /* menu.c in Sources */,
 				2873B12E1C5D7F1800CE4775 /* model.c in Sources */,
 				2873B12F1C5D7F1800CE4775 /* net_loop.c in Sources */,
@@ -720,6 +731,8 @@
 				2873B1401C5D7F1800CE4775 /* r_part.c in Sources */,
 				2873B1411C5D7F1800CE4775 /* r_sky.c in Sources */,
 				2873B1421C5D7F1800CE4775 /* r_sprite.c in Sources */,
+				28BA6D4D1CA5F706000E5BAB /* snd_dma.c in Sources */,
+				28BA6D4A1CA5F6A7000E5BAB /* snd_osx.c in Sources */,
 				2873B1431C5D7F1800CE4775 /* r_surf.c in Sources */,
 				2873B1441C5D7F1800CE4775 /* r_vars.c in Sources */,
 				2873B1451C5D7F1800CE4775 /* sbar.c in Sources */,
@@ -727,7 +740,9 @@
 				2873B1481C5D7F1800CE4775 /* sv_main.c in Sources */,
 				2873B1491C5D7F1800CE4775 /* sv_move.c in Sources */,
 				2873B14A1C5D7F1800CE4775 /* sv_phys.c in Sources */,
+				28BA6D4F1CA5F73E000E5BAB /* snd_mem.c in Sources */,
 				2873B14B1C5D7F1800CE4775 /* sv_user.c in Sources */,
+				28BA6D4B1CA5F6CD000E5BAB /* net_dgrm.c in Sources */,
 				2873B14C1C5D7F1800CE4775 /* view.c in Sources */,
 				2873B14D1C5D7F1800CE4775 /* wad.c in Sources */,
 				2873B14E1C5D7F1800CE4775 /* world.c in Sources */,
@@ -735,6 +750,7 @@
 				2873B10D1C5D7E0F00CE4775 /* in_tvos.c in Sources */,
 				2873B1111C5D7E8900CE4775 /* Shaders.metal in Sources */,
 				2873B10E1C5D7E0F00CE4775 /* sys_tvos.c in Sources */,
+				28BA6D511CA5F8BE000E5BAB /* net_tvos.c in Sources */,
 				28C3BDC51C5D77AA00CBB0D9 /* ViewController.swift in Sources */,
 				28C3BDC31C5D77AA00CBB0D9 /* AppDelegate.swift in Sources */,
 				2873B10F1C5D7E0F00CE4775 /* vid_tvos.c in Sources */,
