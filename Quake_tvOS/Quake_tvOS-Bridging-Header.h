@@ -30,6 +30,6 @@ void VID_SetSize(int width, int height);
 
 void Sys_Cbuf_AddText(const char* text);
 
-void Sys_Init(const char* argv);
+void Sys_Init(const char* resourcesDir);
 
 void Sys_Frame();

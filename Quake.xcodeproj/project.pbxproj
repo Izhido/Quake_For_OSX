@@ -141,6 +141,12 @@
 		2873B14E1C5D7F1800CE4775 /* world.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE681C5D6FFD00CEC48E /* world.c */; };
 		2873B14F1C5D7F1800CE4775 /* zone.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE6A1C5D6FFD00CEC48E /* zone.c */; };
 		2873B1551C5D83BF00CE4775 /* id1 in Resources */ = {isa = PBXBuildFile; fileRef = 2873B1541C5D83BF00CE4775 /* id1 */; };
+		2887813E1CD83E0800AF4F24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2887813D1CD83E0800AF4F24 /* AppDelegate.swift */; };
+		288781401CD83E0800AF4F24 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2887813F1CD83E0800AF4F24 /* ViewController.swift */; };
+		288781431CD83E0800AF4F24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 288781411CD83E0800AF4F24 /* Main.storyboard */; };
+		288781451CD83E0800AF4F24 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 288781441CD83E0800AF4F24 /* Assets.xcassets */; };
+		288781481CD83E0800AF4F24 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 288781461CD83E0800AF4F24 /* LaunchScreen.storyboard */; };
+		288781521CD83F8B00AF4F24 /* id1 in Resources */ = {isa = PBXBuildFile; fileRef = 288781511CD83F8B00AF4F24 /* id1 */; };
 		289A0AEB1C63054F0007B2C4 /* net_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AE91C63054F0007B2C4 /* net_udp.c */; };
 		289A0AEE1C63074B0007B2C4 /* net_dgrm.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEC1C63074B0007B2C4 /* net_dgrm.c */; };
 		289A0AF01C6307C70007B2C4 /* net_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEF1C6307C70007B2C4 /* net_osx.c */; };
@@ -155,10 +161,12 @@
 		28C3BDC51C5D77AA00CBB0D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C3BDC41C5D77AA00CBB0D9 /* ViewController.swift */; };
 		28C3BDC81C5D77AA00CBB0D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28C3BDC61C5D77AA00CBB0D9 /* Main.storyboard */; };
 		28C3BDCA1C5D77AA00CBB0D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28C3BDC91C5D77AA00CBB0D9 /* Assets.xcassets */; };
+		28E106191CD8521F0042675A /* sys_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 28E106181CD8521F0042675A /* sys_ios_vr.c */; };
 		6D54BA841C625804004687A6 /* snd_dma.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA821C625804004687A6 /* snd_dma.c */; };
 		6D54BA851C625804004687A6 /* snd_mix.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA831C625804004687A6 /* snd_mix.c */; };
 		6D54BA871C6266E2004687A6 /* snd_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA861C6266E2004687A6 /* snd_mem.c */; };
 		6D54BA891C626F77004687A6 /* snd_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA881C626F77004687A6 /* snd_osx.c */; };
+		F31D73366AEA0ED40B19320A /* libPods-Quake_iOS_VR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8713677C272B1BC646501A0E /* libPods-Quake_iOS_VR.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -282,6 +290,27 @@
 		2873B10C1C5D7E0F00CE4775 /* vid_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vid_tvos.c; sourceTree = "<group>"; };
 		2873B1101C5D7E8900CE4775 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		2873B1541C5D83BF00CE4775 /* id1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = id1; path = "../../../Downloads/Quake Shareware (1_06) PAK/id1"; sourceTree = "<group>"; };
+		2887813B1CD83E0800AF4F24 /* Quake_iOS_VR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quake_iOS_VR.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2887813D1CD83E0800AF4F24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2887813F1CD83E0800AF4F24 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		288781421CD83E0800AF4F24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		288781441CD83E0800AF4F24 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		288781471CD83E0800AF4F24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		288781491CD83E0800AF4F24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		288781511CD83F8B00AF4F24 /* id1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = id1; path = "../../../Downloads/Quake Shareware (1_06) PAK/id1"; sourceTree = "<group>"; };
+		288781531CD8406100AF4F24 /* Quake_iOS_VR-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Quake_iOS_VR-Bridging-Header.h"; sourceTree = "<group>"; };
+		288781541CD8406100AF4F24 /* gl_draw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_draw.c; sourceTree = "<group>"; };
+		288781551CD8406100AF4F24 /* gl_mesh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_mesh.c; sourceTree = "<group>"; };
+		288781561CD8406100AF4F24 /* gl_model.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_model.c; sourceTree = "<group>"; };
+		288781571CD8406100AF4F24 /* gl_model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gl_model.h; sourceTree = "<group>"; };
+		288781581CD8406100AF4F24 /* gl_refrag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_refrag.c; sourceTree = "<group>"; };
+		288781591CD8406100AF4F24 /* gl_rlight.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_rlight.c; sourceTree = "<group>"; };
+		2887815A1CD8406100AF4F24 /* gl_rmain.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_rmain.c; sourceTree = "<group>"; };
+		2887815B1CD8406100AF4F24 /* gl_rmisc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_rmisc.c; sourceTree = "<group>"; };
+		2887815C1CD8406100AF4F24 /* gl_rsurf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_rsurf.c; sourceTree = "<group>"; };
+		2887815D1CD8406100AF4F24 /* gl_screen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_screen.c; sourceTree = "<group>"; };
+		2887815E1CD8406100AF4F24 /* gl_warp_sin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gl_warp_sin.h; sourceTree = "<group>"; };
+		2887815F1CD8406100AF4F24 /* gl_warp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_warp.c; sourceTree = "<group>"; };
 		289A0AE91C63054F0007B2C4 /* net_udp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_udp.c; sourceTree = "<group>"; };
 		289A0AEA1C63054F0007B2C4 /* net_udp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_udp.h; sourceTree = "<group>"; };
 		289A0AEC1C63074B0007B2C4 /* net_dgrm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_dgrm.c; sourceTree = "<group>"; };
@@ -294,10 +323,14 @@
 		28C3BDC71C5D77AA00CBB0D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28C3BDC91C5D77AA00CBB0D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28C3BDCB1C5D77AA00CBB0D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28E106181CD8521F0042675A /* sys_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sys_ios_vr.c; sourceTree = "<group>"; };
+		29F8EA817D8AE6D17A92315B /* Pods-Quake_iOS_VR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.release.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.release.xcconfig"; sourceTree = "<group>"; };
 		6D54BA821C625804004687A6 /* snd_dma.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_dma.c; sourceTree = "<group>"; };
 		6D54BA831C625804004687A6 /* snd_mix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_mix.c; sourceTree = "<group>"; };
 		6D54BA861C6266E2004687A6 /* snd_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_mem.c; sourceTree = "<group>"; };
 		6D54BA881C626F77004687A6 /* snd_osx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_osx.c; sourceTree = "<group>"; };
+		8713677C272B1BC646501A0E /* libPods-Quake_iOS_VR.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Quake_iOS_VR.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B4FBA6B1EDA52633A258BBE /* Pods-Quake_iOS_VR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,6 +338,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		288781381CD83E0800AF4F24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31D73366AEA0ED40B19320A /* libPods-Quake_iOS_VR.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,7 +365,10 @@
 				2839AE031C5D6FFD00CEC48E /* id1 */,
 				2839AD421C5D6EF700CEC48E /* Quake_OSX */,
 				28C3BDC11C5D77AA00CBB0D9 /* Quake_tvOS */,
+				2887813C1CD83E0800AF4F24 /* Quake_iOS_VR */,
 				2839AD411C5D6EF700CEC48E /* Products */,
+				E709102F2DC91659692344DA /* Pods */,
+				EFA69186850D4E8E75706323 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -333,6 +377,7 @@
 			children = (
 				2839AD401C5D6EF700CEC48E /* Quake_OSX.app */,
 				28C3BDC01C5D77AA00CBB0D9 /* Quake_tvOS.app */,
+				2887813B1CD83E0800AF4F24 /* Quake_iOS_VR.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -396,6 +441,18 @@
 				2839AE251C5D6FFD00CEC48E /* d_vars.c */,
 				2839AE261C5D6FFD00CEC48E /* draw.c */,
 				2839AE271C5D6FFD00CEC48E /* draw.h */,
+				288781541CD8406100AF4F24 /* gl_draw.c */,
+				288781551CD8406100AF4F24 /* gl_mesh.c */,
+				288781561CD8406100AF4F24 /* gl_model.c */,
+				288781571CD8406100AF4F24 /* gl_model.h */,
+				288781581CD8406100AF4F24 /* gl_refrag.c */,
+				288781591CD8406100AF4F24 /* gl_rlight.c */,
+				2887815A1CD8406100AF4F24 /* gl_rmain.c */,
+				2887815B1CD8406100AF4F24 /* gl_rmisc.c */,
+				2887815C1CD8406100AF4F24 /* gl_rsurf.c */,
+				2887815D1CD8406100AF4F24 /* gl_screen.c */,
+				2887815E1CD8406100AF4F24 /* gl_warp_sin.h */,
+				2887815F1CD8406100AF4F24 /* gl_warp.c */,
 				2839AE291C5D6FFD00CEC48E /* host_cmd.c */,
 				2839AE281C5D6FFD00CEC48E /* host.c */,
 				2839AE2A1C5D6FFD00CEC48E /* input.h */,
@@ -481,6 +538,30 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		2887813C1CD83E0800AF4F24 /* Quake_iOS_VR */ = {
+			isa = PBXGroup;
+			children = (
+				2887814D1CD83E8200AF4F24 /* Resources */,
+				2887813D1CD83E0800AF4F24 /* AppDelegate.swift */,
+				2887813F1CD83E0800AF4F24 /* ViewController.swift */,
+				288781411CD83E0800AF4F24 /* Main.storyboard */,
+				288781441CD83E0800AF4F24 /* Assets.xcassets */,
+				288781461CD83E0800AF4F24 /* LaunchScreen.storyboard */,
+				288781491CD83E0800AF4F24 /* Info.plist */,
+				288781531CD8406100AF4F24 /* Quake_iOS_VR-Bridging-Header.h */,
+				28E106181CD8521F0042675A /* sys_ios_vr.c */,
+			);
+			path = Quake_iOS_VR;
+			sourceTree = "<group>";
+		};
+		2887814D1CD83E8200AF4F24 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				288781511CD83F8B00AF4F24 /* id1 */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		28C3BDC11C5D77AA00CBB0D9 /* Quake_tvOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -498,6 +579,23 @@
 				28BA6D501CA5F8BE000E5BAB /* net_tvos.c */,
 			);
 			path = Quake_tvOS;
+			sourceTree = "<group>";
+		};
+		E709102F2DC91659692344DA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9B4FBA6B1EDA52633A258BBE /* Pods-Quake_iOS_VR.debug.xcconfig */,
+				29F8EA817D8AE6D17A92315B /* Pods-Quake_iOS_VR.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		EFA69186850D4E8E75706323 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8713677C272B1BC646501A0E /* libPods-Quake_iOS_VR.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -518,6 +616,26 @@
 			name = Quake_OSX;
 			productName = Quake_OSX;
 			productReference = 2839AD401C5D6EF700CEC48E /* Quake_OSX.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2887813A1CD83E0800AF4F24 /* Quake_iOS_VR */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2887814C1CD83E0800AF4F24 /* Build configuration list for PBXNativeTarget "Quake_iOS_VR" */;
+			buildPhases = (
+				432C7F6A21DAF96F4DD0AB46 /* Check Pods Manifest.lock */,
+				288781371CD83E0800AF4F24 /* Sources */,
+				288781381CD83E0800AF4F24 /* Frameworks */,
+				288781391CD83E0800AF4F24 /* Resources */,
+				A66CFD28DF5191E6B651EA25 /* Embed Pods Frameworks */,
+				81EED32676C718B8AA047F56 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Quake_iOS_VR;
+			productName = Quake_iOS_VR;
+			productReference = 2887813B1CD83E0800AF4F24 /* Quake_iOS_VR.app */;
 			productType = "com.apple.product-type.application";
 		};
 		28C3BDBF1C5D77AA00CBB0D9 /* Quake_tvOS */ = {
@@ -543,11 +661,14 @@
 		2839AD361C5D6E4B00CEC48E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
 				TargetAttributes = {
 					2839AD3F1C5D6EF700CEC48E = {
 						CreatedOnToolsVersion = 7.2;
+					};
+					2887813A1CD83E0800AF4F24 = {
+						CreatedOnToolsVersion = 7.3;
 					};
 					28C3BDBF1C5D77AA00CBB0D9 = {
 						CreatedOnToolsVersion = 7.2;
@@ -569,6 +690,7 @@
 			targets = (
 				2839AD3F1C5D6EF700CEC48E /* Quake_OSX */,
 				28C3BDBF1C5D77AA00CBB0D9 /* Quake_tvOS */,
+				2887813A1CD83E0800AF4F24 /* Quake_iOS_VR */,
 			);
 		};
 /* End PBXProject section */
@@ -583,6 +705,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		288781391CD83E0800AF4F24 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				288781481CD83E0800AF4F24 /* LaunchScreen.storyboard in Resources */,
+				288781521CD83F8B00AF4F24 /* id1 in Resources */,
+				288781451CD83E0800AF4F24 /* Assets.xcassets in Resources */,
+				288781431CD83E0800AF4F24 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		28C3BDBE1C5D77AA00CBB0D9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -594,6 +727,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		432C7F6A21DAF96F4DD0AB46 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		81EED32676C718B8AA047F56 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A66CFD28DF5191E6B651EA25 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2839AD3C1C5D6EF700CEC48E /* Sources */ = {
@@ -674,6 +855,16 @@
 				2839AE881C5D6FFD00CEC48E /* model.c in Sources */,
 				2839AE001C5D6F8B00CEC48E /* sys_osx.c in Sources */,
 				2839AE831C5D6FFD00CEC48E /* host.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		288781371CD83E0800AF4F24 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				288781401CD83E0800AF4F24 /* ViewController.swift in Sources */,
+				2887813E1CD83E0800AF4F24 /* AppDelegate.swift in Sources */,
+				28E106191CD8521F0042675A /* sys_ios_vr.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,6 +960,22 @@
 			path = Base.lproj;
 			sourceTree = "<group>";
 		};
+		288781411CD83E0800AF4F24 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				288781421CD83E0800AF4F24 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		288781461CD83E0800AF4F24 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				288781471CD83E0800AF4F24 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		28C3BDC61C5D77AA00CBB0D9 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -783,6 +990,8 @@
 		2839AD3A1C5D6E4B00CEC48E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -883,6 +1092,103 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "Quake_OSX/Quake_OSX-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		2887814A1CD83E0800AF4F24 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B4FBA6B1EDA52633A258BBE /* Pods-Quake_iOS_VR.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Quake_iOS_VR/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "Izhido.Quake-iOS-VR";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "Quake_iOS_VR/Quake_iOS_VR-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2887814B1CD83E0800AF4F24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29F8EA817D8AE6D17A92315B /* Pods-Quake_iOS_VR.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Quake_iOS_VR/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "Izhido.Quake-iOS-VR";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "Quake_iOS_VR/Quake_iOS_VR-Bridging-Header.h";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -998,6 +1304,15 @@
 			buildConfigurations = (
 				2839AD4C1C5D6EF700CEC48E /* Debug */,
 				2839AD4D1C5D6EF700CEC48E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2887814C1CD83E0800AF4F24 /* Build configuration list for PBXNativeTarget "Quake_iOS_VR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2887814A1CD83E0800AF4F24 /* Debug */,
+				2887814B1CD83E0800AF4F24 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2839AD3F1C5D6EF700CEC48E"
-               BuildableName = "Quake_OSX.app"
-               BlueprintName = "Quake_OSX"
+               BlueprintIdentifier = "2887813A1CD83E0800AF4F24"
+               BuildableName = "Quake_iOS_VR.app"
+               BlueprintName = "Quake_iOS_VR"
                ReferencedContainer = "container:Quake.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2839AD3F1C5D6EF700CEC48E"
-            BuildableName = "Quake_OSX.app"
-            BlueprintName = "Quake_OSX"
+            BlueprintIdentifier = "2887813A1CD83E0800AF4F24"
+            BuildableName = "Quake_iOS_VR.app"
+            BlueprintName = "Quake_iOS_VR"
             ReferencedContainer = "container:Quake.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -55,18 +55,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2839AD3F1C5D6EF700CEC48E"
-            BuildableName = "Quake_OSX.app"
-            BlueprintName = "Quake_OSX"
+            BlueprintIdentifier = "2887813A1CD83E0800AF4F24"
+            BuildableName = "Quake_iOS_VR.app"
+            BlueprintName = "Quake_iOS_VR"
             ReferencedContainer = "container:Quake.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "-basedir &quot;/Users/heribertodelgado/Downloads/Quake Shareware (1_06) PAK&quot;"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -80,9 +74,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2839AD3F1C5D6EF700CEC48E"
-            BuildableName = "Quake_OSX.app"
-            BlueprintName = "Quake_OSX"
+            BlueprintIdentifier = "2887813A1CD83E0800AF4F24"
+            BuildableName = "Quake_iOS_VR.app"
+            BlueprintName = "Quake_iOS_VR"
             ReferencedContainer = "container:Quake.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
