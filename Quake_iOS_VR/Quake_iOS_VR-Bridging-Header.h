@@ -14,4 +14,8 @@ extern float frame_lapse;
 
 void Sys_Init(const char* resourcesDir);
 
-void Sys_Frame();
+void Sys_FrameBeforeRender();
+
+void Sys_FrameRender();
+
+void Sys_FrameAfterRender();

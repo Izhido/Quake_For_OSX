@@ -6,22 +6,36 @@
 //
 //
 
-import UIKit
+import GLKit
 
 class ViewController: UIViewController, GCSCardboardViewDelegate
 {
     @IBOutlet weak var cardboardView: GCSCardboardView!
 
+    private var displayLink: CADisplayLink! = nil
+    
     private var previousTime: NSTimeInterval = -1
     
     private var currentTime: NSTimeInterval = -1
+    
+    private var firstEyeRendered: Bool = false
+    
+    private var lastEyeRendered: Bool = false
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
 
-        self.cardboardView.delegate = self;
-        self.cardboardView.vrModeEnabled = true;
+        self.cardboardView.delegate = self
+        self.cardboardView.vrModeEnabled = true
+        
+        displayLink = CADisplayLink(target: self, selector: "render")
+        displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
+    }
+
+    func render()
+    {
+        cardboardView.render()
     }
 
     func cardboardView(cardboardView: GCSCardboardView!, willStartDrawing headTransform: GCSHeadTransform!)
@@ -48,11 +62,28 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
             frame_lapse = Float(currentTime - previousTime)
         }
         
-        Sys_Frame()
+        firstEyeRendered = false
+        lastEyeRendered = false
+        
+        Sys_FrameBeforeRender()
     }
 
     func cardboardView(cardboardView: GCSCardboardView!, drawEye eye: GCSEye, withHeadTransform headTransform: GCSHeadTransform!)
     {
+        if firstEyeRendered
+        {
+            Sys_FrameRender()
+            
+            lastEyeRendered = true
+            
+            Sys_FrameAfterRender()
+        }
+        else if !lastEyeRendered
+        {
+            Sys_FrameRender()
+            
+            firstEyeRendered = true
+        }
     }
 
     func cardboardView(cardboardView: GCSCardboardView!, didFireEvent event: GCSUserEvent)

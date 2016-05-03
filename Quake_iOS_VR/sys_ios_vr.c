@@ -227,7 +227,19 @@ void Sys_Init(const char* resourcesDir)
     Cbuf_AddText("+mlook");*/
 }
 
-void Sys_Frame()
+void Sys_FrameBeforeRender()
 {
-    //Host_Frame(frame_lapse);
+    //Host_FrameBeforeRender(frame_lapse);
+}
+
+void Sys_FrameRender()
+{
+    //SCR_UpdateScreen();
+}
+
+void Sys_FrameAfterRender()
+{
+    //Host_FrameAfterRender();
+    
+    //host_framecount++;
 }

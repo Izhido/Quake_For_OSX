@@ -622,6 +622,100 @@ void Host_ServerFrame (void)
 
 #endif
 
+/*
+ ==================
+ Host_FrameBeforeRender
+ 
+ Runs server and (partially) client logic before rendering
+ ==================
+ */
+
+void _Host_FrameBeforeRender(float time)
+{
+    // keep the random time dependent
+    rand ();
+    
+    // decide the simulation time
+    if (!Host_FilterTime (time))
+        return;			// don't run too fast, or packets will flood out
+    
+    // get new key events
+    Sys_SendKeyEvents ();
+    
+    // allow mice or other external controllers to add commands
+    IN_Commands ();
+    
+    // process console commands
+    Cbuf_Execute ();
+    
+    NET_Poll();
+    
+    // if running the server locally, make intentions now
+    if (sv.active)
+        CL_SendCmd ();
+    
+    //-------------------
+    //
+    // server operations
+    //
+    //-------------------
+    
+    // check for commands typed to the host
+    Host_GetConsoleCommands ();
+    
+    if (sv.active)
+        Host_ServerFrame ();
+    
+    //-------------------
+    //
+    // client operations
+    //
+    //-------------------
+    
+    // if running the server remotely, send intentions now after
+    // the incoming messages have been read
+    if (!sv.active)
+        CL_SendCmd ();
+    
+    host_time += host_frametime;
+    
+    // fetch results from server
+    if (cls.state == ca_connected)
+    {
+        CL_ReadFromServer ();
+    }
+}
+
+void Host_FrameBeforeRender(float time)
+{
+    _Host_FrameBeforeRender(time);
+}
+
+/*
+ ==================
+ Host_FrameAfterRender
+ 
+ Runs the remaining frame logic after rendering
+ ==================
+ */
+void _Host_FrameAfterRender()
+{
+    // update audio
+    if (cls.signon == SIGNONS)
+    {
+        S_Update (r_origin, vpn, vright, vup);
+        CL_DecayLights ();
+    }
+    else
+        S_Update (vec3_origin, vec3_origin, vec3_origin, vec3_origin);
+    
+    CDAudio_Update();
+}
+
+void Host_FrameAfterRender()
+{
+    _Host_FrameAfterRender();
+}
 
 /*
 ==================
@@ -640,58 +734,7 @@ void _Host_Frame (float time)
 	if (setjmp (host_abortserver) )
 		return;			// something bad happened, or the server disconnected
 
-// keep the random time dependent
-	rand ();
-	
-// decide the simulation time
-	if (!Host_FilterTime (time))
-		return;			// don't run too fast, or packets will flood out
-		
-// get new key events
-	Sys_SendKeyEvents ();
-
-// allow mice or other external controllers to add commands
-	IN_Commands ();
-
-// process console commands
-	Cbuf_Execute ();
-
-	NET_Poll();
-
-// if running the server locally, make intentions now
-	if (sv.active)
-		CL_SendCmd ();
-	
-//-------------------
-//
-// server operations
-//
-//-------------------
-
-// check for commands typed to the host
-	Host_GetConsoleCommands ();
-	
-	if (sv.active)
-		Host_ServerFrame ();
-
-//-------------------
-//
-// client operations
-//
-//-------------------
-
-// if running the server remotely, send intentions now after
-// the incoming messages have been read
-	if (!sv.active)
-		CL_SendCmd ();
-
-	host_time += host_frametime;
-
-// fetch results from server
-	if (cls.state == ca_connected)
-	{
-		CL_ReadFromServer ();
-	}
+    _Host_FrameBeforeRender(time);
 
 // update video
 	if (host_speeds.value)
@@ -701,19 +744,10 @@ void _Host_Frame (float time)
 
 	if (host_speeds.value)
 		time2 = Sys_FloatTime ();
-		
-// update audio
-	if (cls.signon == SIGNONS)
-	{
-		S_Update (r_origin, vpn, vright, vup);
-		CL_DecayLights ();
-	}
-	else
-		S_Update (vec3_origin, vec3_origin, vec3_origin, vec3_origin);
-	
-	CDAudio_Update();
 
-	if (host_speeds.value)
+    _Host_FrameAfterRender();
+
+    if (host_speeds.value)
 	{
 		pass1 = (time1 - time3)*1000;
 		time3 = Sys_FloatTime ();
