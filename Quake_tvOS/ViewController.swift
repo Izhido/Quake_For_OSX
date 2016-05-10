@@ -122,9 +122,9 @@ class ViewController: GCEventViewController, MTKViewDelegate
         metalView.device = device
         metalView.delegate = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "controllerDidConnect:", name: "GCControllerDidConnectNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidConnect), name: "GCControllerDidConnectNotification", object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "controllerDidDisconnect:", name: "GCControllerDidDisconnectNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidDisconnect), name: "GCControllerDidDisconnectNotification", object: nil)
         
         Sys_Init(NSBundle.mainBundle().resourcePath!)
     }
@@ -260,16 +260,16 @@ class ViewController: GCEventViewController, MTKViewDelegate
     {
         for controller in GCController.controllers()
         {
-            if controller.gamepad == nil && controller.extendedGamepad == nil && controller.motion != nil
+            if controller.gamepad == nil && controller.extendedGamepad == nil && controller.motion != nil && remote == nil
             {
                 remote = controller
                 
                 remote!.playerIndex = .Index1
                 
                 remote!.motion!.valueChangedHandler = { (motion: GCMotion)->() in
-
+                    
                     pitch_angle = Float(asin(self.remote!.motion!.gravity.y) / M_PI_2)
-
+                    
                     roll_angle = Float(atan2(-self.remote!.motion!.gravity.x, -self.remote!.motion!.gravity.z) / M_PI_2)
                 }
                 
@@ -277,12 +277,14 @@ class ViewController: GCEventViewController, MTKViewDelegate
             }
         }
     }
-
+    
     func controllerDidDisconnect(notification: NSNotification)
     {
         if remote != nil
         {
             remote!.playerIndex = .IndexUnset
+            
+            remote = nil
         }
     }
     

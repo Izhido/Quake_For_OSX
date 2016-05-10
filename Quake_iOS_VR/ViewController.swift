@@ -7,6 +7,7 @@
 //
 
 import GLKit
+import GameController
 
 class ViewController: UIViewController, GCSCardboardViewDelegate
 {
@@ -22,6 +23,8 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
     
     private var lastEyeRendered: Bool = false
     
+    private var remote: GCController? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -29,8 +32,12 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
         self.cardboardView.delegate = self
         self.cardboardView.vrModeEnabled = true
         
-        displayLink = CADisplayLink(target: self, selector: "render")
+        displayLink = CADisplayLink(target: self, selector: #selector(render))
         displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidConnect), name: "GCControllerDidConnectNotification", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidDisconnect), name: "GCControllerDidDisconnectNotification", object: nil)
     }
 
     func render()
@@ -92,6 +99,35 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
     
     func cardboardView(cardboardView: GCSCardboardView!, shouldPauseDrawing pause: Bool)
     {
+    }
+
+    func controllerDidConnect(notification: NSNotification)
+    {
+        for controller in GCController.controllers()
+        {
+            if controller.extendedGamepad != nil && remote == nil
+            {
+                remote = controller
+                
+                remote!.playerIndex = .Index1
+
+                remote!.extendedGamepad!.valueChangedHandler = { (gamepad: GCExtendedGamepad, element: GCControllerElement)->() in
+                    
+                }
+
+                break
+            }
+        }
+    }
+    
+    func controllerDidDisconnect(notification: NSNotification)
+    {
+        if remote != nil
+        {
+            remote!.playerIndex = .IndexUnset
+            
+            remote = nil
+        }
     }
 
     override func didReceiveMemoryWarning()
