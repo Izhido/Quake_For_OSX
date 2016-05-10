@@ -660,10 +660,12 @@ void R_DrawParticles (void)
 	vec3_t			up, right;
 	float			scale;
 
+    GL_Use (gl_coloredpolygon1textureprogram);
+    
+    glUniformMatrix4fv(gl_coloredpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+
     GL_Bind(particletexture);
 	glEnable (GL_BLEND);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glBegin (GL_TRIANGLES);
 
 	VectorScale (vup, 1.5, up);
 	VectorScale (vright, 1.5, right);
@@ -694,6 +696,19 @@ void R_DrawParticles (void)
 		break;
 	}
 
+#ifdef GLQUAKE
+    int vertexcount = 0;
+
+    for (p=active_particles ; p ; p=p->next)
+    {
+        vertexcount += 3;
+    }
+    
+    GLfloat* vertices = malloc(vertexcount * 9 * sizeof(GLfloat));
+    
+    int vertexpos = 0;
+#endif
+    
 	for (p=active_particles ; p ; p=p->next)
 	{
 		for ( ;; )
@@ -717,13 +732,42 @@ void R_DrawParticles (void)
 			scale = 1;
 		else
 			scale = 1 + scale * 0.004;
-		glColor3ubv ((byte *)&d_8to24table[(int)p->color]);
-		glTexCoord2f (0,0);
-		glVertex3fv (p->org);
-		glTexCoord2f (1,0);
-		glVertex3f (p->org[0] + up[0]*scale, p->org[1] + up[1]*scale, p->org[2] + up[2]*scale);
-		glTexCoord2f (0,1);
-		glVertex3f (p->org[0] + right[0]*scale, p->org[1] + right[1]*scale, p->org[2] + right[2]*scale);
+
+        unsigned c = d_8to24table[(int)p->color];
+        GLfloat r = (GLfloat)(c & 0xFF) / 255.0;
+        GLfloat g = (GLfloat)((c >> 8) & 0xFF) / 255.0;
+        GLfloat b = (GLfloat)((c >> 16) & 0xFF) / 255.0;
+        GLfloat a = (GLfloat)((c >> 24) & 0xFF) / 255.0;
+        
+        vertices[vertexpos++] = p->org[0];
+        vertices[vertexpos++] = p->org[1];
+        vertices[vertexpos++] = p->org[2];
+        vertices[vertexpos++] = r;
+        vertices[vertexpos++] = g;
+        vertices[vertexpos++] = b;
+        vertices[vertexpos++] = a;
+        vertices[vertexpos++] = 0.0;
+        vertices[vertexpos++] = 0.0;
+        
+        vertices[vertexpos++] = p->org[0] + up[0] * scale;
+        vertices[vertexpos++] = p->org[1] + up[1] * scale;
+        vertices[vertexpos++] = p->org[2] + up[2] * scale;
+        vertices[vertexpos++] = r;
+        vertices[vertexpos++] = g;
+        vertices[vertexpos++] = b;
+        vertices[vertexpos++] = a;
+        vertices[vertexpos++] = 1.0;
+        vertices[vertexpos++] = 0.0;
+        
+        vertices[vertexpos++] = p->org[0] + right[0] * scale;
+        vertices[vertexpos++] = p->org[1] + right[1] * scale;
+        vertices[vertexpos++] = p->org[2] + right[2] * scale;
+        vertices[vertexpos++] = r;
+        vertices[vertexpos++] = g;
+        vertices[vertexpos++] = b;
+        vertices[vertexpos++] = a;
+        vertices[vertexpos++] = 0.0;
+        vertices[vertexpos++] = 1.0;
 #else
 		D_DrawParticle (p);
 #endif
@@ -790,9 +834,52 @@ void R_DrawParticles (void)
 	}
 
 #ifdef GLQUAKE
-	glEnd ();
+    int indexcount = vertexcount;
+    GLuint* indices = malloc(indexcount * sizeof(GLuint));
+    
+    for (int i = 0; i < indexcount; i++)
+    {
+        indices[i] = i;
+    }
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, vertexcount * 9 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_position);
+    glVertexAttribPointer(gl_coloredpolygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_color);
+    glVertexAttribPointer(gl_coloredpolygon1textureprogram_color, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_texcoords);
+    glVertexAttribPointer(gl_coloredpolygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)(7 * sizeof(GLfloat)));
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_texcoords);
+    glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_color);
+    glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
+    
+    free(indices);
+    
+    free(vertices);
+    
 	glDisable (GL_BLEND);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 #else
 	D_EndParticles ();
 #endif

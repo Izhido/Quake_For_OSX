@@ -201,12 +201,12 @@ void Sys_LowFPPrecision (void)
 
 void Sys_Cbuf_AddText(const char* text)
 {
-    //Cbuf_AddText(text);
+    Cbuf_AddText(text);
 }
 
 void Sys_Init(const char* resourcesDir)
 {
-    /*int argc = 3;
+    int argc = 3;
     
     char* argv[] = { "Quake_tvOS", "-basedir", resourcesDir };
     
@@ -224,22 +224,22 @@ void Sys_Init(const char* resourcesDir)
     printf ("Host_Init\n");
     Host_Init (&parms);
     
-    Cbuf_AddText("+mlook");*/
+    Cbuf_AddText("+mlook");
 }
 
 void Sys_FrameBeforeRender()
 {
-    //Host_FrameBeforeRender(frame_lapse);
+    Host_FrameBeforeRender(frame_lapse);
 }
 
 void Sys_FrameRender()
 {
-    //SCR_UpdateScreen();
+    SCR_UpdateScreen();
 }
 
 void Sys_FrameAfterRender()
 {
-    //Host_FrameAfterRender();
+    Host_FrameAfterRender();
     
-    //host_framecount++;
+    host_framecount++;
 }

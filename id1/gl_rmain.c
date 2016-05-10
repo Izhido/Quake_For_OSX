@@ -37,6 +37,8 @@ int			c_brush_polys, c_alias_polys;
 
 qboolean	envmap;				// true during envmap command capture 
 
+GLuint      currentprogram = 0;         // to avoid setting up the same program multiple times
+
 int			currenttexture = -1;		// to avoid unnecessary texture sets
 
 int			cnttextures[2] = {-1, -1};     // cached
@@ -121,11 +123,36 @@ qboolean R_CullBox (vec3_t mins, vec3_t maxs)
 
 void R_RotateForEntity (entity_t *e)
 {
-    glTranslatef (e->origin[0],  e->origin[1],  e->origin[2]);
+    if (glvr_enabled)
+    {
+        memcpy (gl_polygon_matrix, glvr_eyetranslation, sizeof(gl_polygon_matrix));
+        
+        GL_Multiply (gl_polygon_matrix, glvr_rotation);
 
-    glRotatef (e->angles[1],  0, 0, 1);
-    glRotatef (-e->angles[0],  0, 1, 0);
-    glRotatef (e->angles[2],  1, 0, 0);
+        GL_Multiply (gl_polygon_matrix, r_world_matrix);
+    }
+    else
+    {
+        memcpy (gl_polygon_matrix, r_world_matrix, sizeof(gl_polygon_matrix));
+    }
+    
+    GL_Translate(gl_polygon_matrix, e->origin[0],  e->origin[1],  e->origin[2]);
+    
+    GL_Rotate (gl_polygon_matrix, e->angles[1], 0.0, 0.0, 1.0);
+    GL_Rotate (gl_polygon_matrix, -e->angles[0], 0.0, 1.0, 0.0);
+    GL_Rotate (gl_polygon_matrix, e->angles[2], 1.0, 0.0, 0.0);
+}
+
+void R_ApplyProjection(void)
+{
+    if (glvr_enabled)
+    {
+        GL_Multiply(gl_polygon_matrix, glvr_projection);
+    }
+    else
+    {
+        GL_Multiply(gl_polygon_matrix, gl_projection_matrix);
+    }
 }
 
 /*
@@ -219,38 +246,89 @@ void R_DrawSpriteModel (entity_t *e)
 		right = vright;
 	}
 
-	glColor3f (1,1,1);
-
-	GL_DisableMultitexture();
-
+    GL_Use (gl_polygon1textureprogram);
+    
+    glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+    glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+    
+    GL_DisableMultitexture();
+    
     GL_Bind(frame->gl_texturenum);
+    
+    GLfloat vertices[20];
+    
+    VectorMA (e->origin, frame->down, up, point);
+    VectorMA (point, frame->left, right, point);
+    vertices[0] = point[0];
+    vertices[1] = point[1];
+    vertices[2] = point[2];
+    vertices[3] = 0.0;
+    vertices[4] = 1.0;
 
-	glEnable (GL_ALPHA_TEST);
-	glBegin (GL_QUADS);
+    VectorMA (e->origin, frame->up, up, point);
+    VectorMA (point, frame->left, right, point);
+    vertices[5] = point[0];
+    vertices[6] = point[1];
+    vertices[7] = point[2];
+    vertices[8] = 0.0;
+    vertices[9] = 0.0;
 
-	glTexCoord2f (0, 1);
-	VectorMA (e->origin, frame->down, up, point);
-	VectorMA (point, frame->left, right, point);
-	glVertex3fv (point);
+    VectorMA (e->origin, frame->up, up, point);
+    VectorMA (point, frame->right, right, point);
+    vertices[10] = point[0];
+    vertices[11] = point[1];
+    vertices[12] = point[2];
+    vertices[13] = 1.0;
+    vertices[14] = 0.0;
 
-	glTexCoord2f (0, 0);
-	VectorMA (e->origin, frame->up, up, point);
-	VectorMA (point, frame->left, right, point);
-	glVertex3fv (point);
-
-	glTexCoord2f (1, 0);
-	VectorMA (e->origin, frame->up, up, point);
-	VectorMA (point, frame->right, right, point);
-	glVertex3fv (point);
-
-	glTexCoord2f (1, 1);
-	VectorMA (e->origin, frame->down, up, point);
-	VectorMA (point, frame->right, right, point);
-	glVertex3fv (point);
-	
-	glEnd ();
-
-	glDisable (GL_ALPHA_TEST);
+    VectorMA (e->origin, frame->down, up, point);
+    VectorMA (point, frame->right, right, point);
+    vertices[15] = point[0];
+    vertices[16] = point[1];
+    vertices[17] = point[2];
+    vertices[18] = 1.0;
+    vertices[19] = 1.0;
+    
+    GLuint indices[4];
+    
+    indices[0] = 0;
+    indices[1] = 1;
+    indices[2] = 2;
+    indices[3] = 3;
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_polygon1textureprogram_position);
+    glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+    glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+    glDisableVertexAttribArray(gl_polygon1textureprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
+    
+    free(indices);
+    
+    free(vertices);
 }
 
 /*
@@ -298,6 +376,7 @@ void GL_DrawAliasFrame (aliashdr_t *paliashdr, int posenum)
 	vec3_t	point;
 	float	*normal;
 	int		count;
+    GLenum  elementtype;
 
 lastposenum = posenum;
 
@@ -314,25 +393,80 @@ lastposenum = posenum;
 		if (count < 0)
 		{
 			count = -count;
-			glBegin (GL_TRIANGLE_FAN);
+			elementtype = GL_TRIANGLE_FAN;
 		}
 		else
-			glBegin (GL_TRIANGLE_STRIP);
+			elementtype = GL_TRIANGLE_STRIP;
 
-		do
+        int vertexcount = count;
+        GLfloat* vertices = malloc(count * 9 * sizeof(GLfloat));
+
+        int vertexpos = 0;
+        do
 		{
-			// texture coordinates come from the draw list
-			glTexCoord2f (((float *)order)[0], ((float *)order)[1]);
-			order += 2;
-
 			// normals and vertexes come from the frame list
-			l = shadedots[verts->lightnormalindex] * shadelight;
-			glColor3f (l, l, l);
-			glVertex3f (verts->v[0], verts->v[1], verts->v[2]);
-			verts++;
+            vertices[vertexpos++] = verts->v[0];
+            vertices[vertexpos++] = verts->v[1];
+            vertices[vertexpos++] = verts->v[2];
+
+            l = shadedots[verts->lightnormalindex] * shadelight;
+            vertices[vertexpos++] = l;
+            vertices[vertexpos++] = l;
+            vertices[vertexpos++] = l;
+            vertices[vertexpos++] = 1.0;
+            
+            // texture coordinates come from the draw list
+            vertices[vertexpos++] = ((float *)order)[0];
+            vertices[vertexpos++] = ((float *)order)[1];
+            
+            order += 2;
+            verts++;
 		} while (--count);
 
-		glEnd ();
+        int indexcount = vertexcount;
+        GLuint* indices = malloc(indexcount * sizeof(GLuint));
+        
+        for (int i = 0; i < indexcount; i++)
+        {
+            indices[i] = i;
+        }
+        
+        GLuint vertexbuffer;
+        glGenBuffers(1, &vertexbuffer);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glBufferData(GL_ARRAY_BUFFER, vertexcount * 9 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+        
+        glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_position);
+        glVertexAttribPointer(gl_coloredpolygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)0);
+        glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_color);
+        glVertexAttribPointer(gl_coloredpolygon1textureprogram_color, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_texcoords);
+        glVertexAttribPointer(gl_coloredpolygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)(7 * sizeof(GLfloat)));
+        
+        GLuint elementbuffer;
+        glGenBuffers(1, &elementbuffer);
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+        
+        glDrawElements(elementtype, indexcount, GL_UNSIGNED_INT, 0);
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &elementbuffer);
+        
+        glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_texcoords);
+        glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_color);
+        glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_position);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &vertexbuffer);
+        
+        free(indices);
+        
+        free(vertices);
 	}
 }
 
@@ -356,6 +490,7 @@ void GL_DrawAliasShadow (aliashdr_t *paliashdr, int posenum)
 	float	*normal;
 	float	height, lheight;
 	int		count;
+    GLenum  elementtype;
 
 	lheight = currententity->origin[2] - lightspot[2];
 
@@ -375,11 +510,15 @@ void GL_DrawAliasShadow (aliashdr_t *paliashdr, int posenum)
 		if (count < 0)
 		{
 			count = -count;
-			glBegin (GL_TRIANGLE_FAN);
-		}
-		else
-			glBegin (GL_TRIANGLE_STRIP);
+            elementtype = GL_TRIANGLE_FAN;
+        }
+        else
+            elementtype = GL_TRIANGLE_STRIP;
 
+        int vertexcount = count;
+        GLfloat* vertices = malloc(count * 3 * sizeof(GLfloat));
+        
+        int vertexpos = 0;
 		do
 		{
 			// texture coordinates come from the draw list
@@ -395,13 +534,53 @@ void GL_DrawAliasShadow (aliashdr_t *paliashdr, int posenum)
 			point[1] -= shadevector[1]*(point[2]+lheight);
 			point[2] = height;
 //			height -= 0.001;
-			glVertex3fv (point);
+            
+            vertices[vertexpos++] = point[0];
+            vertices[vertexpos++] = point[1];
+            vertices[vertexpos++] = point[2];
 
 			verts++;
 		} while (--count);
 
-		glEnd ();
-	}	
+        int indexcount = vertexcount;
+        GLuint* indices = malloc(indexcount * sizeof(GLuint));
+        
+        for (int i = 0; i < indexcount; i++)
+        {
+            indices[i] = i;
+        }
+        
+        GLuint vertexbuffer;
+        glGenBuffers(1, &vertexbuffer);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glBufferData(GL_ARRAY_BUFFER, vertexcount * 3 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+        
+        glEnableVertexAttribArray(gl_polygonnotextureprogram_position);
+        glVertexAttribPointer(gl_polygonnotextureprogram_position, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (const GLvoid *)0);
+        
+        GLuint elementbuffer;
+        glGenBuffers(1, &elementbuffer);
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+        
+        glDrawElements(elementtype, indexcount, GL_UNSIGNED_INT, 0);
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &elementbuffer);
+        
+        glDisableVertexAttribArray(gl_polygonnotextureprogram_position);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &vertexbuffer);
+
+        free(indices);
+        
+        free(vertices);
+	}
 }
 
 
@@ -533,21 +712,29 @@ void R_DrawAliasModel (entity_t *e)
 	// draw all the triangles
 	//
 
-	GL_DisableMultitexture();
+    GL_Use (gl_coloredpolygon1textureprogram);
+    
+    GL_DisableMultitexture();
 
-    glPushMatrix ();
 	R_RotateForEntity (e);
 
-	if (!strcmp (clmodel->name, "progs/eyes.mdl") && gl_doubleeyes.value) {
-		glTranslatef (paliashdr->scale_origin[0], paliashdr->scale_origin[1], paliashdr->scale_origin[2] - (22 + 8));
+	if (!strcmp (clmodel->name, "progs/eyes.mdl") && gl_doubleeyes.value)
+    {
+        GL_Translate (gl_polygon_matrix, paliashdr->scale_origin[0], paliashdr->scale_origin[1], paliashdr->scale_origin[2] - (22 + 8));
 // double size of eyes, since they are really hard to see in gl
-		glScalef (paliashdr->scale[0]*2, paliashdr->scale[1]*2, paliashdr->scale[2]*2);
-	} else {
-		glTranslatef (paliashdr->scale_origin[0], paliashdr->scale_origin[1], paliashdr->scale_origin[2]);
-		glScalef (paliashdr->scale[0], paliashdr->scale[1], paliashdr->scale[2]);
+		GL_Scale (gl_polygon_matrix, paliashdr->scale[0]*2, paliashdr->scale[1]*2, paliashdr->scale[2]*2);
+	}
+    else
+    {
+		GL_Translate (gl_polygon_matrix, paliashdr->scale_origin[0], paliashdr->scale_origin[1], paliashdr->scale_origin[2]);
+		GL_Scale (gl_polygon_matrix, paliashdr->scale[0], paliashdr->scale[1], paliashdr->scale[2]);
 	}
 
-	anim = (int)(cl.time*10) & 3;
+    R_ApplyProjection ();
+
+    glUniformMatrix4fv(gl_coloredpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+
+    anim = (int)(cl.time*10) & 3;
     GL_Bind(paliashdr->gl_texturenum[currententity->skinnum][anim]);
 
 	// we can't dynamically colormap textures, so they are cached
@@ -559,37 +746,27 @@ void R_DrawAliasModel (entity_t *e)
 		    GL_Bind(playertextures - 1 + i);
 	}
 
-	if (gl_smoothmodels.value)
-		glShadeModel (GL_SMOOTH);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-	if (gl_affinemodels.value)
-		glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
-
 	R_SetupAliasFrame (currententity->frame, paliashdr);
-
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-
-	glShadeModel (GL_FLAT);
-	if (gl_affinemodels.value)
-		glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
-	glPopMatrix ();
 
 	if (r_shadows.value)
 	{
-		glPushMatrix ();
+        GL_Use (gl_polygonnotextureprogram);
+        
 		R_RotateForEntity (e);
+        R_ApplyProjection ();
+        
+        glUniformMatrix4fv(gl_polygonnotextureprogram_transform, 1, 0, gl_polygon_matrix);
+        
 		glDisable (GL_TEXTURE_2D);
 		glEnable (GL_BLEND);
-		glColor4f (0,0,0,0.5);
-		GL_DrawAliasShadow (paliashdr, lastposenum);
-		glEnable (GL_TEXTURE_2D);
-		glDisable (GL_BLEND);
-		glColor4f (1,1,1,1);
-		glPopMatrix ();
-	}
 
+        glUniform4f(gl_polygonnotextureprogram_color, 0.0, 0.0, 0.0, 0.5);
+
+		GL_DrawAliasShadow (paliashdr, lastposenum);
+
+        glEnable (GL_TEXTURE_2D);
+		glDisable (GL_BLEND);
+	}
 }
 
 //==================================================================================
@@ -704,9 +881,9 @@ void R_DrawViewModel (void)
 	diffuse[0] = diffuse[1] = diffuse[2] = diffuse[3] = (float)shadelight / 128;
 
 	// hack the depth range to prevent view model from poking into walls
-	glDepthRange (gldepthmin, gldepthmin + 0.3*(gldepthmax-gldepthmin));
+	glDepthRangef (gldepthmin, gldepthmin + 0.3*(gldepthmax-gldepthmin));
 	R_DrawAliasModel (currententity);
-	glDepthRange (gldepthmin, gldepthmax);
+	glDepthRangef (gldepthmin, gldepthmax);
 }
 
 
@@ -724,29 +901,77 @@ void R_PolyBlend (void)
 
 	GL_DisableMultitexture();
 
-	glDisable (GL_ALPHA_TEST);
+    GL_Use (gl_polygonnotextureprogram);
+
 	glEnable (GL_BLEND);
 	glDisable (GL_DEPTH_TEST);
 	glDisable (GL_TEXTURE_2D);
 
-    glLoadIdentity ();
+    GLfloat transform[16];
+    
+    GL_Identity (transform);
+    
+    GL_Rotate (transform, -90.0,  1.0, 0.0, 0.0);	    // put Z going up
+    GL_Rotate (transform, 90.0,  0.0, 0.0, 1.0);	    // put Z going up
 
-    glRotatef (-90,  1, 0, 0);	    // put Z going up
-    glRotatef (90,  0, 0, 1);	    // put Z going up
+    glUniformMatrix4fv(gl_polygonnotextureprogram_transform, 1, 0, transform);
 
-	glColor4fv (v_blend);
+    glUniform4f(gl_polygonnotextureprogram_color, v_blend[0], v_blend[1], v_blend[2], v_blend[3]);
 
-	glBegin (GL_QUADS);
+    GLfloat vertices[12];
+    
+    vertices[0] = 10.0;
+    vertices[1] = 100.0;
+    vertices[2] = 100.0;
 
-	glVertex3f (10, 100, 100);
-	glVertex3f (10, -100, 100);
-	glVertex3f (10, -100, -100);
-	glVertex3f (10, 100, -100);
-	glEnd ();
+    vertices[3] = 10.0;
+    vertices[4] = -100.0;
+    vertices[5] = 100.0;
+
+    vertices[6] = 10.0;
+    vertices[7] = -100.0;
+    vertices[8] = -100.0;
+
+    vertices[9] = 10.0;
+    vertices[10] = 100.0;
+    vertices[11] = -100.0;
+    
+    GLuint indices[4];
+    
+    indices[0] = 0;
+    indices[1] = 1;
+    indices[2] = 2;
+    indices[3] = 3;
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_polygonnotextureprogram_position);
+    glVertexAttribPointer(gl_polygonnotextureprogram_position, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (const GLvoid *)0);
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_polygonnotextureprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
 
 	glDisable (GL_BLEND);
 	glEnable (GL_TEXTURE_2D);
-	glEnable (GL_ALPHA_TEST);
 }
 
 
@@ -841,18 +1066,40 @@ void R_SetupFrame (void)
 }
 
 
-void MYgluPerspective( GLdouble fovy, GLdouble aspect,
-		     GLdouble zNear, GLdouble zFar )
+void MYgluPerspective( GLfloat fovy, GLfloat aspect,
+		     GLfloat zNear, GLfloat zFar )
 {
-   GLdouble xmin, xmax, ymin, ymax;
+    GLfloat xmin, xmax, ymin, ymax;
+    
+    ymax = zNear * tan( fovy * M_PI / 360.0 );
+    ymin = -ymax;
+    
+    xmin = ymin * aspect;
+    xmax = ymax * aspect;
 
-   ymax = zNear * tan( fovy * M_PI / 360.0 );
-   ymin = -ymax;
-
-   xmin = ymin * aspect;
-   xmax = ymax * aspect;
-
-   glFrustum( xmin, xmax, ymin, ymax, zNear, zFar );
+    GLfloat xdelta = xmax - xmin;
+    GLfloat ydelta = ymax - ymin;
+    GLfloat zdelta = zFar - zNear;
+    
+    gl_projection_matrix[0] = 2.0 * zNear / xdelta;
+    gl_projection_matrix[1] = 0.0;
+    gl_projection_matrix[2] = 0.0;
+    gl_projection_matrix[3] = 0.0;
+    
+    gl_projection_matrix[4] = 0.0;
+    gl_projection_matrix[5] = 2.0 * zNear / ydelta;
+    gl_projection_matrix[6] = 0.0;
+    gl_projection_matrix[7] = 0.0;
+    
+    gl_projection_matrix[8] = (xmax + xmin) / xdelta;
+    gl_projection_matrix[9] = (ymax + ymin) / ydelta;
+    gl_projection_matrix[10] = (zFar + zNear) / zdelta;
+    gl_projection_matrix[11] = -1.0;
+    
+    gl_projection_matrix[12] = 0.0;
+    gl_projection_matrix[13] = 0.0;
+    gl_projection_matrix[14] = 2.0 * zFar * zNear / zdelta;
+    gl_projection_matrix[15] = 0.0;
 }
 
 
@@ -872,8 +1119,6 @@ void R_SetupGL (void)
 	//
 	// set up viewpoint
 	//
-	glMatrixMode(GL_PROJECTION);
-    glLoadIdentity ();
 	x = r_refdef.vrect.x * glwidth/vid.width;
 	x2 = (r_refdef.vrect.x + r_refdef.vrect.width) * glwidth/vid.width;
 	y = (vid.height-r_refdef.vrect.y) * glheight/vid.height;
@@ -898,7 +1143,15 @@ void R_SetupGL (void)
 		w = h = 256;
 	}
 
-	glViewport (glx + x, gly + y2, w, h);
+    if (glvr_enabled)
+    {
+        glViewport(glvr_viewportx, glvr_viewporty, glvr_viewportwidth, glvr_viewportheight);
+    }
+    else
+    {
+        glViewport (glx + x, gly + y2, w, h);
+    }
+
     screenaspect = (float)r_refdef.vrect.width/r_refdef.vrect.height;
 //	yfov = 2*atan((float)r_refdef.vrect.height/r_refdef.vrect.width)*180/M_PI;
     MYgluPerspective (r_refdef.fov_y,  screenaspect,  4,  4096);
@@ -906,25 +1159,22 @@ void R_SetupGL (void)
 	if (mirror)
 	{
 		if (mirror_plane->normal[2])
-			glScalef (1, -1, 1);
+			GL_Scale (gl_projection_matrix, 1.0, -1.0, 1.0);
 		else
-			glScalef (-1, 1, 1);
+			GL_Scale (gl_projection_matrix, -1.0, 1.0, 1.0);
 		glCullFace(GL_BACK);
 	}
 	else
 		glCullFace(GL_FRONT);
 
-	glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity ();
+    GL_Identity (r_world_matrix);
 
-    glRotatef (-90,  1, 0, 0);	    // put Z going up
-    glRotatef (90,  0, 0, 1);	    // put Z going up
-    glRotatef (-r_refdef.viewangles[2],  1, 0, 0);
-    glRotatef (-r_refdef.viewangles[0],  0, 1, 0);
-    glRotatef (-r_refdef.viewangles[1],  0, 0, 1);
-    glTranslatef (-r_refdef.vieworg[0],  -r_refdef.vieworg[1],  -r_refdef.vieworg[2]);
-
-	glGetFloatv (GL_MODELVIEW_MATRIX, r_world_matrix);
+    GL_Rotate (r_world_matrix, -90.0,  1.0, 0.0, 0.0);	    // put Z going up
+    GL_Rotate (r_world_matrix, 90.0,  0.0, 0.0, 1.0);	    // put Z going up
+    GL_Rotate (r_world_matrix, -r_refdef.viewangles[2],  1.0, 0.0, 0.0);
+    GL_Rotate (r_world_matrix, -r_refdef.viewangles[0],  0.0, 1.0, 0.0);
+    GL_Rotate (r_world_matrix, -r_refdef.viewangles[1],  0.0, 0.0, 1.0);
+    GL_Translate (r_world_matrix, -r_refdef.vieworg[0],  -r_refdef.vieworg[1],  -r_refdef.vieworg[2]);
 
 	//
 	// set drawing parms
@@ -935,7 +1185,6 @@ void R_SetupGL (void)
 		glDisable(GL_CULL_FACE);
 
 	glDisable(GL_BLEND);
-	glDisable(GL_ALPHA_TEST);
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -1024,7 +1273,7 @@ void R_Clear (void)
 		glDepthFunc (GL_LEQUAL);
 	}
 
-	glDepthRange (gldepthmin, gldepthmax);
+	glDepthRangef (gldepthmin, gldepthmax);
 }
 
 /*
@@ -1037,10 +1286,13 @@ void R_Mirror (void)
 	float		d;
 	msurface_t	*s;
 	entity_t	*ent;
+    GLfloat     previous_world_matrix[16];
 
 	if (!mirror)
 		return;
 
+    memcpy (previous_world_matrix, r_world_matrix, sizeof(previous_world_matrix));
+    
 	memcpy (r_base_world_matrix, r_world_matrix, sizeof(r_base_world_matrix));
 
 	d = DotProduct (r_refdef.vieworg, mirror_plane->normal) - mirror_plane->dist;
@@ -1062,7 +1314,7 @@ void R_Mirror (void)
 
 	gldepthmin = 0.5;
 	gldepthmax = 1;
-	glDepthRange (gldepthmin, gldepthmax);
+	glDepthRangef (gldepthmin, gldepthmax);
 	glDepthFunc (GL_LEQUAL);
 
 	R_RenderScene ();
@@ -1070,28 +1322,25 @@ void R_Mirror (void)
 
 	gldepthmin = 0;
 	gldepthmax = 0.5;
-	glDepthRange (gldepthmin, gldepthmax);
+	glDepthRangef (gldepthmin, gldepthmax);
 	glDepthFunc (GL_LEQUAL);
 
 	// blend on top
 	glEnable (GL_BLEND);
-	glMatrixMode(GL_PROJECTION);
 	if (mirror_plane->normal[2])
-		glScalef (1,-1,1);
+		GL_Scale (gl_projection_matrix, 1.0, -1.0, 1.0);
 	else
-		glScalef (-1,1,1);
+		GL_Scale (gl_projection_matrix, -1.0, 1.0, 1.0);
 	glCullFace(GL_FRONT);
-	glMatrixMode(GL_MODELVIEW);
 
-	glLoadMatrixf (r_base_world_matrix);
+    memcpy (r_world_matrix, r_base_world_matrix, sizeof(r_world_matrix));
 
-	glColor4f (1,1,1,r_mirroralpha.value);
+	//glColor4f (1,1,1,r_mirroralpha.value);
 	s = cl.worldmodel->textures[mirrortexturenum]->texturechain;
 	for ( ; s ; s=s->texturechain)
 		R_RenderBrushPoly (s);
 	cl.worldmodel->textures[mirrortexturenum]->texturechain = NULL;
 	glDisable (GL_BLEND);
-	glColor4f (1,1,1,1);
 }
 
 /*

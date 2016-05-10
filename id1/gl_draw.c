@@ -69,6 +69,13 @@ typedef struct
 gltexture_t	gltextures[MAX_GLTEXTURES];
 int			numgltextures;
 
+void GL_Use (GLuint program)
+{
+    if (currentprogram == program)
+        return;
+    currentprogram = program;
+    glUseProgram(program);
+}
 
 void GL_Bind (int texnum)
 {
@@ -84,6 +91,32 @@ void GL_Bind (int texnum)
 #endif
 }
 
+void GL_Ortho (GLfloat* matrix, GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat zNear, GLfloat zFar)
+{
+    GLfloat ral = right + left;
+    GLfloat rsl = right - left;
+    GLfloat tab = top + bottom;
+    GLfloat tsb = top - bottom;
+    GLfloat fan = zFar + zNear;
+    GLfloat fsn = zFar - zNear;
+    
+    matrix[0] = 2.0 / rsl;
+    matrix[1] = 0.0;
+    matrix[2] = 0.0;
+    matrix[3] = 0.0;
+    matrix[4] = 0.0;
+    matrix[5] = 2.0 / tsb;
+    matrix[6] = 0.0;
+    matrix[7] = 0.0;
+    matrix[8] = 0.0;
+    matrix[9] = 0.0;
+    matrix[10] = -2.0 / fsn;
+    matrix[11] = 0.0;
+    matrix[12] = -ral / rsl;
+    matrix[13] = -tab / tsb;
+    matrix[14] = -fan / fsn;
+    matrix[15] = 1.0;
+}
 
 /*
 =============================================================================
@@ -145,6 +178,7 @@ int Scrap_AllocBlock (int w, int h, int *x, int *y)
 	}
 
 	Sys_Error ("Scrap_AllocBlock: full");
+    return -1;
 }
 
 int	scrap_uploads;
@@ -518,18 +552,68 @@ void Draw_Character (int x, int y, int num)
 	fcol = col*0.0625;
 	size = 0.0625;
 
+    GL_Use (gl_textprogram);
+    
 	GL_Bind (char_texture);
 
-	glBegin (GL_QUADS);
-	glTexCoord2f (fcol, frow);
-	glVertex2f (x, y);
-	glTexCoord2f (fcol + size, frow);
-	glVertex2f (x+8, y);
-	glTexCoord2f (fcol + size, frow + size);
-	glVertex2f (x+8, y+8);
-	glTexCoord2f (fcol, frow + size);
-	glVertex2f (x, y+8);
-	glEnd ();
+    GLfloat vertices[16];
+
+    vertices[0] = x;
+    vertices[1] = y;
+    vertices[2] = fcol;
+    vertices[3] = frow;
+    
+    vertices[4] = x + 8;
+    vertices[5] = y;
+    vertices[6] = fcol + size;
+    vertices[7] = frow;
+    
+    vertices[8] = x + 8;
+    vertices[9] = y + 8;
+    vertices[10] = fcol + size;
+    vertices[11] = frow + size;
+
+    vertices[12] = x;
+    vertices[13] = y + 8;
+    vertices[14] = fcol;
+    vertices[15] = frow + size;
+
+    GLuint indices[4];
+    
+    indices[0] = 0;
+    indices[1] = 1;
+    indices[2] = 2;
+    indices[3] = 3;
+
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_textprogram_position);
+    glVertexAttribPointer(gl_textprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_textprogram_texcoords);
+    glVertexAttribPointer(gl_textprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
+
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    glDeleteBuffers(1, &elementbuffer);
+
+    glDisableVertexAttribArray(gl_textprogram_texcoords);
+    glDisableVertexAttribArray(gl_textprogram_position);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
 }
 
 /*
@@ -575,25 +659,76 @@ void Draw_AlphaPic (int x, int y, qpic_t *pic, float alpha)
 	if (scrap_dirty)
 		Scrap_Upload ();
 	gl = (glpic_t *)pic->data;
-	glDisable(GL_ALPHA_TEST);
 	glEnable (GL_BLEND);
-//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//	glCullFace(GL_FRONT);
-	glColor4f (1,1,1,alpha);
-	GL_Bind (gl->texnum);
-	glBegin (GL_QUADS);
-	glTexCoord2f (gl->sl, gl->tl);
-	glVertex2f (x, y);
-	glTexCoord2f (gl->sh, gl->tl);
-	glVertex2f (x+pic->width, y);
-	glTexCoord2f (gl->sh, gl->th);
-	glVertex2f (x+pic->width, y+pic->height);
-	glTexCoord2f (gl->sl, gl->th);
-	glVertex2f (x, y+pic->height);
-	glEnd ();
-	glColor4f (1,1,1,1);
-	glEnable(GL_ALPHA_TEST);
-	glDisable (GL_BLEND);
+
+    GL_Use (gl_textprogram);
+    
+    glUniform4f(gl_textprogram_color, 1.0, 1.0, 1.0, alpha);
+    
+    GL_Bind (gl->texnum);
+    
+    GLfloat vertices[16];
+    
+    vertices[0] = x;
+    vertices[1] = y;
+    vertices[2] = gl->sl;
+    vertices[3] = gl->tl;
+    
+    vertices[4] = x + pic->width;
+    vertices[5] = y;
+    vertices[6] = gl->sh;
+    vertices[7] = gl->tl;
+    
+    vertices[8] = x + pic->width;
+    vertices[9] = y + pic->height;
+    vertices[10] = gl->sh;
+    vertices[11] = gl->th;
+    
+    vertices[12] = x;
+    vertices[13] = y + pic->height;
+    vertices[14] = gl->sl;
+    vertices[15] = gl->th;
+    
+    GLuint indices[4];
+    
+    indices[0] = 0;
+    indices[1] = 1;
+    indices[2] = 2;
+    indices[3] = 3;
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_textprogram_position);
+    glVertexAttribPointer(gl_textprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_textprogram_texcoords);
+    glVertexAttribPointer(gl_textprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_textprogram_texcoords);
+    glDisableVertexAttribArray(gl_textprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glUniform4f(gl_textprogram_color, 1.0, 1.0, 1.0, 1.0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
+    
+    glDisable (GL_BLEND);
 }
 
 
@@ -612,18 +747,71 @@ void Draw_Pic (int x, int y, qpic_t *pic)
 	if (scrap_dirty)
 		Scrap_Upload ();
 	gl = (glpic_t *)pic->data;
-	glColor4f (1,1,1,1);
-	GL_Bind (gl->texnum);
-	glBegin (GL_QUADS);
-	glTexCoord2f (gl->sl, gl->tl);
-	glVertex2f (x, y);
-	glTexCoord2f (gl->sh, gl->tl);
-	glVertex2f (x+pic->width, y);
-	glTexCoord2f (gl->sh, gl->th);
-	glVertex2f (x+pic->width, y+pic->height);
-	glTexCoord2f (gl->sl, gl->th);
-	glVertex2f (x, y+pic->height);
-	glEnd ();
+
+    GL_Use (gl_textprogram);
+    
+    glUniform4f(gl_textprogram_color, 1.0, 1.0, 1.0, 1.0);
+    
+    GL_Bind (gl->texnum);
+    
+    GLfloat vertices[16];
+    
+    vertices[0] = x;
+    vertices[1] = y;
+    vertices[2] = gl->sl;
+    vertices[3] = gl->tl;
+    
+    vertices[4] = x + pic->width;
+    vertices[5] = y;
+    vertices[6] = gl->sh;
+    vertices[7] = gl->tl;
+    
+    vertices[8] = x + pic->width;
+    vertices[9] = y + pic->height;
+    vertices[10] = gl->sh;
+    vertices[11] = gl->th;
+    
+    vertices[12] = x;
+    vertices[13] = y + pic->height;
+    vertices[14] = gl->sl;
+    vertices[15] = gl->th;
+    
+    GLuint indices[4];
+    
+    indices[0] = 0;
+    indices[1] = 1;
+    indices[2] = 2;
+    indices[3] = 3;
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_textprogram_position);
+    glVertexAttribPointer(gl_textprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_textprogram_texcoords);
+    glVertexAttribPointer(gl_textprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_textprogram_texcoords);
+    glDisableVertexAttribArray(gl_textprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
 }
 
 
@@ -662,7 +850,9 @@ void Draw_TransPicTranslate (int x, int y, qpic_t *pic, byte *translation)
 	byte			*src;
 	int				p;
 
-	GL_Bind (translate_texture);
+    GL_Use (gl_textprogram);
+
+    GL_Bind (translate_texture);
 
 	c = pic->width * pic->height;
 
@@ -685,17 +875,66 @@ void Draw_TransPicTranslate (int x, int y, qpic_t *pic, byte *translation)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glColor3f (1,1,1);
-	glBegin (GL_QUADS);
-	glTexCoord2f (0, 0);
-	glVertex2f (x, y);
-	glTexCoord2f (1, 0);
-	glVertex2f (x+pic->width, y);
-	glTexCoord2f (1, 1);
-	glVertex2f (x+pic->width, y+pic->height);
-	glTexCoord2f (0, 1);
-	glVertex2f (x, y+pic->height);
-	glEnd ();
+    glUniform4f(gl_textprogram_color, 1.0, 1.0, 1.0, 1.0);
+
+    GLfloat vertices[16];
+    
+    vertices[0] = x;
+    vertices[1] = y;
+    vertices[2] = 0.0;
+    vertices[3] = 0.0;
+    
+    vertices[4] = x + pic->width;
+    vertices[5] = y;
+    vertices[6] = 1.0;
+    vertices[7] = 0.0;
+    
+    vertices[8] = x + pic->width;
+    vertices[9] = y + pic->height;
+    vertices[10] = 1.0;
+    vertices[11] = 1.0;
+    
+    vertices[12] = x;
+    vertices[13] = y + pic->height;
+    vertices[14] = 0.0;
+    vertices[15] = 1.0;
+    
+    GLuint indices[4];
+    
+    indices[0] = 0;
+    indices[1] = 1;
+    indices[2] = 2;
+    indices[3] = 3;
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_textprogram_position);
+    glVertexAttribPointer(gl_textprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_textprogram_texcoords);
+    glVertexAttribPointer(gl_textprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_textprogram_texcoords);
+    glDisableVertexAttribArray(gl_textprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
 }
 
 
@@ -726,18 +965,70 @@ refresh window.
 */
 void Draw_TileClear (int x, int y, int w, int h)
 {
-	glColor3f (1,1,1);
-	GL_Bind (*(int *)draw_backtile->data);
-	glBegin (GL_QUADS);
-	glTexCoord2f (x/64.0, y/64.0);
-	glVertex2f (x, y);
-	glTexCoord2f ( (x+w)/64.0, y/64.0);
-	glVertex2f (x+w, y);
-	glTexCoord2f ( (x+w)/64.0, (y+h)/64.0);
-	glVertex2f (x+w, y+h);
-	glTexCoord2f ( x/64.0, (y+h)/64.0 );
-	glVertex2f (x, y+h);
-	glEnd ();
+    GL_Use (gl_textprogram);
+    
+    glUniform4f(gl_textprogram_color, 1.0, 1.0, 1.0, 1.0);
+    
+    GL_Bind (*(int *)draw_backtile->data);
+    
+    GLfloat vertices[16];
+    
+    vertices[0] = x;
+    vertices[1] = y;
+    vertices[2] = x / 64.0;
+    vertices[3] = y / 64.0;
+    
+    vertices[4] = x + w;
+    vertices[5] = y;
+    vertices[6] = (x + w) / 64.0;
+    vertices[7] = y / 64.0;
+    
+    vertices[8] = x + w;
+    vertices[9] = y + h;
+    vertices[10] = (x + w) / 64.0;
+    vertices[11] = (y + h) / 64.0;
+    
+    vertices[12] = x;
+    vertices[13] = y + h;
+    vertices[14] = x / 64.0;
+    vertices[15] = (y + h) / 64.0;
+    
+    GLuint indices[4];
+    
+    indices[0] = 0;
+    indices[1] = 1;
+    indices[2] = 2;
+    indices[3] = 3;
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_textprogram_position);
+    glVertexAttribPointer(gl_textprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_textprogram_texcoords);
+    glVertexAttribPointer(gl_textprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_textprogram_texcoords);
+    glDisableVertexAttribArray(gl_textprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
 }
 
 
@@ -750,21 +1041,56 @@ Fills a box of pixels with a single color
 */
 void Draw_Fill (int x, int y, int w, int h, int c)
 {
-	glDisable (GL_TEXTURE_2D);
-	glColor3f (host_basepal[c*3]/255.0,
-		host_basepal[c*3+1]/255.0,
-		host_basepal[c*3+2]/255.0);
+    GL_Use (gl_fillprogram);
+    
+    glUniform4f(gl_fillprogram_color, host_basepal[c*3]/255.0, host_basepal[c*3+1]/255.0, host_basepal[c*3+2]/255.0, 1.0);
+    
+    GLfloat vertices[8];
+    
+    vertices[0] = x;
+    vertices[1] = y;
+    vertices[2] = x + w;
+    vertices[3] = y;
+    vertices[4] = x + w;
+    vertices[5] = y + h;
+    vertices[6] = x;
+    vertices[7] = y + h;
+    
+    GLuint indices[4];
+    
+    indices[0] = 0;
+    indices[1] = 1;
+    indices[2] = 2;
+    indices[3] = 3;
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_fillprogram_position);
+    glVertexAttribPointer(gl_fillprogram_position, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (const GLvoid *)0);
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_fillprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
 
-	glBegin (GL_QUADS);
-
-	glVertex2f (x,y);
-	glVertex2f (x+w, y);
-	glVertex2f (x+w, y+h);
-	glVertex2f (x, y+h);
-
-	glEnd ();
-	glColor3f (1,1,1);
-	glEnable (GL_TEXTURE_2D);
+    glUniform4f(gl_fillprogram_color, 1.0, 1.0, 1.0, 1.0);
 }
 //=============================================================================
 
@@ -776,22 +1102,58 @@ Draw_FadeScreen
 */
 void Draw_FadeScreen (void)
 {
-	glEnable (GL_BLEND);
-	glDisable (GL_TEXTURE_2D);
-	glColor4f (0, 0, 0, 0.8);
-	glBegin (GL_QUADS);
+    GL_Use (gl_fillprogram);
+    
+    glUniform4f(gl_fillprogram_color, 0.0, 0.0, 0.0, 0.8);
+    
+    GLfloat vertices[8];
+    
+    vertices[0] = 0.0;
+    vertices[1] = 0.0;
+    vertices[2] = vid.width;
+    vertices[3] = 0.0;
+    vertices[4] = vid.width;
+    vertices[5] = vid.height;
+    vertices[6] = 0.0;
+    vertices[7] = vid.height;
+    
+    GLuint indices[4];
+    
+    indices[0] = 0;
+    indices[1] = 1;
+    indices[2] = 2;
+    indices[3] = 3;
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_fillprogram_position);
+    glVertexAttribPointer(gl_fillprogram_position, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (const GLvoid *)0);
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_fillprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
+    
+    glUniform4f(gl_fillprogram_color, 1.0, 1.0, 1.0, 1.0);
 
-	glVertex2f (0,0);
-	glVertex2f (vid.width, 0);
-	glVertex2f (vid.width, vid.height);
-	glVertex2f (0, vid.height);
-
-	glEnd ();
-	glColor4f (1,1,1,1);
-	glEnable (GL_TEXTURE_2D);
-	glDisable (GL_BLEND);
-
-	Sbar_Changed();
+    Sbar_Changed();
 }
 
 //=============================================================================
@@ -806,11 +1168,6 @@ Call before beginning any disc IO.
 */
 void Draw_BeginDisc (void)
 {
-	if (!draw_disc)
-		return;
-	glDrawBuffer  (GL_FRONT);
-	Draw_Pic (vid.width - 24, 0, draw_disc);
-	glDrawBuffer  (GL_BACK);
 }
 
 
@@ -835,22 +1192,37 @@ Setup as if the screen was 320*200
 */
 void GL_Set2D (void)
 {
-	glViewport (glx, gly, glwidth, glheight);
+    if (glvr_enabled)
+    {
+        glViewport(glvr_viewportx, glvr_viewporty, glvr_viewportwidth, glvr_viewportheight);
+        
+        memcpy (gl_textandfill_matrix, glvr_eyetranslation, sizeof(gl_textandfill_matrix));
+        
+        GL_Scale(gl_textandfill_matrix, vid.width / 2.0, vid.height / 2.0, 0.0);
+        GL_Translate(gl_textandfill_matrix, vid.width / 2.0, vid.height / 2.0, 0.0);
+        GL_Multiply(gl_textandfill_matrix, glvr_projection);
+    }
+    else
+    {
+        glViewport (glx, gly, glwidth, glheight);
+        
+        GL_Ortho(gl_textandfill_matrix, 0.0, vid.width, vid.height, 0.0, -99999.0, 99999.0);
+    }
+    
+    glDisable (GL_DEPTH_TEST);
+    glDisable (GL_CULL_FACE);
+    glDisable (GL_BLEND);
 
-	glMatrixMode(GL_PROJECTION);
-    glLoadIdentity ();
-	glOrtho  (0, vid.width, vid.height, 0, -99999, 99999);
+    GL_Use (gl_textprogram);
+    
+    glUniform4f(gl_textprogram_color, 1.0, 1.0, 1.0, 1.0);
+    glUniformMatrix4fv(gl_textprogram_transform, 1, 0, gl_textandfill_matrix);
+    glUniform1i(gl_textprogram_texture, GL_TEXTURE0);
+    
+    GL_Use (gl_fillprogram);
 
-	glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity ();
-
-	glDisable (GL_DEPTH_TEST);
-	glDisable (GL_CULL_FACE);
-	glDisable (GL_BLEND);
-	glEnable (GL_ALPHA_TEST);
-//	glDisable (GL_ALPHA_TEST);
-
-	glColor4f (1,1,1,1);
+    glUniform4f(gl_fillprogram_color, 1.0, 1.0, 1.0, 1.0);
+    glUniformMatrix4fv(gl_fillprogram_transform, 1, 0, gl_textandfill_matrix);
 }
 
 //====================================================================
@@ -1086,97 +1458,6 @@ done: ;
 	}
 }
 
-void GL_Upload8_EXT (byte *data, int width, int height,  qboolean mipmap, qboolean alpha) 
-{
-	int			i, s;
-	qboolean	noalpha;
-	int			p;
-	static unsigned j;
-	int			samples;
-    static	unsigned char scaled[1024*512];	// [512*256];
-	int			scaled_width, scaled_height;
-
-	s = width*height;
-	// if there are no transparent pixels, make it a 3 component
-	// texture even if it was specified as otherwise
-	if (alpha)
-	{
-		noalpha = true;
-		for (i=0 ; i<s ; i++)
-		{
-			if (data[i] == 255)
-				noalpha = false;
-		}
-
-		if (alpha && noalpha)
-			alpha = false;
-	}
-	for (scaled_width = 1 ; scaled_width < width ; scaled_width<<=1)
-		;
-	for (scaled_height = 1 ; scaled_height < height ; scaled_height<<=1)
-		;
-
-	scaled_width >>= (int)gl_picmip.value;
-	scaled_height >>= (int)gl_picmip.value;
-
-	if (scaled_width > gl_max_size.value)
-		scaled_width = gl_max_size.value;
-	if (scaled_height > gl_max_size.value)
-		scaled_height = gl_max_size.value;
-
-	if (scaled_width * scaled_height > sizeof(scaled))
-		Sys_Error ("GL_LoadTexture: too big");
-
-	samples = 1; // alpha ? gl_alpha_format : gl_solid_format;
-
-	texels += scaled_width * scaled_height;
-
-	if (scaled_width == width && scaled_height == height)
-	{
-		if (!mipmap)
-		{
-			glTexImage2D (GL_TEXTURE_2D, 0, GL_COLOR_INDEX8_EXT, scaled_width, scaled_height, 0, GL_COLOR_INDEX , GL_UNSIGNED_BYTE, data);
-			goto done;
-		}
-		memcpy (scaled, data, width*height);
-	}
-	else
-		GL_Resample8BitTexture (data, width, height, scaled, scaled_width, scaled_height);
-
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_COLOR_INDEX8_EXT, scaled_width, scaled_height, 0, GL_COLOR_INDEX, GL_UNSIGNED_BYTE, scaled);
-	if (mipmap)
-	{
-		int		miplevel;
-
-		miplevel = 0;
-		while (scaled_width > 1 || scaled_height > 1)
-		{
-			GL_MipMap8Bit ((byte *)scaled, scaled_width, scaled_height);
-			scaled_width >>= 1;
-			scaled_height >>= 1;
-			if (scaled_width < 1)
-				scaled_width = 1;
-			if (scaled_height < 1)
-				scaled_height = 1;
-			miplevel++;
-			glTexImage2D (GL_TEXTURE_2D, miplevel, GL_COLOR_INDEX8_EXT, scaled_width, scaled_height, 0, GL_COLOR_INDEX, GL_UNSIGNED_BYTE, scaled);
-		}
-	}
-done: ;
-
-
-	if (mipmap)
-	{
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_filter_min);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_filter_max);
-	}
-	else
-	{
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_filter_max);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_filter_max);
-	}
-}
-
 /*
 ===============
 GL_Upload8
@@ -1219,10 +1500,6 @@ static	unsigned	trans[640*480];		// FIXME, temporary
 		}
 	}
 
- 	if (VID_Is8bit() && !alpha && (data!=scrap_texels[0])) {
- 		GL_Upload8_EXT (data, width, height, mipmap, alpha);
- 		return;
-	}
 	GL_Upload32 (trans, width, height, mipmap, alpha);
 }
 
@@ -1282,16 +1559,16 @@ int GL_LoadPicTexture (qpic_t *pic)
 
 /****************************************/
 
-static GLenum oldtarget = TEXTURE0_SGIS;
+static GLenum oldtarget = GL_TEXTURE0;
 
 void GL_SelectTexture (GLenum target) 
 {
 	if (!gl_mtexable)
 		return;
-	qglSelectTextureSGIS(target);
+	glActiveTexture(target);
 	if (target == oldtarget) 
 		return;
-	cnttextures[oldtarget-TEXTURE0_SGIS] = currenttexture;
-	currenttexture = cnttextures[target-TEXTURE0_SGIS];
+	cnttextures[oldtarget-GL_TEXTURE0] = currenttexture;
+	currenttexture = cnttextures[target-GL_TEXTURE0];
 	oldtarget = target;
 }

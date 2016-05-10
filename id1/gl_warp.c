@@ -33,6 +33,9 @@ msurface_t	*warpface;
 
 extern cvar_t gl_subdivide_size;
 
+GLint gl_waterpolygon_position;
+GLint gl_waterpolygon_texcoords;
+
 void BoundPoly (int numverts, float *verts, vec3_t mins, vec3_t maxs)
 {
 	int		i, j;
@@ -201,23 +204,66 @@ void EmitWaterPolys (msurface_t *fa)
 
 	for (p=fa->polys ; p ; p=p->next)
 	{
-		glBegin (GL_POLYGON);
-		for (i=0,v=p->verts[0] ; i<p->numverts ; i++, v+=VERTEXSIZE)
-		{
-			os = v[3];
-			ot = v[4];
+        GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
+        
+        int j = 0;
+        for (i=0,v=p->verts[0] ; i<p->numverts ; i++, v+=VERTEXSIZE)
+        {
+            os = v[3];
+            ot = v[4];
+            
+            s = os + turbsin[(int)((ot*0.125+realtime) * TURBSCALE) & 255];
+            s *= (1.0/64);
+            
+            t = ot + turbsin[(int)((os*0.125+realtime) * TURBSCALE) & 255];
+            t *= (1.0/64);
+            
+            vertices[j++] = v[0];
+            vertices[j++] = v[1];
+            vertices[j++] = v[2];
+            vertices[j++] = s;
+            vertices[j++] = t;
+        }
 
-			s = os + turbsin[(int)((ot*0.125+realtime) * TURBSCALE) & 255];
-			s *= (1.0/64);
+        GLuint* indices;
+        int indexcount;
+        
+        GL_Triangulate (vertices, p->numverts, 5, &indices, &indexcount);
+        
+        GLuint vertexbuffer;
+        glGenBuffers(1, &vertexbuffer);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+        
+        glEnableVertexAttribArray(gl_waterpolygon_position);
+        glVertexAttribPointer(gl_waterpolygon_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+        glEnableVertexAttribArray(gl_waterpolygon_texcoords);
+        glVertexAttribPointer(gl_waterpolygon_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+        
+        GLuint elementbuffer;
+        glGenBuffers(1, &elementbuffer);
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+        
+        glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &elementbuffer);
+        
+        glDisableVertexAttribArray(gl_waterpolygon_texcoords);
+        glDisableVertexAttribArray(gl_waterpolygon_position);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &vertexbuffer);
+    
+        free(indices);
 
-			t = ot + turbsin[(int)((os*0.125+realtime) * TURBSCALE) & 255];
-			t *= (1.0/64);
-
-			glTexCoord2f (s, t);
-			glVertex3fv (v);
-		}
-		glEnd ();
-	}
+        free(vertices);
+    }
 }
 
 
@@ -239,27 +285,70 @@ void EmitSkyPolys (msurface_t *fa)
 
 	for (p=fa->polys ; p ; p=p->next)
 	{
-		glBegin (GL_POLYGON);
-		for (i=0,v=p->verts[0] ; i<p->numverts ; i++, v+=VERTEXSIZE)
-		{
-			VectorSubtract (v, r_origin, dir);
-			dir[2] *= 3;	// flatten the sphere
-
-			length = dir[0]*dir[0] + dir[1]*dir[1] + dir[2]*dir[2];
-			length = sqrt (length);
-			length = 6*63/length;
-
-			dir[0] *= length;
-			dir[1] *= length;
-
-			s = (speedscale + dir[0]) * (1.0/128);
-			t = (speedscale + dir[1]) * (1.0/128);
-
-			glTexCoord2f (s, t);
-			glVertex3fv (v);
-		}
-		glEnd ();
-	}
+        GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
+        
+        int j = 0;
+        for (i=0,v=p->verts[0] ; i<p->numverts ; i++, v+=VERTEXSIZE)
+        {
+            VectorSubtract (v, r_origin, dir);
+            dir[2] *= 3;	// flatten the sphere
+            
+            length = dir[0]*dir[0] + dir[1]*dir[1] + dir[2]*dir[2];
+            length = sqrt (length);
+            length = 6*63/length;
+            
+            dir[0] *= length;
+            dir[1] *= length;
+            
+            s = (speedscale + dir[0]) * (1.0/128);
+            t = (speedscale + dir[1]) * (1.0/128);
+            
+            vertices[j++] = v[0];
+            vertices[j++] = v[1];
+            vertices[j++] = v[2];
+            vertices[j++] = s;
+            vertices[j++] = t;
+        }
+        
+        GLuint* indices;
+        int indexcount;
+        
+        GL_Triangulate (vertices, p->numverts, 5, &indices, &indexcount);
+        
+        GLuint vertexbuffer;
+        glGenBuffers(1, &vertexbuffer);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+        
+        glEnableVertexAttribArray(gl_polygon1textureprogram_position);
+        glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+        glEnableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+        glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+        
+        GLuint elementbuffer;
+        glGenBuffers(1, &elementbuffer);
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+        
+        glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &elementbuffer);
+        
+        glDisableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+        glDisableVertexAttribArray(gl_polygon1textureprogram_position);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &vertexbuffer);
+        
+        free(indices);
+        
+        free(vertices);
+    }
 }
 
 /*

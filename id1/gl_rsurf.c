@@ -203,7 +203,7 @@ store:
 		break;
 	case GL_ALPHA:
 	case GL_LUMINANCE:
-	case GL_INTENSITY:
+	//case GL_INTENSITY:  // Since we're defining GL_INTENSITY as GL_LUMINANCE, this no longer needs to be evaluated
 		bl = blocklights;
 		for (i=0 ; i<tmax ; i++, dest += stride)
 		{
@@ -277,7 +277,6 @@ void DrawGLWaterPoly (glpoly_t *p);
 void DrawGLWaterPolyLightmap (glpoly_t *p);
 
 lpMTexFUNC qglMTexCoord2fSGIS = NULL;
-lpSelTexFUNC qglSelectTextureSGIS = NULL;
 
 qboolean mtexenabled = false;
 
@@ -287,7 +286,7 @@ void GL_DisableMultitexture(void)
 {
 	if (mtexenabled) {
 		glDisable(GL_TEXTURE_2D);
-		GL_SelectTexture(TEXTURE0_SGIS);
+		GL_SelectTexture(GL_TEXTURE0);
 		mtexenabled = false;
 	}
 }
@@ -295,7 +294,7 @@ void GL_DisableMultitexture(void)
 void GL_EnableMultitexture(void) 
 {
 	if (gl_mtexable) {
-		GL_SelectTexture(TEXTURE1_SGIS);
+		GL_SelectTexture(GL_TEXTURE1);
 		glEnable(GL_TEXTURE_2D);
 		mtexenabled = true;
 	}
@@ -428,11 +427,16 @@ void R_DrawSequentialPoly (msurface_t *s)
 		if (gl_mtexable) {
 			p = s->polys;
 
+            GL_Use (gl_polygon2texturesprogram);
+            
+            glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
+            glUniform1i(gl_polygon2texturesprogram_texture0, GL_TEXTURE0);
+            glUniform1i(gl_polygon2texturesprogram_texture1, GL_TEXTURE1);
+            
 			t = R_TextureAnimation (s->texinfo->texture);
 			// Binds world to texture env 0
-			GL_SelectTexture(TEXTURE0_SGIS);
+			GL_SelectTexture(GL_TEXTURE0);
 			GL_Bind (t->gl_texturenum);
-			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 			// Binds lightmap to texenv 1
 			GL_EnableMultitexture(); // Same as SelectTexture (TEXTURE1)
 			GL_Bind (lightmap_textures + s->lightmaptexturenum);
@@ -449,43 +453,172 @@ void R_DrawSequentialPoly (msurface_t *s)
 				theRect->h = 0;
 				theRect->w = 0;
 			}
-			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
-			glBegin(GL_POLYGON);
-			v = p->verts[0];
+
+            GLfloat* vertices = malloc(p->numverts * 7 * sizeof(GLfloat));
+			
+            v = p->verts[0];
+            int j = 0;
 			for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
 			{
-				qglMTexCoord2fSGIS (TEXTURE0_SGIS, v[3], v[4]);
-				qglMTexCoord2fSGIS (TEXTURE1_SGIS, v[5], v[6]);
-				glVertex3fv (v);
+                vertices[j++] = v[0];
+                vertices[j++] = v[1];
+                vertices[j++] = v[2];
+                
+                vertices[j++] = v[3];
+                vertices[j++] = v[4];
+
+                vertices[j++] = v[5];
+                vertices[j++] = v[6];
 			}
-			glEnd ();
-			return;
+            
+            GLuint* indices;
+            int indexcount;
+            
+            GL_Triangulate (vertices, p->numverts, 7, &indices, &indexcount);
+            
+            GLuint vertexbuffer;
+            glGenBuffers(1, &vertexbuffer);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+            glBufferData(GL_ARRAY_BUFFER, p->numverts * 7 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+            
+            glEnableVertexAttribArray(gl_polygon2texturesprogram_position);
+            glVertexAttribPointer(gl_polygon2texturesprogram_position, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)0);
+            glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
+            glVertexAttribPointer(gl_polygon2texturesprogram_texcoords0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+            glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
+            glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
+            
+            GLuint elementbuffer;
+            glGenBuffers(1, &elementbuffer);
+            
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+            
+            glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
+            
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            
+            glDeleteBuffers(1, &elementbuffer);
+            
+            glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
+            glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
+            glDisableVertexAttribArray(gl_polygon2texturesprogram_position);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            
+            glDeleteBuffers(1, &vertexbuffer);
+            
+            free(indices);
+            
+            free(vertices);
+
+            return;
 		} else {
 			p = s->polys;
 
-			t = R_TextureAnimation (s->texinfo->texture);
+            GL_Use (gl_polygon1textureprogram);
+            
+            glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+            glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+
+            t = R_TextureAnimation (s->texinfo->texture);
 			GL_Bind (t->gl_texturenum);
-			glBegin (GL_POLYGON);
-			v = p->verts[0];
+            
+            GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
+            
+            v = p->verts[0];
+            int j = 0;
+            for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
+            {
+                vertices[j++] = v[0];
+                vertices[j++] = v[1];
+                vertices[j++] = v[2];
+                vertices[j++] = v[3];
+                vertices[j++] = v[4];
+            }
+            
+            GLuint* indices;
+            int indexcount;
+            
+            GL_Triangulate (vertices, p->numverts, 5, &indices, &indexcount);
+            
+            GLuint vertexbuffer;
+            glGenBuffers(1, &vertexbuffer);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+            glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+            
+            glEnableVertexAttribArray(gl_polygon1textureprogram_position);
+            glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+            glEnableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+            glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+            
+            GLuint elementbuffer;
+            glGenBuffers(1, &elementbuffer);
+            
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+            
+            glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
+            
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            
+            glDeleteBuffers(1, &elementbuffer);
+            
+            glDisableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+            glDisableVertexAttribArray(gl_polygon1textureprogram_position);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            
+            glDeleteBuffers(1, &vertexbuffer);
+            
+            GL_Bind (lightmap_textures + s->lightmaptexturenum);
+            
+            glEnable (GL_BLEND);
+
+            v = p->verts[0];
+            j = 3;
 			for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
 			{
-				glTexCoord2f (v[3], v[4]);
-				glVertex3fv (v);
+                vertices[j++] = v[5];
+                vertices[j++] = v[6];
+                j += 3;
 			}
-			glEnd ();
 
-			GL_Bind (lightmap_textures + s->lightmaptexturenum);
-			glEnable (GL_BLEND);
-			glBegin (GL_POLYGON);
-			v = p->verts[0];
-			for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
-			{
-				glTexCoord2f (v[5], v[6]);
-				glVertex3fv (v);
-			}
-			glEnd ();
+            glGenBuffers(1, &vertexbuffer);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+            glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+            
+            glEnableVertexAttribArray(gl_polygon1textureprogram_position);
+            glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+            glEnableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+            glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+            
+            glGenBuffers(1, &elementbuffer);
+            
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+            
+            glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
+            
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            
+            glDeleteBuffers(1, &elementbuffer);
+            
+            glDisableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+            glDisableVertexAttribArray(gl_polygon1textureprogram_position);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            
+            glDeleteBuffers(1, &vertexbuffer);
 
-			glDisable (GL_BLEND);
+            glDisable (GL_BLEND);
+
+            free(indices);
+            
+            free(vertices);
 		}
 
 		return;
@@ -497,7 +630,15 @@ void R_DrawSequentialPoly (msurface_t *s)
 
 	if (s->flags & SURF_DRAWTURB)
 	{
-		GL_DisableMultitexture();
+        GL_Use (gl_polygon1textureprogram);
+
+        glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+
+        gl_waterpolygon_position = gl_polygon1textureprogram_position;
+        gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
+        
+        GL_DisableMultitexture();
 		GL_Bind (s->texinfo->texture->gl_texturenum);
 		EmitWaterPolys (s);
 		return;
@@ -532,10 +673,15 @@ void R_DrawSequentialPoly (msurface_t *s)
 	if (gl_mtexable) {
 		p = s->polys;
 
+        GL_Use (gl_polygon2texturesprogram);
+        
+        glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
+        glUniform1i(gl_polygon2texturesprogram_texture0, GL_TEXTURE0);
+        glUniform1i(gl_polygon2texturesprogram_texture1, GL_TEXTURE1);
+        
 		t = R_TextureAnimation (s->texinfo->texture);
-		GL_SelectTexture(TEXTURE0_SGIS);
+		GL_SelectTexture(GL_TEXTURE0);
 		GL_Bind (t->gl_texturenum);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 		GL_EnableMultitexture();
 		GL_Bind (lightmap_textures + s->lightmaptexturenum);
 		i = s->lightmaptexturenum;
@@ -551,26 +697,80 @@ void R_DrawSequentialPoly (msurface_t *s)
 			theRect->h = 0;
 			theRect->w = 0;
 		}
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
-		glBegin (GL_TRIANGLE_FAN);
-		v = p->verts[0];
-		for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
-		{
-			qglMTexCoord2fSGIS (TEXTURE0_SGIS, v[3], v[4]);
-			qglMTexCoord2fSGIS (TEXTURE1_SGIS, v[5], v[6]);
 
-			nv[0] = v[0] + 8*sin(v[1]*0.05+realtime)*sin(v[2]*0.05+realtime);
-			nv[1] = v[1] + 8*sin(v[0]*0.05+realtime)*sin(v[2]*0.05+realtime);
-			nv[2] = v[2];
+        GLfloat* vertices = malloc(p->numverts * 7 * sizeof(GLfloat));
+        
+        v = p->verts[0];
+        int j = 0;
+        for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
+        {
+            vertices[j++] = v[0] + 8*sin(v[1]*0.05+realtime)*sin(v[2]*0.05+realtime);
+            vertices[j++] = v[1] + 8*sin(v[0]*0.05+realtime)*sin(v[2]*0.05+realtime);
+            vertices[j++] = v[2];
+            
+            vertices[j++] = v[3];
+            vertices[j++] = v[4];
+            
+            vertices[j++] = v[5];
+            vertices[j++] = v[6];
+        }
 
-			glVertex3fv (nv);
-		}
-		glEnd ();
-
-	} else {
+        int indexcount = p->numverts;
+        GLuint* indices = malloc(indexcount * sizeof(GLuint));
+        
+        for (int i = 0; i < indexcount; i++)
+        {
+            indices[i] = i;
+        }
+        
+        GLuint vertexbuffer;
+        glGenBuffers(1, &vertexbuffer);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glBufferData(GL_ARRAY_BUFFER, p->numverts * 7 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+        
+        glEnableVertexAttribArray(gl_polygon2texturesprogram_position);
+        glVertexAttribPointer(gl_polygon2texturesprogram_position, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)0);
+        glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
+        glVertexAttribPointer(gl_polygon2texturesprogram_texcoords0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
+        glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
+        
+        GLuint elementbuffer;
+        glGenBuffers(1, &elementbuffer);
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+        
+        glDrawElements(GL_TRIANGLE_FAN, indexcount, GL_UNSIGNED_INT, 0);
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &elementbuffer);
+        
+        glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
+        glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
+        glDisableVertexAttribArray(gl_polygon2texturesprogram_position);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &vertexbuffer);
+        
+        free(indices);
+        
+        free(vertices);
+    } else {
 		p = s->polys;
 
-		t = R_TextureAnimation (s->texinfo->texture);
+        GL_Use (gl_polygon1textureprogram);
+        
+        glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+        
+        gl_waterpolygon_position = gl_polygon1textureprogram_position;
+        gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
+
+        t = R_TextureAnimation (s->texinfo->texture);
 		GL_Bind (t->gl_texturenum);
 		DrawGLWaterPoly (p);
 
@@ -599,19 +799,61 @@ void DrawGLWaterPoly (glpoly_t *p)
 
 	GL_DisableMultitexture();
 
-	glBegin (GL_TRIANGLE_FAN);
-	v = p->verts[0];
-	for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
-	{
-		glTexCoord2f (v[3], v[4]);
-
-		nv[0] = v[0] + 8*sin(v[1]*0.05+realtime)*sin(v[2]*0.05+realtime);
-		nv[1] = v[1] + 8*sin(v[0]*0.05+realtime)*sin(v[2]*0.05+realtime);
-		nv[2] = v[2];
-
-		glVertex3fv (nv);
-	}
-	glEnd ();
+    GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
+    
+    v = p->verts[0];
+    int j = 0;
+    for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
+    {
+        vertices[j++] = v[0] + 8*sin(v[1]*0.05+realtime)*sin(v[2]*0.05+realtime);
+        vertices[j++] = v[1] + 8*sin(v[0]*0.05+realtime)*sin(v[2]*0.05+realtime);
+        vertices[j++] = v[2];
+        
+        vertices[j++] = v[3];
+        vertices[j++] = v[4];
+    }
+    
+    int indexcount = p->numverts;
+    GLuint* indices = malloc(indexcount * sizeof(GLuint));
+    
+    for (int i = 0; i < indexcount; i++)
+    {
+        indices[i] = i;
+    }
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_waterpolygon_position);
+    glVertexAttribPointer(gl_waterpolygon_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_waterpolygon_texcoords);
+    glVertexAttribPointer(gl_waterpolygon_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, indexcount, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_waterpolygon_texcoords);
+    glDisableVertexAttribArray(gl_waterpolygon_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
+    
+    free(indices);
+    
+    free(vertices);
 }
 
 void DrawGLWaterPolyLightmap (glpoly_t *p)
@@ -623,19 +865,61 @@ void DrawGLWaterPolyLightmap (glpoly_t *p)
 
 	GL_DisableMultitexture();
 
-	glBegin (GL_TRIANGLE_FAN);
-	v = p->verts[0];
-	for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
-	{
-		glTexCoord2f (v[5], v[6]);
-
-		nv[0] = v[0] + 8*sin(v[1]*0.05+realtime)*sin(v[2]*0.05+realtime);
-		nv[1] = v[1] + 8*sin(v[0]*0.05+realtime)*sin(v[2]*0.05+realtime);
-		nv[2] = v[2];
-
-		glVertex3fv (nv);
-	}
-	glEnd ();
+    GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
+    
+    v = p->verts[0];
+    int j = 0;
+    for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
+    {
+        vertices[j++] = v[0] + 8*sin(v[1]*0.05+realtime)*sin(v[2]*0.05+realtime);
+        vertices[j++] = v[1] + 8*sin(v[0]*0.05+realtime)*sin(v[2]*0.05+realtime);
+        vertices[j++] = v[2];
+        
+        vertices[j++] = v[5];
+        vertices[j++] = v[6];
+    }
+    
+    int indexcount = p->numverts;
+    GLuint* indices = malloc(indexcount * sizeof(GLuint));
+    
+    for (int i = 0; i < indexcount; i++)
+    {
+        indices[i] = i;
+    }
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_waterpolygon_position);
+    glVertexAttribPointer(gl_waterpolygon_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_waterpolygon_texcoords);
+    glVertexAttribPointer(gl_waterpolygon_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, indexcount, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_waterpolygon_texcoords);
+    glDisableVertexAttribArray(gl_waterpolygon_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
+    
+    free(indices);
+    
+    free(vertices);
 }
 
 /*
@@ -648,14 +932,62 @@ void DrawGLPoly (glpoly_t *p)
 	int		i;
 	float	*v;
 
-	glBegin (GL_POLYGON);
-	v = p->verts[0];
-	for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
-	{
-		glTexCoord2f (v[3], v[4]);
-		glVertex3fv (v);
-	}
-	glEnd ();
+    GL_Use (gl_polygon1textureprogram);
+    
+    glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+    glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+
+    GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
+    
+    v = p->verts[0];
+    int j = 0;
+    for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
+    {
+        vertices[j++] = v[0];
+        vertices[j++] = v[1];
+        vertices[j++] = v[2];
+        vertices[j++] = v[3];
+        vertices[j++] = v[4];
+    }
+    
+    GLuint* indices;
+    int indexcount;
+    
+    GL_Triangulate (vertices, p->numverts, 5, &indices, &indexcount);
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_polygon1textureprogram_position);
+    glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+    glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+    glDisableVertexAttribArray(gl_polygon1textureprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
+    
+    free(indices);
+    
+    free(vertices);
 }
 
 
@@ -679,15 +1011,34 @@ void R_BlendLightmaps (void)
 	glDepthMask (0);		// don't bother writing Z
 
 	if (gl_lightmap_format == GL_LUMINANCE)
-		glBlendFunc (GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
+    {
+        GL_Use (gl_polygon1textureprogram);
+    
+        glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+    
+        gl_waterpolygon_position = gl_polygon1textureprogram_position;
+        gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
+
+        glBlendFunc (GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
+    }
 	else if (gl_lightmap_format == GL_INTENSITY)
 	{
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glColor4f (0,0,0,1);
-		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        GL_Use (gl_tintedpolygon1textureprogram);
+        
+        glEnable (GL_BLEND);
+        
+        glUniformMatrix4fv(gl_tintedpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+        glUniform4f(gl_tintedpolygon1textureprogram_color, 0.0, 0.0, 0.0, 1.0);
+        glUniform1i(gl_tintedpolygon1textureprogram_texture, GL_TEXTURE0);
+        
+        gl_waterpolygon_position = gl_tintedpolygon1textureprogram_position;
+        gl_waterpolygon_texcoords = gl_tintedpolygon1textureprogram_texcoords;
+
+        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
-	if (!r_lightmap.value)
+    if (!r_lightmap.value)
 	{
 		glEnable (GL_BLEND);
 	}
@@ -722,26 +1073,65 @@ void R_BlendLightmaps (void)
 				DrawGLWaterPolyLightmap (p);
 			else
 			{
-				glBegin (GL_POLYGON);
-				v = p->verts[0];
-				for (j=0 ; j<p->numverts ; j++, v+= VERTEXSIZE)
-				{
-					glTexCoord2f (v[5], v[6]);
-					glVertex3fv (v);
-				}
-				glEnd ();
-			}
+                GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
+                
+                v = p->verts[0];
+                int k = 0;
+                for (j=0 ; j<p->numverts ; j++, v+= VERTEXSIZE)
+                {
+                    vertices[k++] = v[0];
+                    vertices[k++] = v[1];
+                    vertices[k++] = v[2];
+                    
+                    vertices[k++] = v[5];
+                    vertices[k++] = v[6];
+                }
+                
+                int indexcount;
+                GLuint* indices;
+                
+                GL_Triangulate (vertices, p->numverts, 5, &indices, &indexcount);
+                
+                GLuint vertexbuffer;
+                glGenBuffers(1, &vertexbuffer);
+                
+                glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+                glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+                
+                glEnableVertexAttribArray(gl_waterpolygon_position);
+                glVertexAttribPointer(gl_waterpolygon_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+                glEnableVertexAttribArray(gl_waterpolygon_texcoords);
+                glVertexAttribPointer(gl_waterpolygon_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+                
+                GLuint elementbuffer;
+                glGenBuffers(1, &elementbuffer);
+                
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+                
+                glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
+                
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+                
+                glDeleteBuffers(1, &elementbuffer);
+                
+                glDisableVertexAttribArray(gl_waterpolygon_texcoords);
+                glDisableVertexAttribArray(gl_waterpolygon_position);
+                
+                glBindBuffer(GL_ARRAY_BUFFER, 0);
+                
+                glDeleteBuffers(1, &vertexbuffer);
+                
+                free(indices);
+                
+                free(vertices);
+            }
 		}
 	}
 
 	glDisable (GL_BLEND);
 	if (gl_lightmap_format == GL_LUMINANCE)
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	else if (gl_lightmap_format == GL_INTENSITY)
-	{
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-		glColor4f (1,1,1,1);
-	}
 
 	glDepthMask (1);		// back to normal Z buffering
 }
@@ -772,12 +1162,30 @@ void R_RenderBrushPoly (msurface_t *fa)
 
 	if (fa->flags & SURF_DRAWTURB)
 	{	// warp texture, no lightmaps
+        GL_Use (gl_polygon1textureprogram);
+        
+        glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+        
+        gl_waterpolygon_position = gl_polygon1textureprogram_position;
+        gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
+        
 		EmitWaterPolys (fa);
 		return;
 	}
 
 	if (fa->flags & SURF_UNDERWATER)
-		DrawGLWaterPoly (fa->polys);
+    {
+        GL_Use (gl_polygon1textureprogram);
+        
+        glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+        
+        gl_waterpolygon_position = gl_polygon1textureprogram_position;
+        gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
+
+        DrawGLWaterPoly (fa->polys);
+    }
 	else
 		DrawGLPoly (fa->polys);
 
@@ -960,17 +1368,29 @@ void R_DrawWaterSurfaces (void)
 	if (r_wateralpha.value == 1.0 && gl_texsort.value)
 		return;
 
-	//
-	// go back to the world matrix
-	//
-
-    glLoadMatrixf (r_world_matrix);
-
-	if (r_wateralpha.value < 1.0) {
+	if (r_wateralpha.value < 1.0)
+    {
+        GL_Use (gl_tintedpolygon1textureprogram);
+        
 		glEnable (GL_BLEND);
-		glColor4f (1,1,1,r_wateralpha.value);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+        glUniformMatrix4fv(gl_tintedpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+        glUniform4f(gl_tintedpolygon1textureprogram_color, 1.0, 1.0, 1.0, r_wateralpha.value);
+        glUniform1i(gl_tintedpolygon1textureprogram_texture, GL_TEXTURE0);
+        
+        gl_waterpolygon_position = gl_tintedpolygon1textureprogram_position;
+        gl_waterpolygon_texcoords = gl_tintedpolygon1textureprogram_texcoords;
 	}
+    else
+    {
+        GL_Use (gl_polygon1textureprogram);
+        
+        glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+        
+        gl_waterpolygon_position = gl_polygon1textureprogram_position;
+        gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
+    }
 
 	if (!gl_texsort.value) {
 		if (!waterchain)
@@ -1007,13 +1427,10 @@ void R_DrawWaterSurfaces (void)
 
 	}
 
-	if (r_wateralpha.value < 1.0) {
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-
-		glColor4f (1,1,1,1);
+	if (r_wateralpha.value < 1.0)
+    {
 		glDisable (GL_BLEND);
 	}
-
 }
 
 #endif
@@ -1107,7 +1524,6 @@ void R_DrawBrushModel (entity_t *e)
 	if (R_CullBox (mins, maxs))
 		return;
 
-	glColor3f (1,1,1);
 	memset (lightmap_polys, 0, sizeof(lightmap_polys));
 
 	VectorSubtract (r_refdef.vieworg, e->origin, modelorg);
@@ -1140,9 +1556,9 @@ void R_DrawBrushModel (entity_t *e)
 		}
 	}
 
-    glPushMatrix ();
 e->angles[0] = -e->angles[0];	// stupid quake bug
 	R_RotateForEntity (e);
+    R_ApplyProjection ();
 e->angles[0] = -e->angles[0];	// stupid quake bug
 
 	//
@@ -1167,8 +1583,6 @@ e->angles[0] = -e->angles[0];	// stupid quake bug
 	}
 
 	R_BlendLightmaps ();
-
-	glPopMatrix ();
 }
 
 /*
@@ -1323,7 +1737,6 @@ void R_DrawWorld (void)
 	currententity = &ent;
 	currenttexture = -1;
 
-	glColor3f (1,1,1);
 	memset (lightmap_polys, 0, sizeof(lightmap_polys));
 #ifdef QUAKE2
 	R_ClearSkyBox ();
@@ -1436,6 +1849,8 @@ int AllocBlock (int w, int h, int *x, int *y)
 	}
 
 	Sys_Error ("AllocBlock: full");
+
+    return -1;
 }
 
 
@@ -1636,7 +2051,7 @@ void GL_BuildLightmaps (void)
 		lightmap_bytes = 2;
 		break;
 	case GL_LUMINANCE:
-	case GL_INTENSITY:
+	//case GL_INTENSITY:  // Since we're defining GL_INTENSITY as GL_LUMINANCE, this no longer needs to be evaluated
 	case GL_ALPHA:
 		lightmap_bytes = 1;
 		break;
@@ -1665,7 +2080,7 @@ void GL_BuildLightmaps (void)
 	}
 
  	if (!gl_texsort.value)
- 		GL_SelectTexture(TEXTURE1_SGIS);
+ 		GL_SelectTexture(GL_TEXTURE1);
 
 	//
 	// upload all lightmaps that were filled
@@ -1688,7 +2103,7 @@ void GL_BuildLightmaps (void)
 	}
 
  	if (!gl_texsort.value)
- 		GL_SelectTexture(TEXTURE0_SGIS);
+ 		GL_SelectTexture(GL_TEXTURE0);
 
 }
 

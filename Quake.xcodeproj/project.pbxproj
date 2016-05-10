@@ -7,6 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		281D058A1CDC597900E422DA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 281D05891CDC597900E422DA /* OpenGLES.framework */; };
+		281D05931CDE620F00E422DA /* host.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE281C5D6FFD00CEC48E /* host.c */; };
+		281D05941CDE623600E422DA /* cd_null.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE071C5D6FFD00CEC48E /* cd_null.c */; };
+		281D05951CDE625E00E422DA /* cl_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE0C1C5D6FFD00CEC48E /* cl_main.c */; };
+		281D05961CDE628000E422DA /* mathlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE2D1C5D6FFD00CEC48E /* mathlib.c */; };
+		281D05971CDE629900E422DA /* cl_input.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE0B1C5D6FFD00CEC48E /* cl_input.c */; };
+		281D05981CDE62AC00E422DA /* cl_demo.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE0A1C5D6FFD00CEC48E /* cl_demo.c */; };
+		281D05991CDE62CD00E422DA /* cl_tent.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE0E1C5D6FFD00CEC48E /* cl_tent.c */; };
+		281D059A1CDE62F000E422DA /* cl_parse.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE0D1C5D6FFD00CEC48E /* cl_parse.c */; };
+		281D059B1CDE630F00E422DA /* chase.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE091C5D6FFD00CEC48E /* chase.c */; };
+		281D059C1CDE633A00E422DA /* host_cmd.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE291C5D6FFD00CEC48E /* host_cmd.c */; };
+		281D059D1CDE635000E422DA /* pr_edict.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE3E1C5D6FFD00CEC48E /* pr_edict.c */; };
+		281D059E1CDE637100E422DA /* sv_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE5E1C5D6FFD00CEC48E /* sv_main.c */; };
+		281D059F1CDE63B700E422DA /* menu.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE2F1C5D6FFD00CEC48E /* menu.c */; };
+		281D05A01CDE63D400E422DA /* net_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE371C5D6FFD00CEC48E /* net_main.c */; };
+		281D05A11CDE640600E422DA /* sv_phys.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE601C5D6FFD00CEC48E /* sv_phys.c */; };
+		281D05A21CDE642400E422DA /* world.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE681C5D6FFD00CEC48E /* world.c */; };
+		281D05A31CDE644B00E422DA /* pr_exec.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE3F1C5D6FFD00CEC48E /* pr_exec.c */; };
+		281D05A41CDE646800E422DA /* net_vcr.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE391C5D6FFD00CEC48E /* net_vcr.c */; };
+		281D05A51CDE649B00E422DA /* snd_dma.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA821C625804004687A6 /* snd_dma.c */; };
+		281D05A61CDE64FA00E422DA /* snd_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA881C626F77004687A6 /* snd_osx.c */; };
+		281D05A71CDE651300E422DA /* snd_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA861C6266E2004687A6 /* snd_mem.c */; };
+		281D05A81CDE652C00E422DA /* keys.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE2B1C5D6FFD00CEC48E /* keys.c */; };
+		281D05A91CDE655F00E422DA /* wad.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE661C5D6FFD00CEC48E /* wad.c */; };
+		281D05AA1CDE65D300E422DA /* view.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE641C5D6FFD00CEC48E /* view.c */; };
+		281D05AB1CDE661800E422DA /* sbar.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE561C5D6FFD00CEC48E /* sbar.c */; };
+		281D05AC1CDE665500E422DA /* snd_mix.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA831C625804004687A6 /* snd_mix.c */; };
+		281D05AD1CDE667D00E422DA /* sv_user.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE611C5D6FFD00CEC48E /* sv_user.c */; };
+		281D05AE1CDE673F00E422DA /* gl_rmisc.c in Sources */ = {isa = PBXBuildFile; fileRef = 2887815B1CD8406100AF4F24 /* gl_rmisc.c */; };
+		281D05AF1CDE68A800E422DA /* r_part.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE4F1C5D6FFD00CEC48E /* r_part.c */; };
+		281D05B01CDE7D1000E422DA /* gl_rsurf.c in Sources */ = {isa = PBXBuildFile; fileRef = 2887815C1CD8406100AF4F24 /* gl_rsurf.c */; };
+		281D05B11CDE7DA100E422DA /* gl_warp.c in Sources */ = {isa = PBXBuildFile; fileRef = 2887815F1CD8406100AF4F24 /* gl_warp.c */; };
+		281D05B21CE03DD300E422DA /* gl_refrag.c in Sources */ = {isa = PBXBuildFile; fileRef = 288781581CD8406100AF4F24 /* gl_refrag.c */; };
+		281D05B31CE03E0100E422DA /* gl_rmain.c in Sources */ = {isa = PBXBuildFile; fileRef = 2887815A1CD8406100AF4F24 /* gl_rmain.c */; };
 		2839AD441C5D6EF700CEC48E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2839AD431C5D6EF700CEC48E /* AppDelegate.swift */; };
 		2839AD461C5D6EF700CEC48E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2839AD451C5D6EF700CEC48E /* Assets.xcassets */; };
 		2839ADFD1C5D6F8B00CEC48E /* in_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839ADF61C5D6F8B00CEC48E /* in_osx.c */; };
@@ -162,6 +196,13 @@
 		28C3BDC81C5D77AA00CBB0D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28C3BDC61C5D77AA00CBB0D9 /* Main.storyboard */; };
 		28C3BDCA1C5D77AA00CBB0D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28C3BDC91C5D77AA00CBB0D9 /* Assets.xcassets */; };
 		28E106191CD8521F0042675A /* sys_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 28E106181CD8521F0042675A /* sys_ios_vr.c */; };
+		28F875D31CDC54E00079A0A1 /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE121C5D6FFD00CEC48E /* common.c */; };
+		28F875D41CDC54F50079A0A1 /* crc.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE161C5D6FFD00CEC48E /* crc.c */; };
+		28F875D51CDC55140079A0A1 /* zone.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE6A1C5D6FFD00CEC48E /* zone.c */; };
+		28F875D61CDC55290079A0A1 /* cmd.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE101C5D6FFD00CEC48E /* cmd.c */; };
+		28F875D71CDC55530079A0A1 /* console.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE141C5D6FFD00CEC48E /* console.c */; };
+		28F875D81CDC55680079A0A1 /* cvar.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE181C5D6FFD00CEC48E /* cvar.c */; };
+		28F875D91CDC55940079A0A1 /* gl_draw.c in Sources */ = {isa = PBXBuildFile; fileRef = 288781541CD8406100AF4F24 /* gl_draw.c */; };
 		6D54BA841C625804004687A6 /* snd_dma.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA821C625804004687A6 /* snd_dma.c */; };
 		6D54BA851C625804004687A6 /* snd_mix.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA831C625804004687A6 /* snd_mix.c */; };
 		6D54BA871C6266E2004687A6 /* snd_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA861C6266E2004687A6 /* snd_mem.c */; };
@@ -170,6 +211,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		281D05881CDC57CD00E422DA /* glquake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glquake.h; sourceTree = "<group>"; };
+		281D05891CDC597900E422DA /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		2839AD401C5D6EF700CEC48E /* Quake_OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quake_OSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2839AD431C5D6EF700CEC48E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2839AD451C5D6EF700CEC48E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -284,6 +327,7 @@
 		2839AE6A1C5D6FFD00CEC48E /* zone.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zone.c; sourceTree = "<group>"; };
 		2839AE6B1C5D6FFD00CEC48E /* zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zone.h; sourceTree = "<group>"; };
 		2839AEAD1C5D710700CEC48E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
+		28727E051CE049CB00B7E433 /* anorm_dots.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = anorm_dots.h; sourceTree = "<group>"; };
 		2873B1091C5D7E0E00CE4775 /* Quake_tvOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Quake_tvOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		2873B10A1C5D7E0F00CE4775 /* in_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = in_tvos.c; sourceTree = "<group>"; };
 		2873B10B1C5D7E0F00CE4775 /* sys_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sys_tvos.c; sourceTree = "<group>"; };
@@ -345,6 +389,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				281D058A1CDC597900E422DA /* OpenGLES.framework in Frameworks */,
 				F31D73366AEA0ED40B19320A /* libPods-Quake_iOS_VR.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -406,6 +451,7 @@
 			isa = PBXGroup;
 			children = (
 				2839AE041C5D6FFD00CEC48E /* adivtab.h */,
+				28727E051CE049CB00B7E433 /* anorm_dots.h */,
 				2839AE051C5D6FFD00CEC48E /* anorms.h */,
 				2839AE061C5D6FFD00CEC48E /* bspfile.h */,
 				2839AE071C5D6FFD00CEC48E /* cd_null.c */,
@@ -453,6 +499,7 @@
 				2887815D1CD8406100AF4F24 /* gl_screen.c */,
 				2887815E1CD8406100AF4F24 /* gl_warp_sin.h */,
 				2887815F1CD8406100AF4F24 /* gl_warp.c */,
+				281D05881CDC57CD00E422DA /* glquake.h */,
 				2839AE291C5D6FFD00CEC48E /* host_cmd.c */,
 				2839AE281C5D6FFD00CEC48E /* host.c */,
 				2839AE2A1C5D6FFD00CEC48E /* input.h */,
@@ -593,6 +640,7 @@
 		EFA69186850D4E8E75706323 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				281D05891CDC597900E422DA /* OpenGLES.framework */,
 				8713677C272B1BC646501A0E /* libPods-Quake_iOS_VR.a */,
 			);
 			name = Frameworks;
@@ -862,9 +910,49 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				281D05A91CDE655F00E422DA /* wad.c in Sources */,
+				281D059B1CDE630F00E422DA /* chase.c in Sources */,
 				288781401CD83E0800AF4F24 /* ViewController.swift in Sources */,
 				2887813E1CD83E0800AF4F24 /* AppDelegate.swift in Sources */,
+				281D05951CDE625E00E422DA /* cl_main.c in Sources */,
+				28F875D31CDC54E00079A0A1 /* common.c in Sources */,
+				281D05AA1CDE65D300E422DA /* view.c in Sources */,
+				281D05AD1CDE667D00E422DA /* sv_user.c in Sources */,
+				281D05971CDE629900E422DA /* cl_input.c in Sources */,
+				281D05A11CDE640600E422DA /* sv_phys.c in Sources */,
+				281D05B11CDE7DA100E422DA /* gl_warp.c in Sources */,
+				281D05A71CDE651300E422DA /* snd_mem.c in Sources */,
+				281D05AB1CDE661800E422DA /* sbar.c in Sources */,
+				281D059D1CDE635000E422DA /* pr_edict.c in Sources */,
+				281D05941CDE623600E422DA /* cd_null.c in Sources */,
+				28F875D51CDC55140079A0A1 /* zone.c in Sources */,
+				281D059C1CDE633A00E422DA /* host_cmd.c in Sources */,
+				28F875D61CDC55290079A0A1 /* cmd.c in Sources */,
+				281D059A1CDE62F000E422DA /* cl_parse.c in Sources */,
+				281D05931CDE620F00E422DA /* host.c in Sources */,
+				28F875D71CDC55530079A0A1 /* console.c in Sources */,
+				281D05A01CDE63D400E422DA /* net_main.c in Sources */,
+				281D05A21CDE642400E422DA /* world.c in Sources */,
+				281D05A51CDE649B00E422DA /* snd_dma.c in Sources */,
+				281D05B01CDE7D1000E422DA /* gl_rsurf.c in Sources */,
+				281D05A81CDE652C00E422DA /* keys.c in Sources */,
+				281D05961CDE628000E422DA /* mathlib.c in Sources */,
+				281D05991CDE62CD00E422DA /* cl_tent.c in Sources */,
+				28F875D91CDC55940079A0A1 /* gl_draw.c in Sources */,
+				281D05B31CE03E0100E422DA /* gl_rmain.c in Sources */,
+				281D05AE1CDE673F00E422DA /* gl_rmisc.c in Sources */,
 				28E106191CD8521F0042675A /* sys_ios_vr.c in Sources */,
+				281D05981CDE62AC00E422DA /* cl_demo.c in Sources */,
+				281D05AC1CDE665500E422DA /* snd_mix.c in Sources */,
+				281D059E1CDE637100E422DA /* sv_main.c in Sources */,
+				281D05A41CDE646800E422DA /* net_vcr.c in Sources */,
+				281D05B21CE03DD300E422DA /* gl_refrag.c in Sources */,
+				281D05AF1CDE68A800E422DA /* r_part.c in Sources */,
+				281D05A31CDE644B00E422DA /* pr_exec.c in Sources */,
+				28F875D81CDC55680079A0A1 /* cvar.c in Sources */,
+				28F875D41CDC54F50079A0A1 /* crc.c in Sources */,
+				281D05A61CDE64FA00E422DA /* snd_osx.c in Sources */,
+				281D059F1CDE63B700E422DA /* menu.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1127,6 +1215,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					GLQUAKE,
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -1174,6 +1263,10 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					GLQUAKE,
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
