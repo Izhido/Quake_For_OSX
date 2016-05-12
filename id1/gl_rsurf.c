@@ -932,10 +932,30 @@ void DrawGLPoly (glpoly_t *p)
 	int		i;
 	float	*v;
 
-    GL_Use (gl_polygon1textureprogram);
+    GLint position;
+    GLint texcoords;
     
-    glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-    glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+    if (gl_rendermirror_enabled)
+    {
+        GL_Use (gl_tintedpolygon1textureprogram);
+        
+        glUniformMatrix4fv(gl_tintedpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+        glUniform1i(gl_tintedpolygon1textureprogram_texture, GL_TEXTURE0);
+        glUniform4fv(gl_tintedpolygon1textureprogram_color, 1, gl_rendermirror_color);
+        
+        position = gl_tintedpolygon1textureprogram_position;
+        texcoords = gl_tintedpolygon1textureprogram_texcoords;
+    }
+    else
+    {
+        GL_Use (gl_polygon1textureprogram);
+        
+        glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+        
+        position = gl_polygon1textureprogram_position;
+        texcoords = gl_polygon1textureprogram_texcoords;
+    }
 
     GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
     
@@ -961,10 +981,10 @@ void DrawGLPoly (glpoly_t *p)
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
     
-    glEnableVertexAttribArray(gl_polygon1textureprogram_position);
-    glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
-    glEnableVertexAttribArray(gl_polygon1textureprogram_texcoords);
-    glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(position);
+    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(texcoords);
+    glVertexAttribPointer(texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
     
     GLuint elementbuffer;
     glGenBuffers(1, &elementbuffer);
@@ -978,8 +998,8 @@ void DrawGLPoly (glpoly_t *p)
     
     glDeleteBuffers(1, &elementbuffer);
     
-    glDisableVertexAttribArray(gl_polygon1textureprogram_texcoords);
-    glDisableVertexAttribArray(gl_polygon1textureprogram_position);
+    glDisableVertexAttribArray(texcoords);
+    glDisableVertexAttribArray(position);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
@@ -1162,13 +1182,27 @@ void R_RenderBrushPoly (msurface_t *fa)
 
 	if (fa->flags & SURF_DRAWTURB)
 	{	// warp texture, no lightmaps
-        GL_Use (gl_polygon1textureprogram);
-        
-        glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
-        
-        gl_waterpolygon_position = gl_polygon1textureprogram_position;
-        gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
+        if (gl_rendermirror_enabled)
+        {
+            GL_Use (gl_tintedpolygon1textureprogram);
+            
+            glUniformMatrix4fv(gl_tintedpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+            glUniform1i(gl_tintedpolygon1textureprogram_texture, GL_TEXTURE0);
+            glUniform4fv(gl_tintedpolygon1textureprogram_color, 1, gl_rendermirror_color);
+            
+            gl_waterpolygon_position = gl_tintedpolygon1textureprogram_position;
+            gl_waterpolygon_texcoords = gl_tintedpolygon1textureprogram_texcoords;
+        }
+        else
+        {
+            GL_Use (gl_polygon1textureprogram);
+            
+            glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+            glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+            
+            gl_waterpolygon_position = gl_polygon1textureprogram_position;
+            gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
+        }
         
 		EmitWaterPolys (fa);
 		return;
@@ -1176,13 +1210,27 @@ void R_RenderBrushPoly (msurface_t *fa)
 
 	if (fa->flags & SURF_UNDERWATER)
     {
-        GL_Use (gl_polygon1textureprogram);
-        
-        glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
-        
-        gl_waterpolygon_position = gl_polygon1textureprogram_position;
-        gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
+        if (gl_rendermirror_enabled)
+        {
+            GL_Use (gl_tintedpolygon1textureprogram);
+            
+            glUniformMatrix4fv(gl_tintedpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+            glUniform1i(gl_tintedpolygon1textureprogram_texture, GL_TEXTURE0);
+            glUniform4fv(gl_tintedpolygon1textureprogram_color, 1, gl_rendermirror_color);
+            
+            gl_waterpolygon_position = gl_tintedpolygon1textureprogram_position;
+            gl_waterpolygon_texcoords = gl_tintedpolygon1textureprogram_texcoords;
+        }
+        else
+        {
+            GL_Use (gl_polygon1textureprogram);
+            
+            glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+            glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
+            
+            gl_waterpolygon_position = gl_polygon1textureprogram_position;
+            gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
+        }
 
         DrawGLWaterPoly (fa->polys);
     }

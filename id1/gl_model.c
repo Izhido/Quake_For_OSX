@@ -1340,7 +1340,7 @@ typedef struct
 	short		x, y;
 } floodfill_t;
 
-extern unsigned d_8to24table[];
+extern unsigned* d_8to24table;
 
 // must be a power of 2
 #define FLOODFILL_FIFO_SIZE 0x1000

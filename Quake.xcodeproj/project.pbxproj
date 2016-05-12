@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C3A94087ABE65555EF823DA /* libPods-Quake_iOS_VR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C82BDF8FCD7ED0B4D780A4A7 /* libPods-Quake_iOS_VR.a */; };
 		281D058A1CDC597900E422DA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 281D05891CDC597900E422DA /* OpenGLES.framework */; };
 		281D05931CDE620F00E422DA /* host.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE281C5D6FFD00CEC48E /* host.c */; };
 		281D05941CDE623600E422DA /* cd_null.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE071C5D6FFD00CEC48E /* cd_null.c */; };
@@ -112,7 +113,6 @@
 		2839AEAE1C5D710700CEC48E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2839AEAC1C5D710700CEC48E /* Main.storyboard */; };
 		2873B10D1C5D7E0F00CE4775 /* in_tvos.c in Sources */ = {isa = PBXBuildFile; fileRef = 2873B10A1C5D7E0F00CE4775 /* in_tvos.c */; };
 		2873B10E1C5D7E0F00CE4775 /* sys_tvos.c in Sources */ = {isa = PBXBuildFile; fileRef = 2873B10B1C5D7E0F00CE4775 /* sys_tvos.c */; };
-		2873B10F1C5D7E0F00CE4775 /* vid_tvos.c in Sources */ = {isa = PBXBuildFile; fileRef = 2873B10C1C5D7E0F00CE4775 /* vid_tvos.c */; };
 		2873B1111C5D7E8900CE4775 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2873B1101C5D7E8900CE4775 /* Shaders.metal */; };
 		2873B1121C5D7F1800CE4775 /* cd_null.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE071C5D6FFD00CEC48E /* cd_null.c */; };
 		2873B1131C5D7F1800CE4775 /* chase.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE091C5D6FFD00CEC48E /* chase.c */; };
@@ -207,10 +207,20 @@
 		6D54BA851C625804004687A6 /* snd_mix.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA831C625804004687A6 /* snd_mix.c */; };
 		6D54BA871C6266E2004687A6 /* snd_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA861C6266E2004687A6 /* snd_mem.c */; };
 		6D54BA891C626F77004687A6 /* snd_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA881C626F77004687A6 /* snd_osx.c */; };
-		F31D73366AEA0ED40B19320A /* libPods-Quake_iOS_VR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8713677C272B1BC646501A0E /* libPods-Quake_iOS_VR.a */; };
+		6D9F03F11CE4EC02009AF81F /* gl_rlight.c in Sources */ = {isa = PBXBuildFile; fileRef = 288781591CD8406100AF4F24 /* gl_rlight.c */; };
+		6D9F03F21CE52594009AF81F /* gl_model.c in Sources */ = {isa = PBXBuildFile; fileRef = 288781561CD8406100AF4F24 /* gl_model.c */; };
+		6D9F03F61CE52A9D009AF81F /* vid_tvos.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D9F03F51CE52A9D009AF81F /* vid_tvos.c */; };
+		6D9F03F81CE52ADB009AF81F /* vid_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D9F03F71CE52ADB009AF81F /* vid_ios_vr.c */; };
+		6D9F03F91CE52E88009AF81F /* gl_screen.c in Sources */ = {isa = PBXBuildFile; fileRef = 2887815D1CD8406100AF4F24 /* gl_screen.c */; };
+		6D9F03FA1CE5340F009AF81F /* pr_cmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE3C1C5D6FFD00CEC48E /* pr_cmds.c */; };
+		6D9F03FC1CE5345A009AF81F /* net_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D9F03FB1CE5345A009AF81F /* net_ios_vr.c */; };
+		6D9F03FD1CE54211009AF81F /* net_loop.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE351C5D6FFD00CEC48E /* net_loop.c */; };
+		6D9F03FE1CE54246009AF81F /* sv_move.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE5F1C5D6FFD00CEC48E /* sv_move.c */; };
+		6D9F03FF1CE54403009AF81F /* gl_mesh.c in Sources */ = {isa = PBXBuildFile; fileRef = 288781551CD8406100AF4F24 /* gl_mesh.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		153169104D01DAE8AF82A08C /* Pods-Quake_iOS_VR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.debug.xcconfig"; sourceTree = "<group>"; };
 		281D05881CDC57CD00E422DA /* glquake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glquake.h; sourceTree = "<group>"; };
 		281D05891CDC597900E422DA /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		2839AD401C5D6EF700CEC48E /* Quake_OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quake_OSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -331,7 +341,6 @@
 		2873B1091C5D7E0E00CE4775 /* Quake_tvOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Quake_tvOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		2873B10A1C5D7E0F00CE4775 /* in_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = in_tvos.c; sourceTree = "<group>"; };
 		2873B10B1C5D7E0F00CE4775 /* sys_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sys_tvos.c; sourceTree = "<group>"; };
-		2873B10C1C5D7E0F00CE4775 /* vid_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vid_tvos.c; sourceTree = "<group>"; };
 		2873B1101C5D7E8900CE4775 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		2873B1541C5D83BF00CE4775 /* id1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = id1; path = "../../../Downloads/Quake Shareware (1_06) PAK/id1"; sourceTree = "<group>"; };
 		2887813B1CD83E0800AF4F24 /* Quake_iOS_VR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quake_iOS_VR.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -368,13 +377,15 @@
 		28C3BDC91C5D77AA00CBB0D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28C3BDCB1C5D77AA00CBB0D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28E106181CD8521F0042675A /* sys_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sys_ios_vr.c; sourceTree = "<group>"; };
-		29F8EA817D8AE6D17A92315B /* Pods-Quake_iOS_VR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.release.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.release.xcconfig"; sourceTree = "<group>"; };
+		2DBF88B71C19774C9AB0731A /* Pods-Quake_iOS_VR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.release.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.release.xcconfig"; sourceTree = "<group>"; };
 		6D54BA821C625804004687A6 /* snd_dma.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_dma.c; sourceTree = "<group>"; };
 		6D54BA831C625804004687A6 /* snd_mix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_mix.c; sourceTree = "<group>"; };
 		6D54BA861C6266E2004687A6 /* snd_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_mem.c; sourceTree = "<group>"; };
 		6D54BA881C626F77004687A6 /* snd_osx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_osx.c; sourceTree = "<group>"; };
-		8713677C272B1BC646501A0E /* libPods-Quake_iOS_VR.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Quake_iOS_VR.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9B4FBA6B1EDA52633A258BBE /* Pods-Quake_iOS_VR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.debug.xcconfig"; sourceTree = "<group>"; };
+		6D9F03F51CE52A9D009AF81F /* vid_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vid_tvos.c; sourceTree = "<group>"; };
+		6D9F03F71CE52ADB009AF81F /* vid_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vid_ios_vr.c; sourceTree = "<group>"; };
+		6D9F03FB1CE5345A009AF81F /* net_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_ios_vr.c; sourceTree = "<group>"; };
+		C82BDF8FCD7ED0B4D780A4A7 /* libPods-Quake_iOS_VR.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Quake_iOS_VR.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -390,7 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				281D058A1CDC597900E422DA /* OpenGLES.framework in Frameworks */,
-				F31D73366AEA0ED40B19320A /* libPods-Quake_iOS_VR.a in Frameworks */,
+				0C3A94087ABE65555EF823DA /* libPods-Quake_iOS_VR.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,8 +423,8 @@
 				28C3BDC11C5D77AA00CBB0D9 /* Quake_tvOS */,
 				2887813C1CD83E0800AF4F24 /* Quake_iOS_VR */,
 				2839AD411C5D6EF700CEC48E /* Products */,
-				E709102F2DC91659692344DA /* Pods */,
 				EFA69186850D4E8E75706323 /* Frameworks */,
+				BD4B22393441F07265B7EBF8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -597,6 +608,8 @@
 				288781491CD83E0800AF4F24 /* Info.plist */,
 				288781531CD8406100AF4F24 /* Quake_iOS_VR-Bridging-Header.h */,
 				28E106181CD8521F0042675A /* sys_ios_vr.c */,
+				6D9F03F71CE52ADB009AF81F /* vid_ios_vr.c */,
+				6D9F03FB1CE5345A009AF81F /* net_ios_vr.c */,
 			);
 			path = Quake_iOS_VR;
 			sourceTree = "<group>";
@@ -622,17 +635,17 @@
 				2873B1101C5D7E8900CE4775 /* Shaders.metal */,
 				2873B10A1C5D7E0F00CE4775 /* in_tvos.c */,
 				2873B10B1C5D7E0F00CE4775 /* sys_tvos.c */,
-				2873B10C1C5D7E0F00CE4775 /* vid_tvos.c */,
 				28BA6D501CA5F8BE000E5BAB /* net_tvos.c */,
+				6D9F03F51CE52A9D009AF81F /* vid_tvos.c */,
 			);
 			path = Quake_tvOS;
 			sourceTree = "<group>";
 		};
-		E709102F2DC91659692344DA /* Pods */ = {
+		BD4B22393441F07265B7EBF8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9B4FBA6B1EDA52633A258BBE /* Pods-Quake_iOS_VR.debug.xcconfig */,
-				29F8EA817D8AE6D17A92315B /* Pods-Quake_iOS_VR.release.xcconfig */,
+				153169104D01DAE8AF82A08C /* Pods-Quake_iOS_VR.debug.xcconfig */,
+				2DBF88B71C19774C9AB0731A /* Pods-Quake_iOS_VR.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -641,7 +654,7 @@
 			isa = PBXGroup;
 			children = (
 				281D05891CDC597900E422DA /* OpenGLES.framework */,
-				8713677C272B1BC646501A0E /* libPods-Quake_iOS_VR.a */,
+				C82BDF8FCD7ED0B4D780A4A7 /* libPods-Quake_iOS_VR.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -670,12 +683,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2887814C1CD83E0800AF4F24 /* Build configuration list for PBXNativeTarget "Quake_iOS_VR" */;
 			buildPhases = (
-				432C7F6A21DAF96F4DD0AB46 /* Check Pods Manifest.lock */,
+				0C44C792C64D396D749D6AC4 /* 📦 Check Pods Manifest.lock */,
 				288781371CD83E0800AF4F24 /* Sources */,
 				288781381CD83E0800AF4F24 /* Frameworks */,
 				288781391CD83E0800AF4F24 /* Resources */,
-				A66CFD28DF5191E6B651EA25 /* Embed Pods Frameworks */,
-				81EED32676C718B8AA047F56 /* Copy Pods Resources */,
+				2DDDE200DC84FDDDB0B6BB30 /* 📦 Embed Pods Frameworks */,
+				3BBFE7EA52C2C755099AE15E /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -777,14 +790,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		432C7F6A21DAF96F4DD0AB46 /* Check Pods Manifest.lock */ = {
+		0C44C792C64D396D749D6AC4 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -792,34 +805,34 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		81EED32676C718B8AA047F56 /* Copy Pods Resources */ = {
+		2DDDE200DC84FDDDB0B6BB30 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A66CFD28DF5191E6B651EA25 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3BBFE7EA52C2C755099AE15E /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -912,8 +925,11 @@
 			files = (
 				281D05A91CDE655F00E422DA /* wad.c in Sources */,
 				281D059B1CDE630F00E422DA /* chase.c in Sources */,
+				6D9F03FA1CE5340F009AF81F /* pr_cmds.c in Sources */,
 				288781401CD83E0800AF4F24 /* ViewController.swift in Sources */,
+				6D9F03FE1CE54246009AF81F /* sv_move.c in Sources */,
 				2887813E1CD83E0800AF4F24 /* AppDelegate.swift in Sources */,
+				6D9F03FD1CE54211009AF81F /* net_loop.c in Sources */,
 				281D05951CDE625E00E422DA /* cl_main.c in Sources */,
 				28F875D31CDC54E00079A0A1 /* common.c in Sources */,
 				281D05AA1CDE65D300E422DA /* view.c in Sources */,
@@ -921,12 +937,16 @@
 				281D05971CDE629900E422DA /* cl_input.c in Sources */,
 				281D05A11CDE640600E422DA /* sv_phys.c in Sources */,
 				281D05B11CDE7DA100E422DA /* gl_warp.c in Sources */,
+				6D9F03F91CE52E88009AF81F /* gl_screen.c in Sources */,
 				281D05A71CDE651300E422DA /* snd_mem.c in Sources */,
 				281D05AB1CDE661800E422DA /* sbar.c in Sources */,
+				6D9F03FF1CE54403009AF81F /* gl_mesh.c in Sources */,
 				281D059D1CDE635000E422DA /* pr_edict.c in Sources */,
 				281D05941CDE623600E422DA /* cd_null.c in Sources */,
 				28F875D51CDC55140079A0A1 /* zone.c in Sources */,
+				6D9F03F11CE4EC02009AF81F /* gl_rlight.c in Sources */,
 				281D059C1CDE633A00E422DA /* host_cmd.c in Sources */,
+				6D9F03F21CE52594009AF81F /* gl_model.c in Sources */,
 				28F875D61CDC55290079A0A1 /* cmd.c in Sources */,
 				281D059A1CDE62F000E422DA /* cl_parse.c in Sources */,
 				281D05931CDE620F00E422DA /* host.c in Sources */,
@@ -948,8 +968,10 @@
 				281D05A41CDE646800E422DA /* net_vcr.c in Sources */,
 				281D05B21CE03DD300E422DA /* gl_refrag.c in Sources */,
 				281D05AF1CDE68A800E422DA /* r_part.c in Sources */,
+				6D9F03FC1CE5345A009AF81F /* net_ios_vr.c in Sources */,
 				281D05A31CDE644B00E422DA /* pr_exec.c in Sources */,
 				28F875D81CDC55680079A0A1 /* cvar.c in Sources */,
+				6D9F03F81CE52ADB009AF81F /* vid_ios_vr.c in Sources */,
 				28F875D41CDC54F50079A0A1 /* crc.c in Sources */,
 				281D05A61CDE64FA00E422DA /* snd_osx.c in Sources */,
 				281D059F1CDE63B700E422DA /* menu.c in Sources */,
@@ -1001,6 +1023,7 @@
 				2873B1371C5D7F1800CE4775 /* r_aclip.c in Sources */,
 				2873B1381C5D7F1800CE4775 /* r_alias.c in Sources */,
 				2873B1391C5D7F1800CE4775 /* r_bsp.c in Sources */,
+				6D9F03F61CE52A9D009AF81F /* vid_tvos.c in Sources */,
 				2873B13A1C5D7F1800CE4775 /* r_draw.c in Sources */,
 				2873B13B1C5D7F1800CE4775 /* r_edge.c in Sources */,
 				2873B13C1C5D7F1800CE4775 /* r_efrag.c in Sources */,
@@ -1032,7 +1055,6 @@
 				28BA6D511CA5F8BE000E5BAB /* net_tvos.c in Sources */,
 				28C3BDC51C5D77AA00CBB0D9 /* ViewController.swift in Sources */,
 				28C3BDC31C5D77AA00CBB0D9 /* AppDelegate.swift in Sources */,
-				2873B10F1C5D7E0F00CE4775 /* vid_tvos.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1185,7 +1207,7 @@
 		};
 		2887814A1CD83E0800AF4F24 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B4FBA6B1EDA52633A258BBE /* Pods-Quake_iOS_VR.debug.xcconfig */;
+			baseConfigurationReference = 153169104D01DAE8AF82A08C /* Pods-Quake_iOS_VR.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1238,7 +1260,7 @@
 		};
 		2887814B1CD83E0800AF4F24 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29F8EA817D8AE6D17A92315B /* Pods-Quake_iOS_VR.release.xcconfig */;
+			baseConfigurationReference = 2DBF88B71C19774C9AB0731A /* Pods-Quake_iOS_VR.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

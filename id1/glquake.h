@@ -264,6 +264,12 @@ extern GLint gl_polygonnotextureprogram_position;
 extern GLint gl_polygonnotextureprogram_transform;
 extern GLint gl_polygonnotextureprogram_color;
 
+extern GLuint gl_coloredpolygonnotextureprogram;
+
+extern GLint gl_coloredpolygonnotextureprogram_position;
+extern GLint gl_coloredpolygonnotextureprogram_color;
+extern GLint gl_coloredpolygonnotextureprogram_transform;
+
 extern GLuint gl_polygon1textureprogram;
 
 extern GLint gl_polygon1textureprogram_position;
@@ -298,6 +304,9 @@ extern GLint gl_polygon2texturesprogram_texture1;
 
 extern GLint gl_waterpolygon_position;
 extern GLint gl_waterpolygon_texcoords;
+
+extern qboolean gl_rendermirror_enabled;
+extern GLfloat gl_rendermirror_color[4];
 
 extern GLfloat gl_polygon_matrix[16];
 extern GLfloat gl_projection_matrix[16];
@@ -349,6 +358,7 @@ void GL_EnableMultitexture(void);
 //
 // gl_warp.c
 //
+void GL_SubdivideSurface (msurface_t *fa);
 void EmitBothSkyLayers (msurface_t *fa);
 void EmitWaterPolys (msurface_t *fa);
 void EmitSkyPolys (msurface_t *fa);
@@ -358,6 +368,7 @@ void R_DrawSkyChain (msurface_t *s);
 // gl_draw.c
 //
 int GL_LoadPicTexture (qpic_t *pic);
+void GL_Set2D (void);
 
 //
 // gl_rmain.c
@@ -379,6 +390,11 @@ int R_LightPoint (vec3_t p);
 // gl_refrag.c
 //
 void R_StoreEfrags (efrag_t **ppefrag);
+
+//
+// gl_mesh.c
+//
+void GL_MakeAliasModelDisplayLists (model_t *m, aliashdr_t *hdr);
 
 //
 // gl_rsurf.c

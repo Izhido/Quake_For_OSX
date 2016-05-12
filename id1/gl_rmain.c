@@ -916,7 +916,7 @@ void R_PolyBlend (void)
 
     glUniformMatrix4fv(gl_polygonnotextureprogram_transform, 1, 0, transform);
 
-    glUniform4f(gl_polygonnotextureprogram_color, v_blend[0], v_blend[1], v_blend[2], v_blend[3]);
+    glUniform4fv(gl_polygonnotextureprogram_color, 1, v_blend);
 
     GLfloat vertices[12];
     
@@ -1335,12 +1335,20 @@ void R_Mirror (void)
 
     memcpy (r_world_matrix, r_base_world_matrix, sizeof(r_world_matrix));
 
-	//glColor4f (1,1,1,r_mirroralpha.value);
-	s = cl.worldmodel->textures[mirrortexturenum]->texturechain;
+    gl_rendermirror_enabled = true;
+    gl_rendermirror_color[0] = 1.0;
+    gl_rendermirror_color[1] = 1.0;
+    gl_rendermirror_color[2] = 1.0;
+    gl_rendermirror_color[3] = r_mirroralpha.value;
+
+    s = cl.worldmodel->textures[mirrortexturenum]->texturechain;
 	for ( ; s ; s=s->texturechain)
 		R_RenderBrushPoly (s);
 	cl.worldmodel->textures[mirrortexturenum]->texturechain = NULL;
-	glDisable (GL_BLEND);
+
+    gl_rendermirror_enabled = true;
+	
+    glDisable (GL_BLEND);
 }
 
 /*

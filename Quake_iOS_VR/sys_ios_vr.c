@@ -1,6 +1,6 @@
 //
 //  sys_ios_vr.c
-//  Quake
+//  Quake_iOS_VR
 //
 //  Created by Heriberto Delgado on 5/2/16.
 //

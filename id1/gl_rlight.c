@@ -88,21 +88,73 @@ void R_RenderDlight (dlight_t *light)
 		return;
 	}
 
-	glBegin (GL_TRIANGLE_FAN);
-	glColor3f (0.2,0.1,0.0);
-	for (i=0 ; i<3 ; i++)
+    GLfloat vertices[18 * 7 * sizeof(GLfloat)];
+    
+    int vertexPos = 0;
+    
+    for (i=0 ; i<3 ; i++)
 		v[i] = light->origin[i] - vpn[i]*rad;
-	glVertex3fv (v);
-	glColor3f (0,0,0);
+
+    vertices[vertexPos++] = v[0];
+    vertices[vertexPos++] = v[1];
+    vertices[vertexPos++] = v[2];
+    vertices[vertexPos++] = 0.2;
+    vertices[vertexPos++] = 0.1;
+    vertices[vertexPos++] = 0.0;
+    vertices[vertexPos++] = 1.0;
+
 	for (i=16 ; i>=0 ; i--)
 	{
 		a = i/16.0 * M_PI*2;
 		for (j=0 ; j<3 ; j++)
 			v[j] = light->origin[j] + vright[j]*cos(a)*rad
 				+ vup[j]*sin(a)*rad;
-		glVertex3fv (v);
-	}
-	glEnd ();
+
+        vertices[vertexPos++] = v[0];
+        vertices[vertexPos++] = v[1];
+        vertices[vertexPos++] = v[2];
+        vertices[vertexPos++] = 0.0;
+        vertices[vertexPos++] = 0.0;
+        vertices[vertexPos++] = 0.0;
+        vertices[vertexPos++] = 1.0;
+    }
+    
+    GLuint indices[18];
+    
+    for (int i = 0; i < 18; i++)
+    {
+        indices[i] = i;
+    }
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, 18 * 7 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_coloredpolygonnotextureprogram_position);
+    glVertexAttribPointer(gl_coloredpolygonnotextureprogram_position, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_coloredpolygonnotextureprogram_color);
+    glVertexAttribPointer(gl_coloredpolygonnotextureprogram_color, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    
+    GLuint elementbuffer;
+    glGenBuffers(1, &elementbuffer);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 18 * sizeof(GLuint), indices, GL_STATIC_DRAW);
+    
+    glDrawElements(GL_TRIANGLE_FAN, 18, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &elementbuffer);
+    
+    glDisableVertexAttribArray(gl_coloredpolygonnotextureprogram_color);
+    glDisableVertexAttribArray(gl_coloredpolygonnotextureprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
 }
 
 /*
@@ -122,11 +174,14 @@ void R_RenderDlights (void)
 											//  advanced yet for this frame
 	glDepthMask (0);
 	glDisable (GL_TEXTURE_2D);
-	glShadeModel (GL_SMOOTH);
 	glEnable (GL_BLEND);
 	glBlendFunc (GL_ONE, GL_ONE);
 
-	l = cl_dlights;
+    GL_Use (gl_coloredpolygonnotextureprogram);
+
+    glUniformMatrix4fv(gl_coloredpolygonnotextureprogram_transform, 1, 0, gl_polygon_matrix);
+
+    l = cl_dlights;
 	for (i=0 ; i<MAX_DLIGHTS ; i++, l++)
 	{
 		if (l->die < cl.time || !l->radius)
@@ -134,7 +189,6 @@ void R_RenderDlights (void)
 		R_RenderDlight (l);
 	}
 
-	glColor3f (1,1,1);
 	glDisable (GL_BLEND);
 	glEnable (GL_TEXTURE_2D);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

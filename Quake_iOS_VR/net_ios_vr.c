@@ -1,8 +1,8 @@
 //
-//  net_tvos.c
-//  Quake_tvOS
+//  net_ios_vr.c
+//  Quake_iOS_VR
 //
-//  Created by Heriberto Delgado on 3/25/16.
+//  Created by Heriberto Delgado on 5/12/16.
 //
 //
 
