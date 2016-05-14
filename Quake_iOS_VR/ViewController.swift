@@ -47,6 +47,9 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
 
     func cardboardView(cardboardView: GCSCardboardView!, willStartDrawing headTransform: GCSHeadTransform!)
     {
+        gl_screenwidth = Int32(cardboardView.bounds.width);
+        gl_screenheight = Int32(cardboardView.bounds.height);
+
         Sys_Init(NSBundle.mainBundle().resourcePath!)
     }
 

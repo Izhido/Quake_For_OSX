@@ -1,5 +1,5 @@
 //
-//  vid_ios_vr.c
+//  gl_vidiosvr.c
 //  Quake_iOS_VR
 //
 //  Created by Heriberto Delgado on 1/30/16.
@@ -10,6 +10,9 @@
 
 #define WARP_WIDTH 320
 #define WARP_HEIGHT 200
+
+int	gl_screenwidth;
+int gl_screenheight;
 
 const char *gl_vendor;
 const char *gl_renderer;
@@ -69,6 +72,18 @@ void GL_Init (void)
     glTexCoordPointerEXT (2, GL_FLOAT, 0, 0, &glv.s);
     glColorPointerEXT (3, GL_FLOAT, 0, 0, &glv.r);
 #endif
+}
+
+void GL_BeginRendering (int *x, int *y, int *width, int *height)
+{
+    (*x) = 0;
+    (*y) = 0;
+    (*width) = gl_screenwidth;
+    (*height) = gl_screenwidth;
+}
+
+void GL_EndRendering (void)
+{
 }
 
 void	VID_SetPalette (unsigned char *palette)

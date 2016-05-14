@@ -118,6 +118,150 @@ void GL_Ortho (GLfloat* matrix, GLfloat left, GLfloat right, GLfloat bottom, GLf
     matrix[15] = 1.0;
 }
 
+void GL_Multiply (GLfloat* left, GLfloat *right)
+{
+    GLfloat result[16];
+    
+    result[0] = left[0] * right[0] + left[4] * right[1] + left[8] * right[2] + left[12] * right[3];
+    result[1] = left[1] * right[0] + left[5] * right[1] + left[9] * right[2] + left[13] * right[3];
+    result[2] = left[2] * right[0] + left[6] * right[1] + left[10] * right[2] + left[14] * right[3];
+    result[3] = left[3] * right[0] + left[7] * right[1] + left[11] * right[2] + left[15] * right[3];
+    result[4] = left[0] * right[4] + left[4] * right[5] + left[8] * right[6] + left[12] * right[7];
+    result[5] = left[1] * right[4] + left[5] * right[5] + left[9] * right[6] + left[13] * right[7];
+    result[6] = left[2] * right[4] + left[6] * right[5] + left[10] * right[6] + left[14] * right[7];
+    result[7] = left[3] * right[4] + left[7] * right[5] + left[11] * right[6] + left[15] * right[7];
+    result[8] = left[0] * right[8] + left[4] * right[9] + left[8] * right[10] + left[12] * right[11];
+    result[9] = left[1] * right[8] + left[5] * right[9] + left[9] * right[10] + left[13] * right[11];
+    result[10] = left[2] * right[8] + left[6] * right[9] + left[10] * right[10] + left[14] * right[11];
+    result[11] = left[3] * right[8] + left[7] * right[9] + left[11] * right[10] + left[15] * right[11];
+    result[12] = left[0] * right[12] + left[4] * right[13] + left[8] * right[14] + left[12] * right[15];
+    result[13] = left[1] * right[12] + left[5] * right[13] + left[9] * right[14] + left[13] * right[15];
+    result[14] = left[2] * right[12] + left[6] * right[13] + left[10] * right[14] + left[14] * right[15];
+    result[15] = left[3] * right[12] + left[7] * right[13] + left[11] * right[14] + left[15] * right[15];
+
+    memcpy(left, result, sizeof(result));
+}
+
+void GL_Identity (GLfloat* matrix)
+{
+    matrix[0] = 1.0;
+    matrix[1] = 0.0;
+    matrix[2] = 0.0;
+    matrix[3] = 0.0;
+    matrix[4] = 0.0;
+    matrix[5] = 1.0;
+    matrix[6] = 0.0;
+    matrix[7] = 0.0;
+    matrix[8] = 0.0;
+    matrix[9] = 0.0;
+    matrix[10] = 1.0;
+    matrix[11] = 0.0;
+    matrix[12] = 0.0;
+    matrix[13] = 0.0;
+    matrix[14] = 0.0;
+    matrix[15] = 1.0;
+}
+
+void GL_Translate (GLfloat* matrix, GLfloat x, GLfloat y, GLfloat z)
+{
+    GLfloat translate[16];
+    
+    translate[0] = 1.0;
+    translate[1] = 0.0;
+    translate[2] = 0.0;
+    translate[3] = 0.0;
+    translate[4] = 0.0;
+    translate[5] = 1.0;
+    translate[6] = 0.0;
+    translate[7] = 0.0;
+    translate[8] = 0.0;
+    translate[9] = 0.0;
+    translate[10] = 1.0;
+    translate[11] = 0.0;
+    translate[12] = x;
+    translate[13] = y;
+    translate[14] = z;
+    translate[15] = 1.0;
+    
+    GL_Multiply(matrix, translate);
+}
+
+void GL_Rotate (GLfloat* matrix, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
+{
+    GLfloat angleInRadians = angle * 3.14159265359 / 180.0;
+    
+    double angleSin = sin(angleInRadians);
+    double angleCos = cos(angleInRadians);
+    
+    double inverseAngleCos = 1.0 - angleCos;
+    
+    GLfloat rotate[16];
+    
+    rotate[0] = x * x * inverseAngleCos + angleCos;
+    rotate[1] = y * x * inverseAngleCos + z * angleCos;
+    rotate[2] = z * x * inverseAngleCos - y * angleSin;
+    rotate[3] = 0.0;
+    rotate[4] = x * y * inverseAngleCos - z * angleSin;
+    rotate[5] = y * y * inverseAngleCos + angleCos;
+    rotate[6] = z * y * inverseAngleCos + x * angleSin;
+    rotate[7] = 0.0;
+    rotate[8] = x * z * inverseAngleCos + y * angleSin;
+    rotate[9] = y * z * inverseAngleCos - x * angleSin;
+    rotate[10] = z * z * inverseAngleCos + angleCos;
+    rotate[11] = 0.0;
+    rotate[12] = 0.0;
+    rotate[13] = 0.0;
+    rotate[14] = 0.0;
+    rotate[15] = 1.0;
+    
+    GL_Multiply(matrix, rotate);
+}
+
+void GL_Scale (GLfloat* matrix, GLfloat x, GLfloat y, GLfloat z)
+{
+    GLfloat scale[16];
+    
+    scale[0] = x;
+    scale[1] = 0.0;
+    scale[2] = 0.0;
+    scale[3] = 0.0;
+    scale[4] = 0.0;
+    scale[5] = y;
+    scale[6] = 0.0;
+    scale[7] = 0.0;
+    scale[8] = 0.0;
+    scale[9] = 0.0;
+    scale[10] = z;
+    scale[11] = 0.0;
+    scale[12] = 0.0;
+    scale[13] = 0.0;
+    scale[14] = 0.0;
+    scale[15] = 1.0;
+    
+    GL_Multiply(matrix, scale);
+}
+
+void GL_Triangulate (GLfloat* vertices, int vertexcount, int stride, GLuint** indices, int* indexcount)
+{
+    // TODO: Fix this for real. This is just triangle-fanning, and it is completely wrong.
+
+    (*indexcount) = (vertexcount - 2) * 3;
+    (*indices) = malloc((*indexcount) * sizeof(GLuint));
+    
+    int indexPos = 0;
+    
+    (*indices)[indexPos++] = 0;
+    (*indices)[indexPos++] = 1;
+    (*indices)[indexPos++] = 2;
+    
+    for (int i = 3; i < vertexcount; i++)
+    {
+        (*indices)[indexPos++] = 0;
+        (*indices)[indexPos++] = i - 1;
+        (*indices)[indexPos++] = i;
+    }
+}
+
 /*
 =============================================================================
 

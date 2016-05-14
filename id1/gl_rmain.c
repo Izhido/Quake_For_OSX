@@ -1146,6 +1146,7 @@ void R_SetupGL (void)
     if (glvr_enabled)
     {
         glViewport(glvr_viewportx, glvr_viewporty, glvr_viewportwidth, glvr_viewportheight);
+        glScissor(glvr_viewportx, glvr_viewporty, glvr_viewportwidth, glvr_viewportheight);
     }
     else
     {

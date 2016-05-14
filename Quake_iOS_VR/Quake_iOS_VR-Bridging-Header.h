@@ -12,6 +12,10 @@
 
 extern float frame_lapse;
 
+extern int gl_screenwidth;
+
+extern int gl_screenheight;
+
 void Sys_Init(const char* resourcesDir);
 
 void Sys_FrameBeforeRender();

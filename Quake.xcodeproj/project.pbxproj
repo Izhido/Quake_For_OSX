@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C3A94087ABE65555EF823DA /* libPods-Quake_iOS_VR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C82BDF8FCD7ED0B4D780A4A7 /* libPods-Quake_iOS_VR.a */; };
+		281C7D901CE6C4EA003C2F54 /* in_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 281C7D8F1CE6C4EA003C2F54 /* in_ios_vr.c */; };
 		281D058A1CDC597900E422DA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 281D05891CDC597900E422DA /* OpenGLES.framework */; };
 		281D05931CDE620F00E422DA /* host.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE281C5D6FFD00CEC48E /* host.c */; };
 		281D05941CDE623600E422DA /* cd_null.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE071C5D6FFD00CEC48E /* cd_null.c */; };
@@ -210,7 +211,7 @@
 		6D9F03F11CE4EC02009AF81F /* gl_rlight.c in Sources */ = {isa = PBXBuildFile; fileRef = 288781591CD8406100AF4F24 /* gl_rlight.c */; };
 		6D9F03F21CE52594009AF81F /* gl_model.c in Sources */ = {isa = PBXBuildFile; fileRef = 288781561CD8406100AF4F24 /* gl_model.c */; };
 		6D9F03F61CE52A9D009AF81F /* vid_tvos.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D9F03F51CE52A9D009AF81F /* vid_tvos.c */; };
-		6D9F03F81CE52ADB009AF81F /* vid_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D9F03F71CE52ADB009AF81F /* vid_ios_vr.c */; };
+		6D9F03F81CE52ADB009AF81F /* gl_vidiosvr.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D9F03F71CE52ADB009AF81F /* gl_vidiosvr.c */; };
 		6D9F03F91CE52E88009AF81F /* gl_screen.c in Sources */ = {isa = PBXBuildFile; fileRef = 2887815D1CD8406100AF4F24 /* gl_screen.c */; };
 		6D9F03FA1CE5340F009AF81F /* pr_cmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE3C1C5D6FFD00CEC48E /* pr_cmds.c */; };
 		6D9F03FC1CE5345A009AF81F /* net_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D9F03FB1CE5345A009AF81F /* net_ios_vr.c */; };
@@ -221,6 +222,7 @@
 
 /* Begin PBXFileReference section */
 		153169104D01DAE8AF82A08C /* Pods-Quake_iOS_VR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.debug.xcconfig"; sourceTree = "<group>"; };
+		281C7D8F1CE6C4EA003C2F54 /* in_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = in_ios_vr.c; sourceTree = "<group>"; };
 		281D05881CDC57CD00E422DA /* glquake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glquake.h; sourceTree = "<group>"; };
 		281D05891CDC597900E422DA /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		2839AD401C5D6EF700CEC48E /* Quake_OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quake_OSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -383,7 +385,7 @@
 		6D54BA861C6266E2004687A6 /* snd_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_mem.c; sourceTree = "<group>"; };
 		6D54BA881C626F77004687A6 /* snd_osx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_osx.c; sourceTree = "<group>"; };
 		6D9F03F51CE52A9D009AF81F /* vid_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vid_tvos.c; sourceTree = "<group>"; };
-		6D9F03F71CE52ADB009AF81F /* vid_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vid_ios_vr.c; sourceTree = "<group>"; };
+		6D9F03F71CE52ADB009AF81F /* gl_vidiosvr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_vidiosvr.c; sourceTree = "<group>"; };
 		6D9F03FB1CE5345A009AF81F /* net_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_ios_vr.c; sourceTree = "<group>"; };
 		C82BDF8FCD7ED0B4D780A4A7 /* libPods-Quake_iOS_VR.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Quake_iOS_VR.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -607,9 +609,10 @@
 				288781461CD83E0800AF4F24 /* LaunchScreen.storyboard */,
 				288781491CD83E0800AF4F24 /* Info.plist */,
 				288781531CD8406100AF4F24 /* Quake_iOS_VR-Bridging-Header.h */,
-				28E106181CD8521F0042675A /* sys_ios_vr.c */,
-				6D9F03F71CE52ADB009AF81F /* vid_ios_vr.c */,
+				281C7D8F1CE6C4EA003C2F54 /* in_ios_vr.c */,
 				6D9F03FB1CE5345A009AF81F /* net_ios_vr.c */,
+				28E106181CD8521F0042675A /* sys_ios_vr.c */,
+				6D9F03F71CE52ADB009AF81F /* gl_vidiosvr.c */,
 			);
 			path = Quake_iOS_VR;
 			sourceTree = "<group>";
@@ -634,8 +637,8 @@
 				2873B1091C5D7E0E00CE4775 /* Quake_tvOS-Bridging-Header.h */,
 				2873B1101C5D7E8900CE4775 /* Shaders.metal */,
 				2873B10A1C5D7E0F00CE4775 /* in_tvos.c */,
-				2873B10B1C5D7E0F00CE4775 /* sys_tvos.c */,
 				28BA6D501CA5F8BE000E5BAB /* net_tvos.c */,
+				2873B10B1C5D7E0F00CE4775 /* sys_tvos.c */,
 				6D9F03F51CE52A9D009AF81F /* vid_tvos.c */,
 			);
 			path = Quake_tvOS;
@@ -941,6 +944,7 @@
 				281D05A71CDE651300E422DA /* snd_mem.c in Sources */,
 				281D05AB1CDE661800E422DA /* sbar.c in Sources */,
 				6D9F03FF1CE54403009AF81F /* gl_mesh.c in Sources */,
+				281C7D901CE6C4EA003C2F54 /* in_ios_vr.c in Sources */,
 				281D059D1CDE635000E422DA /* pr_edict.c in Sources */,
 				281D05941CDE623600E422DA /* cd_null.c in Sources */,
 				28F875D51CDC55140079A0A1 /* zone.c in Sources */,
@@ -971,7 +975,7 @@
 				6D9F03FC1CE5345A009AF81F /* net_ios_vr.c in Sources */,
 				281D05A31CDE644B00E422DA /* pr_exec.c in Sources */,
 				28F875D81CDC55680079A0A1 /* cvar.c in Sources */,
-				6D9F03F81CE52ADB009AF81F /* vid_ios_vr.c in Sources */,
+				6D9F03F81CE52ADB009AF81F /* gl_vidiosvr.c in Sources */,
 				28F875D41CDC54F50079A0A1 /* crc.c in Sources */,
 				281D05A61CDE64FA00E422DA /* snd_osx.c in Sources */,
 				281D059F1CDE63B700E422DA /* menu.c in Sources */,
