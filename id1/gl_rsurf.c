@@ -30,7 +30,7 @@ int			skytexturenum;
 
 int		lightmap_bytes;		// 1, 2, or 4
 
-int		lightmap_textures;
+GLuint	lightmap_textures;
 
 unsigned		blocklights[18*18];
 
@@ -285,7 +285,6 @@ void GL_SelectTexture (GLenum target);
 void GL_DisableMultitexture(void) 
 {
 	if (mtexenabled) {
-		glDisable(GL_TEXTURE_2D);
 		GL_SelectTexture(GL_TEXTURE0);
 		mtexenabled = false;
 	}
@@ -295,7 +294,6 @@ void GL_EnableMultitexture(void)
 {
 	if (gl_mtexable) {
 		GL_SelectTexture(GL_TEXTURE1);
-		glEnable(GL_TEXTURE_2D);
 		mtexenabled = true;
 	}
 }
@@ -614,11 +612,11 @@ void R_DrawSequentialPoly (msurface_t *s)
             
             glDeleteBuffers(1, &vertexbuffer);
 
-            glDisable (GL_BLEND);
-
             free(indices);
             
             free(vertices);
+
+            glDisable (GL_BLEND);
 		}
 
 		return;
@@ -2070,8 +2068,7 @@ void GL_BuildLightmaps (void)
 
 	if (!lightmap_textures)
 	{
-		lightmap_textures = texture_extension_number;
-		texture_extension_number += MAX_LIGHTMAPS;
+        glGenTextures(MAX_LIGHTMAPS, &lightmap_textures);
 	}
 
 	gl_lightmap_format = GL_LUMINANCE;

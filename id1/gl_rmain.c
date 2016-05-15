@@ -43,8 +43,8 @@ int			currenttexture = -1;		// to avoid unnecessary texture sets
 
 int			cnttextures[2] = {-1, -1};     // cached
 
-int			particletexture;	// little dot for particles
-int			playertextures;		// up to 16 color translated skins
+GLuint		particletexture;	// little dot for particles
+GLuint		playertextures;		// up to 16 color translated skins
 
 int			mirrortexturenum;	// quake texturenum, not gltexturenum
 qboolean	mirror;
@@ -120,21 +120,25 @@ qboolean R_CullBox (vec3_t mins, vec3_t maxs)
 	return false;
 }
 
-
-void R_RotateForEntity (entity_t *e)
+void R_ApplyWorld (void)
 {
     if (glvr_enabled)
     {
         memcpy (gl_polygon_matrix, glvr_eyetranslation, sizeof(gl_polygon_matrix));
         
-        GL_Multiply (gl_polygon_matrix, glvr_rotation);
-
-        GL_Multiply (gl_polygon_matrix, r_world_matrix);
+        GL_Multiply (glvr_rotation, gl_polygon_matrix);
+        
+        GL_Multiply (r_world_matrix, gl_polygon_matrix);
     }
     else
     {
         memcpy (gl_polygon_matrix, r_world_matrix, sizeof(gl_polygon_matrix));
     }
+}
+
+void R_RotateForEntity (entity_t *e)
+{
+    R_ApplyWorld ();
     
     GL_Translate(gl_polygon_matrix, e->origin[0],  e->origin[1],  e->origin[2]);
     
@@ -143,15 +147,15 @@ void R_RotateForEntity (entity_t *e)
     GL_Rotate (gl_polygon_matrix, e->angles[2], 1.0, 0.0, 0.0);
 }
 
-void R_ApplyProjection(void)
+void R_ApplyProjection (void)
 {
     if (glvr_enabled)
     {
-        GL_Multiply(gl_polygon_matrix, glvr_projection);
+        GL_Multiply (glvr_projection, gl_polygon_matrix);
     }
     else
     {
-        GL_Multiply(gl_polygon_matrix, gl_projection_matrix);
+        GL_Multiply (gl_projection_matrix, gl_polygon_matrix);
     }
 }
 
@@ -325,10 +329,6 @@ void R_DrawSpriteModel (entity_t *e)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     glDeleteBuffers(1, &vertexbuffer);
-    
-    free(indices);
-    
-    free(vertices);
 }
 
 /*
@@ -757,14 +757,12 @@ void R_DrawAliasModel (entity_t *e)
         
         glUniformMatrix4fv(gl_polygonnotextureprogram_transform, 1, 0, gl_polygon_matrix);
         
-		glDisable (GL_TEXTURE_2D);
 		glEnable (GL_BLEND);
 
         glUniform4f(gl_polygonnotextureprogram_color, 0.0, 0.0, 0.0, 0.5);
 
 		GL_DrawAliasShadow (paliashdr, lastposenum);
 
-        glEnable (GL_TEXTURE_2D);
 		glDisable (GL_BLEND);
 	}
 }
@@ -905,7 +903,6 @@ void R_PolyBlend (void)
 
 	glEnable (GL_BLEND);
 	glDisable (GL_DEPTH_TEST);
-	glDisable (GL_TEXTURE_2D);
 
     GLfloat transform[16];
     
@@ -913,6 +910,15 @@ void R_PolyBlend (void)
     
     GL_Rotate (transform, -90.0,  1.0, 0.0, 0.0);	    // put Z going up
     GL_Rotate (transform, 90.0,  0.0, 0.0, 1.0);	    // put Z going up
+
+    if (glvr_enabled)
+    {
+        GL_Multiply (glvr_projection, transform);
+    }
+    else
+    {
+        GL_Multiply (gl_projection_matrix, transform);
+    }
 
     glUniformMatrix4fv(gl_polygonnotextureprogram_transform, 1, 0, transform);
 
@@ -971,7 +977,6 @@ void R_PolyBlend (void)
     glDeleteBuffers(1, &vertexbuffer);
 
 	glDisable (GL_BLEND);
-	glEnable (GL_TEXTURE_2D);
 }
 
 
@@ -1177,7 +1182,11 @@ void R_SetupGL (void)
     GL_Rotate (r_world_matrix, -r_refdef.viewangles[1],  0.0, 0.0, 1.0);
     GL_Translate (r_world_matrix, -r_refdef.vieworg[0],  -r_refdef.vieworg[1],  -r_refdef.vieworg[2]);
 
-	//
+    R_ApplyWorld ();
+    
+    R_ApplyProjection ();
+
+    //
 	// set drawing parms
 	//
 	if (gl_cull.value)

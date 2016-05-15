@@ -62,7 +62,6 @@ extern	DELTEXFUNCPTR delTexFunc;
 extern	TEXSUBIMAGEPTR TexSubImage2DFunc;
 #endif
 
-extern	int texture_extension_number;
 extern	int		texture_mode;
 
 extern	float	gldepthmin, gldepthmax;
@@ -192,8 +191,8 @@ extern	GLuint	currentprogram;
 extern	qboolean	envmap;
 extern	int	currenttexture;
 extern	int	cnttextures[2];
-extern	int	particletexture;
-extern	int	playertextures;
+extern	GLuint	particletexture;
+extern	GLuint	playertextures;
 
 extern	int	skytexturenum;		// index in cl.loadmodel, not gl texture object
 
@@ -242,7 +241,12 @@ extern	const char *gl_renderer;
 extern	const char *gl_version;
 extern	const char *gl_extensions;
 
+extern char gl_shaderdirectory[MAX_OSPATH];
+
 extern GLuint gl_textprogram;
+
+extern GLchar* gl_textprogram_vertex;
+extern GLchar* gl_textprogram_fragment;
 
 extern GLint gl_textprogram_position;
 extern GLint gl_textprogram_texcoords;
@@ -252,6 +256,9 @@ extern GLint gl_textprogram_texture;
 
 extern GLuint gl_fillprogram;
 
+extern GLchar* gl_fillprogram_vertex;
+extern GLchar* gl_fillprogram_fragment;
+
 extern GLint gl_fillprogram_position;
 extern GLint gl_fillprogram_transform;
 extern GLint gl_fillprogram_color;
@@ -260,11 +267,17 @@ extern GLfloat gl_textandfill_matrix[16];
 
 extern GLuint gl_polygonnotextureprogram;
 
+extern GLchar* gl_polygonnotextureprogram_vertex;
+extern GLchar* gl_polygonnotextureprogram_fragment;
+
 extern GLint gl_polygonnotextureprogram_position;
 extern GLint gl_polygonnotextureprogram_transform;
 extern GLint gl_polygonnotextureprogram_color;
 
 extern GLuint gl_coloredpolygonnotextureprogram;
+
+extern GLchar* gl_coloredpolygonnotextureprogram_vertex;
+extern GLchar* gl_coloredpolygonnotextureprogram_fragment;
 
 extern GLint gl_coloredpolygonnotextureprogram_position;
 extern GLint gl_coloredpolygonnotextureprogram_color;
@@ -272,12 +285,18 @@ extern GLint gl_coloredpolygonnotextureprogram_transform;
 
 extern GLuint gl_polygon1textureprogram;
 
+extern GLchar* gl_polygon1textureprogram_vertex;
+extern GLchar* gl_polygon1textureprogram_fragment;
+
 extern GLint gl_polygon1textureprogram_position;
 extern GLint gl_polygon1textureprogram_texcoords;
 extern GLint gl_polygon1textureprogram_transform;
 extern GLint gl_polygon1textureprogram_texture;
 
 extern GLuint gl_coloredpolygon1textureprogram;
+
+extern GLchar* gl_coloredpolygon1textureprogram_vertex;
+extern GLchar* gl_coloredpolygon1textureprogram_fragment;
 
 extern GLint gl_coloredpolygon1textureprogram_position;
 extern GLint gl_coloredpolygon1textureprogram_color;
@@ -287,6 +306,9 @@ extern GLint gl_coloredpolygon1textureprogram_texture;
 
 extern GLuint gl_tintedpolygon1textureprogram;
 
+extern GLchar* gl_tintedpolygon1textureprogram_vertex;
+extern GLchar* gl_tintedpolygon1textureprogram_fragment;
+
 extern GLint gl_tintedpolygon1textureprogram_position;
 extern GLint gl_tintedpolygon1textureprogram_texcoords;
 extern GLint gl_tintedpolygon1textureprogram_transform;
@@ -294,6 +316,9 @@ extern GLint gl_tintedpolygon1textureprogram_color;
 extern GLint gl_tintedpolygon1textureprogram_texture;
 
 extern GLuint gl_polygon2texturesprogram;
+
+extern GLchar* gl_polygon2texturesprogram_vertex;
+extern GLchar* gl_polygon2texturesprogram_fragment;
 
 extern GLint gl_polygon2texturesprogram_position;
 extern GLint gl_polygon2texturesprogram_texcoords0;
@@ -375,6 +400,7 @@ void GL_Set2D (void);
 //
 qboolean R_CullBox (vec3_t mins, vec3_t maxs);
 void R_RotateForEntity (entity_t *e);
+void R_ApplyWorld (void);
 void R_ApplyProjection (void);
 void R_RenderBrushPoly (msurface_t *fa);
 

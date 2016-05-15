@@ -36,6 +36,8 @@ int Sys_FileWrite (int handle, void *data, int count);
 int	Sys_FileTime (char *path);
 void Sys_mkdir (char *path);
 
+char* Sys_LoadTextFromFile(const char* directory, const char* filename);
+
 //
 // memory protection
 //

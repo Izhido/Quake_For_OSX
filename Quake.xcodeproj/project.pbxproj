@@ -196,6 +196,22 @@
 		28C3BDC51C5D77AA00CBB0D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C3BDC41C5D77AA00CBB0D9 /* ViewController.swift */; };
 		28C3BDC81C5D77AA00CBB0D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28C3BDC61C5D77AA00CBB0D9 /* Main.storyboard */; };
 		28C3BDCA1C5D77AA00CBB0D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28C3BDC91C5D77AA00CBB0D9 /* Assets.xcassets */; };
+		28C4FA761CE79617001CF82D /* gl_coloredpolygon1textureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA661CE79617001CF82D /* gl_coloredpolygon1textureprogram.fsh */; };
+		28C4FA771CE79617001CF82D /* gl_coloredpolygon1textureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA671CE79617001CF82D /* gl_coloredpolygon1textureprogram.vsh */; };
+		28C4FA781CE79617001CF82D /* gl_coloredpolygonnotextureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA681CE79617001CF82D /* gl_coloredpolygonnotextureprogram.fsh */; };
+		28C4FA791CE79617001CF82D /* gl_coloredpolygonnotextureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA691CE79617001CF82D /* gl_coloredpolygonnotextureprogram.vsh */; };
+		28C4FA7A1CE79617001CF82D /* gl_fillprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA6A1CE79617001CF82D /* gl_fillprogram.fsh */; };
+		28C4FA7B1CE79617001CF82D /* gl_fillprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA6B1CE79617001CF82D /* gl_fillprogram.vsh */; };
+		28C4FA7C1CE79617001CF82D /* gl_polygon1textureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA6C1CE79617001CF82D /* gl_polygon1textureprogram.fsh */; };
+		28C4FA7D1CE79617001CF82D /* gl_polygon1textureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA6D1CE79617001CF82D /* gl_polygon1textureprogram.vsh */; };
+		28C4FA7E1CE79617001CF82D /* gl_polygon2texturesprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA6E1CE79617001CF82D /* gl_polygon2texturesprogram.fsh */; };
+		28C4FA7F1CE79617001CF82D /* gl_polygon2texturesprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA6F1CE79617001CF82D /* gl_polygon2texturesprogram.vsh */; };
+		28C4FA801CE79617001CF82D /* gl_polygonnotextureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA701CE79617001CF82D /* gl_polygonnotextureprogram.fsh */; };
+		28C4FA811CE79617001CF82D /* gl_polygonnotextureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA711CE79617001CF82D /* gl_polygonnotextureprogram.vsh */; };
+		28C4FA821CE79617001CF82D /* gl_textprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA721CE79617001CF82D /* gl_textprogram.fsh */; };
+		28C4FA831CE79617001CF82D /* gl_textprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA731CE79617001CF82D /* gl_textprogram.vsh */; };
+		28C4FA841CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA741CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh */; };
+		28C4FA851CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA751CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh */; };
 		28E106191CD8521F0042675A /* sys_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 28E106181CD8521F0042675A /* sys_ios_vr.c */; };
 		28F875D31CDC54E00079A0A1 /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE121C5D6FFD00CEC48E /* common.c */; };
 		28F875D41CDC54F50079A0A1 /* crc.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE161C5D6FFD00CEC48E /* crc.c */; };
@@ -378,6 +394,22 @@
 		28C3BDC71C5D77AA00CBB0D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28C3BDC91C5D77AA00CBB0D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28C3BDCB1C5D77AA00CBB0D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28C4FA661CE79617001CF82D /* gl_coloredpolygon1textureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_coloredpolygon1textureprogram.fsh; sourceTree = "<group>"; };
+		28C4FA671CE79617001CF82D /* gl_coloredpolygon1textureprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_coloredpolygon1textureprogram.vsh; sourceTree = "<group>"; };
+		28C4FA681CE79617001CF82D /* gl_coloredpolygonnotextureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_coloredpolygonnotextureprogram.fsh; sourceTree = "<group>"; };
+		28C4FA691CE79617001CF82D /* gl_coloredpolygonnotextureprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_coloredpolygonnotextureprogram.vsh; sourceTree = "<group>"; };
+		28C4FA6A1CE79617001CF82D /* gl_fillprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_fillprogram.fsh; sourceTree = "<group>"; };
+		28C4FA6B1CE79617001CF82D /* gl_fillprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_fillprogram.vsh; sourceTree = "<group>"; };
+		28C4FA6C1CE79617001CF82D /* gl_polygon1textureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_polygon1textureprogram.fsh; sourceTree = "<group>"; };
+		28C4FA6D1CE79617001CF82D /* gl_polygon1textureprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_polygon1textureprogram.vsh; sourceTree = "<group>"; };
+		28C4FA6E1CE79617001CF82D /* gl_polygon2texturesprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_polygon2texturesprogram.fsh; sourceTree = "<group>"; };
+		28C4FA6F1CE79617001CF82D /* gl_polygon2texturesprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_polygon2texturesprogram.vsh; sourceTree = "<group>"; };
+		28C4FA701CE79617001CF82D /* gl_polygonnotextureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_polygonnotextureprogram.fsh; sourceTree = "<group>"; };
+		28C4FA711CE79617001CF82D /* gl_polygonnotextureprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_polygonnotextureprogram.vsh; sourceTree = "<group>"; };
+		28C4FA721CE79617001CF82D /* gl_textprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_textprogram.fsh; sourceTree = "<group>"; };
+		28C4FA731CE79617001CF82D /* gl_textprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_textprogram.vsh; sourceTree = "<group>"; };
+		28C4FA741CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_tintedpolygon1textureprogram.fsh; sourceTree = "<group>"; };
+		28C4FA751CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_tintedpolygon1textureprogram.vsh; sourceTree = "<group>"; };
 		28E106181CD8521F0042675A /* sys_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sys_ios_vr.c; sourceTree = "<group>"; };
 		2DBF88B71C19774C9AB0731A /* Pods-Quake_iOS_VR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.release.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.release.xcconfig"; sourceTree = "<group>"; };
 		6D54BA821C625804004687A6 /* snd_dma.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_dma.c; sourceTree = "<group>"; };
@@ -620,6 +652,22 @@
 		2887814D1CD83E8200AF4F24 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				28C4FA661CE79617001CF82D /* gl_coloredpolygon1textureprogram.fsh */,
+				28C4FA671CE79617001CF82D /* gl_coloredpolygon1textureprogram.vsh */,
+				28C4FA681CE79617001CF82D /* gl_coloredpolygonnotextureprogram.fsh */,
+				28C4FA691CE79617001CF82D /* gl_coloredpolygonnotextureprogram.vsh */,
+				28C4FA6A1CE79617001CF82D /* gl_fillprogram.fsh */,
+				28C4FA6B1CE79617001CF82D /* gl_fillprogram.vsh */,
+				28C4FA6C1CE79617001CF82D /* gl_polygon1textureprogram.fsh */,
+				28C4FA6D1CE79617001CF82D /* gl_polygon1textureprogram.vsh */,
+				28C4FA6E1CE79617001CF82D /* gl_polygon2texturesprogram.fsh */,
+				28C4FA6F1CE79617001CF82D /* gl_polygon2texturesprogram.vsh */,
+				28C4FA701CE79617001CF82D /* gl_polygonnotextureprogram.fsh */,
+				28C4FA711CE79617001CF82D /* gl_polygonnotextureprogram.vsh */,
+				28C4FA721CE79617001CF82D /* gl_textprogram.fsh */,
+				28C4FA731CE79617001CF82D /* gl_textprogram.vsh */,
+				28C4FA741CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh */,
+				28C4FA751CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh */,
 				288781511CD83F8B00AF4F24 /* id1 */,
 			);
 			name = Resources;
@@ -773,10 +821,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28C4FA7D1CE79617001CF82D /* gl_polygon1textureprogram.vsh in Resources */,
+				28C4FA781CE79617001CF82D /* gl_coloredpolygonnotextureprogram.fsh in Resources */,
+				28C4FA821CE79617001CF82D /* gl_textprogram.fsh in Resources */,
+				28C4FA7C1CE79617001CF82D /* gl_polygon1textureprogram.fsh in Resources */,
+				28C4FA7F1CE79617001CF82D /* gl_polygon2texturesprogram.vsh in Resources */,
+				28C4FA7E1CE79617001CF82D /* gl_polygon2texturesprogram.fsh in Resources */,
+				28C4FA761CE79617001CF82D /* gl_coloredpolygon1textureprogram.fsh in Resources */,
+				28C4FA801CE79617001CF82D /* gl_polygonnotextureprogram.fsh in Resources */,
 				288781481CD83E0800AF4F24 /* LaunchScreen.storyboard in Resources */,
+				28C4FA7A1CE79617001CF82D /* gl_fillprogram.fsh in Resources */,
 				288781521CD83F8B00AF4F24 /* id1 in Resources */,
+				28C4FA791CE79617001CF82D /* gl_coloredpolygonnotextureprogram.vsh in Resources */,
+				28C4FA831CE79617001CF82D /* gl_textprogram.vsh in Resources */,
 				288781451CD83E0800AF4F24 /* Assets.xcassets in Resources */,
+				28C4FA841CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh in Resources */,
 				288781431CD83E0800AF4F24 /* Main.storyboard in Resources */,
+				28C4FA811CE79617001CF82D /* gl_polygonnotextureprogram.vsh in Resources */,
+				28C4FA7B1CE79617001CF82D /* gl_fillprogram.vsh in Resources */,
+				28C4FA851CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh in Resources */,
+				28C4FA771CE79617001CF82D /* gl_coloredpolygon1textureprogram.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

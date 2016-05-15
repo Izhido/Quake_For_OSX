@@ -47,8 +47,8 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
 
     func cardboardView(cardboardView: GCSCardboardView!, willStartDrawing headTransform: GCSHeadTransform!)
     {
-        gl_screenwidth = Int32(cardboardView.bounds.width);
-        gl_screenheight = Int32(cardboardView.bounds.height);
+        gl_screenwidth = Int32(UIScreen.mainScreen().bounds.size.width * UIScreen.mainScreen().scale);
+        gl_screenheight = Int32(UIScreen.mainScreen().bounds.size.height * UIScreen.mainScreen().scale);
 
         Sys_Init(NSBundle.mainBundle().resourcePath!)
     }
@@ -80,6 +80,17 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
 
     func cardboardView(cardboardView: GCSCardboardView!, drawEye eye: GCSEye, withHeadTransform headTransform: GCSHeadTransform!)
     {
+        let viewport = headTransform.viewportForEye(eye)
+        
+        glvr_viewportx = Float(viewport.origin.x)
+        glvr_viewporty = Float(viewport.origin.y)
+        glvr_viewportwidth = Float(viewport.size.width)
+        glvr_viewportheight = Float(viewport.size.height)
+        
+        glvr_eyetranslation = headTransform.eyeFromHeadMatrix(eye).m
+        glvr_rotation = headTransform.headPoseInStartSpace().m
+        glvr_projection = headTransform.projectionMatrixForEye(eye, near: 4.0, far: 4096.0).m
+
         if firstEyeRendered
         {
             Sys_FrameRender()

@@ -15,6 +15,8 @@ static quakeparms_t parms;
 
 float frame_lapse = 1.0 / 60.0;
 
+char gl_shaderdirectory[MAX_OSPATH];
+
 /*
  ===============================================================================
  
@@ -204,11 +206,41 @@ void Sys_Cbuf_AddText(const char* text)
     Cbuf_AddText(text);
 }
 
+char* Sys_LoadTextFromFile(const char* directory, const char* filename)
+{
+    char* fullpath = malloc(strlen(directory) + strlen(filename) + 2);
+    
+    strcpy(fullpath, directory);
+    strcat(fullpath, "/");
+    strcat(fullpath, filename);
+    
+    int handle = -1;
+    
+    int length = Sys_FileOpenRead(fullpath, &handle);
+    
+    char* result = NULL;
+    
+    if (handle >= 0 && length > 0)
+    {
+        result = malloc(length + 1);
+        
+        Sys_FileRead(handle, result, length);
+
+        result[length] = 0;
+    }
+    
+    Sys_FileClose(handle);
+    
+    free(fullpath);
+    
+    return result;
+}
+
 void Sys_Init(const char* resourcesDir)
 {
     int argc = 3;
     
-    char* argv[] = { "Quake_tvOS", "-basedir", resourcesDir };
+    char* argv[] = { "Quake_iOS_VR", "-basedir", resourcesDir };
     
     parms.memsize = 8*1024*1024;
     parms.membase = malloc (parms.memsize);
@@ -220,11 +252,11 @@ void Sys_Init(const char* resourcesDir)
     parms.argv = com_argv;
     
     isDedicated = (COM_CheckParm ("-dedicated") != 0);
+
+    strcpy(gl_shaderdirectory, resourcesDir);
     
     printf ("Host_Init\n");
     Host_Init (&parms);
-    
-    Cbuf_AddText("+mlook");
 }
 
 void Sys_FrameBeforeRender()

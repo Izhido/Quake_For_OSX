@@ -35,7 +35,7 @@ byte		*draw_chars;				// 8*8 graphic characters
 qpic_t		*draw_disc;
 qpic_t		*draw_backtile;
 
-int			translate_texture;
+GLuint		translate_texture;
 int			char_texture;
 
 typedef struct
@@ -47,9 +47,9 @@ typedef struct
 byte		conback_buffer[sizeof(qpic_t) + sizeof(glpic_t)];
 qpic_t		*conback = (qpic_t *)&conback_buffer;
 
-int		gl_lightmap_format = 4;
-int		gl_solid_format = 3;
-int		gl_alpha_format = 4;
+int		gl_lightmap_format = GL_RGBA;
+int		gl_solid_format = GL_RGBA;
+int		gl_alpha_format = GL_RGBA;
 
 int		gl_filter_min = GL_LINEAR_MIPMAP_NEAREST;
 int		gl_filter_max = GL_LINEAR;
@@ -59,7 +59,7 @@ int		texels;
 
 typedef struct
 {
-	int		texnum;
+	GLuint	texnum;
 	char	identifier[64];
 	int		width, height;
 	qboolean	mipmap;
@@ -139,7 +139,7 @@ void GL_Multiply (GLfloat* left, GLfloat *right)
     result[14] = left[2] * right[12] + left[6] * right[13] + left[10] * right[14] + left[14] * right[15];
     result[15] = left[3] * right[12] + left[7] * right[13] + left[11] * right[14] + left[15] * right[15];
 
-    memcpy(left, result, sizeof(result));
+    memcpy(right, result, sizeof(result));
 }
 
 void GL_Identity (GLfloat* matrix)
@@ -183,7 +183,7 @@ void GL_Translate (GLfloat* matrix, GLfloat x, GLfloat y, GLfloat z)
     translate[14] = z;
     translate[15] = 1.0;
     
-    GL_Multiply(matrix, translate);
+    GL_Multiply(translate, matrix);
 }
 
 void GL_Rotate (GLfloat* matrix, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
@@ -214,7 +214,7 @@ void GL_Rotate (GLfloat* matrix, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
     rotate[14] = 0.0;
     rotate[15] = 1.0;
     
-    GL_Multiply(matrix, rotate);
+    GL_Multiply(rotate, matrix);
 }
 
 void GL_Scale (GLfloat* matrix, GLfloat x, GLfloat y, GLfloat z)
@@ -238,7 +238,7 @@ void GL_Scale (GLfloat* matrix, GLfloat x, GLfloat y, GLfloat z)
     scale[14] = 0.0;
     scale[15] = 1.0;
     
-    GL_Multiply(matrix, scale);
+    GL_Multiply(scale, matrix);
 }
 
 void GL_Triangulate (GLfloat* vertices, int vertexcount, int stride, GLuint** indices, int* indexcount)
@@ -280,7 +280,7 @@ void GL_Triangulate (GLfloat* vertices, int vertexcount, int stride, GLuint** in
 int			scrap_allocated[MAX_SCRAPS][BLOCK_WIDTH];
 byte		scrap_texels[MAX_SCRAPS][BLOCK_WIDTH*BLOCK_HEIGHT*4];
 qboolean	scrap_dirty;
-int			scrap_texnum;
+GLuint		scrap_texnum;
 
 // returns a texture number and the position inside it
 int Scrap_AllocBlock (int w, int h, int *x, int *y)
@@ -648,11 +648,10 @@ void Draw_Init (void)
 	Hunk_FreeToLowMark(start);
 
 	// save a texture slot for translated picture
-	translate_texture = texture_extension_number++;
+    glGenTextures(1, &translate_texture);
 
 	// save slots for scraps
-	scrap_texnum = texture_extension_number;
-	texture_extension_number += MAX_SCRAPS;
+	glGenTextures(MAX_SCRAPS, &scrap_texnum);
 
 	//
 	// get the other pics we need
@@ -1344,7 +1343,7 @@ void GL_Set2D (void)
         
         GL_Scale(gl_textandfill_matrix, vid.width / 2.0, vid.height / 2.0, 0.0);
         GL_Translate(gl_textandfill_matrix, vid.width / 2.0, vid.height / 2.0, 0.0);
-        GL_Multiply(gl_textandfill_matrix, glvr_projection);
+        GL_Multiply(glvr_projection, gl_textandfill_matrix);
     }
     else
     {
@@ -1676,19 +1675,20 @@ int GL_LoadTexture (char *identifier, int width, int height, byte *data, qboolea
 		numgltextures++;
 	}
 
+    GLuint texture;
+    glGenTextures(1, &texture);
+    
 	strcpy (glt->identifier, identifier);
-	glt->texnum = texture_extension_number;
+	glt->texnum = texture;
 	glt->width = width;
 	glt->height = height;
 	glt->mipmap = mipmap;
 
-	GL_Bind(texture_extension_number );
+	GL_Bind(texture);
 
 	GL_Upload8 (data, width, height, mipmap, alpha);
 
-	texture_extension_number++;
-
-	return texture_extension_number-1;
+	return texture;
 }
 
 /*
