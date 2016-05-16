@@ -261,12 +261,21 @@ void Sys_Init(const char* resourcesDir)
 
 void Sys_FrameBeforeRender()
 {
+    block_drawing = true;
+    
     Host_FrameBeforeRender(frame_lapse);
 }
 
 void Sys_FrameRender()
 {
+    block_drawing = false;
+    
+    glViewport(glvr_viewportx, glvr_viewporty, glvr_viewportwidth, glvr_viewportheight);
+    glScissor(glvr_viewportx, glvr_viewporty, glvr_viewportwidth, glvr_viewportheight);
+
     SCR_UpdateScreen();
+    
+    block_drawing = true;
 }
 
 void Sys_FrameAfterRender()

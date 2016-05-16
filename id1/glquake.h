@@ -234,7 +234,8 @@ extern	int			mirrortexturenum;	// quake texturenum, not gltexturenum
 extern	qboolean	mirror;
 extern	mplane_t	*mirror_plane;
 
-extern	float	r_world_matrix[16];
+extern	float	r_world_rotate_matrix[16];
+extern	float	r_world_translate_matrix[16];
 
 extern	const char *gl_vendor;
 extern	const char *gl_renderer;
@@ -354,7 +355,9 @@ void GL_Bind (int texnum);
 
 void GL_Ortho (GLfloat* matrix, GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat zNear, GLfloat zFar);
 
-void GL_Multiply (GLfloat* left, GLfloat *right);
+void GL_MultiplyLeft (GLfloat* left, GLfloat *right);
+
+void GL_MultiplyRight (GLfloat* left, GLfloat *right);
 
 void GL_Identity (GLfloat* matrix);
 

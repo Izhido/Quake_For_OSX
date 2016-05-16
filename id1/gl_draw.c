@@ -47,7 +47,7 @@ typedef struct
 byte		conback_buffer[sizeof(qpic_t) + sizeof(glpic_t)];
 qpic_t		*conback = (qpic_t *)&conback_buffer;
 
-int		gl_lightmap_format = GL_RGBA;
+int		gl_lightmap_format = GL_LUMINANCE;
 int		gl_solid_format = GL_RGBA;
 int		gl_alpha_format = GL_RGBA;
 
@@ -118,10 +118,8 @@ void GL_Ortho (GLfloat* matrix, GLfloat left, GLfloat right, GLfloat bottom, GLf
     matrix[15] = 1.0;
 }
 
-void GL_Multiply (GLfloat* left, GLfloat *right)
+void GL_MultiplyResult (GLfloat* left, GLfloat *right, GLfloat* result)
 {
-    GLfloat result[16];
-    
     result[0] = left[0] * right[0] + left[4] * right[1] + left[8] * right[2] + left[12] * right[3];
     result[1] = left[1] * right[0] + left[5] * right[1] + left[9] * right[2] + left[13] * right[3];
     result[2] = left[2] * right[0] + left[6] * right[1] + left[10] * right[2] + left[14] * right[3];
@@ -138,6 +136,22 @@ void GL_Multiply (GLfloat* left, GLfloat *right)
     result[13] = left[1] * right[12] + left[5] * right[13] + left[9] * right[14] + left[13] * right[15];
     result[14] = left[2] * right[12] + left[6] * right[13] + left[10] * right[14] + left[14] * right[15];
     result[15] = left[3] * right[12] + left[7] * right[13] + left[11] * right[14] + left[15] * right[15];
+}
+
+void GL_MultiplyLeft (GLfloat* left, GLfloat *right)
+{
+    GLfloat result[16];
+
+    GL_MultiplyResult (left, right, result);
+    
+    memcpy(left, result, sizeof(result));
+}
+
+void GL_MultiplyRight (GLfloat* left, GLfloat *right)
+{
+    GLfloat result[16];
+    
+    GL_MultiplyResult (left, right, result);
 
     memcpy(right, result, sizeof(result));
 }
@@ -164,31 +178,15 @@ void GL_Identity (GLfloat* matrix)
 
 void GL_Translate (GLfloat* matrix, GLfloat x, GLfloat y, GLfloat z)
 {
-    GLfloat translate[16];
-    
-    translate[0] = 1.0;
-    translate[1] = 0.0;
-    translate[2] = 0.0;
-    translate[3] = 0.0;
-    translate[4] = 0.0;
-    translate[5] = 1.0;
-    translate[6] = 0.0;
-    translate[7] = 0.0;
-    translate[8] = 0.0;
-    translate[9] = 0.0;
-    translate[10] = 1.0;
-    translate[11] = 0.0;
-    translate[12] = x;
-    translate[13] = y;
-    translate[14] = z;
-    translate[15] = 1.0;
-    
-    GL_Multiply(translate, matrix);
+    matrix[12] += matrix[0] * x + matrix[4] * y + matrix[8] * z;
+    matrix[13] += matrix[1] * x + matrix[5] * y + matrix[9] * z;
+    matrix[14] += matrix[2] * x + matrix[6] * y + matrix[10] * z;
+    matrix[15] += matrix[3] * x + matrix[7] * y + matrix[11] * z;
 }
 
 void GL_Rotate (GLfloat* matrix, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
 {
-    GLfloat angleInRadians = angle * 3.14159265359 / 180.0;
+    GLfloat angleInRadians = angle * M_PI / 180.0;
     
     double angleSin = sin(angleInRadians);
     double angleCos = cos(angleInRadians);
@@ -198,7 +196,7 @@ void GL_Rotate (GLfloat* matrix, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
     GLfloat rotate[16];
     
     rotate[0] = x * x * inverseAngleCos + angleCos;
-    rotate[1] = y * x * inverseAngleCos + z * angleCos;
+    rotate[1] = y * x * inverseAngleCos + z * angleSin;
     rotate[2] = z * x * inverseAngleCos - y * angleSin;
     rotate[3] = 0.0;
     rotate[4] = x * y * inverseAngleCos - z * angleSin;
@@ -214,31 +212,25 @@ void GL_Rotate (GLfloat* matrix, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
     rotate[14] = 0.0;
     rotate[15] = 1.0;
     
-    GL_Multiply(rotate, matrix);
+    GL_MultiplyLeft (matrix, rotate);
 }
 
 void GL_Scale (GLfloat* matrix, GLfloat x, GLfloat y, GLfloat z)
 {
-    GLfloat scale[16];
+    matrix[0] *= x;
+    matrix[1] *= x;
+    matrix[2] *= x;
+    matrix[3] *= x;
     
-    scale[0] = x;
-    scale[1] = 0.0;
-    scale[2] = 0.0;
-    scale[3] = 0.0;
-    scale[4] = 0.0;
-    scale[5] = y;
-    scale[6] = 0.0;
-    scale[7] = 0.0;
-    scale[8] = 0.0;
-    scale[9] = 0.0;
-    scale[10] = z;
-    scale[11] = 0.0;
-    scale[12] = 0.0;
-    scale[13] = 0.0;
-    scale[14] = 0.0;
-    scale[15] = 1.0;
-    
-    GL_Multiply(scale, matrix);
+    matrix[4] *= y;
+    matrix[5] *= y;
+    matrix[6] *= y;
+    matrix[7] *= y;
+
+    matrix[8] *= z;
+    matrix[9] *= z;
+    matrix[10] *= z;
+    matrix[11] *= z;
 }
 
 void GL_Triangulate (GLfloat* vertices, int vertexcount, int stride, GLuint** indices, int* indexcount)
@@ -1337,13 +1329,14 @@ void GL_Set2D (void)
 {
     if (glvr_enabled)
     {
-        glViewport(glvr_viewportx, glvr_viewporty, glvr_viewportwidth, glvr_viewportheight);
+        GL_Identity (gl_textandfill_matrix);
         
-        memcpy (gl_textandfill_matrix, glvr_eyetranslation, sizeof(gl_textandfill_matrix));
+        GL_Translate (gl_textandfill_matrix, -2.0, 2.0, 0.0);
+        GL_Scale (gl_textandfill_matrix, 4.0 / vid.width, -4.0 / vid.height, 1.0);
         
-        GL_Scale(gl_textandfill_matrix, vid.width / 2.0, vid.height / 2.0, 0.0);
-        GL_Translate(gl_textandfill_matrix, vid.width / 2.0, vid.height / 2.0, 0.0);
-        GL_Multiply(glvr_projection, gl_textandfill_matrix);
+        GL_MultiplyLeft (gl_textandfill_matrix, glvr_eyetranslation);
+        
+        GL_MultiplyRight (glvr_projection, gl_textandfill_matrix);
     }
     else
     {
@@ -1360,7 +1353,6 @@ void GL_Set2D (void)
     
     glUniform4f(gl_textprogram_color, 1.0, 1.0, 1.0, 1.0);
     glUniformMatrix4fv(gl_textprogram_transform, 1, 0, gl_textandfill_matrix);
-    glUniform1i(gl_textprogram_texture, GL_TEXTURE0);
     
     GL_Use (gl_fillprogram);
 

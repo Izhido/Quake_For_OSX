@@ -17,7 +17,7 @@ invariant gl_Position;
 
 void main()
 {
-    gl_Position = transform * vec4(position, 3.0, 1.0);
+    gl_Position = transform * vec4(position, -4.0, 1.0);
     
     texcoords_fragment = texcoords;
 }

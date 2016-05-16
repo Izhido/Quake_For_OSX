@@ -428,8 +428,6 @@ void R_DrawSequentialPoly (msurface_t *s)
             GL_Use (gl_polygon2texturesprogram);
             
             glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
-            glUniform1i(gl_polygon2texturesprogram_texture0, GL_TEXTURE0);
-            glUniform1i(gl_polygon2texturesprogram_texture1, GL_TEXTURE1);
             
 			t = R_TextureAnimation (s->texinfo->texture);
 			// Binds world to texture env 0
@@ -518,7 +516,6 @@ void R_DrawSequentialPoly (msurface_t *s)
             GL_Use (gl_polygon1textureprogram);
             
             glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-            glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
 
             t = R_TextureAnimation (s->texinfo->texture);
 			GL_Bind (t->gl_texturenum);
@@ -631,7 +628,6 @@ void R_DrawSequentialPoly (msurface_t *s)
         GL_Use (gl_polygon1textureprogram);
 
         glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
 
         gl_waterpolygon_position = gl_polygon1textureprogram_position;
         gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
@@ -674,8 +670,6 @@ void R_DrawSequentialPoly (msurface_t *s)
         GL_Use (gl_polygon2texturesprogram);
         
         glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
-        glUniform1i(gl_polygon2texturesprogram_texture0, GL_TEXTURE0);
-        glUniform1i(gl_polygon2texturesprogram_texture1, GL_TEXTURE1);
         
 		t = R_TextureAnimation (s->texinfo->texture);
 		GL_SelectTexture(GL_TEXTURE0);
@@ -763,7 +757,6 @@ void R_DrawSequentialPoly (msurface_t *s)
         GL_Use (gl_polygon1textureprogram);
         
         glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
         
         gl_waterpolygon_position = gl_polygon1textureprogram_position;
         gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
@@ -938,7 +931,6 @@ void DrawGLPoly (glpoly_t *p)
         GL_Use (gl_tintedpolygon1textureprogram);
         
         glUniformMatrix4fv(gl_tintedpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-        glUniform1i(gl_tintedpolygon1textureprogram_texture, GL_TEXTURE0);
         glUniform4fv(gl_tintedpolygon1textureprogram_color, 1, gl_rendermirror_color);
         
         position = gl_tintedpolygon1textureprogram_position;
@@ -949,7 +941,6 @@ void DrawGLPoly (glpoly_t *p)
         GL_Use (gl_polygon1textureprogram);
         
         glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
         
         position = gl_polygon1textureprogram_position;
         texcoords = gl_polygon1textureprogram_texcoords;
@@ -1033,7 +1024,6 @@ void R_BlendLightmaps (void)
         GL_Use (gl_polygon1textureprogram);
     
         glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
     
         gl_waterpolygon_position = gl_polygon1textureprogram_position;
         gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
@@ -1048,7 +1038,6 @@ void R_BlendLightmaps (void)
         
         glUniformMatrix4fv(gl_tintedpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
         glUniform4f(gl_tintedpolygon1textureprogram_color, 0.0, 0.0, 0.0, 1.0);
-        glUniform1i(gl_tintedpolygon1textureprogram_texture, GL_TEXTURE0);
         
         gl_waterpolygon_position = gl_tintedpolygon1textureprogram_position;
         gl_waterpolygon_texcoords = gl_tintedpolygon1textureprogram_texcoords;
@@ -1185,7 +1174,6 @@ void R_RenderBrushPoly (msurface_t *fa)
             GL_Use (gl_tintedpolygon1textureprogram);
             
             glUniformMatrix4fv(gl_tintedpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-            glUniform1i(gl_tintedpolygon1textureprogram_texture, GL_TEXTURE0);
             glUniform4fv(gl_tintedpolygon1textureprogram_color, 1, gl_rendermirror_color);
             
             gl_waterpolygon_position = gl_tintedpolygon1textureprogram_position;
@@ -1196,7 +1184,6 @@ void R_RenderBrushPoly (msurface_t *fa)
             GL_Use (gl_polygon1textureprogram);
             
             glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-            glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
             
             gl_waterpolygon_position = gl_polygon1textureprogram_position;
             gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
@@ -1213,7 +1200,6 @@ void R_RenderBrushPoly (msurface_t *fa)
             GL_Use (gl_tintedpolygon1textureprogram);
             
             glUniformMatrix4fv(gl_tintedpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-            glUniform1i(gl_tintedpolygon1textureprogram_texture, GL_TEXTURE0);
             glUniform4fv(gl_tintedpolygon1textureprogram_color, 1, gl_rendermirror_color);
             
             gl_waterpolygon_position = gl_tintedpolygon1textureprogram_position;
@@ -1224,7 +1210,6 @@ void R_RenderBrushPoly (msurface_t *fa)
             GL_Use (gl_polygon1textureprogram);
             
             glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-            glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
             
             gl_waterpolygon_position = gl_polygon1textureprogram_position;
             gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
@@ -1422,7 +1407,6 @@ void R_DrawWaterSurfaces (void)
 
         glUniformMatrix4fv(gl_tintedpolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
         glUniform4f(gl_tintedpolygon1textureprogram_color, 1.0, 1.0, 1.0, r_wateralpha.value);
-        glUniform1i(gl_tintedpolygon1textureprogram_texture, GL_TEXTURE0);
         
         gl_waterpolygon_position = gl_tintedpolygon1textureprogram_position;
         gl_waterpolygon_texcoords = gl_tintedpolygon1textureprogram_texcoords;
@@ -1432,7 +1416,6 @@ void R_DrawWaterSurfaces (void)
         GL_Use (gl_polygon1textureprogram);
         
         glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-        glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
         
         gl_waterpolygon_position = gl_polygon1textureprogram_position;
         gl_waterpolygon_texcoords = gl_polygon1textureprogram_texcoords;
@@ -2142,7 +2125,7 @@ void GL_BuildLightmaps (void)
 		GL_Bind(lightmap_textures + i);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D (GL_TEXTURE_2D, 0, lightmap_bytes
+		glTexImage2D (GL_TEXTURE_2D, 0, gl_lightmap_format
 		, BLOCK_WIDTH, BLOCK_HEIGHT, 0, 
 		gl_lightmap_format, GL_UNSIGNED_BYTE, lightmaps+i*BLOCK_WIDTH*BLOCK_HEIGHT*lightmap_bytes);
 	}

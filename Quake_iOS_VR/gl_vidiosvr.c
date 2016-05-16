@@ -136,7 +136,7 @@ int		texture_mode = GL_LINEAR;
 //int		texture_mode = GL_LINEAR_MIPMAP_NEAREST;
 //int		texture_mode = GL_LINEAR_MIPMAP_LINEAR;
 
-cvar_t	gl_ztrick = {"gl_ztrick","1"};
+cvar_t	gl_ztrick = {"gl_ztrick","0"};
 
 GLuint GL_Compile (char* name, char* extension, GLenum type, GLchar* program)
 {
@@ -336,16 +336,46 @@ void GL_Init (void)
     gl_polygon2texturesprogram_texture0 = glGetUniformLocation(gl_polygon2texturesprogram, "texture0");
     gl_polygon2texturesprogram_texture1 = glGetUniformLocation(gl_polygon2texturesprogram, "texture1");
 
+    GL_Use (gl_textprogram);
+    
+    glUniform1i(gl_textprogram_texture, 0);
+    
+    GL_Use (gl_polygon1textureprogram);
+    
+    glUniform1i(gl_polygon1textureprogram_texture, 0);
+    
+    GL_Use (gl_coloredpolygon1textureprogram);
+    
+    glUniform1i(gl_coloredpolygon1textureprogram_texture, 0);
+    
+    GL_Use (gl_tintedpolygon1textureprogram);
+    
+    glUniform1i(gl_tintedpolygon1textureprogram_texture, 0);
+    
+    GL_Use (gl_polygon2texturesprogram);
+    
+    glUniform1i(gl_polygon2texturesprogram_texture0, 0);
+    glUniform1i(gl_polygon2texturesprogram_texture1, 1);
+
+    GL_Use (0);
+    
     glvr_enabled = true;
     
     glClearColor (1,0,0,0);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_SCISSOR_TEST);
     glCullFace(GL_FRONT);
+    
+    glActiveTexture(GL_TEXTURE1);
     
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glActiveTexture(GL_TEXTURE0);
     
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
 #if 0
@@ -409,7 +439,6 @@ void	VID_Init (unsigned char *palette)
     
     vid.width = vid.conwidth = vid.maxwarpwidth = WARP_WIDTH;
     vid.height = vid.conheight = vid.maxwarpheight = WARP_HEIGHT;
-    vid.aspect = ((float)vid.height / (float)vid.width) * (320.0 / 240.0);
     vid.colormap = host_colormap;
     vid.fullbright = 256 - LittleLong (*((int *)vid.colormap + 2048));
     

@@ -58,8 +58,10 @@ vec3_t	vpn;
 vec3_t	vright;
 vec3_t	r_origin;
 
-float	r_world_matrix[16];
-float	r_base_world_matrix[16];
+float	r_world_rotate_matrix[16];
+float	r_world_translate_matrix[16];
+float	r_base_world_rotate_matrix[16];
+float	r_base_world_translate_matrix[16];
 
 //
 // screen size info
@@ -124,15 +126,15 @@ void R_ApplyWorld (void)
 {
     if (glvr_enabled)
     {
-        memcpy (gl_polygon_matrix, glvr_eyetranslation, sizeof(gl_polygon_matrix));
+        memcpy (gl_polygon_matrix, r_world_rotate_matrix, sizeof(gl_polygon_matrix));
         
-        GL_Multiply (glvr_rotation, gl_polygon_matrix);
-        
-        GL_Multiply (r_world_matrix, gl_polygon_matrix);
+        GL_MultiplyLeft (gl_polygon_matrix, r_world_translate_matrix);
     }
     else
     {
-        memcpy (gl_polygon_matrix, r_world_matrix, sizeof(gl_polygon_matrix));
+        memcpy (gl_polygon_matrix, r_world_rotate_matrix, sizeof(gl_polygon_matrix));
+        
+        GL_MultiplyLeft (gl_polygon_matrix, r_world_translate_matrix);
     }
 }
 
@@ -151,11 +153,11 @@ void R_ApplyProjection (void)
 {
     if (glvr_enabled)
     {
-        GL_Multiply (glvr_projection, gl_polygon_matrix);
+        GL_MultiplyRight (glvr_projection, gl_polygon_matrix);
     }
     else
     {
-        GL_Multiply (gl_projection_matrix, gl_polygon_matrix);
+        GL_MultiplyRight (gl_projection_matrix, gl_polygon_matrix);
     }
 }
 
@@ -253,7 +255,6 @@ void R_DrawSpriteModel (entity_t *e)
     GL_Use (gl_polygon1textureprogram);
     
     glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
-    glUniform1i(gl_polygon1textureprogram_texture, GL_TEXTURE0);
     
     GL_DisableMultitexture();
     
@@ -913,11 +914,11 @@ void R_PolyBlend (void)
 
     if (glvr_enabled)
     {
-        GL_Multiply (glvr_projection, transform);
+        GL_MultiplyRight (glvr_projection, transform);
     }
     else
     {
-        GL_Multiply (gl_projection_matrix, transform);
+        GL_MultiplyRight (gl_projection_matrix, transform);
     }
 
     glUniformMatrix4fv(gl_polygonnotextureprogram_transform, 1, 0, transform);
@@ -1121,7 +1122,7 @@ void R_SetupGL (void)
 	extern	int glwidth, glheight;
 	int		x, x2, y2, y, w, h;
 
-	//
+    //
 	// set up viewpoint
 	//
 	x = r_refdef.vrect.x * glwidth/vid.width;
@@ -1148,12 +1149,7 @@ void R_SetupGL (void)
 		w = h = 256;
 	}
 
-    if (glvr_enabled)
-    {
-        glViewport(glvr_viewportx, glvr_viewporty, glvr_viewportwidth, glvr_viewportheight);
-        glScissor(glvr_viewportx, glvr_viewporty, glvr_viewportwidth, glvr_viewportheight);
-    }
-    else
+    if (!glvr_enabled)
     {
         glViewport (glx + x, gly + y2, w, h);
     }
@@ -1173,14 +1169,17 @@ void R_SetupGL (void)
 	else
 		glCullFace(GL_FRONT);
 
-    GL_Identity (r_world_matrix);
+    GL_Identity (r_world_rotate_matrix);
 
-    GL_Rotate (r_world_matrix, -90.0,  1.0, 0.0, 0.0);	    // put Z going up
-    GL_Rotate (r_world_matrix, 90.0,  0.0, 0.0, 1.0);	    // put Z going up
-    GL_Rotate (r_world_matrix, -r_refdef.viewangles[2],  1.0, 0.0, 0.0);
-    GL_Rotate (r_world_matrix, -r_refdef.viewangles[0],  0.0, 1.0, 0.0);
-    GL_Rotate (r_world_matrix, -r_refdef.viewangles[1],  0.0, 0.0, 1.0);
-    GL_Translate (r_world_matrix, -r_refdef.vieworg[0],  -r_refdef.vieworg[1],  -r_refdef.vieworg[2]);
+    GL_Rotate (r_world_rotate_matrix, -90.0,  1.0, 0.0, 0.0);	    // put Z going up
+    GL_Rotate (r_world_rotate_matrix, 90.0,  0.0, 0.0, 1.0);	    // put Z going up
+    GL_Rotate (r_world_rotate_matrix, -r_refdef.viewangles[2],  1.0, 0.0, 0.0);
+    GL_Rotate (r_world_rotate_matrix, -r_refdef.viewangles[0],  0.0, 1.0, 0.0);
+    GL_Rotate (r_world_rotate_matrix, -r_refdef.viewangles[1],  0.0, 0.0, 1.0);
+
+    GL_Identity (r_world_translate_matrix);
+    
+    GL_Translate (r_world_translate_matrix, -r_refdef.vieworg[0],  -r_refdef.vieworg[1],  -r_refdef.vieworg[2]);
 
     R_ApplyWorld ();
     
@@ -1296,14 +1295,17 @@ void R_Mirror (void)
 	float		d;
 	msurface_t	*s;
 	entity_t	*ent;
-    GLfloat     previous_world_matrix[16];
+    GLfloat     previous_world_rotate_matrix[16];
+    GLfloat     previous_world_translate_matrix[16];
 
 	if (!mirror)
 		return;
 
-    memcpy (previous_world_matrix, r_world_matrix, sizeof(previous_world_matrix));
+    memcpy (previous_world_rotate_matrix, r_world_rotate_matrix, sizeof(previous_world_rotate_matrix));
+    memcpy (previous_world_translate_matrix, r_world_translate_matrix, sizeof(previous_world_translate_matrix));
     
-	memcpy (r_base_world_matrix, r_world_matrix, sizeof(r_base_world_matrix));
+	memcpy (r_base_world_rotate_matrix, r_world_rotate_matrix, sizeof(r_base_world_rotate_matrix));
+    memcpy (r_base_world_translate_matrix, r_world_translate_matrix, sizeof(r_base_world_translate_matrix));
 
 	d = DotProduct (r_refdef.vieworg, mirror_plane->normal) - mirror_plane->dist;
 	VectorMA (r_refdef.vieworg, -2*d, mirror_plane->normal, r_refdef.vieworg);
@@ -1343,8 +1345,13 @@ void R_Mirror (void)
 		GL_Scale (gl_projection_matrix, -1.0, 1.0, 1.0);
 	glCullFace(GL_FRONT);
 
-    memcpy (r_world_matrix, r_base_world_matrix, sizeof(r_world_matrix));
+    memcpy (r_world_rotate_matrix, r_base_world_rotate_matrix, sizeof(r_world_rotate_matrix));
+    memcpy (r_world_translate_matrix, r_base_world_translate_matrix, sizeof(r_world_translate_matrix));
 
+    R_ApplyWorld ();
+    
+    R_ApplyProjection ();
+    
     gl_rendermirror_enabled = true;
     gl_rendermirror_color[0] = 1.0;
     gl_rendermirror_color[1] = 1.0;
