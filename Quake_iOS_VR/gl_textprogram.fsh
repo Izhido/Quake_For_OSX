@@ -15,5 +15,5 @@ invariant gl_FragColor;
 
 void main()
 {
-    gl_FragColor = color * texture2D(texture, texcoords_fragment);
+    gl_FragColor = color * texture2D(texture, fract(texcoords_fragment));
 }

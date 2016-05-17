@@ -127,7 +127,7 @@ unsigned char d_15to8table[65536];
 float		gldepthmin, gldepthmax;
 
 qboolean isPermedia = false;
-qboolean gl_mtexable = true;
+qboolean gl_mtexable = false;
 
 //int		texture_mode = GL_NEAREST;
 //int		texture_mode = GL_NEAREST_MIPMAP_NEAREST;
@@ -135,6 +135,8 @@ qboolean gl_mtexable = true;
 int		texture_mode = GL_LINEAR;
 //int		texture_mode = GL_LINEAR_MIPMAP_NEAREST;
 //int		texture_mode = GL_LINEAR_MIPMAP_LINEAR;
+
+static qboolean fullsbardraw = false;
 
 cvar_t	gl_ztrick = {"gl_ztrick","0"};
 
@@ -398,6 +400,8 @@ void GL_BeginRendering (int *x, int *y, int *width, int *height)
 
 void GL_EndRendering (void)
 {
+    if (fullsbardraw)
+        Sbar_Changed();
 }
 
 void	VID_SetPalette (unsigned char *palette)
@@ -405,6 +409,8 @@ void	VID_SetPalette (unsigned char *palette)
     byte	*pal;
     unsigned r,g,b;
     unsigned v;
+    int     r1,g1,b1;
+    int		j,k,l,m;
     unsigned short i;
     unsigned	*table;
     
@@ -424,11 +430,34 @@ void	VID_SetPalette (unsigned char *palette)
         *table++ = v;
     }
     d_8to24table[255] &= 0xFFFFFF;	// 255 is transparent
+    for (i=0; i < (1<<15); i++) {
+        /* Maps
+         000000000000000
+         000000000011111 = Red  = 0x1F
+         000001111100000 = Blue = 0x03E0
+         111110000000000 = Grn  = 0x7C00
+         */
+        r = ((i & 0x1F) << 3)+4;
+        g = ((i & 0x03E0) >> 2)+4;
+        b = ((i & 0x7C00) >> 7)+4;
+        pal = (unsigned char *)d_8to24table;
+        for (v=0,k=0,l=10000*10000; v<256; v++,pal+=4) {
+            r1 = r-pal[0];
+            g1 = g-pal[1];
+            b1 = b-pal[2];
+            j = (r1*r1)+(g1*g1)+(b1*b1);
+            if (j<l) {
+                k=v;
+                l=j;
+            }
+        }
+        d_15to8table[i]=k;
+    }
 }
 
 void	VID_ShiftPalette (unsigned char *palette)
 {
-    VID_SetPalette(palette);
+    //VID_SetPalette(palette);
 }
 
 void	VID_Init (unsigned char *palette)
@@ -445,6 +474,9 @@ void	VID_Init (unsigned char *palette)
     VID_SetPalette(palette);
     
     GL_Init ();
+
+    if (COM_CheckParm("-fullsbar"))
+        fullsbardraw = true;
 }
 
 void	VID_Shutdown (void)
