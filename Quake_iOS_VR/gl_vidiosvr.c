@@ -30,6 +30,17 @@ GLint gl_textprogram_transform;
 GLint gl_textprogram_color;
 GLint gl_textprogram_texture;
 
+GLuint gl_noalphatextprogram;
+
+GLchar* gl_noalphatextprogram_vertex;
+GLchar* gl_noalphatextprogram_fragment;
+
+GLint gl_noalphatextprogram_position;
+GLint gl_noalphatextprogram_texcoords;
+GLint gl_noalphatextprogram_transform;
+GLint gl_noalphatextprogram_color;
+GLint gl_noalphatextprogram_texture;
+
 GLuint gl_fillprogram;
 
 GLchar* gl_fillprogram_vertex;
@@ -68,6 +79,16 @@ GLint gl_polygon1textureprogram_position;
 GLint gl_polygon1textureprogram_texcoords;
 GLint gl_polygon1textureprogram_transform;
 GLint gl_polygon1textureprogram_texture;
+
+GLuint gl_alphapolygon1textureprogram;
+
+GLchar* gl_alphapolygon1textureprogram_vertex;
+GLchar* gl_alphapolygon1textureprogram_fragment;
+
+GLint gl_alphapolygon1textureprogram_position;
+GLint gl_alphapolygon1textureprogram_texcoords;
+GLint gl_alphapolygon1textureprogram_transform;
+GLint gl_alphapolygon1textureprogram_texture;
 
 GLuint gl_coloredpolygon1textureprogram;
 
@@ -251,6 +272,9 @@ void GL_Init (void)
     gl_textprogram_vertex = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_textprogram.vsh");
     gl_textprogram_fragment = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_textprogram.fsh");
     
+    gl_noalphatextprogram_vertex = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_textprogram.vsh");
+    gl_noalphatextprogram_fragment = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_textprogram.fsh");
+    
     gl_fillprogram_vertex = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_fillprogram.vsh");
     gl_fillprogram_fragment = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_fillprogram.fsh");
     
@@ -262,6 +286,9 @@ void GL_Init (void)
     
     gl_polygon1textureprogram_vertex = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_polygon1textureprogram.vsh");
     gl_polygon1textureprogram_fragment = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_polygon1textureprogram.fsh");
+    
+    gl_alphapolygon1textureprogram_vertex = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_alphapolygon1textureprogram.vsh");
+    gl_alphapolygon1textureprogram_fragment = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_alphapolygon1textureprogram.fsh");
     
     gl_coloredpolygon1textureprogram_vertex = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_coloredpolygon1textureprogram.vsh");
     gl_coloredpolygon1textureprogram_fragment = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_coloredpolygon1textureprogram.fsh");
@@ -281,6 +308,15 @@ void GL_Init (void)
     gl_textprogram_color = glGetUniformLocation(gl_textprogram, "color");
     gl_textprogram_texture = glGetUniformLocation(gl_textprogram, "texture");
     
+    gl_noalphatextprogram = GL_CreateProgram ("gl_noalphatextprogram", gl_noalphatextprogram_vertex, gl_noalphatextprogram_fragment);
+    
+    gl_noalphatextprogram_position = glGetAttribLocation(gl_noalphatextprogram, "position");
+    gl_noalphatextprogram_texcoords = glGetAttribLocation(gl_noalphatextprogram, "texcoords");
+    
+    gl_noalphatextprogram_transform = glGetUniformLocation(gl_noalphatextprogram, "transform");
+    gl_noalphatextprogram_color = glGetUniformLocation(gl_noalphatextprogram, "color");
+    gl_noalphatextprogram_texture = glGetUniformLocation(gl_noalphatextprogram, "texture");
+
     gl_fillprogram = GL_CreateProgram ("gl_fillprogram", gl_fillprogram_vertex, gl_fillprogram_fragment);
     
     gl_fillprogram_position = glGetAttribLocation(gl_fillprogram, "position");
@@ -309,6 +345,14 @@ void GL_Init (void)
     
     gl_polygon1textureprogram_transform = glGetUniformLocation(gl_polygon1textureprogram, "transform");
     gl_polygon1textureprogram_texture = glGetUniformLocation(gl_polygon1textureprogram, "texture");
+    
+    gl_alphapolygon1textureprogram = GL_CreateProgram ("gl_alphapolygon1textureprogram", gl_alphapolygon1textureprogram_vertex, gl_alphapolygon1textureprogram_fragment);
+    
+    gl_alphapolygon1textureprogram_position = glGetAttribLocation(gl_alphapolygon1textureprogram, "position");
+    gl_alphapolygon1textureprogram_texcoords = glGetAttribLocation(gl_alphapolygon1textureprogram, "texcoords");
+    
+    gl_alphapolygon1textureprogram_transform = glGetUniformLocation(gl_alphapolygon1textureprogram, "transform");
+    gl_alphapolygon1textureprogram_texture = glGetUniformLocation(gl_alphapolygon1textureprogram, "texture");
     
     gl_coloredpolygon1textureprogram = GL_CreateProgram ("gl_coloredpolygon1textureprogram", gl_coloredpolygon1textureprogram_vertex, gl_coloredpolygon1textureprogram_fragment);
     
@@ -342,10 +386,18 @@ void GL_Init (void)
     
     glUniform1i(gl_textprogram_texture, 0);
     
+    GL_Use (gl_noalphatextprogram);
+    
+    glUniform1i(gl_noalphatextprogram_texture, 0);
+    
     GL_Use (gl_polygon1textureprogram);
     
     glUniform1i(gl_polygon1textureprogram_texture, 0);
     
+    GL_Use (gl_alphapolygon1textureprogram);
+    
+    glUniform1i(gl_alphapolygon1textureprogram_texture, 0);
+
     GL_Use (gl_coloredpolygon1textureprogram);
     
     glUniform1i(gl_coloredpolygon1textureprogram_texture, 0);

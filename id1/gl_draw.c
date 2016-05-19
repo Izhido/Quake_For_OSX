@@ -687,7 +687,7 @@ void Draw_Character (int x, int y, int num)
 	fcol = col*0.0625;
 	size = 0.0625;
 
-    GL_Use (gl_textprogram);
+    GL_Use (gl_noalphatextprogram);
     
 	GL_Bind (char_texture);
 
@@ -726,10 +726,10 @@ void Draw_Character (int x, int y, int num)
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
-    glEnableVertexAttribArray(gl_textprogram_position);
-    glVertexAttribPointer(gl_textprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
-    glEnableVertexAttribArray(gl_textprogram_texcoords);
-    glVertexAttribPointer(gl_textprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(gl_noalphatextprogram_position);
+    glVertexAttribPointer(gl_noalphatextprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_noalphatextprogram_texcoords);
+    glVertexAttribPointer(gl_noalphatextprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
 
     GLuint elementbuffer;
     glGenBuffers(1, &elementbuffer);
@@ -743,8 +743,8 @@ void Draw_Character (int x, int y, int num)
 
     glDeleteBuffers(1, &elementbuffer);
 
-    glDisableVertexAttribArray(gl_textprogram_texcoords);
-    glDisableVertexAttribArray(gl_textprogram_position);
+    glDisableVertexAttribArray(gl_noalphatextprogram_texcoords);
+    glDisableVertexAttribArray(gl_noalphatextprogram_position);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
@@ -883,9 +883,9 @@ void Draw_Pic (int x, int y, qpic_t *pic)
 		Scrap_Upload ();
 	gl = (glpic_t *)pic->data;
 
-    GL_Use (gl_textprogram);
+    GL_Use (gl_noalphatextprogram);
     
-    glUniform4f(gl_textprogram_color, 1.0, 1.0, 1.0, 1.0);
+    glUniform4f(gl_noalphatextprogram_color, 1.0, 1.0, 1.0, 1.0);
     
     GL_Bind (gl->texnum);
     
@@ -924,10 +924,10 @@ void Draw_Pic (int x, int y, qpic_t *pic)
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
-    glEnableVertexAttribArray(gl_textprogram_position);
-    glVertexAttribPointer(gl_textprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
-    glEnableVertexAttribArray(gl_textprogram_texcoords);
-    glVertexAttribPointer(gl_textprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(gl_noalphatextprogram_position);
+    glVertexAttribPointer(gl_noalphatextprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_noalphatextprogram_texcoords);
+    glVertexAttribPointer(gl_noalphatextprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
     
     GLuint elementbuffer;
     glGenBuffers(1, &elementbuffer);
@@ -941,8 +941,8 @@ void Draw_Pic (int x, int y, qpic_t *pic)
     
     glDeleteBuffers(1, &elementbuffer);
     
-    glDisableVertexAttribArray(gl_textprogram_texcoords);
-    glDisableVertexAttribArray(gl_textprogram_position);
+    glDisableVertexAttribArray(gl_noalphatextprogram_texcoords);
+    glDisableVertexAttribArray(gl_noalphatextprogram_position);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
@@ -985,7 +985,7 @@ void Draw_TransPicTranslate (int x, int y, qpic_t *pic, byte *translation)
 	byte			*src;
 	int				p;
 
-    GL_Use (gl_textprogram);
+    GL_Use (gl_noalphatextprogram);
 
     GL_Bind (translate_texture);
 
@@ -1010,7 +1010,7 @@ void Draw_TransPicTranslate (int x, int y, qpic_t *pic, byte *translation)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glUniform4f(gl_textprogram_color, 1.0, 1.0, 1.0, 1.0);
+    glUniform4f(gl_noalphatextprogram_color, 1.0, 1.0, 1.0, 1.0);
 
     GLfloat vertices[16];
     
@@ -1047,10 +1047,10 @@ void Draw_TransPicTranslate (int x, int y, qpic_t *pic, byte *translation)
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
-    glEnableVertexAttribArray(gl_textprogram_position);
-    glVertexAttribPointer(gl_textprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
-    glEnableVertexAttribArray(gl_textprogram_texcoords);
-    glVertexAttribPointer(gl_textprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(gl_noalphatextprogram_position);
+    glVertexAttribPointer(gl_noalphatextprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_noalphatextprogram_texcoords);
+    glVertexAttribPointer(gl_noalphatextprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
     
     GLuint elementbuffer;
     glGenBuffers(1, &elementbuffer);
@@ -1064,8 +1064,8 @@ void Draw_TransPicTranslate (int x, int y, qpic_t *pic, byte *translation)
     
     glDeleteBuffers(1, &elementbuffer);
     
-    glDisableVertexAttribArray(gl_textprogram_texcoords);
-    glDisableVertexAttribArray(gl_textprogram_position);
+    glDisableVertexAttribArray(gl_noalphatextprogram_texcoords);
+    glDisableVertexAttribArray(gl_noalphatextprogram_position);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
@@ -1100,9 +1100,9 @@ refresh window.
 */
 void Draw_TileClear (int x, int y, int w, int h)
 {
-    GL_Use (gl_textprogram);
+    GL_Use (gl_noalphatextprogram);
     
-    glUniform4f(gl_textprogram_color, 1.0, 1.0, 1.0, 1.0);
+    glUniform4f(gl_noalphatextprogram_color, 1.0, 1.0, 1.0, 1.0);
     
     GL_Bind (*(int *)draw_backtile->data);
     
@@ -1141,10 +1141,10 @@ void Draw_TileClear (int x, int y, int w, int h)
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
-    glEnableVertexAttribArray(gl_textprogram_position);
-    glVertexAttribPointer(gl_textprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
-    glEnableVertexAttribArray(gl_textprogram_texcoords);
-    glVertexAttribPointer(gl_textprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(gl_noalphatextprogram_position);
+    glVertexAttribPointer(gl_noalphatextprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_noalphatextprogram_texcoords);
+    glVertexAttribPointer(gl_noalphatextprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
     
     GLuint elementbuffer;
     glGenBuffers(1, &elementbuffer);
@@ -1158,8 +1158,8 @@ void Draw_TileClear (int x, int y, int w, int h)
     
     glDeleteBuffers(1, &elementbuffer);
     
-    glDisableVertexAttribArray(gl_textprogram_texcoords);
-    glDisableVertexAttribArray(gl_textprogram_position);
+    glDisableVertexAttribArray(gl_noalphatextprogram_texcoords);
+    glDisableVertexAttribArray(gl_noalphatextprogram_position);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
@@ -1353,6 +1353,11 @@ void GL_Set2D (void)
     
     glUniform4f(gl_textprogram_color, 1.0, 1.0, 1.0, 1.0);
     glUniformMatrix4fv(gl_textprogram_transform, 1, 0, gl_textandfill_matrix);
+    
+    GL_Use (gl_noalphatextprogram);
+    
+    glUniform4f(gl_noalphatextprogram_color, 1.0, 1.0, 1.0, 1.0);
+    glUniformMatrix4fv(gl_noalphatextprogram_transform, 1, 0, gl_textandfill_matrix);
     
     GL_Use (gl_fillprogram);
 

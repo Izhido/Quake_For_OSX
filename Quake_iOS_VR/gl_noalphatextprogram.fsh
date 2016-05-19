@@ -1,5 +1,5 @@
 //
-//  gl_textprogram.fsh
+//  gl_noalphatextprogram.fsh
 //  Quake_iOS_VR
 //
 //  Created by Heriberto Delgado on 5/14/16.
@@ -15,14 +15,5 @@ invariant gl_FragColor;
 
 void main()
 {
-    mediump vec4 result = color * texture2D(texture, fract(texcoords_fragment));
-
-    if (result.a > 0.66)
-    {
-        gl_FragColor = result;
-    }
-    else
-    {
-        discard;
-    }
+    gl_FragColor = color * texture2D(texture, fract(texcoords_fragment));
 }

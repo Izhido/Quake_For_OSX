@@ -255,6 +255,17 @@ extern GLint gl_textprogram_transform;
 extern GLint gl_textprogram_color;
 extern GLint gl_textprogram_texture;
 
+extern GLuint gl_noalphatextprogram;
+
+extern GLchar* gl_noalphatextprogram_vertex;
+extern GLchar* gl_noalphatextprogram_fragment;
+
+extern GLint gl_noalphatextprogram_position;
+extern GLint gl_noalphatextprogram_texcoords;
+extern GLint gl_noalphatextprogram_transform;
+extern GLint gl_noalphatextprogram_color;
+extern GLint gl_noalphatextprogram_texture;
+
 extern GLuint gl_fillprogram;
 
 extern GLchar* gl_fillprogram_vertex;
@@ -293,6 +304,16 @@ extern GLint gl_polygon1textureprogram_position;
 extern GLint gl_polygon1textureprogram_texcoords;
 extern GLint gl_polygon1textureprogram_transform;
 extern GLint gl_polygon1textureprogram_texture;
+
+extern GLuint gl_alphapolygon1textureprogram;
+
+extern GLchar* gl_alphapolygon1textureprogram_vertex;
+extern GLchar* gl_alphapolygon1textureprogram_fragment;
+
+extern GLint gl_alphapolygon1textureprogram_position;
+extern GLint gl_alphapolygon1textureprogram_texcoords;
+extern GLint gl_alphapolygon1textureprogram_transform;
+extern GLint gl_alphapolygon1textureprogram_texture;
 
 extern GLuint gl_coloredpolygon1textureprogram;
 

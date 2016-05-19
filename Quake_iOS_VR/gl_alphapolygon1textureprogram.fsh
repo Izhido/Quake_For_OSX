@@ -1,13 +1,12 @@
 //
-//  gl_textprogram.fsh
+//  gl_alphapolygon1textureprogram.fsh
 //  Quake_iOS_VR
 //
-//  Created by Heriberto Delgado on 5/14/16.
+//  Created by Heriberto Delgado on 5/18/16.
 //
 //
 
 uniform sampler2D texture;
-uniform mediump vec4 color;
 
 varying mediump vec2 texcoords_fragment;
 
@@ -15,8 +14,8 @@ invariant gl_FragColor;
 
 void main()
 {
-    mediump vec4 result = color * texture2D(texture, fract(texcoords_fragment));
-
+    mediump vec4 result = texture2D(texture, fract(texcoords_fragment));
+    
     if (result.a > 0.66)
     {
         gl_FragColor = result;

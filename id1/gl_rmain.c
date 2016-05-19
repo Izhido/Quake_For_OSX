@@ -252,9 +252,9 @@ void R_DrawSpriteModel (entity_t *e)
 		right = vright;
 	}
 
-    GL_Use (gl_polygon1textureprogram);
+    GL_Use (gl_alphapolygon1textureprogram);
     
-    glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+    glUniformMatrix4fv(gl_alphapolygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
     
     GL_DisableMultitexture();
     
@@ -307,10 +307,10 @@ void R_DrawSpriteModel (entity_t *e)
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
-    glEnableVertexAttribArray(gl_polygon1textureprogram_position);
-    glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
-    glEnableVertexAttribArray(gl_polygon1textureprogram_texcoords);
-    glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(gl_alphapolygon1textureprogram_position);
+    glVertexAttribPointer(gl_alphapolygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_alphapolygon1textureprogram_texcoords);
+    glVertexAttribPointer(gl_alphapolygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
     
     GLuint elementbuffer;
     glGenBuffers(1, &elementbuffer);
@@ -324,8 +324,8 @@ void R_DrawSpriteModel (entity_t *e)
     
     glDeleteBuffers(1, &elementbuffer);
     
-    glDisableVertexAttribArray(gl_polygon1textureprogram_texcoords);
-    glDisableVertexAttribArray(gl_polygon1textureprogram_position);
+    glDisableVertexAttribArray(gl_alphapolygon1textureprogram_texcoords);
+    glDisableVertexAttribArray(gl_alphapolygon1textureprogram_position);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     

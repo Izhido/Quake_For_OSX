@@ -450,40 +450,23 @@ void R_DrawSequentialPoly (msurface_t *s)
 				theRect->w = 0;
 			}
 
-            GLfloat* vertices = malloc(p->numverts * 7 * sizeof(GLfloat));
-			
-            v = p->verts[0];
-            int j = 0;
-			for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
-			{
-                vertices[j++] = v[0];
-                vertices[j++] = v[1];
-                vertices[j++] = v[2];
-                
-                vertices[j++] = v[3];
-                vertices[j++] = v[4];
-
-                vertices[j++] = v[5];
-                vertices[j++] = v[6];
-			}
-            
             GLuint* indices;
             int indexcount;
             
-            GL_Triangulate (vertices, p->numverts, 7, &indices, &indexcount);
+            GL_Triangulate ((GLfloat*)p->verts, p->numverts, VERTEXSIZE, &indices, &indexcount);
             
             GLuint vertexbuffer;
             glGenBuffers(1, &vertexbuffer);
             
             glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-            glBufferData(GL_ARRAY_BUFFER, p->numverts * 7 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, p->numverts * VERTEXSIZE * sizeof(GLfloat), (GLfloat*)p->verts, GL_STATIC_DRAW);
             
             glEnableVertexAttribArray(gl_polygon2texturesprogram_position);
-            glVertexAttribPointer(gl_polygon2texturesprogram_position, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)0);
+            glVertexAttribPointer(gl_polygon2texturesprogram_position, 3, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)0);
             glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
-            glVertexAttribPointer(gl_polygon2texturesprogram_texcoords0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+            glVertexAttribPointer(gl_polygon2texturesprogram_texcoords0, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
             glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
-            glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
+            glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
             
             GLuint elementbuffer;
             glGenBuffers(1, &elementbuffer);
@@ -506,8 +489,6 @@ void R_DrawSequentialPoly (msurface_t *s)
             glDeleteBuffers(1, &vertexbuffer);
             
             free(indices);
-            
-            free(vertices);
 
             return;
 		} else {
@@ -520,34 +501,21 @@ void R_DrawSequentialPoly (msurface_t *s)
             t = R_TextureAnimation (s->texinfo->texture);
 			GL_Bind (t->gl_texturenum);
             
-            GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
-            
-            v = p->verts[0];
-            int j = 0;
-            for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
-            {
-                vertices[j++] = v[0];
-                vertices[j++] = v[1];
-                vertices[j++] = v[2];
-                vertices[j++] = v[3];
-                vertices[j++] = v[4];
-            }
-            
             GLuint* indices;
             int indexcount;
             
-            GL_Triangulate (vertices, p->numverts, 5, &indices, &indexcount);
+            GL_Triangulate ((GLfloat*)p->verts, p->numverts, VERTEXSIZE, &indices, &indexcount);
             
             GLuint vertexbuffer;
             glGenBuffers(1, &vertexbuffer);
             
             glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-            glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, p->numverts * VERTEXSIZE * sizeof(GLfloat), (GLfloat*)p->verts, GL_STATIC_DRAW);
             
             glEnableVertexAttribArray(gl_polygon1textureprogram_position);
-            glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+            glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)0);
             glEnableVertexAttribArray(gl_polygon1textureprogram_texcoords);
-            glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+            glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
             
             GLuint elementbuffer;
             glGenBuffers(1, &elementbuffer);
@@ -572,24 +540,15 @@ void R_DrawSequentialPoly (msurface_t *s)
             
             glEnable (GL_BLEND);
 
-            v = p->verts[0];
-            j = 3;
-			for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
-			{
-                vertices[j++] = v[5];
-                vertices[j++] = v[6];
-                j += 3;
-			}
-
             glGenBuffers(1, &vertexbuffer);
             
             glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-            glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, p->numverts * VERTEXSIZE * sizeof(GLfloat), (GLfloat*)p->verts, GL_STATIC_DRAW);
             
             glEnableVertexAttribArray(gl_polygon1textureprogram_position);
-            glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+            glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)0);
             glEnableVertexAttribArray(gl_polygon1textureprogram_texcoords);
-            glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+            glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
             
             glGenBuffers(1, &elementbuffer);
             
@@ -611,8 +570,6 @@ void R_DrawSequentialPoly (msurface_t *s)
 
             free(indices);
             
-            free(vertices);
-
             glDisable (GL_BLEND);
 		}
 
@@ -719,14 +676,14 @@ void R_DrawSequentialPoly (msurface_t *s)
         glGenBuffers(1, &vertexbuffer);
         
         glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glBufferData(GL_ARRAY_BUFFER, p->numverts * 7 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, p->numverts * VERTEXSIZE * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
         
         glEnableVertexAttribArray(gl_polygon2texturesprogram_position);
-        glVertexAttribPointer(gl_polygon2texturesprogram_position, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)0);
+        glVertexAttribPointer(gl_polygon2texturesprogram_position, 3, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)0);
         glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
-        glVertexAttribPointer(gl_polygon2texturesprogram_texcoords0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+        glVertexAttribPointer(gl_polygon2texturesprogram_texcoords0, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
         glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
-        glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
+        glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
         
         GLuint elementbuffer;
         glGenBuffers(1, &elementbuffer);
@@ -946,34 +903,21 @@ void DrawGLPoly (glpoly_t *p)
         texcoords = gl_polygon1textureprogram_texcoords;
     }
 
-    GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
-    
-    v = p->verts[0];
-    int j = 0;
-    for (i=0 ; i<p->numverts ; i++, v+= VERTEXSIZE)
-    {
-        vertices[j++] = v[0];
-        vertices[j++] = v[1];
-        vertices[j++] = v[2];
-        vertices[j++] = v[3];
-        vertices[j++] = v[4];
-    }
-    
     GLuint* indices;
     int indexcount;
     
-    GL_Triangulate (vertices, p->numverts, 5, &indices, &indexcount);
+    GL_Triangulate ((GLfloat*)p->verts, p->numverts, VERTEXSIZE, &indices, &indexcount);
     
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, p->numverts * VERTEXSIZE * sizeof(GLfloat), (GLfloat*)p->verts, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)0);
     glEnableVertexAttribArray(texcoords);
-    glVertexAttribPointer(texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    glVertexAttribPointer(texcoords, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
     
     GLuint elementbuffer;
     glGenBuffers(1, &elementbuffer);
@@ -995,8 +939,6 @@ void DrawGLPoly (glpoly_t *p)
     glDeleteBuffers(1, &vertexbuffer);
     
     free(indices);
-    
-    free(vertices);
 }
 
 
@@ -1080,35 +1022,21 @@ void R_BlendLightmaps (void)
 				DrawGLWaterPolyLightmap (p);
 			else
 			{
-                GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
-                
-                v = p->verts[0];
-                int k = 0;
-                for (j=0 ; j<p->numverts ; j++, v+= VERTEXSIZE)
-                {
-                    vertices[k++] = v[0];
-                    vertices[k++] = v[1];
-                    vertices[k++] = v[2];
-                    
-                    vertices[k++] = v[5];
-                    vertices[k++] = v[6];
-                }
-                
                 int indexcount;
                 GLuint* indices;
                 
-                GL_Triangulate (vertices, p->numverts, 5, &indices, &indexcount);
+                GL_Triangulate ((GLfloat*)p->verts, p->numverts, VERTEXSIZE, &indices, &indexcount);
                 
                 GLuint vertexbuffer;
                 glGenBuffers(1, &vertexbuffer);
                 
                 glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-                glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, p->numverts * VERTEXSIZE * sizeof(GLfloat), (GLfloat*)p->verts, GL_STATIC_DRAW);
                 
                 glEnableVertexAttribArray(gl_waterpolygon_position);
-                glVertexAttribPointer(gl_waterpolygon_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+                glVertexAttribPointer(gl_waterpolygon_position, 3, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)0);
                 glEnableVertexAttribArray(gl_waterpolygon_texcoords);
-                glVertexAttribPointer(gl_waterpolygon_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+                glVertexAttribPointer(gl_waterpolygon_texcoords, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
                 
                 GLuint elementbuffer;
                 glGenBuffers(1, &elementbuffer);
@@ -1130,8 +1058,6 @@ void R_BlendLightmaps (void)
                 glDeleteBuffers(1, &vertexbuffer);
                 
                 free(indices);
-                
-                free(vertices);
             }
 		}
 	}

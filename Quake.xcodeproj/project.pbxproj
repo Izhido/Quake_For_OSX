@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0C3A94087ABE65555EF823DA /* libPods-Quake_iOS_VR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C82BDF8FCD7ED0B4D780A4A7 /* libPods-Quake_iOS_VR.a */; };
+		2817C7A61CED6555000E491D /* gl_noalphatextprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A41CED6555000E491D /* gl_noalphatextprogram.fsh */; };
+		2817C7A71CED6555000E491D /* gl_noalphatextprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */; };
+		2817C7AA1CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A81CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh */; };
+		2817C7AB1CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A91CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh */; };
 		281C7D901CE6C4EA003C2F54 /* in_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 281C7D8F1CE6C4EA003C2F54 /* in_ios_vr.c */; };
 		281D058A1CDC597900E422DA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 281D05891CDC597900E422DA /* OpenGLES.framework */; };
 		281D05931CDE620F00E422DA /* host.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE281C5D6FFD00CEC48E /* host.c */; };
@@ -238,6 +242,10 @@
 
 /* Begin PBXFileReference section */
 		153169104D01DAE8AF82A08C /* Pods-Quake_iOS_VR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.debug.xcconfig"; sourceTree = "<group>"; };
+		2817C7A41CED6555000E491D /* gl_noalphatextprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_noalphatextprogram.fsh; sourceTree = "<group>"; };
+		2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_noalphatextprogram.vsh; sourceTree = "<group>"; };
+		2817C7A81CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_alphapolygon1textureprogram.fsh; sourceTree = "<group>"; };
+		2817C7A91CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_alphapolygon1textureprogram.vsh; sourceTree = "<group>"; };
 		281C7D8F1CE6C4EA003C2F54 /* in_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = in_ios_vr.c; sourceTree = "<group>"; };
 		281D05881CDC57CD00E422DA /* glquake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glquake.h; sourceTree = "<group>"; };
 		281D05891CDC597900E422DA /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
@@ -652,12 +660,16 @@
 		2887814D1CD83E8200AF4F24 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2817C7A81CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh */,
+				2817C7A91CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh */,
 				28C4FA661CE79617001CF82D /* gl_coloredpolygon1textureprogram.fsh */,
 				28C4FA671CE79617001CF82D /* gl_coloredpolygon1textureprogram.vsh */,
 				28C4FA681CE79617001CF82D /* gl_coloredpolygonnotextureprogram.fsh */,
 				28C4FA691CE79617001CF82D /* gl_coloredpolygonnotextureprogram.vsh */,
 				28C4FA6A1CE79617001CF82D /* gl_fillprogram.fsh */,
 				28C4FA6B1CE79617001CF82D /* gl_fillprogram.vsh */,
+				2817C7A41CED6555000E491D /* gl_noalphatextprogram.fsh */,
+				2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */,
 				28C4FA6C1CE79617001CF82D /* gl_polygon1textureprogram.fsh */,
 				28C4FA6D1CE79617001CF82D /* gl_polygon1textureprogram.vsh */,
 				28C4FA6E1CE79617001CF82D /* gl_polygon2texturesprogram.fsh */,
@@ -829,17 +841,21 @@
 				28C4FA7E1CE79617001CF82D /* gl_polygon2texturesprogram.fsh in Resources */,
 				28C4FA761CE79617001CF82D /* gl_coloredpolygon1textureprogram.fsh in Resources */,
 				28C4FA801CE79617001CF82D /* gl_polygonnotextureprogram.fsh in Resources */,
+				2817C7AA1CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh in Resources */,
 				288781481CD83E0800AF4F24 /* LaunchScreen.storyboard in Resources */,
 				28C4FA7A1CE79617001CF82D /* gl_fillprogram.fsh in Resources */,
+				2817C7A71CED6555000E491D /* gl_noalphatextprogram.vsh in Resources */,
 				288781521CD83F8B00AF4F24 /* id1 in Resources */,
 				28C4FA791CE79617001CF82D /* gl_coloredpolygonnotextureprogram.vsh in Resources */,
 				28C4FA831CE79617001CF82D /* gl_textprogram.vsh in Resources */,
+				2817C7AB1CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh in Resources */,
 				288781451CD83E0800AF4F24 /* Assets.xcassets in Resources */,
 				28C4FA841CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh in Resources */,
 				288781431CD83E0800AF4F24 /* Main.storyboard in Resources */,
 				28C4FA811CE79617001CF82D /* gl_polygonnotextureprogram.vsh in Resources */,
 				28C4FA7B1CE79617001CF82D /* gl_fillprogram.vsh in Resources */,
 				28C4FA851CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh in Resources */,
+				2817C7A61CED6555000E491D /* gl_noalphatextprogram.fsh in Resources */,
 				28C4FA771CE79617001CF82D /* gl_coloredpolygon1textureprogram.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
