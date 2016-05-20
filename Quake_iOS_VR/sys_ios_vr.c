@@ -17,6 +17,8 @@ float frame_lapse = 1.0 / 60.0;
 
 char gl_shaderdirectory[MAX_OSPATH];
 
+char sys_resourcesdir[MAX_OSPATH];
+
 /*
  ===============================================================================
  
@@ -238,9 +240,13 @@ char* Sys_LoadTextFromFile(const char* directory, const char* filename)
 
 void Sys_Init(const char* resourcesDir)
 {
+    memset(sys_resourcesdir, 0, MAX_OSPATH);
+    
+    memcpy(sys_resourcesdir, resourcesDir, strlen(resourcesDir));
+
     int argc = 3;
     
-    char* argv[] = { "Quake_iOS_VR", "-basedir", resourcesDir };
+    char* argv[] = { "Quake_iOS_VR", "-basedir", sys_resourcesdir };
     
     parms.memsize = 8*1024*1024;
     parms.membase = malloc (parms.memsize);
@@ -261,6 +267,9 @@ void Sys_Init(const char* resourcesDir)
 
 void Sys_FrameBeforeRender()
 {
+    if (setjmp (host_abortserver) )
+        return;			// something bad happened, or the server disconnected
+
     block_drawing = true;
     
     Host_FrameBeforeRender(frame_lapse);

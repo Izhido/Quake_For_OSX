@@ -206,9 +206,13 @@ void Sys_Cbuf_AddText(const char* text)
 
 void Sys_Init(const char* resourcesDir)
 {
+    memset(sys_resourcesdir, 0, MAX_OSPATH);
+    
+    memcpy(sys_resourcesdir, resourcesDir, strlen(resourcesDir));
+    
     int argc = 3;
     
-    char* argv[] = { "Quake_tvOS", "-basedir", resourcesDir };
+    char* argv[] = { "Quake_tvOS", "-basedir", sys_resourcesdir };
     
     parms.memsize = 8*1024*1024;
     parms.membase = malloc (parms.memsize);

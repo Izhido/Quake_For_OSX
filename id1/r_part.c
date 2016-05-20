@@ -704,6 +704,8 @@ void R_DrawParticles (void)
         vertexcount += 3;
     }
     
+    if (vertexcount == 0) return;
+    
     GLfloat* vertices = malloc(vertexcount * 9 * sizeof(GLfloat));
     
     int vertexpos = 0;
