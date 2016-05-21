@@ -736,6 +736,7 @@ void R_DrawParticles (void)
 			scale = 1 + scale * 0.004;
 
         unsigned c = d_8to24table[(int)p->color];
+        
         GLfloat r = (GLfloat)(c & 0xFF) / 255.0;
         GLfloat g = (GLfloat)((c >> 8) & 0xFF) / 255.0;
         GLfloat b = (GLfloat)((c >> 16) & 0xFF) / 255.0;

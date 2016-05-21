@@ -148,7 +148,7 @@ unsigned char d_15to8table[65536];
 float		gldepthmin, gldepthmax;
 
 qboolean isPermedia = false;
-qboolean gl_mtexable = false;
+qboolean gl_mtexable = true;
 
 //int		texture_mode = GL_NEAREST;
 //int		texture_mode = GL_NEAREST_MIPMAP_NEAREST;

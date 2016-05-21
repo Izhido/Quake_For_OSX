@@ -19,6 +19,8 @@ char gl_shaderdirectory[MAX_OSPATH];
 
 char sys_resourcesdir[MAX_OSPATH];
 
+extern int sb_updates;
+
 /*
  ===============================================================================
  
@@ -270,6 +272,8 @@ void Sys_FrameBeforeRender()
     if (setjmp (host_abortserver) )
         return;			// something bad happened, or the server disconnected
 
+    sb_updates = 0;
+    
     block_drawing = true;
     
     Host_FrameBeforeRender(frame_lapse);

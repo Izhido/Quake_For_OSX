@@ -1331,7 +1331,7 @@ void GL_Set2D (void)
     {
         GL_Identity (gl_textandfill_matrix);
         
-        GL_Translate (gl_textandfill_matrix, -2.0, 2.0, 0.0);
+        GL_Translate (gl_textandfill_matrix, -2.0, 1.0, 0.0);
         GL_Scale (gl_textandfill_matrix, 4.0 / vid.width, -4.0 / vid.height, 1.0);
         
         GL_MultiplyLeft (gl_textandfill_matrix, glvr_eyetranslation);

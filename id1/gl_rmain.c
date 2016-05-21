@@ -35,7 +35,7 @@ mplane_t	frustum[4];
 
 int			c_brush_polys, c_alias_polys;
 
-qboolean	envmap;				// true during envmap command capture 
+qboolean	envmap = false;				// true during envmap command capture
 
 GLuint      currentprogram = 0;         // to avoid setting up the same program multiple times
 
@@ -813,6 +813,10 @@ void R_DrawEntitiesOnList (void)
 			break;
 		}
 	}
+
+    // restore the world matrix
+    R_ApplyWorld ();
+    R_ApplyProjection ();
 }
 
 /*
@@ -883,6 +887,10 @@ void R_DrawViewModel (void)
 	glDepthRangef (gldepthmin, gldepthmin + 0.3*(gldepthmax-gldepthmin));
 	R_DrawAliasModel (currententity);
 	glDepthRangef (gldepthmin, gldepthmax);
+    
+    // restore the world matrix
+    R_ApplyWorld ();
+    R_ApplyProjection ();
 }
 
 
@@ -1182,7 +1190,6 @@ void R_SetupGL (void)
     GL_Translate (r_world_translate_matrix, -r_refdef.vieworg[0],  -r_refdef.vieworg[1],  -r_refdef.vieworg[2]);
 
     R_ApplyWorld ();
-    
     R_ApplyProjection ();
 
     //
@@ -1349,7 +1356,6 @@ void R_Mirror (void)
     memcpy (r_world_translate_matrix, r_base_world_translate_matrix, sizeof(r_world_translate_matrix));
 
     R_ApplyWorld ();
-    
     R_ApplyProjection ();
     
     gl_rendermirror_enabled = true;
