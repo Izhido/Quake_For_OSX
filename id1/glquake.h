@@ -371,6 +371,8 @@ extern GLfloat glvr_eyetranslation[16];
 extern GLfloat glvr_rotation[16];
 extern GLfloat glvr_projection[16];
 
+extern vec3_t glvr_viewangles;
+
 void GL_Use (GLuint program);
 
 void R_TranslatePlayerSkin (int playernum);

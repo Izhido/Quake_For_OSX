@@ -143,6 +143,8 @@ GLfloat glvr_eyetranslation[16];
 GLfloat glvr_rotation[16];
 GLfloat glvr_projection[16];
 
+vec3_t glvr_viewangles;
+
 unsigned short	d_8to16table[256];
 unsigned*	d_8to24table;
 unsigned char d_15to8table[65536];

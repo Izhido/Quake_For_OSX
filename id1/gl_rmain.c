@@ -124,63 +124,14 @@ qboolean R_CullBox (vec3_t mins, vec3_t maxs)
 
 void R_ApplyWorld (void)
 {
-    if (glvr_enabled && !cls.demoplayback)
+    memcpy (gl_polygon_matrix, r_world_rotate_matrix, sizeof(gl_polygon_matrix));
+    
+    GL_MultiplyLeft (gl_polygon_matrix, r_world_translate_matrix);
+    
+    if (glvr_enabled)
     {
-        if (glvr_mode == 0)
-        {
-            memcpy (gl_polygon_matrix, r_world_rotate_matrix, sizeof(gl_polygon_matrix));
-            
-            GL_MultiplyLeft (gl_polygon_matrix, r_world_translate_matrix);
-            
-            GL_MultiplyLeft (gl_polygon_matrix, glvr_eyetranslation);
-        }
-        else
-        {
-            GL_Identity (gl_polygon_matrix);
-            
-            GL_MultiplyLeft (gl_polygon_matrix, glvr_rotation);
-            
-            GL_Rotate (gl_polygon_matrix, -90.0,  1.0, 0.0, 0.0);	    // put Z going up
-            GL_Rotate (gl_polygon_matrix, 90.0,  0.0, 0.0, 1.0);	    // put Z going up
-            
-            GL_Rotate (gl_polygon_matrix, -r_refdef.viewangles[2],  1.0, 0.0, 0.0);
-            GL_Rotate (gl_polygon_matrix, -r_refdef.viewangles[0],  0.0, 1.0, 0.0);
-            GL_Rotate (gl_polygon_matrix, -r_refdef.viewangles[1],  0.0, 0.0, 1.0);
-
-            GL_MultiplyLeft (gl_polygon_matrix, r_world_translate_matrix);
-            
-            GL_MultiplyLeft (gl_polygon_matrix, glvr_eyetranslation);
-        }
+        GL_MultiplyLeft (gl_polygon_matrix, glvr_eyetranslation);
     }
-    else
-    {
-        memcpy (gl_polygon_matrix, r_world_rotate_matrix, sizeof(gl_polygon_matrix));
-        
-        GL_MultiplyLeft (gl_polygon_matrix, r_world_translate_matrix);
-    }
-    /*
-    float vector1[4] = { 0.0, 1.0, 0.0, 1.0 };
-    
-    float result1[4] = { glvr_rotation[0] * vector1[0] + glvr_rotation[4] * vector1[1] + glvr_rotation[8] * vector1[2] + glvr_rotation[12] * vector1[3],
-        glvr_rotation[1] * vector1[0] + glvr_rotation[5] * vector1[1] + glvr_rotation[9] * vector1[2] + glvr_rotation[13] * vector1[3],
-        glvr_rotation[2] * vector1[0] + glvr_rotation[6] * vector1[1] + glvr_rotation[10] * vector1[2] + glvr_rotation[14] * vector1[3],
-        glvr_rotation[3] * vector1[0] + glvr_rotation[7] * vector1[1] + glvr_rotation[11] * vector1[2] + glvr_rotation[15] * vector1[3] };
-    
-    float angle1 = asin(result1[2]); // elevation
-    
-    float angle2 = atan2(result1[1], result1[0]); // spin
-    
-    float vector3[4] = { 1.0, 0.0, 0.0, 1.0 };
-    
-    float result3[4] = { glvr_rotation[0] * vector3[0] + glvr_rotation[4] * vector3[1] + glvr_rotation[8] * vector3[2] + glvr_rotation[12] * vector3[3],
-        glvr_rotation[1] * vector3[0] + glvr_rotation[5] * vector3[1] + glvr_rotation[9] * vector3[2] + glvr_rotation[13] * vector3[3],
-        glvr_rotation[2] * vector3[0] + glvr_rotation[6] * vector3[1] + glvr_rotation[10] * vector3[2] + glvr_rotation[14] * vector3[3],
-        glvr_rotation[3] * vector3[0] + glvr_rotation[7] * vector3[1] + glvr_rotation[11] * vector3[2] + glvr_rotation[15] * vector3[3] };
-    
-    float angle3 = atan2(result3[0], result3[2]); // orientation
-    
-    printf("angle1 = %.3f angle2 = %.3f angle3 = %.3f\n", angle1 * 180.0 / M_PI, angle2 * 180.0 / M_PI, angle3 * 180.0 / M_PI);
-     */
 }
 
 void R_RotateForEntity (entity_t *e)
