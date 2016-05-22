@@ -1237,6 +1237,13 @@ Draw_FadeScreen
 */
 void Draw_FadeScreen (void)
 {
+    if (glvr_enabled)
+    {
+        return;
+    }
+
+    glEnable(GL_BLEND);
+    
     GL_Use (gl_fillprogram);
     
     glUniform4f(gl_fillprogram_color, 0.0, 0.0, 0.0, 0.8);
@@ -1287,6 +1294,8 @@ void Draw_FadeScreen (void)
     glDeleteBuffers(1, &vertexbuffer);
     
     glUniform4f(gl_fillprogram_color, 1.0, 1.0, 1.0, 1.0);
+
+    glDisable(GL_BLEND);
 
     Sbar_Changed();
 }

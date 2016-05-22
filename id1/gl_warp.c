@@ -390,7 +390,11 @@ R_DrawSkyChain
 */
 void R_DrawSkyChain (msurface_t *s)
 {
-	msurface_t	*fa;
+    GL_Use (gl_polygon1textureprogram);
+    
+    glUniformMatrix4fv(gl_polygon1textureprogram_transform, 1, 0, gl_polygon_matrix);
+
+    msurface_t	*fa;
 
 	GL_DisableMultitexture();
 

@@ -360,6 +360,8 @@ extern GLfloat gl_projection_matrix[16];
 
 extern qboolean glvr_enabled;
 
+extern int glvr_mode;
+
 extern GLfloat glvr_viewportx;
 extern GLfloat glvr_viewporty;
 extern GLfloat glvr_viewportwidth;

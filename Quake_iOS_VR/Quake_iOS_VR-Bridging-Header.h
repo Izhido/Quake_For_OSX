@@ -16,6 +16,18 @@ extern int gl_screenwidth;
 
 extern int gl_screenheight;
 
+extern float in_forwardmove;
+
+extern float in_sidestepmove;
+
+extern float in_rollangle;
+
+extern float in_pitchangle;
+
+void Sys_Cbuf_AddText(const char* text);
+
+void Sys_Con_Printf(const char* text);
+
 void Sys_Init(const char* resourcesDir);
 
 void Sys_FrameBeforeRender();

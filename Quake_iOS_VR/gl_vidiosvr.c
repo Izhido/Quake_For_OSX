@@ -132,6 +132,8 @@ GLfloat gl_projection_matrix[16];
 
 qboolean glvr_enabled;
 
+int glvr_mode;
+
 GLfloat glvr_viewportx;
 GLfloat glvr_viewporty;
 GLfloat glvr_viewportwidth;

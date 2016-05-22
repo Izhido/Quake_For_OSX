@@ -50,6 +50,8 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
         gl_screenwidth = Int32(UIScreen.mainScreen().bounds.size.width * UIScreen.mainScreen().scale);
         gl_screenheight = Int32(UIScreen.mainScreen().bounds.size.height * UIScreen.mainScreen().scale);
 
+        glvr_mode = 1;
+        
         Sys_Init(NSBundle.mainBundle().resourcePath!)
     }
 
@@ -125,10 +127,121 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
                 
                 remote!.playerIndex = .Index1
 
-                remote!.extendedGamepad!.valueChangedHandler = { (gamepad: GCExtendedGamepad, element: GCControllerElement)->() in
+                remote!.controllerPausedHandler = { (controller: GCController) -> () in
+                    
+                    Key_Event(255, qboolean(1)) // K_PAUSE, true
+                    Key_Event(255, qboolean(0)) // K_PAUSE, false
+                    
+                    Key_Event(27, qboolean(1)) // K_ESCAPE, true
+                    Key_Event(27, qboolean(0)) // K_ESCAPE, false
+                
+                }
+
+                remote!.extendedGamepad!.dpad.up.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(128, qboolean(pressed ? 1 : 0)) // K_UPARROW, true / false
+                }
+                
+
+                remote!.extendedGamepad!.dpad.left.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(130, qboolean(pressed ? 1 : 0)) // K_LEFTARROW, true / false
+                
+                }
+                
+                remote!.extendedGamepad!.dpad.right.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(131, qboolean(pressed ? 1 : 0)) // K_RIGHTARROW, true / false
+                
+                }
+                
+                remote!.extendedGamepad!.dpad.down.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(129, qboolean(pressed ? 1 : 0)) // K_DOWNARROW, true / false
+                
+                }
+
+                remote!.extendedGamepad!.buttonA.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(13, qboolean(pressed ? 1 : 0)) // K_ENTER, true / false
+                
+                }
+                
+                remote!.extendedGamepad!.buttonB.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(27, qboolean(pressed ? 1 : 0)) // K_ESCAPE, true / false
+                
+                }
+
+                remote!.extendedGamepad!.buttonY.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    glvr_mode += 1
+                    
+                    if (glvr_mode > 2)
+                    {
+                        glvr_mode = 0
+                    }
+                    
+                    if (glvr_mode == 0)
+                    {
+                        Sys_Con_Printf ("VR Static mode enabled.\n");
+                    }
+                    else if (glvr_mode == 1)
+                    {
+                        Sys_Con_Printf ("VR Head View mode enabled.\n");
+                    }
+                    else
+                    {
+                        Sys_Con_Printf ("VR Head Forward mode enabled.\n");
+                    }
                     
                 }
 
+                remote!.extendedGamepad!.leftThumbstick.xAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                    
+                    in_forwardmove = value
+                    
+                }
+                
+                remote!.extendedGamepad!.leftThumbstick.yAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                    
+                    in_sidestepmove = value
+                    
+                }
+                
+                remote!.extendedGamepad!.rightThumbstick.xAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                    
+                    if glvr_mode != 2
+                    {
+                        in_rollangle = value
+                    }
+                    
+                }
+                
+                remote!.extendedGamepad!.rightThumbstick.yAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                    
+                    if glvr_mode == 0
+                    {
+                        in_pitchangle = value
+                    }
+                    
+                }
+
+                remote!.extendedGamepad!.rightTrigger.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(133, qboolean(pressed ? 1 : 0)) // K_CTRL, true / false
+                
+                }
+                
+                remote!.extendedGamepad!.rightShoulder.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    if pressed
+                    {
+                        Sys_Cbuf_AddText("impulse 10\n")
+                    }
+                    
+                }
+                
                 break
             }
         }

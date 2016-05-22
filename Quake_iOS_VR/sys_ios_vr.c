@@ -210,6 +210,11 @@ void Sys_Cbuf_AddText(const char* text)
     Cbuf_AddText(text);
 }
 
+void Sys_Con_Printf(const char* text)
+{
+    Con_Printf(text);
+}
+
 char* Sys_LoadTextFromFile(const char* directory, const char* filename)
 {
     char* fullpath = malloc(strlen(directory) + strlen(filename) + 2);
