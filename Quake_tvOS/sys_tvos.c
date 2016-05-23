@@ -15,6 +15,8 @@ static quakeparms_t parms;
 
 float frame_lapse = 1.0 / 60.0;
 
+char sys_resourcesdir[MAX_OSPATH];
+
 /*
  ===============================================================================
  
@@ -227,8 +229,6 @@ void Sys_Init(const char* resourcesDir)
     
     printf ("Host_Init\n");
     Host_Init (&parms);
-    
-    Cbuf_AddText("+mlook");
 }
 
 void Sys_Frame()

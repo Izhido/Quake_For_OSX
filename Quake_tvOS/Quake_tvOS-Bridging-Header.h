@@ -18,13 +18,23 @@ extern int vid_screenWidth;
 
 extern int vid_screenHeight;
 
-extern float touch_x;
+extern float in_touchx;
 
-extern float touch_y;
+extern float in_touchy;
 
-extern float pitch_angle;
+extern float in_pitchangle;
 
-extern float roll_angle;
+extern float in_rollangle;
+
+extern qboolean in_extendedinuse;
+
+extern float in_extendedforwardmove;
+
+extern float in_extendedsidestepmove;
+
+extern float in_extendedrollangle;
+
+extern float in_extendedpitchangle;
 
 void VID_SetSize(int width, int height);
 

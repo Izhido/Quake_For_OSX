@@ -264,10 +264,15 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
     
     func controllerDidDisconnect(notification: NSNotification)
     {
-        if remote != nil
+        if remote == notification.object as! GCController!
         {
             remote!.playerIndex = .IndexUnset
             
+            in_forwardmove = 0.0
+            in_sidestepmove = 0.0
+            in_rollangle = 0.0
+            in_pitchangle = 0.0
+
             remote = nil
         }
     }

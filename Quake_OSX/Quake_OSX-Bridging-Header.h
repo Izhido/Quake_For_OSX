@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "quakedef.h"
+
 extern float frame_lapse;
 
 extern unsigned char* vid_buffer;
@@ -16,13 +18,21 @@ extern int vid_screenWidth;
 
 extern int vid_screenHeight;
 
+extern float in_forwardmove;
+
+extern float in_sidestepmove;
+
+extern float in_rollangle;
+
+extern float in_pitchangle;
+
 extern unsigned* d_8to24table;
 
 extern int mx;
 
 extern int my;
 
-void Key_Event(int key, bool down);
+void Sys_Cbuf_AddText(const char* text);
 
 void VID_SetSize(int width, int height);
 

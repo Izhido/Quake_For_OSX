@@ -1,6 +1,6 @@
 //
-//  in_tvos.c
-//  Quake_tvOS
+//  in_ios_vr.c
+//  Quake_iOS_VR
 //
 //  Created by Heriberto Delgado on 5/13/16.
 //

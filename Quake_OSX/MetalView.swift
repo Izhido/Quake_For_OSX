@@ -151,7 +151,7 @@ class MetalView: MTKView
         
         let mapped = Int32(scantokey[code])
         
-        Key_Event(mapped, true)
+        Key_Event(mapped, qboolean(1))
     }
     
     override func keyUp(theEvent: NSEvent)
@@ -160,36 +160,36 @@ class MetalView: MTKView
         
         let mapped = Int32(scantokey[code])
         
-        Key_Event(mapped, false)
+        Key_Event(mapped, qboolean(0))
     }
     
     override func flagsChanged(theEvent: NSEvent)
     {
         if theEvent.modifierFlags.contains(.AlternateKeyMask) && !previousModifierFlags.contains(.AlternateKeyMask)
         {
-            Key_Event(132, true)
+            Key_Event(132, qboolean(1))
         }
         else if !theEvent.modifierFlags.contains(.AlternateKeyMask) && previousModifierFlags.contains(.AlternateKeyMask)
         {
-            Key_Event(132, false)
+            Key_Event(132, qboolean(0))
         }
         
         if theEvent.modifierFlags.contains(.ControlKeyMask) && !previousModifierFlags.contains(.ControlKeyMask)
         {
-            Key_Event(133, true)
+            Key_Event(133, qboolean(1))
         }
         else if !theEvent.modifierFlags.contains(.ControlKeyMask) && previousModifierFlags.contains(.ControlKeyMask)
         {
-            Key_Event(133, false)
+            Key_Event(133, qboolean(0))
         }
         
         if theEvent.modifierFlags.contains(.ShiftKeyMask) && !previousModifierFlags.contains(.ShiftKeyMask)
         {
-            Key_Event(134, true)
+            Key_Event(134, qboolean(1))
         }
         else if !theEvent.modifierFlags.contains(.ShiftKeyMask) && previousModifierFlags.contains(.ShiftKeyMask)
         {
-            Key_Event(134, false)
+            Key_Event(134, qboolean(0))
         }
         
         previousModifierFlags = theEvent.modifierFlags
@@ -221,12 +221,12 @@ class MetalView: MTKView
     
     override func mouseDown(theEvent: NSEvent)
     {
-        Key_Event(200, true)
+        Key_Event(200, qboolean(1))
     }
     
     override func mouseUp(theEvent: NSEvent)
     {
-        Key_Event(200, false)
+        Key_Event(200, qboolean(0))
     }
     
     override func mouseMoved(theEvent: NSEvent)
@@ -237,12 +237,12 @@ class MetalView: MTKView
     
     override func rightMouseDown(theEvent: NSEvent)
     {
-        Key_Event(201, true)
+        Key_Event(201, qboolean(1))
     }
     
     override func rightMouseUp(theEvent: NSEvent)
     {
-        Key_Event(201, false)
+        Key_Event(201, qboolean(0))
     }
     
     override func mouseEntered(theEvent: NSEvent)

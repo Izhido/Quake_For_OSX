@@ -7,6 +7,7 @@
 //
 
 import MetalKit
+import GameController
 
 class ViewController: NSViewController, MTKViewDelegate
 {
@@ -37,6 +38,8 @@ class ViewController: NSViewController, MTKViewDelegate
     private var previousTime: NSTimeInterval = -1
     
     private var currentTime: NSTimeInterval = -1
+    
+    private var remote: GCController? = nil
     
     override func viewDidLoad()
     {
@@ -118,6 +121,10 @@ class ViewController: NSViewController, MTKViewDelegate
 
         metalView.device = device
         metalView.delegate = self
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidConnect), name: "GCControllerDidConnectNotification", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidDisconnect), name: "GCControllerDidDisconnectNotification", object: nil)
         
         Sys_Init(Process.argc, Process.unsafeArgv)
     }
@@ -247,6 +254,121 @@ class ViewController: NSViewController, MTKViewDelegate
         }
         
         commandBuffer.commit()
+    }
+    
+    func controllerDidConnect(notification: NSNotification)
+    {
+        for controller in GCController.controllers()
+        {
+            if controller.extendedGamepad != nil && remote == nil
+            {
+                remote = controller
+                
+                remote!.playerIndex = .Index1
+                
+                remote!.controllerPausedHandler = { (controller: GCController) -> () in
+                    
+                    Key_Event(255, qboolean(1)) // K_PAUSE, true
+                    Key_Event(255, qboolean(0)) // K_PAUSE, false
+                    
+                    Key_Event(27, qboolean(1)) // K_ESCAPE, true
+                    Key_Event(27, qboolean(0)) // K_ESCAPE, false
+                    
+                }
+                
+                remote!.extendedGamepad!.dpad.up.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(128, qboolean(pressed ? 1 : 0)) // K_UPARROW, true / false
+                }
+                
+                
+                remote!.extendedGamepad!.dpad.left.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(130, qboolean(pressed ? 1 : 0)) // K_LEFTARROW, true / false
+                    
+                }
+                
+                remote!.extendedGamepad!.dpad.right.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(131, qboolean(pressed ? 1 : 0)) // K_RIGHTARROW, true / false
+                    
+                }
+                
+                remote!.extendedGamepad!.dpad.down.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(129, qboolean(pressed ? 1 : 0)) // K_DOWNARROW, true / false
+                    
+                }
+                
+                remote!.extendedGamepad!.buttonA.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(13, qboolean(pressed ? 1 : 0)) // K_ENTER, true / false
+                    
+                }
+                
+                remote!.extendedGamepad!.buttonB.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(27, qboolean(pressed ? 1 : 0)) // K_ESCAPE, true / false
+                    
+                }
+                
+                remote!.extendedGamepad!.leftThumbstick.xAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                    
+                    in_forwardmove = value
+                    
+                }
+                
+                remote!.extendedGamepad!.leftThumbstick.yAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                    
+                    in_sidestepmove = value
+                    
+                }
+                
+                remote!.extendedGamepad!.rightThumbstick.xAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                    
+                    in_rollangle = value
+                    
+                }
+                
+                remote!.extendedGamepad!.rightThumbstick.yAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                    
+                    in_pitchangle = value
+                    
+                }
+                
+                remote!.extendedGamepad!.rightTrigger.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    Key_Event(133, qboolean(pressed ? 1 : 0)) // K_CTRL, true / false
+                    
+                }
+                
+                remote!.extendedGamepad!.rightShoulder.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                    
+                    if pressed
+                    {
+                        Sys_Cbuf_AddText("impulse 10\n")
+                    }
+                    
+                }
+                
+                break
+            }
+        }
+    }
+    
+    func controllerDidDisconnect(notification: NSNotification)
+    {
+        if remote == notification.object as! GCController!
+        {
+            remote!.playerIndex = .IndexUnset
+            
+            in_forwardmove = 0.0
+            in_sidestepmove = 0.0
+            in_rollangle = 0.0
+            in_pitchangle = 0.0
+
+            remote = nil
+        }
     }
 }
 

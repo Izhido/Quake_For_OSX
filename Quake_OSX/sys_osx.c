@@ -197,6 +197,11 @@ void Sys_LowFPPrecision (void)
 {
 }
 
+void Sys_Cbuf_AddText(const char* text)
+{
+    Cbuf_AddText(text);
+}
+
 void Sys_Init(int argc, char* argv[])
 {
     parms.memsize = 8*1024*1024;
