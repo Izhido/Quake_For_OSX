@@ -38,6 +38,8 @@ To run the tvOS target:
 The tvOS target, currently, has no network support. The game can be played by using either the Siri Remote that comes with the Apple TV, or the extended-profile gaming controller (the preferred way as of this writing).
 
 To run the iOS VR target:
+- Ensure you have the latest CocoaPods version ( https://cocoapods.org ).
+- Run "pod install" / "pod update" from Terminal as needed to get the latest Google Cardboard SDK version.  
 - Open the project in Xcode.
 - Select the "Quake_iOS_VR" target.
 - Go to the "Quake_iOS_VR/Resources" group.
