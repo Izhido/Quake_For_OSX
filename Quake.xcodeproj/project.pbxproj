@@ -217,6 +217,8 @@
 		28C4FA841CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA741CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh */; };
 		28C4FA851CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA751CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh */; };
 		28E106191CD8521F0042675A /* sys_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 28E106181CD8521F0042675A /* sys_ios_vr.c */; };
+		28EFF3911CF54F0C005E9A0D /* net_dgrm.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEC1C63074B0007B2C4 /* net_dgrm.c */; };
+		28EFF3921CF54F25005E9A0D /* net_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AE91C63054F0007B2C4 /* net_udp.c */; };
 		28F875D31CDC54E00079A0A1 /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE121C5D6FFD00CEC48E /* common.c */; };
 		28F875D41CDC54F50079A0A1 /* crc.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE161C5D6FFD00CEC48E /* crc.c */; };
 		28F875D51CDC55140079A0A1 /* zone.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE6A1C5D6FFD00CEC48E /* zone.c */; };
@@ -1015,7 +1017,9 @@
 				6D9F03FD1CE54211009AF81F /* net_loop.c in Sources */,
 				281D05951CDE625E00E422DA /* cl_main.c in Sources */,
 				28F875D31CDC54E00079A0A1 /* common.c in Sources */,
+				28EFF3911CF54F0C005E9A0D /* net_dgrm.c in Sources */,
 				281D05AA1CDE65D300E422DA /* view.c in Sources */,
+				28EFF3921CF54F25005E9A0D /* net_udp.c in Sources */,
 				281D05AD1CDE667D00E422DA /* sv_user.c in Sources */,
 				281D05971CDE629900E422DA /* cl_input.c in Sources */,
 				281D05A11CDE640600E422DA /* sv_phys.c in Sources */,

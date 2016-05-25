@@ -30,6 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <errno.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <ifaddrs.h>
+#include <net/if.h>
 
 #ifdef __sun__
 #include <sys/filio.h>
@@ -64,11 +66,44 @@ int UDP_Init (void)
 	if (COM_CheckParm ("-noudp"))
 		return -1;
 
-	// determine my name & address
+    // determine my name & address
+#if TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
+    struct ifaddrs *allInterfaces;
+    qboolean found = false;
+    if (getifaddrs(&allInterfaces) == 0)
+    {
+        struct ifaddrs *interface;
+        
+        for (interface = allInterfaces; interface != NULL; interface = interface->ifa_next)
+        {
+            unsigned int flags = interface->ifa_flags;
+            struct sockaddr *addr = interface->ifa_addr;
+            
+            if ((flags & (IFF_UP|IFF_RUNNING|IFF_LOOPBACK)) == (IFF_UP|IFF_RUNNING))
+            {
+                if (addr->sa_family == AF_INET)
+                {
+                    getnameinfo(addr, addr->sa_len, buff, MAXHOSTNAMELEN, NULL, 0, NI_NUMERICHOST);
+                    local = gethostbyname(buff);
+                    myAddr = *(int *)local->h_addr_list[0];
+                    found = true;
+                    break;
+                }
+            }
+        }
+        
+        freeifaddrs(allInterfaces);
+        
+        if (!found)
+        {
+            return -1;
+        }
+    }
+#else
 	gethostname(buff, MAXHOSTNAMELEN);
-	local = gethostbyname(buff);
+    local = gethostbyname(buff);
 	myAddr = *(int *)local->h_addr_list[0];
-
+#endif
 	// if the quake hostname isn't set, set it to the machine name
 	if (Q_strcmp(hostname.string, "UNNAMED") == 0)
 	{
