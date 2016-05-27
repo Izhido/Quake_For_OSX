@@ -41,7 +41,9 @@ class ViewController: GCEventViewController, MTKViewDelegate
     
     private var remote: GCController? = nil
     
-    private var extended_remote: GCController? = nil
+    private var extendedRemote: GCController? = nil
+    
+    private var renderingStopped: Bool = false
     
     override func viewDidLoad()
     {
@@ -128,7 +130,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidDisconnect), name: "GCControllerDidDisconnectNotification", object: nil)
         
-        Sys_Init(NSBundle.mainBundle().resourcePath!)
+        Sys_Init(NSBundle.mainBundle().resourcePath!, try! NSFileManager().URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true).path!)
     }
     
     func orthographic(top: Float, bottom: Float, left: Float, right: Float, near: Float, far: Float) -> [Float]
@@ -148,12 +150,27 @@ class ViewController: GCEventViewController, MTKViewDelegate
         ]
     }
     
+    func setupEndingScreen()
+    {
+        if !renderingStopped
+        {
+            renderingStopped = true
+        }
+    }
+
     func mtkView(view: MTKView, drawableSizeWillChange size: CGSize)
     {
     }
     
     func drawInMTKView(view: MTKView)
     {
+        if sys_ended.rawValue != 0
+        {
+            setupEndingScreen()
+            
+            return
+        }
+
         if previousTime < 0
         {
             previousTime = NSProcessInfo().systemUptime
@@ -266,7 +283,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
             {
                 remote = controller
                 
-                if extended_remote == nil
+                if extendedRemote == nil
                 {
                     remote!.playerIndex = .Index1
                 }
@@ -280,20 +297,20 @@ class ViewController: GCEventViewController, MTKViewDelegate
                 
                 break
             }
-            else if controller.extendedGamepad != nil && extended_remote == nil
+            else if controller.extendedGamepad != nil && extendedRemote == nil
             {
-                extended_remote = controller
+                extendedRemote = controller
                 
                 if remote != nil
                 {
                     remote!.playerIndex = .IndexUnset
                 }
 
-                extended_remote!.playerIndex = .Index1
+                extendedRemote!.playerIndex = .Index1
                 
                 in_extendedinuse = qboolean(1)
 
-                extended_remote!.controllerPausedHandler = { (controller: GCController) -> () in
+                extendedRemote!.controllerPausedHandler = { (controller: GCController) -> () in
                     
                     Key_Event(255, qboolean(1)) // K_PAUSE, true
                     Key_Event(255, qboolean(0)) // K_PAUSE, false
@@ -303,73 +320,73 @@ class ViewController: GCEventViewController, MTKViewDelegate
                     
                 }
                 
-                extended_remote!.extendedGamepad!.dpad.up.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                extendedRemote!.extendedGamepad!.dpad.up.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
                     Key_Event(128, qboolean(pressed ? 1 : 0)) // K_UPARROW, true / false
                 }
                 
                 
-                extended_remote!.extendedGamepad!.dpad.left.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                extendedRemote!.extendedGamepad!.dpad.left.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
                     Key_Event(130, qboolean(pressed ? 1 : 0)) // K_LEFTARROW, true / false
                     
                 }
                 
-                extended_remote!.extendedGamepad!.dpad.right.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                extendedRemote!.extendedGamepad!.dpad.right.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
                     Key_Event(131, qboolean(pressed ? 1 : 0)) // K_RIGHTARROW, true / false
                     
                 }
                 
-                extended_remote!.extendedGamepad!.dpad.down.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                extendedRemote!.extendedGamepad!.dpad.down.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
                     Key_Event(129, qboolean(pressed ? 1 : 0)) // K_DOWNARROW, true / false
                     
                 }
                 
-                extended_remote!.extendedGamepad!.buttonA.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                extendedRemote!.extendedGamepad!.buttonA.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
                     Key_Event(13, qboolean(pressed ? 1 : 0)) // K_ENTER, true / false
                     
                 }
                 
-                extended_remote!.extendedGamepad!.buttonB.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                extendedRemote!.extendedGamepad!.buttonB.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
                     Key_Event(27, qboolean(pressed ? 1 : 0)) // K_ESCAPE, true / false
                     
                 }
                 
-                extended_remote!.extendedGamepad!.leftThumbstick.xAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                extendedRemote!.extendedGamepad!.leftThumbstick.xAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
                     
                     in_extendedforwardmove = value
                     
                 }
                 
-                extended_remote!.extendedGamepad!.leftThumbstick.yAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                extendedRemote!.extendedGamepad!.leftThumbstick.yAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
                     
                     in_extendedsidestepmove = value
                     
                 }
                 
-                extended_remote!.extendedGamepad!.rightThumbstick.xAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                extendedRemote!.extendedGamepad!.rightThumbstick.xAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
                     
                     in_extendedrollangle = value
                     
                 }
                 
-                extended_remote!.extendedGamepad!.rightThumbstick.yAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
+                extendedRemote!.extendedGamepad!.rightThumbstick.yAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
                     
                     in_extendedpitchangle = value
                     
                 }
                 
-                extended_remote!.extendedGamepad!.rightTrigger.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                extendedRemote!.extendedGamepad!.rightTrigger.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
                     Key_Event(133, qboolean(pressed ? 1 : 0)) // K_CTRL, true / false
                     
                 }
                 
-                extended_remote!.extendedGamepad!.rightShoulder.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
+                extendedRemote!.extendedGamepad!.rightShoulder.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
                     if pressed
                     {
@@ -386,11 +403,11 @@ class ViewController: GCEventViewController, MTKViewDelegate
     
     func controllerDidDisconnect(notification: NSNotification)
     {
-        if extended_remote == notification.object as! GCController!
+        if extendedRemote == notification.object as! GCController!
         {
             in_extendedinuse = qboolean(0)
             
-            extended_remote!.playerIndex = .IndexUnset
+            extendedRemote!.playerIndex = .IndexUnset
             
             if remote != nil
             {
@@ -402,7 +419,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
             in_extendedforwardmove = 0.0
             in_extendedsidestepmove = 0.0
             
-            extended_remote = nil
+            extendedRemote = nil
         }
 
         if remote == notification.object as! GCController!

@@ -45,6 +45,14 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
         cardboardView.render()
     }
 
+    func setupEndingScreen()
+    {
+        if self.cardboardView.vrModeEnabled
+        {
+            self.cardboardView.vrModeEnabled = false
+        }
+    }
+
     func cardboardView(cardboardView: GCSCardboardView!, willStartDrawing headTransform: GCSHeadTransform!)
     {
         gl_screenwidth = Int32(UIScreen.mainScreen().bounds.size.width * UIScreen.mainScreen().scale)
@@ -59,12 +67,9 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
     {
         if sys_ended.rawValue != 0
         {
-            if self.cardboardView.vrModeEnabled
-            {
-                self.cardboardView.vrModeEnabled = false
-            }
+            setupEndingScreen()
 
-            return;
+            return
         }
 
         if previousTime < 0
@@ -110,12 +115,9 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
     {
         if sys_ended.rawValue != 0
         {
-            if self.cardboardView.vrModeEnabled
-            {
-                self.cardboardView.vrModeEnabled = false
-            }
+            setupEndingScreen()
             
-            return;
+            return
         }
 
         let viewport = headTransform.viewportForEye(eye)

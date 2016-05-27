@@ -8,6 +8,7 @@
 
 #include "quakedef.h"
 #include "errno.h"
+#include <sys/stat.h>
 
 qboolean isDedicated;
 
@@ -30,6 +31,8 @@ int sys_messagescount = 0;
 int sys_messagessize = 0;
 
 qboolean sys_ended = false;
+
+qboolean sys_inerror = false;
 
 /*
  ===============================================================================
@@ -142,6 +145,7 @@ int     Sys_FileTime (char *path)
 
 void Sys_mkdir (char *path)
 {
+    mkdir (path, 0777);
 }
 
 
@@ -155,6 +159,28 @@ void Sys_mkdir (char *path)
 
 void Sys_MakeCodeWriteable (unsigned long startaddr, unsigned long length)
 {
+}
+
+void Sys_AddMessage(char* message)
+{
+    if (sys_messagescount >= sys_messagessize)
+    {
+        int newsize = sys_messagescount + 64;
+        char** newmessages = malloc(newsize * sizeof(char*));
+        
+        if (sys_messages != NULL)
+        {
+            memcpy(newmessages, sys_messages, sys_messagescount * sizeof(char*));
+            
+            free(sys_messages);
+        }
+        
+        sys_messages = newmessages;
+        sys_messagessize = newsize;
+    }
+    
+    sys_messages[sys_messagescount] = message;
+    sys_messagescount++;
 }
 
 void Sys_Error (char *error, ...)
@@ -171,35 +197,19 @@ void Sys_Error (char *error, ...)
 
     printf("%s", msg);
     
-    if (sys_messagescount >= sys_messagessize)
-    {
-        int newsize = sys_messagescount + 64;
-        char** newmessages = malloc(newsize * sizeof(char*));
-        
-        if (sys_messages != NULL)
-        {
-            memcpy(newmessages, sys_messages, sys_messagescount * sizeof(char*));
-            
-            free(sys_messages);
-        }
-        
-        sys_messages = newmessages;
-        sys_messagessize = newsize;
-    }
-
-    sys_messages[sys_messagescount] = msg;
-    sys_messagescount++;
+    Sys_AddMessage (msg);
     
     Host_Shutdown();
     
     sys_ended = true;
+    sys_inerror = true;
     
     longjmp (host_abortserver, 1);
 }
 
 void Sys_Printf (char *fmt, ...)
 {
-    va_list		argptr;
+    va_list         argptr;
     
     char*		msg = malloc(MAXPRINTMSG);
     
@@ -209,24 +219,7 @@ void Sys_Printf (char *fmt, ...)
 
     printf("%s", msg);
     
-    if (sys_messagescount >= sys_messagessize)
-    {
-        int newsize = sys_messagescount + 64;
-        char** newmessages = malloc(newsize * sizeof(char*));
-        
-        if (sys_messages != NULL)
-        {
-            memcpy(newmessages, sys_messages, sys_messagescount * sizeof(char*));
-            
-            free(sys_messages);
-        }
-        
-        sys_messages = newmessages;
-        sys_messagessize = newsize;
-    }
-    
-    sys_messages[sys_messagescount] = msg;
-    sys_messagescount++;
+    Sys_AddMessage (msg);
 }
 
 void Sys_Quit (void)

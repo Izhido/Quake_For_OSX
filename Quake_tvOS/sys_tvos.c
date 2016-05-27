@@ -8,6 +8,7 @@
 
 #include "quakedef.h"
 #include "errno.h"
+#include <sys/stat.h>
 
 qboolean isDedicated;
 
@@ -16,6 +17,18 @@ static quakeparms_t parms;
 float frame_lapse = 1.0 / 60.0;
 
 char sys_resourcesdir[MAX_OSPATH];
+
+char sys_documentsdir[MAX_OSPATH];
+
+char** sys_messages = NULL;
+
+int sys_messagescount = 0;
+
+int sys_messagessize = 0;
+
+qboolean sys_ended = false;
+
+qboolean sys_inerror = false;
 
 /*
  ===============================================================================
@@ -128,6 +141,7 @@ int     Sys_FileTime (char *path)
 
 void Sys_mkdir (char *path)
 {
+    mkdir (path, 0777);
 }
 
 
@@ -143,36 +157,74 @@ void Sys_MakeCodeWriteable (unsigned long startaddr, unsigned long length)
 {
 }
 
+void Sys_AddMessage(char* message)
+{
+    if (sys_messagescount >= sys_messagessize)
+    {
+        int newsize = sys_messagescount + 64;
+        char** newmessages = malloc(newsize * sizeof(char*));
+        
+        if (sys_messages != NULL)
+        {
+            memcpy(newmessages, sys_messages, sys_messagescount * sizeof(char*));
+            
+            free(sys_messages);
+        }
+        
+        sys_messages = newmessages;
+        sys_messagessize = newsize;
+    }
+    
+    sys_messages[sys_messagescount] = message;
+    sys_messagescount++;
+}
 
 void Sys_Error (char *error, ...)
 {
     va_list         argptr;
     
-    printf ("Sys_Error: ");
+    char*		msg = malloc(MAXPRINTMSG);
+    
+    sprintf (msg,"Sys_Error: ");
     va_start (argptr,error);
-    vprintf (error,argptr);
+    vsprintf (msg+strlen(msg),error,argptr);
     va_end (argptr);
-    printf ("\n");
+    sprintf (msg+strlen(msg),"\n");
+    
+    printf("%s", msg);
+    
+    Sys_AddMessage (msg);
     
     Host_Shutdown();
     
-    exit (1);
+    sys_ended = true;
+    sys_inerror = true;
+    
+    longjmp (host_abortserver, 1);
 }
 
 void Sys_Printf (char *fmt, ...)
 {
     va_list         argptr;
     
+    char*		msg = malloc(MAXPRINTMSG);
+    
     va_start (argptr,fmt);
-    vprintf (fmt,argptr);
+    vsprintf (msg,fmt,argptr);
     va_end (argptr);
+    
+    printf("%s", msg);
+    
+    Sys_AddMessage (msg);
 }
 
 void Sys_Quit (void)
 {
     Host_Shutdown();
     
-    exit (0);
+    sys_ended = true;
+    
+    longjmp(host_abortserver, 1);
 }
 
 double Sys_FloatTime (void)
@@ -210,14 +262,21 @@ void Sys_Cbuf_AddText(const char* text)
     Cbuf_AddText(text);
 }
 
-void Sys_Init(const char* resourcesDir)
+void Sys_Init(const char* resourcesDir, const char* documentsDir)
 {
     memset(sys_resourcesdir, 0, MAX_OSPATH);
-    
     memcpy(sys_resourcesdir, resourcesDir, strlen(resourcesDir));
+    
+    memset(sys_documentsdir, 0, MAX_OSPATH);
+    memcpy(sys_documentsdir, documentsDir, strlen(documentsDir));
+    
+    // Currently there is no way to access the documents folder from the device. Until that happens, keep these lines disabled:
+    //printf("Documents=%s\n", sys_documentsdir);
+    printf("Documents=%s\n", sys_resourcesdir);
     
     int argc = 3;
     
+    //char* argv[] = { "Quake_tvOS", "-basedir", sys_documentsdir };
     char* argv[] = { "Quake_tvOS", "-basedir", sys_resourcesdir };
     
     parms.memsize = 8*1024*1024;
@@ -231,6 +290,9 @@ void Sys_Init(const char* resourcesDir)
     
     isDedicated = (COM_CheckParm ("-dedicated") != 0);
     
+    if (setjmp (host_abortserver) )
+        return;			// something bad happened, or the server disconnected
+    
     printf ("Host_Init\n");
     Host_Init (&parms);
 }
@@ -238,4 +300,13 @@ void Sys_Init(const char* resourcesDir)
 void Sys_Frame()
 {
     Host_Frame(frame_lapse);
+}
+int Sys_MessagesCount()
+{
+    return sys_messagescount;
+}
+
+char* Sys_GetMessage(int index)
+{
+    return sys_messages[index];
 }

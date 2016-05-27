@@ -518,7 +518,9 @@ void	VID_ShiftPalette (unsigned char *palette)
 
 void	VID_Init (unsigned char *palette)
 {
-	Cvar_RegisterVariable (&gl_ztrick);
+    char	gldir[MAX_OSPATH];
+
+    Cvar_RegisterVariable (&gl_ztrick);
     
     d_8to24table = malloc(256 * sizeof(unsigned));
     
@@ -530,6 +532,9 @@ void	VID_Init (unsigned char *palette)
     VID_SetPalette(palette);
     
     GL_Init ();
+
+    sprintf (gldir, "%s/glquake", com_gamedir);
+    Sys_mkdir (gldir);
 
     if (COM_CheckParm("-fullsbar"))
         fullsbardraw = true;

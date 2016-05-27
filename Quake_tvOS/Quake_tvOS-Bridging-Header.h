@@ -36,10 +36,18 @@ extern float in_extendedrollangle;
 
 extern float in_extendedpitchangle;
 
+extern qboolean sys_ended;
+
+extern qboolean sys_inerror;
+
 void VID_SetSize(int width, int height);
 
 void Sys_Cbuf_AddText(const char* text);
 
-void Sys_Init(const char* resourcesDir);
+void Sys_Init(const char* resourcesDir, const char* documentsDir);
 
 void Sys_Frame();
+
+int Sys_MessagesCount();
+
+char* Sys_GetMessage(int i);

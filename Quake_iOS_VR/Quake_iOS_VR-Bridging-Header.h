@@ -26,6 +26,8 @@ extern float in_pitchangle;
 
 extern qboolean sys_ended;
 
+extern qboolean sys_inerror;
+
 void Sys_Cbuf_AddText(const char* text);
 
 void Sys_Con_Printf(const char* text);

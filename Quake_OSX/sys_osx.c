@@ -128,6 +128,7 @@ int     Sys_FileTime (char *path)
 
 void Sys_mkdir (char *path)
 {
+    mkdir (path, 0777);
 }
 
 

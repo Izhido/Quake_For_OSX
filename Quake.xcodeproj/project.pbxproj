@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C3A94087ABE65555EF823DA /* libPods-Quake_iOS_VR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C82BDF8FCD7ED0B4D780A4A7 /* libPods-Quake_iOS_VR.a */; };
+		280E8C681CF8C63F00500C75 /* id1 in Resources */ = {isa = PBXBuildFile; fileRef = 280E8C671CF8C63F00500C75 /* id1 */; };
 		2817C7A61CED6555000E491D /* gl_noalphatextprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A41CED6555000E491D /* gl_noalphatextprogram.fsh */; };
 		2817C7A71CED6555000E491D /* gl_noalphatextprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */; };
 		2817C7AA1CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A81CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh */; };
@@ -179,7 +180,6 @@
 		2873B14D1C5D7F1800CE4775 /* wad.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE661C5D6FFD00CEC48E /* wad.c */; };
 		2873B14E1C5D7F1800CE4775 /* world.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE681C5D6FFD00CEC48E /* world.c */; };
 		2873B14F1C5D7F1800CE4775 /* zone.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE6A1C5D6FFD00CEC48E /* zone.c */; };
-		2873B1551C5D83BF00CE4775 /* id1 in Resources */ = {isa = PBXBuildFile; fileRef = 2873B1541C5D83BF00CE4775 /* id1 */; };
 		2887813E1CD83E0800AF4F24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2887813D1CD83E0800AF4F24 /* AppDelegate.swift */; };
 		288781401CD83E0800AF4F24 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2887813F1CD83E0800AF4F24 /* ViewController.swift */; };
 		288781431CD83E0800AF4F24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 288781411CD83E0800AF4F24 /* Main.storyboard */; };
@@ -243,6 +243,7 @@
 
 /* Begin PBXFileReference section */
 		153169104D01DAE8AF82A08C /* Pods-Quake_iOS_VR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.debug.xcconfig"; sourceTree = "<group>"; };
+		280E8C671CF8C63F00500C75 /* id1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = id1; path = "../../../Downloads/Quake Shareware (1_06) PAK/id1"; sourceTree = "<group>"; };
 		2817C7A41CED6555000E491D /* gl_noalphatextprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_noalphatextprogram.fsh; sourceTree = "<group>"; };
 		2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_noalphatextprogram.vsh; sourceTree = "<group>"; };
 		2817C7A81CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_alphapolygon1textureprogram.fsh; sourceTree = "<group>"; };
@@ -369,7 +370,6 @@
 		2873B10A1C5D7E0F00CE4775 /* in_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = in_tvos.c; sourceTree = "<group>"; };
 		2873B10B1C5D7E0F00CE4775 /* sys_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sys_tvos.c; sourceTree = "<group>"; };
 		2873B1101C5D7E8900CE4775 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
-		2873B1541C5D83BF00CE4775 /* id1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = id1; path = "../../../Downloads/Quake Shareware (1_06) PAK/id1"; sourceTree = "<group>"; };
 		2887813B1CD83E0800AF4F24 /* Quake_iOS_VR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quake_iOS_VR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2887813D1CD83E0800AF4F24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2887813F1CD83E0800AF4F24 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -633,7 +633,7 @@
 		2873B1501C5D82E200CE4775 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2873B1541C5D83BF00CE4775 /* id1 */,
+				280E8C671CF8C63F00500C75 /* id1 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -862,7 +862,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2873B1551C5D83BF00CE4775 /* id1 in Resources */,
+				280E8C681CF8C63F00500C75 /* id1 in Resources */,
 				28C3BDCA1C5D77AA00CBB0D9 /* Assets.xcassets in Resources */,
 				28C3BDC81C5D77AA00CBB0D9 /* Main.storyboard in Resources */,
 			);
