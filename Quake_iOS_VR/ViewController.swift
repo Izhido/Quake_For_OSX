@@ -52,11 +52,21 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
 
         glvr_mode = 2
     
-        Sys_Init(NSBundle.mainBundle().resourcePath!)
+        Sys_Init(NSBundle.mainBundle().resourcePath!, try! NSFileManager().URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true).path!)
     }
 
     func cardboardView(cardboardView: GCSCardboardView!, prepareDrawFrame headTransform: GCSHeadTransform!)
     {
+        if sys_ended.rawValue != 0
+        {
+            if self.cardboardView.vrModeEnabled
+            {
+                self.cardboardView.vrModeEnabled = false
+            }
+
+            return;
+        }
+
         if previousTime < 0
         {
             previousTime = NSProcessInfo().systemUptime
@@ -98,6 +108,16 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
 
     func cardboardView(cardboardView: GCSCardboardView!, drawEye eye: GCSEye, withHeadTransform headTransform: GCSHeadTransform!)
     {
+        if sys_ended.rawValue != 0
+        {
+            if self.cardboardView.vrModeEnabled
+            {
+                self.cardboardView.vrModeEnabled = false
+            }
+            
+            return;
+        }
+
         let viewport = headTransform.viewportForEye(eye)
         
         glvr_viewportx = Float(viewport.origin.x)
@@ -126,6 +146,10 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
 
     func cardboardView(cardboardView: GCSCardboardView!, didFireEvent event: GCSUserEvent)
     {
+        if (event == GCSUserEvent.BackButton)
+        {
+            sys_ended = qboolean(1);
+        }
     }
     
     func cardboardView(cardboardView: GCSCardboardView!, shouldPauseDrawing pause: Bool)

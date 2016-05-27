@@ -185,7 +185,6 @@
 		288781431CD83E0800AF4F24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 288781411CD83E0800AF4F24 /* Main.storyboard */; };
 		288781451CD83E0800AF4F24 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 288781441CD83E0800AF4F24 /* Assets.xcassets */; };
 		288781481CD83E0800AF4F24 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 288781461CD83E0800AF4F24 /* LaunchScreen.storyboard */; };
-		288781521CD83F8B00AF4F24 /* id1 in Resources */ = {isa = PBXBuildFile; fileRef = 288781511CD83F8B00AF4F24 /* id1 */; };
 		289A0AEB1C63054F0007B2C4 /* net_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AE91C63054F0007B2C4 /* net_udp.c */; };
 		289A0AEE1C63074B0007B2C4 /* net_dgrm.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEC1C63074B0007B2C4 /* net_dgrm.c */; };
 		289A0AF01C6307C70007B2C4 /* net_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEF1C6307C70007B2C4 /* net_osx.c */; };
@@ -378,7 +377,6 @@
 		288781441CD83E0800AF4F24 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		288781471CD83E0800AF4F24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		288781491CD83E0800AF4F24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		288781511CD83F8B00AF4F24 /* id1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = id1; path = "../../../Downloads/Quake Shareware (1_06) PAK/id1"; sourceTree = "<group>"; };
 		288781531CD8406100AF4F24 /* Quake_iOS_VR-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Quake_iOS_VR-Bridging-Header.h"; sourceTree = "<group>"; };
 		288781541CD8406100AF4F24 /* gl_draw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_draw.c; sourceTree = "<group>"; };
 		288781551CD8406100AF4F24 /* gl_mesh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_mesh.c; sourceTree = "<group>"; };
@@ -682,7 +680,6 @@
 				28C4FA731CE79617001CF82D /* gl_textprogram.vsh */,
 				28C4FA741CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh */,
 				28C4FA751CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh */,
-				288781511CD83F8B00AF4F24 /* id1 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -847,7 +844,6 @@
 				288781481CD83E0800AF4F24 /* LaunchScreen.storyboard in Resources */,
 				28C4FA7A1CE79617001CF82D /* gl_fillprogram.fsh in Resources */,
 				2817C7A71CED6555000E491D /* gl_noalphatextprogram.vsh in Resources */,
-				288781521CD83F8B00AF4F24 /* id1 in Resources */,
 				28C4FA791CE79617001CF82D /* gl_coloredpolygonnotextureprogram.vsh in Resources */,
 				28C4FA831CE79617001CF82D /* gl_textprogram.vsh in Resources */,
 				2817C7AB1CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh in Resources */,

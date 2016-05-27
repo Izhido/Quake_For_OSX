@@ -745,7 +745,10 @@ keypress.
 */
 int SCR_ModalMessage (char *text)
 {
-	if (cls.state == ca_dedicated)
+    // Just assume the answer is always yes.
+    return true;
+
+    if (cls.state == ca_dedicated)
 		return true;
 
 	scr_notifystring = text;

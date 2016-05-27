@@ -205,6 +205,8 @@ void	VID_UnlockBuffer (void);
 
 #define	SOUND_CHANNELS		8
 
+#define	MAXPRINTMSG	4096
+
 // This makes anyone on id's net privileged
 // Use for multiplayer testing only - VERY dangerous!!!
 // #define IDGODS

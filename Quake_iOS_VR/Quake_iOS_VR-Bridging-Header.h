@@ -24,14 +24,20 @@ extern float in_rollangle;
 
 extern float in_pitchangle;
 
+extern qboolean sys_ended;
+
 void Sys_Cbuf_AddText(const char* text);
 
 void Sys_Con_Printf(const char* text);
 
-void Sys_Init(const char* resourcesDir);
+void Sys_Init(const char* resourcesDir, const char* documentsDir);
 
 void Sys_FrameBeforeRender();
 
 void Sys_FrameRender();
 
 void Sys_FrameAfterRender();
+
+int Sys_MessagesCount();
+
+char* Sys_GetMessage(int i);

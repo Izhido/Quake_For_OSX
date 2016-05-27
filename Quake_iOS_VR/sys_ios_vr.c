@@ -19,7 +19,17 @@ char gl_shaderdirectory[MAX_OSPATH];
 
 char sys_resourcesdir[MAX_OSPATH];
 
+char sys_documentsdir[MAX_OSPATH];
+
 extern int sb_updates;
+
+char** sys_messages = NULL;
+
+int sys_messagescount = 0;
+
+int sys_messagessize = 0;
+
+qboolean sys_ended = false;
 
 /*
  ===============================================================================
@@ -147,32 +157,85 @@ void Sys_MakeCodeWriteable (unsigned long startaddr, unsigned long length)
 {
 }
 
-
 void Sys_Error (char *error, ...)
 {
     va_list         argptr;
     
-    printf ("Sys_Error: ");
-    va_start (argptr,error);
-    vprintf (error,argptr);
-    va_end (argptr);
-    printf ("\n");
+    char*		msg = malloc(MAXPRINTMSG);
     
-    exit (1);
+    sprintf (msg,"Sys_Error: ");
+    va_start (argptr,error);
+    vsprintf (msg,error,argptr);
+    va_end (argptr);
+    sprintf (msg,"\n");
+
+    printf("%s", msg);
+    
+    if (sys_messagescount >= sys_messagessize)
+    {
+        int newsize = sys_messagescount + 64;
+        char** newmessages = malloc(newsize * sizeof(char*));
+        
+        if (sys_messages != NULL)
+        {
+            memcpy(newmessages, sys_messages, sys_messagescount * sizeof(char*));
+            
+            free(sys_messages);
+        }
+        
+        sys_messages = newmessages;
+        sys_messagessize = newsize;
+    }
+
+    sys_messages[sys_messagescount] = msg;
+    sys_messagescount++;
+    
+    Host_Shutdown();
+    
+    sys_ended = true;
+    
+    longjmp (host_abortserver, 1);
 }
 
 void Sys_Printf (char *fmt, ...)
 {
-    va_list         argptr;
+    va_list		argptr;
+    
+    char*		msg = malloc(MAXPRINTMSG);
     
     va_start (argptr,fmt);
-    vprintf (fmt,argptr);
+    vsprintf (msg,fmt,argptr);
     va_end (argptr);
+
+    printf("%s", msg);
+    
+    if (sys_messagescount >= sys_messagessize)
+    {
+        int newsize = sys_messagescount + 64;
+        char** newmessages = malloc(newsize * sizeof(char*));
+        
+        if (sys_messages != NULL)
+        {
+            memcpy(newmessages, sys_messages, sys_messagescount * sizeof(char*));
+            
+            free(sys_messages);
+        }
+        
+        sys_messages = newmessages;
+        sys_messagessize = newsize;
+    }
+    
+    sys_messages[sys_messagescount] = msg;
+    sys_messagescount++;
 }
 
 void Sys_Quit (void)
 {
-    exit (0);
+    Host_Shutdown();
+
+    sys_ended = true;
+    
+    longjmp (host_abortserver, 1);
 }
 
 double Sys_FloatTime (void)
@@ -245,15 +308,19 @@ char* Sys_LoadTextFromFile(const char* directory, const char* filename)
     return result;
 }
 
-void Sys_Init(const char* resourcesDir)
+void Sys_Init(const char* resourcesDir, const char* documentsDir)
 {
     memset(sys_resourcesdir, 0, MAX_OSPATH);
-    
     memcpy(sys_resourcesdir, resourcesDir, strlen(resourcesDir));
 
+    memset(sys_documentsdir, 0, MAX_OSPATH);
+    memcpy(sys_documentsdir, documentsDir, strlen(documentsDir));
+    
+    printf("Documents=%s\n", sys_documentsdir);
+    
     int argc = 3;
     
-    char* argv[] = { "Quake_iOS_VR", "-basedir", sys_resourcesdir };
+    char* argv[] = { "Quake_iOS_VR", "-basedir", sys_documentsdir };
     
     parms.memsize = 8*1024*1024;
     parms.membase = malloc (parms.memsize);
@@ -268,6 +335,9 @@ void Sys_Init(const char* resourcesDir)
 
     strcpy(gl_shaderdirectory, resourcesDir);
     
+    if (setjmp (host_abortserver) )
+        return;			// something bad happened, or the server disconnected
+
     printf ("Host_Init\n");
     Host_Init (&parms);
 }
@@ -301,4 +371,14 @@ void Sys_FrameAfterRender()
     Host_FrameAfterRender();
     
     host_framecount++;
+}
+
+int Sys_MessagesCount()
+{
+    return sys_messagescount;
+}
+
+char* Sys_GetMessage(int index)
+{
+    return sys_messages[index];
 }

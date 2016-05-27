@@ -733,12 +733,9 @@ keypress.
 */
 int SCR_ModalMessage (char *text)
 {
-    if (glvr_enabled)
-    {
-        // in VR mode, assume that the answer will be always yes
-        return true;
-    }
-
+    // Just assume the answer is always yes.
+    return true;
+    
     if (cls.state == ca_dedicated)
 		return true;
 

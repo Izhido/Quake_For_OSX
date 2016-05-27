@@ -154,6 +154,8 @@ void Sys_Error (char *error, ...)
     va_end (argptr);
     printf ("\n");
     
+    Host_Shutdown();
+    
     exit (1);
 }
 
@@ -168,6 +170,8 @@ void Sys_Printf (char *fmt, ...)
 
 void Sys_Quit (void)
 {
+    Host_Shutdown();
+    
     exit (0);
 }
 
