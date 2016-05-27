@@ -165,9 +165,9 @@ void Sys_Error (char *error, ...)
     
     sprintf (msg,"Sys_Error: ");
     va_start (argptr,error);
-    vsprintf (msg,error,argptr);
+    vsprintf (msg+strlen(msg),error,argptr);
     va_end (argptr);
-    sprintf (msg,"\n");
+    sprintf (msg+strlen(msg),"\n");
 
     printf("%s", msg);
     
