@@ -1260,7 +1260,18 @@ void R_Clear (void)
 		if (gl_clear.value)
 			glClear (GL_COLOR_BUFFER_BIT);
 
-		trickframe++;
+        if (glvr_enabled)
+        {
+            if (glvr_eyeindex == 0)
+            {
+                trickframe++;
+            }
+        }
+        else
+        {
+            trickframe++;
+        }
+        
 		if (trickframe & 1)
 		{
 			gldepthmin = 0;

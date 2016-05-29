@@ -74,8 +74,14 @@ void W_LoadWadFile (char *filename)
 	
 	wad_base = COM_LoadHunkFile (filename);
 	if (!wad_base)
+    {
+        if (host_gamedatacheck)
+        {
+            host_nogamedata = true;
+        }
 		Sys_Error ("W_LoadWadFile: couldn't load %s", filename);
-
+    }
+    
 	header = (wadinfo_t *)wad_base;
 	
 	if (header->identification[0] != 'W'

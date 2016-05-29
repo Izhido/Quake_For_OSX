@@ -350,7 +350,16 @@ void M_Main_Key (int key)
 			break;
 
 		case 4:
-			M_Menu_Quit_f ();
+            // In VR mode, just plainly exit the game.
+            if (glvr_enabled)
+            {
+                key_dest = key_console;
+                Host_Quit_f();
+            }
+            else
+            {
+                M_Menu_Quit_f ();
+            }
 			break;
 		}
 	}

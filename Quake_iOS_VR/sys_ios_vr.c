@@ -271,6 +271,14 @@ void Sys_Con_Printf(const char* text)
     Con_Printf(text);
 }
 
+void Sys_Key_Event(int key, qboolean down)
+{
+    if (setjmp (host_abortserver) )
+        return;			// something bad happened, or the server disconnected
+
+    Key_Event(key, down);
+}
+
 char* Sys_LoadTextFromFile(const char* directory, const char* filename)
 {
     char* fullpath = malloc(strlen(directory) + strlen(filename) + 2);
@@ -349,6 +357,9 @@ void Sys_FrameBeforeRender()
 
 void Sys_FrameRender()
 {
+    if (setjmp (host_abortserver) )
+        return;			// something bad happened, or the server disconnected
+
     block_drawing = false;
     
     glViewport(glvr_viewportx, glvr_viewporty, glvr_viewportwidth, glvr_viewportheight);
@@ -361,6 +372,9 @@ void Sys_FrameRender()
 
 void Sys_FrameAfterRender()
 {
+    if (setjmp (host_abortserver) )
+        return;			// something bad happened, or the server disconnected
+
     Host_FrameAfterRender();
     
     host_framecount++;

@@ -6,7 +6,7 @@
 //
 //
 
-#import <GCSCardboardView.h>
+#import <GVRCardboardView.h>
 
 #include "quakedef.h"
 
@@ -31,6 +31,8 @@ extern qboolean sys_inerror;
 void Sys_Cbuf_AddText(const char* text);
 
 void Sys_Con_Printf(const char* text);
+
+void Sys_Key_Event(int key, qboolean down);
 
 void Sys_Init(const char* resourcesDir, const char* documentsDir);
 

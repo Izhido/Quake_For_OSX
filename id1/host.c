@@ -54,6 +54,9 @@ jmp_buf 	host_abortserver;
 byte		*host_basepal;
 byte		*host_colormap;
 
+qboolean    host_gamedatacheck;
+qboolean    host_nogamedata;
+
 cvar_t	host_framerate = {"host_framerate","0"};	// set for slow motion
 cvar_t	host_speeds = {"host_speeds","0"};			// set for running times
 
@@ -893,7 +896,11 @@ void Host_Init (quakeparms_t *parms)
 	Host_InitVCR (parms);
 	COM_Init (parms->basedir);
 	Host_InitLocal ();
+    
+    host_gamedatacheck = true;
 	W_LoadWadFile ("gfx.wad");
+    host_gamedatacheck = false;
+    
 	Key_Init ();
 	Con_Init ();	
 	M_Init ();	

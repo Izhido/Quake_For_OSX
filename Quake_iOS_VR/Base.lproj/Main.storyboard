@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -17,25 +18,67 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jJg-IT-1Jk" customClass="GCSCardboardView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jJg-IT-1Jk" customClass="GVRCardboardView">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y07-qT-2dY">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="90"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xh3-H2-UuF">
+                                <rect key="frame" x="0.0" y="90" width="600" height="210"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YTR-0E-af4">
+                                <rect key="frame" x="0.0" y="300" width="600" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4mI-b9-F4i">
+                                <rect key="frame" x="8" y="262" width="61" height="30"/>
+                                <state key="normal" title="Copy log"/>
+                                <connections>
+                                    <action selector="onCopyLog:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UIU-Bl-VDi"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="YTR-0E-af4" firstAttribute="top" secondItem="Xh3-H2-UuF" secondAttribute="bottom" id="0Vs-t9-13s"/>
+                            <constraint firstAttribute="trailing" secondItem="YTR-0E-af4" secondAttribute="trailing" id="1cm-vo-Xsb"/>
+                            <constraint firstAttribute="trailing" secondItem="y07-qT-2dY" secondAttribute="trailing" id="4JS-Wy-o3Q"/>
+                            <constraint firstItem="YTR-0E-af4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="4uw-PF-Cba"/>
+                            <constraint firstItem="4mI-b9-F4i" firstAttribute="leading" secondItem="YTR-0E-af4" secondAttribute="leading" constant="8" id="5r9-Eq-R0z"/>
+                            <constraint firstItem="Xh3-H2-UuF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Gj4-os-SjO"/>
+                            <constraint firstItem="y07-qT-2dY" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.15" id="IRX-vN-DIw"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jJg-IT-1Jk" secondAttribute="bottom" id="JMg-7E-DZx"/>
+                            <constraint firstItem="y07-qT-2dY" firstAttribute="bottom" secondItem="Xh3-H2-UuF" secondAttribute="top" id="LX9-q8-rhl"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="YTR-0E-af4" secondAttribute="bottom" id="LfM-v2-RB5"/>
                             <constraint firstItem="jJg-IT-1Jk" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Ltj-3S-w8B"/>
                             <constraint firstAttribute="trailing" secondItem="jJg-IT-1Jk" secondAttribute="trailing" id="PU5-lD-U33"/>
+                            <constraint firstItem="Xh3-H2-UuF" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.35" id="Rqe-IX-lB3"/>
                             <constraint firstItem="jJg-IT-1Jk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="VS0-Bn-G3k"/>
+                            <constraint firstItem="YTR-0E-af4" firstAttribute="top" secondItem="4mI-b9-F4i" secondAttribute="bottom" constant="8" id="m6p-p4-1vz"/>
+                            <constraint firstAttribute="trailing" secondItem="Xh3-H2-UuF" secondAttribute="trailing" id="pAR-tg-eiT"/>
+                            <constraint firstItem="YTR-0E-af4" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.5" id="riM-QK-N6t"/>
+                            <constraint firstItem="y07-qT-2dY" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rmz-rv-bXH"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="cardboardView" destination="jJg-IT-1Jk" id="Zjq-K9-plj"/>
+                        <outlet property="cardboardView" destination="jJg-IT-1Jk" id="vvq-oX-b8e"/>
+                        <outlet property="consoleTableView" destination="YTR-0E-af4" id="Zgz-iH-Mqa"/>
+                        <outlet property="copyLogButton" destination="4mI-b9-F4i" id="8mE-JM-Kre"/>
+                        <outlet property="descriptionLabel" destination="Xh3-H2-UuF" id="uNW-Ya-Oap"/>
+                        <outlet property="titleLabel" destination="y07-qT-2dY" id="Zjq-K9-plm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="321" y="240"/>
         </scene>
     </scenes>
 </document>

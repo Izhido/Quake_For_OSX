@@ -134,6 +134,9 @@ qboolean glvr_enabled;
 
 int glvr_mode;
 
+int glvr_eyecount;
+int glvr_eyeindex;
+
 GLfloat glvr_viewportx;
 GLfloat glvr_viewporty;
 GLfloat glvr_viewportwidth;
@@ -163,7 +166,7 @@ int		texture_mode = GL_LINEAR;
 
 static qboolean fullsbardraw = false;
 
-cvar_t	gl_ztrick = {"gl_ztrick","0"};
+cvar_t	gl_ztrick = {"gl_ztrick","1"};
 
 GLuint GL_Compile (char* name, char* extension, GLenum type, GLchar* program)
 {

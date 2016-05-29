@@ -9,69 +9,112 @@
 import GLKit
 import GameController
 
-class ViewController: UIViewController, GCSCardboardViewDelegate
-{
-    @IBOutlet weak var cardboardView: GCSCardboardView!
+public var gameInterrupted : Bool = false
 
+class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDataSource, UITableViewDelegate
+{
+    @IBOutlet weak var cardboardView: GVRCardboardView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var descriptionLabel: UILabel!
+
+    @IBOutlet weak var copyLogButton: UIButton!
+    
+    @IBOutlet weak var consoleTableView: UITableView!
+    
     private var displayLink: CADisplayLink! = nil
     
     private var previousTime: NSTimeInterval = -1
     
     private var currentTime: NSTimeInterval = -1
     
-    private var firstEyeRendered: Bool = false
-    
-    private var lastEyeRendered: Bool = false
-    
     private var remote: GCController? = nil
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
+        
         self.cardboardView.delegate = self
         self.cardboardView.vrModeEnabled = true
         
+        consoleTableView.dataSource = self
+        consoleTableView.delegate = self
+        
         displayLink = CADisplayLink(target: self, selector: #selector(render))
         displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
-
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidConnect), name: "GCControllerDidConnectNotification", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidDisconnect), name: "GCControllerDidDisconnectNotification", object: nil)
     }
-
+    
     func render()
     {
         cardboardView.render()
     }
-
+    
     func setupEndingScreen()
     {
         if self.cardboardView.vrModeEnabled
         {
+            displayLink.invalidate()
+            
             self.cardboardView.vrModeEnabled = false
+            
+            if host_nogamedata.rawValue != 0
+            {
+                titleLabel.text = "Game data not found"
+                descriptionLabel.text = "Transfer a copy of the ID1/ directory to this application, as well as any other related files or directories, by using iTunes File Sharing or any suitable program. Afterwards, close and restart the application to start playing."
+            }
+            else if sys_inerror.rawValue != 0
+            {
+                titleLabel.text = "Game crashed"
+                descriptionLabel.text = "Check the console log below to find a possible cause for the error. Afterwards, close and restart the application to play again."
+            }
+            else if gameInterrupted
+            {
+                titleLabel.text = "Game interrupted"
+                descriptionLabel.text = "To start playing again, close and restart the application."
+            }
+            else
+            {
+                titleLabel.text = "Game over"
+                descriptionLabel.text = "To play again, close and restart the application."
+            }
+            
+            titleLabel.hidden = false
+            descriptionLabel.hidden = false
+            copyLogButton.hidden = false
+            consoleTableView.hidden = false
+            
+            consoleTableView.reloadData()
+
+            let lastMessage = NSIndexPath(forRow: Sys_MessagesCount() - 1, inSection: 0)
+            consoleTableView.scrollToRowAtIndexPath(lastMessage, atScrollPosition: .Bottom, animated: true)
         }
     }
-
-    func cardboardView(cardboardView: GCSCardboardView!, willStartDrawing headTransform: GCSHeadTransform!)
+    
+    func cardboardView(cardboardView: GVRCardboardView!, willStartDrawing headTransform: GVRHeadTransform!)
     {
         gl_screenwidth = Int32(UIScreen.mainScreen().bounds.size.width * UIScreen.mainScreen().scale)
         gl_screenheight = Int32(UIScreen.mainScreen().bounds.size.height * UIScreen.mainScreen().scale)
-
+        
         glvr_mode = 2
-    
+        glvr_eyecount = 2
+        
         Sys_Init(NSBundle.mainBundle().resourcePath!, try! NSFileManager().URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true).path!)
     }
-
-    func cardboardView(cardboardView: GCSCardboardView!, prepareDrawFrame headTransform: GCSHeadTransform!)
+    
+    func cardboardView(cardboardView: GVRCardboardView!, prepareDrawFrame headTransform: GVRHeadTransform!)
     {
         if sys_ended.rawValue != 0
         {
             setupEndingScreen()
-
+            
             return
         }
-
+        
         if previousTime < 0
         {
             previousTime = NSProcessInfo().systemUptime
@@ -89,11 +132,10 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
             frame_lapse = Float(currentTime - previousTime)
         }
         
-        firstEyeRendered = false
-        lastEyeRendered = false
+        glvr_eyeindex = 0
         
         glvr_rotation = headTransform.headPoseInStartSpace().m
-
+        
         let pitchroll_origin : [Float] = [ 0.0, 1.0, 0.0, 1.0 ]
         
         let pitchroll_dest = [ glvr_rotation.0 * pitchroll_origin[0] + glvr_rotation.4 * pitchroll_origin[1] + glvr_rotation.8 * pitchroll_origin[2] + glvr_rotation.12 * pitchroll_origin[3], glvr_rotation.1 * pitchroll_origin[0] + glvr_rotation.5 * pitchroll_origin[1] + glvr_rotation.9 * pitchroll_origin[2] + glvr_rotation.13 * pitchroll_origin[3], glvr_rotation.2 * pitchroll_origin[0] + glvr_rotation.6 * pitchroll_origin[1] + glvr_rotation.10 * pitchroll_origin[2] + glvr_rotation.14 * pitchroll_origin[3], glvr_rotation.3 * pitchroll_origin[0] + glvr_rotation.7 * pitchroll_origin[1] + glvr_rotation.11 * pitchroll_origin[2] + glvr_rotation.15 * pitchroll_origin[3] ]
@@ -110,8 +152,8 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
         
         Sys_FrameBeforeRender()
     }
-
-    func cardboardView(cardboardView: GCSCardboardView!, drawEye eye: GCSEye, withHeadTransform headTransform: GCSHeadTransform!)
+    
+    func cardboardView(cardboardView: GVRCardboardView!, drawEye eye: GVREye, withHeadTransform headTransform: GVRHeadTransform!)
     {
         if sys_ended.rawValue != 0
         {
@@ -119,7 +161,7 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
             
             return
         }
-
+        
         let viewport = headTransform.viewportForEye(eye)
         
         glvr_viewportx = Float(viewport.origin.x)
@@ -129,35 +171,29 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
         
         glvr_eyetranslation = headTransform.eyeFromHeadMatrix(eye).m
         glvr_projection = headTransform.projectionMatrixForEye(eye, near: 4.0, far: 4096.0).m
-
-        if firstEyeRendered
+        
+        Sys_FrameRender()
+        
+        glvr_eyeindex += 1
+        
+        if glvr_eyeindex == glvr_eyecount
         {
-            Sys_FrameRender()
-            
-            lastEyeRendered = true
-            
             Sys_FrameAfterRender()
         }
-        else if !lastEyeRendered
-        {
-            Sys_FrameRender()
-            
-            firstEyeRendered = true
-        }
     }
-
-    func cardboardView(cardboardView: GCSCardboardView!, didFireEvent event: GCSUserEvent)
+    
+    func cardboardView(cardboardView: GVRCardboardView!, didFireEvent event: GVRUserEvent)
     {
-        if (event == GCSUserEvent.BackButton)
+        if (event == GVRUserEvent.BackButton)
         {
             sys_ended = qboolean(1);
         }
     }
     
-    func cardboardView(cardboardView: GCSCardboardView!, shouldPauseDrawing pause: Bool)
+    func cardboardView(cardboardView: GVRCardboardView!, shouldPauseDrawing pause: Bool)
     {
     }
-
+    
     func controllerDidConnect(notification: NSNotification)
     {
         for controller in GCController.controllers()
@@ -167,53 +203,53 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
                 remote = controller
                 
                 remote!.playerIndex = .Index1
-
+                
                 remote!.controllerPausedHandler = { (controller: GCController) -> () in
                     
-                    Key_Event(255, qboolean(1)) // K_PAUSE, true
-                    Key_Event(255, qboolean(0)) // K_PAUSE, false
+                    Sys_Key_Event(255, qboolean(1)) // K_PAUSE, true
+                    Sys_Key_Event(255, qboolean(0)) // K_PAUSE, false
                     
-                    Key_Event(27, qboolean(1)) // K_ESCAPE, true
-                    Key_Event(27, qboolean(0)) // K_ESCAPE, false
-                
+                    Sys_Key_Event(27, qboolean(1)) // K_ESCAPE, true
+                    Sys_Key_Event(27, qboolean(0)) // K_ESCAPE, false
+                    
                 }
-
+                
                 remote!.extendedGamepad!.dpad.up.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
-                    Key_Event(128, qboolean(pressed ? 1 : 0)) // K_UPARROW, true / false
+                    Sys_Key_Event(128, qboolean(pressed ? 1 : 0)) // K_UPARROW, true / false
                 }
                 
-
+                
                 remote!.extendedGamepad!.dpad.left.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
-                    Key_Event(130, qboolean(pressed ? 1 : 0)) // K_LEFTARROW, true / false
-                
+                    Sys_Key_Event(130, qboolean(pressed ? 1 : 0)) // K_LEFTARROW, true / false
+                    
                 }
                 
                 remote!.extendedGamepad!.dpad.right.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
-                    Key_Event(131, qboolean(pressed ? 1 : 0)) // K_RIGHTARROW, true / false
-                
+                    Sys_Key_Event(131, qboolean(pressed ? 1 : 0)) // K_RIGHTARROW, true / false
+                    
                 }
                 
                 remote!.extendedGamepad!.dpad.down.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
-                    Key_Event(129, qboolean(pressed ? 1 : 0)) // K_DOWNARROW, true / false
-                
+                    Sys_Key_Event(129, qboolean(pressed ? 1 : 0)) // K_DOWNARROW, true / false
+                    
                 }
-
+                
                 remote!.extendedGamepad!.buttonA.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
-                    Key_Event(13, qboolean(pressed ? 1 : 0)) // K_ENTER, true / false
-                
+                    Sys_Key_Event(13, qboolean(pressed ? 1 : 0)) // K_ENTER, true / false
+                    
                 }
                 
                 remote!.extendedGamepad!.buttonB.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
-                    Key_Event(27, qboolean(pressed ? 1 : 0)) // K_ESCAPE, true / false
-                
+                    Sys_Key_Event(27, qboolean(pressed ? 1 : 0)) // K_ESCAPE, true / false
+                    
                 }
-
+                
                 remote!.extendedGamepad!.buttonY.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
                     glvr_mode += 1
@@ -237,7 +273,7 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
                     }
                     
                 }
-
+                
                 remote!.extendedGamepad!.leftThumbstick.xAxis.valueChangedHandler = { (button: GCControllerAxisInput, value: Float) -> () in
                     
                     in_forwardmove = value
@@ -267,11 +303,11 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
                     }
                     
                 }
-
+                
                 remote!.extendedGamepad!.rightTrigger.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
-                    Key_Event(133, qboolean(pressed ? 1 : 0)) // K_CTRL, true / false
-                
+                    Sys_Key_Event(133, qboolean(pressed ? 1 : 0)) // K_CTRL, true / false
+                    
                 }
                 
                 remote!.extendedGamepad!.rightShoulder.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
@@ -298,9 +334,53 @@ class ViewController: UIViewController, GCSCardboardViewDelegate
             in_sidestepmove = 0.0
             in_rollangle = 0.0
             in_pitchangle = 0.0
-
+            
             remote = nil
         }
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return Int(Sys_MessagesCount())
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let identifier = "consoleCell"
+        
+        var cell = consoleTableView.dequeueReusableCellWithIdentifier(identifier);
+        
+        if cell == nil
+        {
+            cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
+            cell!.textLabel!.font = UIFont(name: "Courier", size: 10.0)
+        }
+        
+        cell!.textLabel!.text = String.fromCString(Sys_GetMessage(Int32(indexPath.row)))
+        
+        return cell!
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        return 12.0
+    }
+    
+    @IBAction func onCopyLog(sender: UIButton)
+    {
+        var log : String = ""
+        
+        let messageCount = Sys_MessagesCount();
+        
+        for messageIndex in 0...messageCount - 1
+        {
+            log += String.fromCString(Sys_GetMessage(Int32(messageIndex)))!
+        }
+        
+        UIPasteboard.generalPasteboard().string = log
+        
+        copyLogButton.setTitle("Log copied.", forState: .Disabled)
+        copyLogButton.enabled = false
     }
 
     override func didReceiveMemoryWarning()
