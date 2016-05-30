@@ -36,7 +36,7 @@ struct in_addr
 	{
 		struct { unsigned char s_b1,s_b2,s_b3,s_b4; } S_un_b;
 		struct { unsigned short s_w1,s_w2; } S_un_w;
-		unsigned long S_addr;
+		unsigned int S_addr;
 	} S_un;
 };
 #define	s_addr	S_un.S_addr	/* can be used for most tcp & ip code */
@@ -99,8 +99,8 @@ char *StrAddr (struct qsockaddr *addr)
 
 
 #ifdef BAN_TEST
-unsigned long banAddr = 0x00000000;
-unsigned long banMask = 0xffffffff;
+unsigned int banAddr = 0x00000000;
+unsigned int banMask = 0xffffffff;
 
 void NET_Ban_f (void)
 {
@@ -988,7 +988,7 @@ static qsocket_t *_Datagram_CheckNewConnections (void)
 	// check for a ban
 	if (clientaddr.sa_family == AF_INET)
 	{
-		unsigned long testAddr;
+		unsigned int testAddr;
 		testAddr = ((struct sockaddr_in *)&clientaddr)->sin_addr.s_addr;
 		if ((testAddr & banMask) == banAddr)
 		{

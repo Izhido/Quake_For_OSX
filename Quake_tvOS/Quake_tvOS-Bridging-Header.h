@@ -36,6 +36,10 @@ extern float in_extendedrollangle;
 
 extern float in_extendedpitchangle;
 
+extern int lanConfig_port;
+
+extern char* lanConfig_joinname;
+
 extern qboolean sys_ended;
 
 extern qboolean sys_inerror;

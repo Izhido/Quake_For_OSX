@@ -23,6 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "winquake.h"
 #endif
 
+#if __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 void (*vid_menudrawfn)(void);
 void (*vid_menukeyfn)(int key);
 
@@ -350,6 +354,12 @@ void M_Main_Key (int key)
 			break;
 
 		case 4:
+#ifdef TARGET_OS_TV
+            // In tvOS, just plainly exit the game.
+            key_dest = key_console;
+            Host_Quit_f();
+#else
+#ifdef GLQUAKE
             // In VR mode, just plainly exit the game.
             if (glvr_enabled)
             {
@@ -360,6 +370,10 @@ void M_Main_Key (int key)
             {
                 M_Menu_Quit_f ();
             }
+#else
+            M_Menu_Quit_f ();
+#endif
+#endif
 			break;
 		}
 	}
@@ -2192,7 +2206,7 @@ int		lanConfig_cursor_table [] = {72, 92, 124};
 
 int 	lanConfig_port;
 char	lanConfig_portname[6];
-char	lanConfig_joinname[22];
+char*	lanConfig_joinname;
 
 void M_Menu_LanConfig_f (void)
 {
@@ -2208,7 +2222,8 @@ void M_Menu_LanConfig_f (void)
 	}
 	if (StartingGame && lanConfig_cursor == 2)
 		lanConfig_cursor = 1;
-	lanConfig_port = DEFAULTnet_hostport;
+    if (lanConfig_port == 0)
+        lanConfig_port = DEFAULTnet_hostport;
 	sprintf(lanConfig_portname, "%u", lanConfig_port);
 
 	m_return_onerror = false;
@@ -2243,7 +2258,38 @@ void M_LanConfig_Draw (void)
 	if (IPXConfig)
 		M_Print (basex+9*8, 52, my_ipx_address);
 	else
+    {
 		M_Print (basex+9*8, 52, my_tcpip_address);
+    }
+    
+    if (net_ipaddressescount > 1)
+    {
+        int xcursor = basex;
+
+        char* msg = "(";
+        M_Print (xcursor, 62, msg);
+        xcursor += strlen(msg)*8;
+        
+        for (int i = 0; i < net_ipaddressescount; i++)
+        {
+            msg = net_ipaddresses[i];
+            M_Print (xcursor, 62, msg);
+            xcursor += strlen(msg)*8;
+            
+            if (i == net_ipaddressescount - 1)
+            {
+                msg = ")";
+                M_Print (xcursor, 62, msg);
+                xcursor += strlen(msg)*8;
+            }
+            else
+            {
+                msg = ", ";
+                M_Print (xcursor, 62, msg);
+                xcursor += strlen(msg)*8;
+            }
+        }
+    }
 
 	M_Print (basex, lanConfig_cursor_table[0], "Port");
 	M_DrawTextBox (basex+8*8, lanConfig_cursor_table[0]-8, 6, 1);
@@ -2351,7 +2397,7 @@ void M_LanConfig_Key (int key)
 		if (lanConfig_cursor == 2)
 		{
 			l = strlen(lanConfig_joinname);
-			if (l < 21)
+			if (l < MAXPRINTMSG - 1)
 			{
 				lanConfig_joinname[l+1] = 0;
 				lanConfig_joinname[l] = key;
@@ -3024,6 +3070,8 @@ void M_Init (void)
 	Cmd_AddCommand ("menu_video", M_Menu_Video_f);
 	Cmd_AddCommand ("help", M_Menu_Help_f);
 	Cmd_AddCommand ("menu_quit", M_Menu_Quit_f);
+
+    lanConfig_joinname = malloc(MAXPRINTMSG);
 }
 
 

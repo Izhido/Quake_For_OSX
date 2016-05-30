@@ -10,6 +10,8 @@
 #include "errno.h"
 #include <sys/stat.h>
 
+extern double CACurrentMediaTime();
+
 qboolean isDedicated;
 
 static quakeparms_t parms;
@@ -197,10 +199,7 @@ void Sys_Error (char *error, ...)
     
     Host_Shutdown();
     
-    sys_ended = true;
-    sys_inerror = true;
-    
-    longjmp (host_abortserver, 1);
+    exit (1);
 }
 
 void Sys_Printf (char *fmt, ...)
@@ -222,18 +221,12 @@ void Sys_Quit (void)
 {
     Host_Shutdown();
     
-    sys_ended = true;
-    
-    longjmp(host_abortserver, 1);
+    exit (0);
 }
 
 double Sys_FloatTime (void)
 {
-    static double t;
-    
-    t += frame_lapse;
-    
-    return t;
+    return CACurrentMediaTime();
 }
 
 char *Sys_ConsoleInput (void)
@@ -301,6 +294,7 @@ void Sys_Frame()
 {
     Host_Frame(frame_lapse);
 }
+
 int Sys_MessagesCount()
 {
     return sys_messagescount;

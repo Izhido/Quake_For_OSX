@@ -50,7 +50,7 @@ static int net_controlsocket;
 static int net_broadcastsocket = 0;
 static struct qsockaddr broadcastaddr;
 
-static unsigned long myAddr;
+static unsigned int myAddr;
 
 #include "net_udp.h"
 
@@ -59,7 +59,7 @@ static unsigned long myAddr;
 int UDP_Init (void)
 {
 	struct hostent *local;
-	char	buff[MAXHOSTNAMELEN];
+	char*	buff;
 	struct qsockaddr addr;
 	char *colon;
 	
@@ -67,9 +67,9 @@ int UDP_Init (void)
 		return -1;
 
     // determine my name & address
-#if TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
+
     struct ifaddrs *allInterfaces;
-    qboolean found = false;
+    
     if (getifaddrs(&allInterfaces) == 0)
     {
         struct ifaddrs *interface;
@@ -83,28 +83,81 @@ int UDP_Init (void)
             {
                 if (addr->sa_family == AF_INET)
                 {
+                    buff = malloc(MAXHOSTNAMELEN + 1);
                     getnameinfo(addr, addr->sa_len, buff, MAXHOSTNAMELEN, NULL, 0, NI_NUMERICHOST);
-                    local = gethostbyname(buff);
-                    myAddr = *(int *)local->h_addr_list[0];
-                    found = true;
-                    break;
+
+                    if (net_ipaddressescount >= net_ipaddressessize)
+                    {
+                        int newsize = net_ipaddressescount + 4;
+                        char** newipaddresses = malloc(newsize * sizeof(char*));
+                        
+                        if (net_ipaddresses != NULL)
+                        {
+                            memcpy(newipaddresses, net_ipaddresses, net_ipaddressescount * sizeof(char*));
+                            
+                            free(net_ipaddresses);
+                        }
+                        
+                        net_ipaddresses = newipaddresses;
+                        net_ipaddressessize = newsize;
+                    }
+                    
+                    net_ipaddresses[net_ipaddressescount] = buff;
+                    net_ipaddressescount++;
                 }
             }
         }
-        
+    
         freeifaddrs(allInterfaces);
         
-        if (!found)
+        if (net_ipaddressescount == 0)
         {
             return -1;
         }
+        
+        if (net_ipaddress == NULL)
+        {
+            char* buff = net_ipaddresses[net_ipaddressescount - 1];
+            local = gethostbyname(buff);
+            if (local == NULL)
+            {
+                return -1;
+            }
+            myAddr = *(int *)local->h_addr_list[0];
+        }
+        else
+        {
+            qboolean found = false;
+            
+            for (int i = 0; i < net_ipaddressescount; i++)
+            {
+                char* buff = net_ipaddresses[i];
+                
+                if (strcmp(net_ipaddress, buff) == 0)
+                {
+                    local = gethostbyname(buff);
+                    if (local == NULL)
+                    {
+                        return -1;
+                    }
+                    myAddr = *(int *)local->h_addr_list[0];
+                    
+                    found = true;
+                }
+            }
+            
+            if (!found)
+            {
+                return -1;
+            }
+        }
     }
-#else
-	gethostname(buff, MAXHOSTNAMELEN);
-    local = gethostbyname(buff);
-	myAddr = *(int *)local->h_addr_list[0];
-#endif
-	// if the quake hostname isn't set, set it to the machine name
+    else
+    {
+        return -1;
+    }
+
+    // if the quake hostname isn't set, set it to the machine name
 	if (Q_strcmp(hostname.string, "UNNAMED") == 0)
 	{
 		buff[15] = 0;
@@ -265,7 +318,7 @@ int UDP_Connect (int socket, struct qsockaddr *addr)
 
 int UDP_CheckNewConnections (void)
 {
-	unsigned long	available;
+	unsigned int	available;
 
 	if (net_acceptsocket == -1)
 		return -1;

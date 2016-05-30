@@ -10,6 +10,8 @@
 #include "errno.h"
 #include <sys/stat.h>
 
+extern double CACurrentMediaTime();
+
 qboolean isDedicated;
 
 static quakeparms_t parms;
@@ -163,24 +165,43 @@ void Sys_MakeCodeWriteable (unsigned long startaddr, unsigned long length)
 
 void Sys_AddMessage(char* message)
 {
-    if (sys_messagescount >= sys_messagessize)
+    qboolean append = (sys_messagescount > 0);
+    
+    if (append)
     {
-        int newsize = sys_messagescount + 64;
-        char** newmessages = malloc(newsize * sizeof(char*));
+        size_t lastmessagelen = strlen(sys_messages[sys_messagescount - 1]);
         
-        if (sys_messages != NULL)
+        if (lastmessagelen > 0)
         {
-            memcpy(newmessages, sys_messages, sys_messagescount * sizeof(char*));
-            
-            free(sys_messages);
+            append = (sys_messages[sys_messagescount - 1][lastmessagelen - 1] != '\n');
         }
-        
-        sys_messages = newmessages;
-        sys_messagessize = newsize;
     }
     
-    sys_messages[sys_messagescount] = message;
-    sys_messagescount++;
+    if (append)
+    {
+        strcat(sys_messages[sys_messagescount - 1], message);
+    }
+    else
+    {
+        if (sys_messagescount >= sys_messagessize)
+        {
+            int newsize = sys_messagescount + 64;
+            char** newmessages = malloc(newsize * sizeof(char*));
+            
+            if (sys_messages != NULL)
+            {
+                memcpy(newmessages, sys_messages, sys_messagescount * sizeof(char*));
+                
+                free(sys_messages);
+            }
+            
+            sys_messages = newmessages;
+            sys_messagessize = newsize;
+        }
+        
+        sys_messages[sys_messagescount] = message;
+        sys_messagescount++;
+    }
 }
 
 void Sys_Error (char *error, ...)
@@ -233,11 +254,7 @@ void Sys_Quit (void)
 
 double Sys_FloatTime (void)
 {
-    static double t;
-    
-    t += frame_lapse;
-    
-    return t;
+    return CACurrentMediaTime();
 }
 
 char *Sys_ConsoleInput (void)

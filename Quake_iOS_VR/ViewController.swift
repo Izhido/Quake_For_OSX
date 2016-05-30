@@ -85,13 +85,19 @@ class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDat
             
             titleLabel.hidden = false
             descriptionLabel.hidden = false
-            copyLogButton.hidden = false
             consoleTableView.hidden = false
             
             consoleTableView.reloadData()
 
-            let lastMessage = NSIndexPath(forRow: Sys_MessagesCount() - 1, inSection: 0)
-            consoleTableView.scrollToRowAtIndexPath(lastMessage, atScrollPosition: .Bottom, animated: true)
+            let messagesCount = Sys_MessagesCount()
+            
+            if messagesCount > 0
+            {
+                copyLogButton.hidden = false
+
+                let lastMessage = NSIndexPath(forRow: messagesCount - 1, inSection: 0)
+                consoleTableView.scrollToRowAtIndexPath(lastMessage, atScrollPosition: .Bottom, animated: true)
+            }
         }
     }
     
@@ -103,7 +109,37 @@ class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDat
         glvr_mode = 2
         glvr_eyecount = 2
         
+        let ipAddress = NSUserDefaults.standardUserDefaults().stringForKey("net_ipaddress")
+        
+        if ipAddress != nil && !ipAddress!.isEmpty
+        {
+            net_ipaddress = UnsafeMutablePointer<Int8>(malloc(ipAddress!.characters.count + 1))
+
+            strcpy(net_ipaddress, ipAddress!.cStringUsingEncoding(String.defaultCStringEncoding())!)
+        }
+        
         Sys_Init(NSBundle.mainBundle().resourcePath!, try! NSFileManager().URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true).path!)
+        
+        let server = NSUserDefaults.standardUserDefaults().stringForKey("lanConfig_joinname")
+        
+        if server != nil && !server!.isEmpty
+        {
+            strcpy(lanConfig_joinname, server!.cStringUsingEncoding(String.defaultCStringEncoding())!)
+        }
+        
+        let port = NSUserDefaults.standardUserDefaults().integerForKey("lanConfig_port")
+        
+        if port != 0
+        {
+            lanConfig_port = Int32(port)
+        }
+        
+        let playerName = NSUserDefaults.standardUserDefaults().stringForKey("cl_name")
+        
+        if playerName != nil && !playerName!.isEmpty
+        {
+            Sys_Cbuf_AddText("name \(playerName!)")
+        }
     }
     
     func cardboardView(cardboardView: GVRCardboardView!, prepareDrawFrame headTransform: GVRHeadTransform!)
@@ -186,7 +222,11 @@ class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDat
     {
         if (event == GVRUserEvent.BackButton)
         {
-            sys_ended = qboolean(1);
+            gameInterrupted = true
+            
+            sys_ended = qboolean(1)
+
+            setupEndingScreen()
         }
     }
     
@@ -348,7 +388,7 @@ class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDat
     {
         let identifier = "consoleCell"
         
-        var cell = consoleTableView.dequeueReusableCellWithIdentifier(identifier);
+        var cell = consoleTableView.dequeueReusableCellWithIdentifier(identifier)
         
         if cell == nil
         {
@@ -370,7 +410,7 @@ class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDat
     {
         var log : String = ""
         
-        let messageCount = Sys_MessagesCount();
+        let messageCount = Sys_MessagesCount()
         
         for messageIndex in 0...messageCount - 1
         {

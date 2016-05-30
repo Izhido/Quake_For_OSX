@@ -36,6 +36,14 @@ int			DEFAULTnet_hostport = 26000;
 char		my_ipx_address[NET_NAMELEN];
 char		my_tcpip_address[NET_NAMELEN];
 
+char*       net_ipaddress = NULL;
+
+char**      net_ipaddresses = NULL;
+
+int         net_ipaddressescount = 0;
+int         net_ipaddressessize = 0;
+
+
 void (*GetComPortConfig) (int portNumber, int *port, int *irq, int *baud, qboolean *useModem);
 void (*SetComPortConfig) (int portNumber, int port, int irq, int baud, qboolean useModem);
 void (*GetModemConfig) (int portNumber, char *dialType, char *clear, char *init, char *hangup);

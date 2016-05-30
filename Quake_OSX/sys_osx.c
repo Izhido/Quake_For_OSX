@@ -8,6 +8,7 @@
 
 #include "quakedef.h"
 #include "errno.h"
+#include <sys/stat.h>
 
 extern double CACurrentMediaTime();
 

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C3A94087ABE65555EF823DA /* libPods-Quake_iOS_VR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C82BDF8FCD7ED0B4D780A4A7 /* libPods-Quake_iOS_VR.a */; };
+		2807AD681CFC9DC0004A2C68 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2807AD671CFC9DC0004A2C68 /* Settings.bundle */; };
 		280E8C681CF8C63F00500C75 /* id1 in Resources */ = {isa = PBXBuildFile; fileRef = 280E8C671CF8C63F00500C75 /* id1 */; };
 		2817C7A61CED6555000E491D /* gl_noalphatextprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A41CED6555000E491D /* gl_noalphatextprogram.fsh */; };
 		2817C7A71CED6555000E491D /* gl_noalphatextprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */; };
@@ -185,6 +186,7 @@
 		288781431CD83E0800AF4F24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 288781411CD83E0800AF4F24 /* Main.storyboard */; };
 		288781451CD83E0800AF4F24 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 288781441CD83E0800AF4F24 /* Assets.xcassets */; };
 		288781481CD83E0800AF4F24 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 288781461CD83E0800AF4F24 /* LaunchScreen.storyboard */; };
+		2891B10F1CFBFA720005377F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2891B10E1CFBFA720005377F /* Settings.bundle */; };
 		289A0AEB1C63054F0007B2C4 /* net_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AE91C63054F0007B2C4 /* net_udp.c */; };
 		289A0AEE1C63074B0007B2C4 /* net_dgrm.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEC1C63074B0007B2C4 /* net_dgrm.c */; };
 		289A0AF01C6307C70007B2C4 /* net_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEF1C6307C70007B2C4 /* net_osx.c */; };
@@ -243,6 +245,7 @@
 
 /* Begin PBXFileReference section */
 		153169104D01DAE8AF82A08C /* Pods-Quake_iOS_VR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.debug.xcconfig"; sourceTree = "<group>"; };
+		2807AD671CFC9DC0004A2C68 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		280E8C671CF8C63F00500C75 /* id1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = id1; path = "../../../Downloads/Quake Shareware (1_06) PAK/id1"; sourceTree = "<group>"; };
 		2817C7A41CED6555000E491D /* gl_noalphatextprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_noalphatextprogram.fsh; sourceTree = "<group>"; };
 		2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_noalphatextprogram.vsh; sourceTree = "<group>"; };
@@ -390,6 +393,7 @@
 		2887815D1CD8406100AF4F24 /* gl_screen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_screen.c; sourceTree = "<group>"; };
 		2887815E1CD8406100AF4F24 /* gl_warp_sin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gl_warp_sin.h; sourceTree = "<group>"; };
 		2887815F1CD8406100AF4F24 /* gl_warp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_warp.c; sourceTree = "<group>"; };
+		2891B10E1CFBFA720005377F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		289A0AE91C63054F0007B2C4 /* net_udp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_udp.c; sourceTree = "<group>"; };
 		289A0AEA1C63054F0007B2C4 /* net_udp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_udp.h; sourceTree = "<group>"; };
 		289A0AEC1C63074B0007B2C4 /* net_dgrm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_dgrm.c; sourceTree = "<group>"; };
@@ -653,6 +657,7 @@
 				6D9F03FB1CE5345A009AF81F /* net_ios_vr.c */,
 				28E106181CD8521F0042675A /* sys_ios_vr.c */,
 				6D9F03F71CE52ADB009AF81F /* gl_vidiosvr.c */,
+				2891B10E1CFBFA720005377F /* Settings.bundle */,
 			);
 			path = Quake_iOS_VR;
 			sourceTree = "<group>";
@@ -699,6 +704,7 @@
 				28BA6D501CA5F8BE000E5BAB /* net_tvos.c */,
 				2873B10B1C5D7E0F00CE4775 /* sys_tvos.c */,
 				6D9F03F51CE52A9D009AF81F /* vid_tvos.c */,
+				2807AD671CFC9DC0004A2C68 /* Settings.bundle */,
 			);
 			path = Quake_tvOS;
 			sourceTree = "<group>";
@@ -848,6 +854,7 @@
 				28C4FA831CE79617001CF82D /* gl_textprogram.vsh in Resources */,
 				2817C7AB1CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh in Resources */,
 				288781451CD83E0800AF4F24 /* Assets.xcassets in Resources */,
+				2891B10F1CFBFA720005377F /* Settings.bundle in Resources */,
 				28C4FA841CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh in Resources */,
 				288781431CD83E0800AF4F24 /* Main.storyboard in Resources */,
 				28C4FA811CE79617001CF82D /* gl_polygonnotextureprogram.vsh in Resources */,
@@ -862,6 +869,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2807AD681CFC9DC0004A2C68 /* Settings.bundle in Resources */,
 				280E8C681CF8C63F00500C75 /* id1 in Resources */,
 				28C3BDCA1C5D77AA00CBB0D9 /* Assets.xcassets in Resources */,
 				28C3BDC81C5D77AA00CBB0D9 /* Main.storyboard in Resources */,

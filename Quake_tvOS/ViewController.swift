@@ -130,7 +130,37 @@ class ViewController: GCEventViewController, MTKViewDelegate
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidDisconnect), name: "GCControllerDidDisconnectNotification", object: nil)
         
+        let ipAddress = NSUserDefaults.standardUserDefaults().stringForKey("net_ipaddress")
+        
+        if ipAddress != nil && !ipAddress!.isEmpty
+        {
+            net_ipaddress = UnsafeMutablePointer<Int8>(malloc(ipAddress!.characters.count + 1))
+            
+            strcpy(net_ipaddress, ipAddress!.cStringUsingEncoding(String.defaultCStringEncoding())!)
+        }
+        
         Sys_Init(NSBundle.mainBundle().resourcePath!, try! NSFileManager().URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true).path!)
+
+        let server = NSUserDefaults.standardUserDefaults().stringForKey("lanConfig_joinname")
+        
+        if server != nil && !server!.isEmpty
+        {
+            strcpy(lanConfig_joinname, server!.cStringUsingEncoding(String.defaultCStringEncoding())!)
+        }
+        
+        let port = NSUserDefaults.standardUserDefaults().integerForKey("lanConfig_port")
+        
+        if port != 0
+        {
+            lanConfig_port = Int32(port)
+        }
+        
+        let playerName = NSUserDefaults.standardUserDefaults().stringForKey("cl_name")
+        
+        if playerName != nil && !playerName!.isEmpty
+        {
+            Sys_Cbuf_AddText("name \(playerName!)")
+        }
     }
     
     func orthographic(top: Float, bottom: Float, left: Float, right: Float, near: Float, far: Float) -> [Float]
