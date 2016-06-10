@@ -238,7 +238,7 @@ void GL_Triangulate (GLfloat* vertices, int vertexcount, int stride, GLuint** in
     // TODO: Fix this for real. This is just triangle-fanning, and it is completely wrong.
 
     (*indexcount) = (vertexcount - 2) * 3;
-    (*indices) = malloc((*indexcount) * sizeof(GLuint));
+    (*indices) = Hunk_AllocName((*indexcount) * sizeof(GLuint), "index_buffer");
     
     int indexPos = 0;
     

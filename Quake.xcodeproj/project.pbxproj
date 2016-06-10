@@ -751,12 +751,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2887814C1CD83E0800AF4F24 /* Build configuration list for PBXNativeTarget "Quake_iOS_VR" */;
 			buildPhases = (
-				0C44C792C64D396D749D6AC4 /* 📦 Check Pods Manifest.lock */,
+				0C44C792C64D396D749D6AC4 /* [CP] Check Pods Manifest.lock */,
 				288781371CD83E0800AF4F24 /* Sources */,
 				288781381CD83E0800AF4F24 /* Frameworks */,
 				288781391CD83E0800AF4F24 /* Resources */,
-				2DDDE200DC84FDDDB0B6BB30 /* 📦 Embed Pods Frameworks */,
-				3BBFE7EA52C2C755099AE15E /* 📦 Copy Pods Resources */,
+				2DDDE200DC84FDDDB0B6BB30 /* [CP] Embed Pods Frameworks */,
+				3BBFE7EA52C2C755099AE15E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -879,14 +879,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0C44C792C64D396D749D6AC4 /* 📦 Check Pods Manifest.lock */ = {
+		0C44C792C64D396D749D6AC4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -894,14 +894,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		2DDDE200DC84FDDDB0B6BB30 /* 📦 Embed Pods Frameworks */ = {
+		2DDDE200DC84FDDDB0B6BB30 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -909,14 +909,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3BBFE7EA52C2C755099AE15E /* 📦 Copy Pods Resources */ = {
+		3BBFE7EA52C2C755099AE15E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

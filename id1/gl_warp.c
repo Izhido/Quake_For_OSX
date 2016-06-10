@@ -202,7 +202,9 @@ void EmitWaterPolys (msurface_t *fa)
 
 	for (p=fa->polys ; p ; p=p->next)
 	{
-        GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
+        int mark = Hunk_LowMark ();
+        
+        GLfloat* vertices = Hunk_AllocName (p->numverts * 5 * sizeof(GLfloat), "vertex_buffer");
         
         int j = 0;
         for (i=0,v=p->verts[0] ; i<p->numverts ; i++, v+=VERTEXSIZE)
@@ -258,9 +260,7 @@ void EmitWaterPolys (msurface_t *fa)
         
         glDeleteBuffers(1, &vertexbuffer);
     
-        free(indices);
-
-        free(vertices);
+        Hunk_FreeToLowMark (mark);
     }
 }
 
@@ -283,7 +283,9 @@ void EmitSkyPolys (msurface_t *fa)
 
 	for (p=fa->polys ; p ; p=p->next)
 	{
-        GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
+        int mark = Hunk_LowMark ();
+        
+        GLfloat* vertices = Hunk_AllocName (p->numverts * 5 * sizeof(GLfloat), "vertex_buffer");
         
         int j = 0;
         for (i=0,v=p->verts[0] ; i<p->numverts ; i++, v+=VERTEXSIZE)
@@ -343,9 +345,7 @@ void EmitSkyPolys (msurface_t *fa)
         
         glDeleteBuffers(1, &vertexbuffer);
         
-        free(indices);
-        
-        free(vertices);
+        Hunk_FreeToLowMark (mark);
     }
 }
 

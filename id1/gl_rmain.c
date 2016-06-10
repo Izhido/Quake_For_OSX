@@ -395,8 +395,10 @@ lastposenum = posenum;
 		else
 			elementtype = GL_TRIANGLE_STRIP;
 
+        int mark = Hunk_LowMark ();
+
         int vertexcount = count;
-        GLfloat* vertices = malloc(count * 9 * sizeof(GLfloat));
+        GLfloat* vertices = Hunk_AllocName (count * 9 * sizeof(GLfloat), "vertex_buffer");
 
         int vertexpos = 0;
         do
@@ -421,7 +423,7 @@ lastposenum = posenum;
 		} while (--count);
 
         int indexcount = vertexcount;
-        GLuint* indices = malloc(indexcount * sizeof(GLuint));
+        GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
         
         for (int i = 0; i < indexcount; i++)
         {
@@ -461,9 +463,7 @@ lastposenum = posenum;
         
         glDeleteBuffers(1, &vertexbuffer);
         
-        free(indices);
-        
-        free(vertices);
+        Hunk_FreeToLowMark (mark);
 	}
 }
 
@@ -512,8 +512,10 @@ void GL_DrawAliasShadow (aliashdr_t *paliashdr, int posenum)
         else
             elementtype = GL_TRIANGLE_STRIP;
 
+        int mark = Hunk_LowMark ();
+        
         int vertexcount = count;
-        GLfloat* vertices = malloc(count * 3 * sizeof(GLfloat));
+        GLfloat* vertices = Hunk_AllocName (count * 3 * sizeof(GLfloat), "vertex_buffer");
         
         int vertexpos = 0;
 		do
@@ -540,7 +542,7 @@ void GL_DrawAliasShadow (aliashdr_t *paliashdr, int posenum)
 		} while (--count);
 
         int indexcount = vertexcount;
-        GLuint* indices = malloc(indexcount * sizeof(GLuint));
+        GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
         
         for (int i = 0; i < indexcount; i++)
         {
@@ -574,9 +576,7 @@ void GL_DrawAliasShadow (aliashdr_t *paliashdr, int posenum)
         
         glDeleteBuffers(1, &vertexbuffer);
 
-        free(indices);
-        
-        free(vertices);
+        Hunk_FreeToLowMark (mark);
 	}
 }
 

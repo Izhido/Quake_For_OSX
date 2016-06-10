@@ -697,6 +697,8 @@ void R_DrawParticles (void)
 	}
 
 #ifdef GLQUAKE
+    int mark = Hunk_LowMark();
+    
     int vertexcount = 0;
 
     for (p=active_particles ; p ; p=p->next)
@@ -706,7 +708,7 @@ void R_DrawParticles (void)
     
     if (vertexcount == 0) return;
     
-    GLfloat* vertices = malloc(vertexcount * 9 * sizeof(GLfloat));
+    GLfloat* vertices = Hunk_AllocName (vertexcount * 9 * sizeof(GLfloat), "vertex_buffer");
     
     int vertexpos = 0;
 #endif
@@ -838,7 +840,7 @@ void R_DrawParticles (void)
 
 #ifdef GLQUAKE
     int indexcount = vertexcount;
-    GLuint* indices = malloc(indexcount * sizeof(GLuint));
+    GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
     
     for (int i = 0; i < indexcount; i++)
     {
@@ -877,10 +879,8 @@ void R_DrawParticles (void)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     glDeleteBuffers(1, &vertexbuffer);
-    
-    free(indices);
-    
-    free(vertices);
+
+    Hunk_FreeToLowMark (mark);
     
 	glDisable (GL_BLEND);
 #else

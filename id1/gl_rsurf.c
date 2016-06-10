@@ -450,6 +450,8 @@ void R_DrawSequentialPoly (msurface_t *s)
 				theRect->w = 0;
 			}
 
+            int mark = Hunk_LowMark ();
+            
             GLuint* indices;
             int indexcount;
             
@@ -488,7 +490,7 @@ void R_DrawSequentialPoly (msurface_t *s)
             
             glDeleteBuffers(1, &vertexbuffer);
             
-            free(indices);
+            Hunk_FreeToLowMark (mark);
 
             return;
 		} else {
@@ -500,6 +502,8 @@ void R_DrawSequentialPoly (msurface_t *s)
 
             t = R_TextureAnimation (s->texinfo->texture);
 			GL_Bind (t->gl_texturenum);
+            
+            int mark = Hunk_LowMark ();
             
             GLuint* indices;
             int indexcount;
@@ -568,7 +572,7 @@ void R_DrawSequentialPoly (msurface_t *s)
             
             glDeleteBuffers(1, &vertexbuffer);
 
-            free(indices);
+            Hunk_FreeToLowMark (mark);
             
             glDisable (GL_BLEND);
 		}
@@ -651,7 +655,9 @@ void R_DrawSequentialPoly (msurface_t *s)
 			theRect->w = 0;
 		}
 
-        GLfloat* vertices = malloc(p->numverts * 7 * sizeof(GLfloat));
+        int mark = Hunk_LowMark();
+        
+        GLfloat* vertices = Hunk_AllocName (p->numverts * 7 * sizeof(GLfloat), "vertex_buffer");
         
         v = p->verts[0];
         int j = 0;
@@ -669,7 +675,7 @@ void R_DrawSequentialPoly (msurface_t *s)
         }
 
         int indexcount = p->numverts;
-        GLuint* indices = malloc(indexcount * sizeof(GLuint));
+        GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
         
         for (int i = 0; i < indexcount; i++)
         {
@@ -709,9 +715,7 @@ void R_DrawSequentialPoly (msurface_t *s)
         
         glDeleteBuffers(1, &vertexbuffer);
         
-        free(indices);
-        
-        free(vertices);
+        Hunk_FreeToLowMark (mark);
     } else {
 		p = s->polys;
 
@@ -751,7 +755,9 @@ void DrawGLWaterPoly (glpoly_t *p)
 
 	GL_DisableMultitexture();
 
-    GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
+    int mark = Hunk_LowMark ();
+
+    GLfloat* vertices = Hunk_AllocName (p->numverts * 5 * sizeof(GLfloat), "vertex_buffer");
     
     v = p->verts[0];
     int j = 0;
@@ -766,7 +772,7 @@ void DrawGLWaterPoly (glpoly_t *p)
     }
     
     int indexcount = p->numverts;
-    GLuint* indices = malloc(indexcount * sizeof(GLuint));
+    GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
     
     for (int i = 0; i < indexcount; i++)
     {
@@ -803,9 +809,7 @@ void DrawGLWaterPoly (glpoly_t *p)
     
     glDeleteBuffers(1, &vertexbuffer);
     
-    free(indices);
-    
-    free(vertices);
+    Hunk_FreeToLowMark (mark);
 }
 
 void DrawGLWaterPolyLightmap (glpoly_t *p)
@@ -817,7 +821,9 @@ void DrawGLWaterPolyLightmap (glpoly_t *p)
 
 	GL_DisableMultitexture();
 
-    GLfloat* vertices = malloc(p->numverts * 5 * sizeof(GLfloat));
+    int mark = Hunk_LowMark();
+    
+    GLfloat* vertices = Hunk_AllocName (p->numverts * 5 * sizeof(GLfloat), "vertex_buffer");
     
     v = p->verts[0];
     int j = 0;
@@ -832,7 +838,7 @@ void DrawGLWaterPolyLightmap (glpoly_t *p)
     }
     
     int indexcount = p->numverts;
-    GLuint* indices = malloc(indexcount * sizeof(GLuint));
+    GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
     
     for (int i = 0; i < indexcount; i++)
     {
@@ -869,9 +875,7 @@ void DrawGLWaterPolyLightmap (glpoly_t *p)
     
     glDeleteBuffers(1, &vertexbuffer);
     
-    free(indices);
-    
-    free(vertices);
+    Hunk_FreeToLowMark (mark);
 }
 
 /*
@@ -907,6 +911,8 @@ void DrawGLPoly (glpoly_t *p)
         texcoords = gl_polygon1textureprogram_texcoords;
     }
 
+    int mark = Hunk_LowMark ();
+    
     GLuint* indices;
     int indexcount;
     
@@ -942,7 +948,7 @@ void DrawGLPoly (glpoly_t *p)
     
     glDeleteBuffers(1, &vertexbuffer);
     
-    free(indices);
+    Hunk_FreeToLowMark (mark);
 }
 
 
@@ -1026,6 +1032,8 @@ void R_BlendLightmaps (void)
 				DrawGLWaterPolyLightmap (p);
 			else
 			{
+                int mark = Hunk_LowMark ();
+                
                 int indexcount;
                 GLuint* indices;
                 
@@ -1061,7 +1069,7 @@ void R_BlendLightmaps (void)
                 
                 glDeleteBuffers(1, &vertexbuffer);
                 
-                free(indices);
+                Hunk_FreeToLowMark (mark);
             }
 		}
 	}
