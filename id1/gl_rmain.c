@@ -373,14 +373,93 @@ void GL_DrawAliasFrame (aliashdr_t *paliashdr, int posenum)
 	vec3_t	point;
 	float	*normal;
 	int		count;
-    GLenum  elementtype;
 
 lastposenum = posenum;
 
-	verts = (trivertx_t *)((byte *)paliashdr + paliashdr->posedata);
-	verts += posenum * paliashdr->poseverts;
+    int mark = Hunk_LowMark ();
+    
+    int fansegmentcount = 0;
+    int stripsegmentcount = 0;
+    
 	order = (int *)((byte *)paliashdr + paliashdr->commands);
 
+    while (1)
+    {
+        count = *order++;
+        if (!count)
+            break;		// done
+        if (count < 0)
+        {
+            fansegmentcount++;
+        }
+        else
+        {
+            stripsegmentcount++;
+        }
+    }
+
+    GLsizei* fansegments = NULL;
+    GLsizei* stripsegments = NULL;
+
+    if (fansegmentcount > 0)
+    {
+        fansegments = Hunk_AllocName (fansegmentcount * sizeof(GLsizei), "fan_segments");
+    }
+    
+    if (stripsegmentcount > 0)
+    {
+        stripsegments = Hunk_AllocName (stripsegmentcount * sizeof(GLsizei), "strip_segments");
+    }
+
+    int fansegmentpos = 0;
+    int stripsegmentpos = 0;
+    
+    int fancount = 0;
+    int stripcount = 0;
+
+    order = (int *)((byte *)paliashdr + paliashdr->commands);
+    
+    while (1)
+    {
+        count = *order++;
+        if (!count)
+            break;		// done
+        if (count < 0)
+        {
+            fansegments[fansegmentpos++] = -count;
+            fancount -= count;
+            order -= count;
+            order -= count;
+        }
+        else
+        {
+            stripsegments[stripsegmentpos++] = count;
+            stripcount += count;
+            order += count;
+            order += count;
+        }
+    }
+
+    GLfloat* fanvertices = NULL;
+    GLfloat* stripvertices = NULL;
+    
+    if (fancount > 0)
+    {
+        fanvertices = Hunk_AllocName (fancount * 9 * sizeof(GLfloat), "fan_vertices");
+    }
+    
+    if (stripcount > 0)
+    {
+        stripvertices = Hunk_AllocName (stripcount * 9 * sizeof(GLfloat), "strip_vertices");
+    }
+    
+    int fanvertexpos = 0;
+    int stripvertexpos = 0;
+
+    verts = (trivertx_t *)((byte *)paliashdr + paliashdr->posedata);
+    verts += posenum * paliashdr->poseverts;
+    order = (int *)((byte *)paliashdr + paliashdr->commands);
+    
 	while (1)
 	{
 		// get the vertex count and primitive type
@@ -389,52 +468,59 @@ lastposenum = posenum;
 			break;		// done
 		if (count < 0)
 		{
-			count = -count;
-			elementtype = GL_TRIANGLE_FAN;
+            do
+            {
+                // normals and vertexes come from the frame list
+                fanvertices[fanvertexpos++] = verts->v[0];
+                fanvertices[fanvertexpos++] = verts->v[1];
+                fanvertices[fanvertexpos++] = verts->v[2];
+                
+                l = shadedots[verts->lightnormalindex] * shadelight;
+                fanvertices[fanvertexpos++] = l;
+                fanvertices[fanvertexpos++] = l;
+                fanvertices[fanvertexpos++] = l;
+                fanvertices[fanvertexpos++] = 1.0;
+                
+                // texture coordinates come from the draw list
+                fanvertices[fanvertexpos++] = ((float *)order)[0];
+                fanvertices[fanvertexpos++] = ((float *)order)[1];
+                
+                order += 2;
+                verts++;
+            } while (++count);
 		}
 		else
-			elementtype = GL_TRIANGLE_STRIP;
-
-        int mark = Hunk_LowMark ();
-
-        int vertexcount = count;
-        GLfloat* vertices = Hunk_AllocName (count * 9 * sizeof(GLfloat), "vertex_buffer");
-
-        int vertexpos = 0;
-        do
-		{
-			// normals and vertexes come from the frame list
-            vertices[vertexpos++] = verts->v[0];
-            vertices[vertexpos++] = verts->v[1];
-            vertices[vertexpos++] = verts->v[2];
-
-            l = shadedots[verts->lightnormalindex] * shadelight;
-            vertices[vertexpos++] = l;
-            vertices[vertexpos++] = l;
-            vertices[vertexpos++] = l;
-            vertices[vertexpos++] = 1.0;
-            
-            // texture coordinates come from the draw list
-            vertices[vertexpos++] = ((float *)order)[0];
-            vertices[vertexpos++] = ((float *)order)[1];
-            
-            order += 2;
-            verts++;
-		} while (--count);
-
-        int indexcount = vertexcount;
-        GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
-        
-        for (int i = 0; i < indexcount; i++)
         {
-            indices[i] = i;
+            do
+            {
+                // normals and vertexes come from the frame list
+                stripvertices[stripvertexpos++] = verts->v[0];
+                stripvertices[stripvertexpos++] = verts->v[1];
+                stripvertices[stripvertexpos++] = verts->v[2];
+                
+                l = shadedots[verts->lightnormalindex] * shadelight;
+                stripvertices[stripvertexpos++] = l;
+                stripvertices[stripvertexpos++] = l;
+                stripvertices[stripvertexpos++] = l;
+                stripvertices[stripvertexpos++] = 1.0;
+                
+                // texture coordinates come from the draw list
+                stripvertices[stripvertexpos++] = ((float *)order)[0];
+                stripvertices[stripvertexpos++] = ((float *)order)[1];
+                
+                order += 2;
+                verts++;
+            } while (--count);
         }
-        
+    }
+
+    if (fancount > 0)
+    {
         GLuint vertexbuffer;
         glGenBuffers(1, &vertexbuffer);
         
         glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glBufferData(GL_ARRAY_BUFFER, vertexcount * 9 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, fancount * 9 * sizeof(GLfloat), fanvertices, GL_STATIC_DRAW);
         
         glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_position);
         glVertexAttribPointer(gl_coloredpolygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)0);
@@ -443,17 +529,13 @@ lastposenum = posenum;
         glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_texcoords);
         glVertexAttribPointer(gl_coloredpolygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)(7 * sizeof(GLfloat)));
         
-        GLuint elementbuffer;
-        glGenBuffers(1, &elementbuffer);
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
-        
-        glDrawElements(elementtype, indexcount, GL_UNSIGNED_INT, 0);
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        
-        glDeleteBuffers(1, &elementbuffer);
+        GLsizei offset = 0;
+        for (int i = 0; i < fansegmentcount; i++)
+        {
+            GLsizei count = fansegments[i];
+            glDrawArrays(GL_TRIANGLE_FAN, offset, count);
+            offset += count;
+        }
         
         glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_texcoords);
         glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_color);
@@ -462,9 +544,41 @@ lastposenum = posenum;
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         
         glDeleteBuffers(1, &vertexbuffer);
+    }
+
+    if (stripcount > 0)
+    {
+        GLuint vertexbuffer;
+        glGenBuffers(1, &vertexbuffer);
         
-        Hunk_FreeToLowMark (mark);
-	}
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glBufferData(GL_ARRAY_BUFFER, stripcount * 9 * sizeof(GLfloat), stripvertices, GL_STATIC_DRAW);
+        
+        glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_position);
+        glVertexAttribPointer(gl_coloredpolygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)0);
+        glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_color);
+        glVertexAttribPointer(gl_coloredpolygon1textureprogram_color, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_texcoords);
+        glVertexAttribPointer(gl_coloredpolygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)(7 * sizeof(GLfloat)));
+        
+        GLsizei offset = 0;
+        for (int i = 0; i < stripsegmentcount; i++)
+        {
+            GLsizei count = stripsegments[i];
+            glDrawArrays(GL_TRIANGLE_STRIP, offset, count);
+            offset += count;
+        }
+        
+        glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_texcoords);
+        glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_color);
+        glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_position);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &vertexbuffer);
+    }
+    
+    Hunk_FreeToLowMark (mark);
 }
 
 
@@ -541,14 +655,6 @@ void GL_DrawAliasShadow (aliashdr_t *paliashdr, int posenum)
 			verts++;
 		} while (--count);
 
-        int indexcount = vertexcount;
-        GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
-        
-        for (int i = 0; i < indexcount; i++)
-        {
-            indices[i] = i;
-        }
-        
         GLuint vertexbuffer;
         glGenBuffers(1, &vertexbuffer);
         
@@ -558,17 +664,7 @@ void GL_DrawAliasShadow (aliashdr_t *paliashdr, int posenum)
         glEnableVertexAttribArray(gl_polygonnotextureprogram_position);
         glVertexAttribPointer(gl_polygonnotextureprogram_position, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (const GLvoid *)0);
         
-        GLuint elementbuffer;
-        glGenBuffers(1, &elementbuffer);
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
-        
-        glDrawElements(elementtype, indexcount, GL_UNSIGNED_INT, 0);
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        
-        glDeleteBuffers(1, &elementbuffer);
+        glDrawArrays(elementtype, 0, vertexcount);
         
         glDisableVertexAttribArray(gl_polygonnotextureprogram_position);
         

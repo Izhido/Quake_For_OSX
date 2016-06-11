@@ -674,14 +674,6 @@ void R_DrawSequentialPoly (msurface_t *s)
             vertices[j++] = v[6];
         }
 
-        int indexcount = p->numverts;
-        GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
-        
-        for (int i = 0; i < indexcount; i++)
-        {
-            indices[i] = i;
-        }
-        
         GLuint vertexbuffer;
         glGenBuffers(1, &vertexbuffer);
         
@@ -695,17 +687,7 @@ void R_DrawSequentialPoly (msurface_t *s)
         glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
         glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
         
-        GLuint elementbuffer;
-        glGenBuffers(1, &elementbuffer);
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
-        
-        glDrawElements(GL_TRIANGLE_FAN, indexcount, GL_UNSIGNED_INT, 0);
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        
-        glDeleteBuffers(1, &elementbuffer);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, p->numverts);
         
         glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
         glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
@@ -771,14 +753,6 @@ void DrawGLWaterPoly (glpoly_t *p)
         vertices[j++] = v[4];
     }
     
-    int indexcount = p->numverts;
-    GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
-    
-    for (int i = 0; i < indexcount; i++)
-    {
-        indices[i] = i;
-    }
-    
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
@@ -790,17 +764,7 @@ void DrawGLWaterPoly (glpoly_t *p)
     glEnableVertexAttribArray(gl_waterpolygon_texcoords);
     glVertexAttribPointer(gl_waterpolygon_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
     
-    GLuint elementbuffer;
-    glGenBuffers(1, &elementbuffer);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
-    
-    glDrawElements(GL_TRIANGLE_FAN, indexcount, GL_UNSIGNED_INT, 0);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-    glDeleteBuffers(1, &elementbuffer);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, p->numverts);
     
     glDisableVertexAttribArray(gl_waterpolygon_texcoords);
     glDisableVertexAttribArray(gl_waterpolygon_position);
@@ -837,14 +801,6 @@ void DrawGLWaterPolyLightmap (glpoly_t *p)
         vertices[j++] = v[6];
     }
     
-    int indexcount = p->numverts;
-    GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
-    
-    for (int i = 0; i < indexcount; i++)
-    {
-        indices[i] = i;
-    }
-    
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
@@ -856,17 +812,7 @@ void DrawGLWaterPolyLightmap (glpoly_t *p)
     glEnableVertexAttribArray(gl_waterpolygon_texcoords);
     glVertexAttribPointer(gl_waterpolygon_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
     
-    GLuint elementbuffer;
-    glGenBuffers(1, &elementbuffer);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
-    
-    glDrawElements(GL_TRIANGLE_FAN, indexcount, GL_UNSIGNED_INT, 0);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-    glDeleteBuffers(1, &elementbuffer);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, p->numverts);
     
     glDisableVertexAttribArray(gl_waterpolygon_texcoords);
     glDisableVertexAttribArray(gl_waterpolygon_position);

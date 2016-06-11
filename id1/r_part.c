@@ -839,14 +839,6 @@ void R_DrawParticles (void)
 	}
 
 #ifdef GLQUAKE
-    int indexcount = vertexcount;
-    GLuint* indices = Hunk_AllocName (indexcount * sizeof(GLuint), "index_buffer");
-    
-    for (int i = 0; i < indexcount; i++)
-    {
-        indices[i] = i;
-    }
-    
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
@@ -860,17 +852,7 @@ void R_DrawParticles (void)
     glEnableVertexAttribArray(gl_coloredpolygon1textureprogram_texcoords);
     glVertexAttribPointer(gl_coloredpolygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (const GLvoid *)(7 * sizeof(GLfloat)));
     
-    GLuint elementbuffer;
-    glGenBuffers(1, &elementbuffer);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
-    
-    glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-    glDeleteBuffers(1, &elementbuffer);
+    glDrawArrays(GL_TRIANGLES, 0, vertexcount);
     
     glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_texcoords);
     glDisableVertexAttribArray(gl_coloredpolygon1textureprogram_color);

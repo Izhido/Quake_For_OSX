@@ -119,13 +119,6 @@ void R_RenderDlight (dlight_t *light)
         vertices[vertexPos++] = 1.0;
     }
     
-    GLuint indices[18];
-    
-    for (int i = 0; i < 18; i++)
-    {
-        indices[i] = i;
-    }
-    
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
@@ -137,17 +130,7 @@ void R_RenderDlight (dlight_t *light)
     glEnableVertexAttribArray(gl_coloredpolygonnotextureprogram_color);
     glVertexAttribPointer(gl_coloredpolygonnotextureprogram_color, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
     
-    GLuint elementbuffer;
-    glGenBuffers(1, &elementbuffer);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 18 * sizeof(GLuint), indices, GL_STATIC_DRAW);
-    
-    glDrawElements(GL_TRIANGLE_FAN, 18, GL_UNSIGNED_INT, 0);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-    glDeleteBuffers(1, &elementbuffer);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 18);
     
     glDisableVertexAttribArray(gl_coloredpolygonnotextureprogram_color);
     glDisableVertexAttribArray(gl_coloredpolygonnotextureprogram_position);
