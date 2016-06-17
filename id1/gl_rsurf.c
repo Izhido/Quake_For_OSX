@@ -449,13 +449,6 @@ void R_DrawSequentialPoly (msurface_t *s)
 				theRect->h = 0;
 				theRect->w = 0;
 			}
-
-            int mark = Hunk_LowMark ();
-            
-            GLuint* indices;
-            int indexcount;
-            
-            GL_Triangulate ((GLfloat*)p->verts, p->numverts, VERTEXSIZE, &indices, &indexcount);
             
             GLuint vertexbuffer;
             glGenBuffers(1, &vertexbuffer);
@@ -470,17 +463,9 @@ void R_DrawSequentialPoly (msurface_t *s)
             glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
             glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
             
-            GLuint elementbuffer;
-            glGenBuffers(1, &elementbuffer);
-            
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
-            
-            glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
+            glDrawArrays(GL_TRIANGLE_FAN, 0, p->numverts);
             
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-            
-            glDeleteBuffers(1, &elementbuffer);
             
             glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
             glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
@@ -490,8 +475,6 @@ void R_DrawSequentialPoly (msurface_t *s)
             
             glDeleteBuffers(1, &vertexbuffer);
             
-            Hunk_FreeToLowMark (mark);
-
             return;
 		} else {
 			p = s->polys;

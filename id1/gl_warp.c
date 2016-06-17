@@ -198,15 +198,33 @@ void EmitWaterPolys (msurface_t *fa)
 	float		*v;
 	int			i;
 	float		s, t, os, ot;
+    
+    int mark = Hunk_LowMark ();
 
+    int segmentcount = 0;
+    
+    for (p=fa->polys ; p ; p=p->next)
+    {
+        segmentcount++;
+    }
 
-	for (p=fa->polys ; p ; p=p->next)
+    GLsizei* segments = Hunk_AllocName (segmentcount * sizeof(GLsizei), "segments");
+    
+    int segmentpos = 0;
+    int vertexcount = 0;
+    
+    for (p=fa->polys ; p ; p=p->next)
+    {
+        segments[segmentpos++] = p->numverts;
+        vertexcount += p->numverts;
+    }
+    
+    GLfloat* vertices = Hunk_AllocName (vertexcount * 5 * sizeof(GLfloat), "vertex_buffer");
+    
+    int vertexpos = 0;
+
+    for (p=fa->polys ; p ; p=p->next)
 	{
-        int mark = Hunk_LowMark ();
-        
-        GLfloat* vertices = Hunk_AllocName (p->numverts * 5 * sizeof(GLfloat), "vertex_buffer");
-        
-        int j = 0;
         for (i=0,v=p->verts[0] ; i<p->numverts ; i++, v+=VERTEXSIZE)
         {
             os = v[3];
@@ -218,50 +236,41 @@ void EmitWaterPolys (msurface_t *fa)
             t = ot + turbsin[(int)((os*0.125+realtime) * TURBSCALE) & 255];
             t *= (1.0/64);
             
-            vertices[j++] = v[0];
-            vertices[j++] = v[1];
-            vertices[j++] = v[2];
-            vertices[j++] = s;
-            vertices[j++] = t;
+            vertices[vertexpos++] = v[0];
+            vertices[vertexpos++] = v[1];
+            vertices[vertexpos++] = v[2];
+            vertices[vertexpos++] = s;
+            vertices[vertexpos++] = t;
         }
-
-        GLuint* indices;
-        int indexcount;
-        
-        GL_Triangulate (vertices, p->numverts, 5, &indices, &indexcount);
-        
-        GLuint vertexbuffer;
-        glGenBuffers(1, &vertexbuffer);
-        
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
-        
-        glEnableVertexAttribArray(gl_waterpolygon_position);
-        glVertexAttribPointer(gl_waterpolygon_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
-        glEnableVertexAttribArray(gl_waterpolygon_texcoords);
-        glVertexAttribPointer(gl_waterpolygon_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
-        
-        GLuint elementbuffer;
-        glGenBuffers(1, &elementbuffer);
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
-        
-        glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        
-        glDeleteBuffers(1, &elementbuffer);
-        
-        glDisableVertexAttribArray(gl_waterpolygon_texcoords);
-        glDisableVertexAttribArray(gl_waterpolygon_position);
-        
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        
-        glDeleteBuffers(1, &vertexbuffer);
-    
-        Hunk_FreeToLowMark (mark);
     }
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, vertexcount * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_waterpolygon_position);
+    glVertexAttribPointer(gl_waterpolygon_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_waterpolygon_texcoords);
+    glVertexAttribPointer(gl_waterpolygon_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    
+    GLsizei offset = 0;
+    for (int i = 0; i < segmentcount; i++)
+    {
+        GLsizei count = segments[i];
+        glDrawArrays(GL_TRIANGLE_FAN, offset, count);
+        offset += count;
+    }
+    
+    glDisableVertexAttribArray(gl_waterpolygon_texcoords);
+    glDisableVertexAttribArray(gl_waterpolygon_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
+    
+    Hunk_FreeToLowMark (mark);
 }
 
 
@@ -281,13 +290,32 @@ void EmitSkyPolys (msurface_t *fa)
 	vec3_t	dir;
 	float	length;
 
-	for (p=fa->polys ; p ; p=p->next)
+    int mark = Hunk_LowMark ();
+
+    int segmentcount = 0;
+    
+    for (p=fa->polys ; p ; p=p->next)
+    {
+        segmentcount++;
+    }
+
+    GLsizei* segments = Hunk_AllocName (segmentcount * sizeof(GLsizei), "segments");
+    
+    int segmentpos = 0;
+    int vertexcount = 0;
+    
+    for (p=fa->polys ; p ; p=p->next)
+    {
+        segments[segmentpos++] = p->numverts;
+        vertexcount += p->numverts;
+    }
+    
+    GLfloat* vertices = Hunk_AllocName (vertexcount * 5 * sizeof(GLfloat), "vertex_buffer");
+
+    int vertexpos = 0;
+    
+    for (p=fa->polys ; p ; p=p->next)
 	{
-        int mark = Hunk_LowMark ();
-        
-        GLfloat* vertices = Hunk_AllocName (p->numverts * 5 * sizeof(GLfloat), "vertex_buffer");
-        
-        int j = 0;
         for (i=0,v=p->verts[0] ; i<p->numverts ; i++, v+=VERTEXSIZE)
         {
             VectorSubtract (v, r_origin, dir);
@@ -303,50 +331,41 @@ void EmitSkyPolys (msurface_t *fa)
             s = (speedscale + dir[0]) * (1.0/128);
             t = (speedscale + dir[1]) * (1.0/128);
             
-            vertices[j++] = v[0];
-            vertices[j++] = v[1];
-            vertices[j++] = v[2];
-            vertices[j++] = s;
-            vertices[j++] = t;
+            vertices[vertexpos++] = v[0];
+            vertices[vertexpos++] = v[1];
+            vertices[vertexpos++] = v[2];
+            vertices[vertexpos++] = s;
+            vertices[vertexpos++] = t;
         }
-        
-        GLuint* indices;
-        int indexcount;
-        
-        GL_Triangulate (vertices, p->numverts, 5, &indices, &indexcount);
-        
-        GLuint vertexbuffer;
-        glGenBuffers(1, &vertexbuffer);
-        
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glBufferData(GL_ARRAY_BUFFER, p->numverts * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
-        
-        glEnableVertexAttribArray(gl_polygon1textureprogram_position);
-        glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
-        glEnableVertexAttribArray(gl_polygon1textureprogram_texcoords);
-        glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
-        
-        GLuint elementbuffer;
-        glGenBuffers(1, &elementbuffer);
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexcount * sizeof(GLuint), indices, GL_STATIC_DRAW);
-        
-        glDrawElements(GL_TRIANGLES, indexcount, GL_UNSIGNED_INT, 0);
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        
-        glDeleteBuffers(1, &elementbuffer);
-        
-        glDisableVertexAttribArray(gl_polygon1textureprogram_texcoords);
-        glDisableVertexAttribArray(gl_polygon1textureprogram_position);
-        
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        
-        glDeleteBuffers(1, &vertexbuffer);
-        
-        Hunk_FreeToLowMark (mark);
     }
+    
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, vertexcount * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_polygon1textureprogram_position);
+    glVertexAttribPointer(gl_polygon1textureprogram_position, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+    glVertexAttribPointer(gl_polygon1textureprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    
+    GLsizei offset = 0;
+    for (int i = 0; i < segmentcount; i++)
+    {
+        GLsizei count = segments[i];
+        glDrawArrays(GL_TRIANGLE_FAN, offset, count);
+        offset += count;
+    }
+    
+    glDisableVertexAttribArray(gl_polygon1textureprogram_texcoords);
+    glDisableVertexAttribArray(gl_polygon1textureprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
+
+    Hunk_FreeToLowMark (mark);
 }
 
 /*
