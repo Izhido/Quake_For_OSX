@@ -427,8 +427,6 @@ void R_DrawSequentialPoly (msurface_t *s)
 
             GL_Use (gl_polygon2texturesprogram);
             
-            glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
-            
 			t = R_TextureAnimation (s->texinfo->texture);
 			// Binds world to texture env 0
 			GL_SelectTexture(GL_TEXTURE0);
@@ -616,8 +614,6 @@ void R_DrawSequentialPoly (msurface_t *s)
 		p = s->polys;
 
         GL_Use (gl_polygon2texturesprogram);
-        
-        glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
         
 		t = R_TextureAnimation (s->texinfo->texture);
 		GL_SelectTexture(GL_TEXTURE0);
@@ -1457,6 +1453,13 @@ e->angles[0] = -e->angles[0];	// stupid quake bug
     R_ApplyProjection ();
 e->angles[0] = -e->angles[0];	// stupid quake bug
 
+    if (gl_mtexable)
+    {
+        GL_Use (gl_polygon2texturesprogram);
+        
+        glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
+    }
+    
 	//
 	// draw texture
 	//
@@ -1638,6 +1641,13 @@ void R_DrawWorld (void)
 	R_ClearSkyBox ();
 #endif
 
+    if (gl_mtexable)
+    {
+        GL_Use (gl_polygon2texturesprogram);
+        
+        glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
+    }
+    
 	R_RecursiveWorldNode (cl.worldmodel->nodes);
 
 	DrawTextureChains ();

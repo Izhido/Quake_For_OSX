@@ -391,10 +391,14 @@ lastposenum = posenum;
         if (count < 0)
         {
             fansegmentcount++;
+            order -= count;
+            order -= count;
         }
         else
         {
             stripsegmentcount++;
+            order += count;
+            order += count;
         }
     }
 
