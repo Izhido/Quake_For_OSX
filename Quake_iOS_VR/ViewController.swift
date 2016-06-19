@@ -292,24 +292,27 @@ class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDat
                 
                 remote!.extendedGamepad!.buttonY.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
-                    glvr_mode += 1
-                    
-                    if (glvr_mode > 2)
+                    if (!pressed)
                     {
-                        glvr_mode = 0
-                    }
-                    
-                    if (glvr_mode == 0)
-                    {
-                        Sys_Con_Printf ("VR Static mode enabled.\n")
-                    }
-                    else if (glvr_mode == 1)
-                    {
-                        Sys_Con_Printf ("VR Head View mode enabled.\n")
-                    }
-                    else
-                    {
-                        Sys_Con_Printf ("VR Head Forward mode enabled.\n")
+                        glvr_mode += 1
+                        
+                        if (glvr_mode > 2)
+                        {
+                            glvr_mode = 0
+                        }
+                        
+                        if (glvr_mode == 0)
+                        {
+                            Sys_Con_Printf ("VR Static mode enabled.\n")
+                        }
+                        else if (glvr_mode == 1)
+                        {
+                            Sys_Con_Printf ("VR Head View mode enabled.\n")
+                        }
+                        else
+                        {
+                            Sys_Con_Printf ("VR Head Forward mode enabled.\n")
+                        }
                     }
                     
                 }

@@ -272,7 +272,7 @@ void Sys_Init(const char* resourcesDir, const char* documentsDir)
     //char* argv[] = { "Quake_tvOS", "-basedir", sys_documentsdir };
     char* argv[] = { "Quake_tvOS", "-basedir", sys_resourcesdir };
     
-    parms.memsize = 8*1024*1024;
+    parms.memsize = 16*1024*1024;
     parms.membase = malloc (parms.memsize);
     parms.basedir = ".";
     
