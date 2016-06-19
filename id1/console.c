@@ -501,9 +501,13 @@ void Con_DrawInput (void)
 // draw it
 	y = con_vislines-16;
 
+    Draw_BeginCharSequence (con_linewidth);
+    
 	for (i=0 ; i<con_linewidth ; i++)
-		Draw_Character ( (i+1)<<3, con_vislines - 16, text[i]);
+		Draw_CharInSequence ( (i+1)<<3, con_vislines - 16, text[i]);
 
+    Draw_EndCharSequence ();
+    
 // remove cursor
 	key_lines[edit_line][key_linepos] = 0;
 }
@@ -524,7 +528,16 @@ void Con_DrawNotify (void)
 	float	time;
 	extern char chat_buffer[];
 
-	v = 0;
+    int charcount = con_linewidth * NUM_CON_TIMES;
+
+    if (key_dest == key_message)
+    {
+        charcount += 4 + strlen(chat_buffer) + 1;
+    }
+    
+    Draw_BeginCharSequence (charcount);
+
+    v = 0;
 	for (i= con_current-NUM_CON_TIMES+1 ; i<=con_current ; i++)
 	{
 		if (i < 0)
@@ -541,11 +554,10 @@ void Con_DrawNotify (void)
 		scr_copytop = 1;
 
 		for (x = 0 ; x < con_linewidth ; x++)
-			Draw_Character ( (x+1)<<3, v, text[x]);
+			Draw_CharInSequence ( (x+1)<<3, v, text[x]);
 
 		v += 8;
 	}
-
 
 	if (key_dest == key_message)
 	{
@@ -554,16 +566,18 @@ void Con_DrawNotify (void)
 	
 		x = 0;
 		
-		Draw_String (8, v, "say:");
+		Draw_StringInSequence (8, v, "say:");
 		while(chat_buffer[x])
 		{
-			Draw_Character ( (x+5)<<3, v, chat_buffer[x]);
+			Draw_CharInSequence ( (x+5)<<3, v, chat_buffer[x]);
 			x++;
 		}
-		Draw_Character ( (x+5)<<3, v, 10+((int)(realtime*con_cursorspeed)&1));
+		Draw_CharInSequence ( (x+5)<<3, v, 10+((int)(realtime*con_cursorspeed)&1));
 		v += 8;
 	}
 	
+    Draw_EndCharSequence ();
+    
 	if (v > con_notifylines)
 		con_notifylines = v;
 }
@@ -595,17 +609,26 @@ void Con_DrawConsole (int lines, qboolean drawinput)
 	rows = (lines-16)>>3;		// rows of text to draw
 	y = lines - 16 - (rows<<3);	// may start slightly negative
 
-	for (i= con_current - rows + 1 ; i<=con_current ; i++, y+=8 )
-	{
-		j = i - con_backscroll;
-		if (j<0)
-			j = 0;
-		text = con_text + (j % con_totallines)*con_linewidth;
+    int charcount = con_linewidth * rows;
 
-		for (x=0 ; x<con_linewidth ; x++)
-			Draw_Character ( (x+1)<<3, y, text[x]);
-	}
-
+    if (charcount > 0)
+    {
+        Draw_BeginCharSequence (charcount);
+        
+        for (i= con_current - rows + 1 ; i<=con_current ; i++, y+=8 )
+        {
+            j = i - con_backscroll;
+            if (j<0)
+                j = 0;
+            text = con_text + (j % con_totallines)*con_linewidth;
+            
+            for (x=0 ; x<con_linewidth ; x++)
+                Draw_CharInSequence ( (x+1)<<3, y, text[x]);
+        }
+        
+        Draw_EndCharSequence ();
+    }
+    
 // draw the input prompt, user text, and cursor if desired
 	if (drawinput)
 		Con_DrawInput ();

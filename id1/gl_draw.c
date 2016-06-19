@@ -69,6 +69,14 @@ typedef struct
 gltexture_t	gltextures[MAX_GLTEXTURES];
 int			numgltextures;
 
+int gl_charsequencemark;
+
+int gl_charsequencesegmenttop;
+
+int gl_charsequencevertextop;
+
+GLfloat* gl_charsequencevertices;
+
 void GL_Use (GLuint program)
 {
     if (currentprogram == program)
@@ -713,13 +721,6 @@ void Draw_Character (int x, int y, int num)
     vertices[14] = fcol;
     vertices[15] = frow + size;
 
-    GLuint indices[4];
-    
-    indices[0] = 0;
-    indices[1] = 1;
-    indices[2] = 2;
-    indices[3] = 3;
-
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
@@ -731,18 +732,8 @@ void Draw_Character (int x, int y, int num)
     glEnableVertexAttribArray(gl_noalphatextprogram_texcoords);
     glVertexAttribPointer(gl_noalphatextprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
 
-    GLuint elementbuffer;
-    glGenBuffers(1, &elementbuffer);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     
-    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    glDeleteBuffers(1, &elementbuffer);
-
     glDisableVertexAttribArray(gl_noalphatextprogram_texcoords);
     glDisableVertexAttribArray(gl_noalphatextprogram_position);
 
@@ -758,12 +749,138 @@ Draw_String
 */
 void Draw_String (int x, int y, char *str)
 {
+    int charcount = strlen(str);
+    
+    Draw_BeginCharSequence (charcount);
+    
 	while (*str)
 	{
-		Draw_Character (x, y, *str);
+		Draw_CharInSequence (x, y, *str);
 		str++;
 		x += 8;
 	}
+    
+    Draw_EndCharSequence ();
+}
+
+/*
+================
+Draw_BeginCharSequence
+================
+*/
+void Draw_BeginCharSequence (int count)
+{
+    gl_charsequencemark = Hunk_LowMark ();
+
+    gl_charsequencevertices = Hunk_AllocName (count * 4 * 4 * sizeof(GLfloat), "char_sequence");
+
+    gl_charsequencevertextop = 0;
+    gl_charsequencesegmenttop = 0;
+}
+
+/*
+================
+Draw_CharInSequence
+================
+*/
+void Draw_CharInSequence (int x, int y, int num)
+{
+    int				row, col;
+    float			frow, fcol, size;
+    
+    if (num == 32)
+        return;		// space
+    
+    num &= 255;
+    
+    if (y <= -8)
+        return;			// totally off screen
+    
+    row = num>>4;
+    col = num&15;
+    
+    frow = row*0.0625;
+    fcol = col*0.0625;
+    size = 0.0625;
+    
+    gl_charsequencevertices[gl_charsequencevertextop++] = x;
+    gl_charsequencevertices[gl_charsequencevertextop++] = y;
+    gl_charsequencevertices[gl_charsequencevertextop++] = fcol;
+    gl_charsequencevertices[gl_charsequencevertextop++] = frow;
+    
+    gl_charsequencevertices[gl_charsequencevertextop++] = x + 8;
+    gl_charsequencevertices[gl_charsequencevertextop++] = y;
+    gl_charsequencevertices[gl_charsequencevertextop++] = fcol + size;
+    gl_charsequencevertices[gl_charsequencevertextop++] = frow;
+    
+    gl_charsequencevertices[gl_charsequencevertextop++] = x + 8;
+    gl_charsequencevertices[gl_charsequencevertextop++] = y + 8;
+    gl_charsequencevertices[gl_charsequencevertextop++] = fcol + size;
+    gl_charsequencevertices[gl_charsequencevertextop++] = frow + size;
+    
+    gl_charsequencevertices[gl_charsequencevertextop++] = x;
+    gl_charsequencevertices[gl_charsequencevertextop++] = y + 8;
+    gl_charsequencevertices[gl_charsequencevertextop++] = fcol;
+    gl_charsequencevertices[gl_charsequencevertextop++] = frow + size;
+    
+    gl_charsequencesegmenttop++;
+}
+
+/*
+================
+Draw_StringInSequence
+================
+*/
+void Draw_StringInSequence (int x, int y, char *str)
+{
+    while (*str)
+    {
+        Draw_CharInSequence (x, y, *str);
+        str++;
+        x += 8;
+    }
+}
+
+/*
+================
+Draw_EndCharSequence
+================
+*/
+void Draw_EndCharSequence (void)
+{
+    if (gl_charsequencevertextop > 0)
+    {
+        GL_Use (gl_noalphatextprogram);
+        
+        GL_Bind (char_texture);
+        
+        GLuint vertexbuffer;
+        glGenBuffers(1, &vertexbuffer);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glBufferData(GL_ARRAY_BUFFER, gl_charsequencevertextop * sizeof(GLfloat), gl_charsequencevertices, GL_STATIC_DRAW);
+        
+        glEnableVertexAttribArray(gl_noalphatextprogram_position);
+        glVertexAttribPointer(gl_noalphatextprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
+        glEnableVertexAttribArray(gl_noalphatextprogram_texcoords);
+        glVertexAttribPointer(gl_noalphatextprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
+        
+        GLsizei offset = 0;
+        for (int i = 0; i < gl_charsequencesegmenttop; i++)
+        {
+            glDrawArrays(GL_TRIANGLE_FAN, offset, 4);
+            offset += 4;
+        }
+        
+        glDisableVertexAttribArray(gl_noalphatextprogram_texcoords);
+        glDisableVertexAttribArray(gl_noalphatextprogram_position);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &vertexbuffer);
+    }
+
+    Hunk_FreeToLowMark (gl_charsequencemark);
 }
 
 /*
@@ -824,13 +941,6 @@ void Draw_AlphaPic (int x, int y, qpic_t *pic, float alpha)
     vertices[14] = gl->sl;
     vertices[15] = gl->th;
     
-    GLuint indices[4];
-    
-    indices[0] = 0;
-    indices[1] = 1;
-    indices[2] = 2;
-    indices[3] = 3;
-    
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
@@ -842,17 +952,7 @@ void Draw_AlphaPic (int x, int y, qpic_t *pic, float alpha)
     glEnableVertexAttribArray(gl_textprogram_texcoords);
     glVertexAttribPointer(gl_textprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
     
-    GLuint elementbuffer;
-    glGenBuffers(1, &elementbuffer);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    
-    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-    glDeleteBuffers(1, &elementbuffer);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     
     glDisableVertexAttribArray(gl_textprogram_texcoords);
     glDisableVertexAttribArray(gl_textprogram_position);
@@ -911,13 +1011,6 @@ void Draw_Pic (int x, int y, qpic_t *pic)
     vertices[14] = gl->sl;
     vertices[15] = gl->th;
     
-    GLuint indices[4];
-    
-    indices[0] = 0;
-    indices[1] = 1;
-    indices[2] = 2;
-    indices[3] = 3;
-    
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
@@ -929,17 +1022,7 @@ void Draw_Pic (int x, int y, qpic_t *pic)
     glEnableVertexAttribArray(gl_noalphatextprogram_texcoords);
     glVertexAttribPointer(gl_noalphatextprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
     
-    GLuint elementbuffer;
-    glGenBuffers(1, &elementbuffer);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    
-    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-    glDeleteBuffers(1, &elementbuffer);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     
     glDisableVertexAttribArray(gl_noalphatextprogram_texcoords);
     glDisableVertexAttribArray(gl_noalphatextprogram_position);
@@ -1034,13 +1117,6 @@ void Draw_TransPicTranslate (int x, int y, qpic_t *pic, byte *translation)
     vertices[14] = 0.0;
     vertices[15] = 1.0;
     
-    GLuint indices[4];
-    
-    indices[0] = 0;
-    indices[1] = 1;
-    indices[2] = 2;
-    indices[3] = 3;
-    
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
@@ -1052,17 +1128,7 @@ void Draw_TransPicTranslate (int x, int y, qpic_t *pic, byte *translation)
     glEnableVertexAttribArray(gl_noalphatextprogram_texcoords);
     glVertexAttribPointer(gl_noalphatextprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
     
-    GLuint elementbuffer;
-    glGenBuffers(1, &elementbuffer);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    
-    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-    glDeleteBuffers(1, &elementbuffer);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     
     glDisableVertexAttribArray(gl_noalphatextprogram_texcoords);
     glDisableVertexAttribArray(gl_noalphatextprogram_position);
@@ -1128,13 +1194,6 @@ void Draw_TileClear (int x, int y, int w, int h)
     vertices[14] = x / 64.0;
     vertices[15] = (y + h) / 64.0;
     
-    GLuint indices[4];
-    
-    indices[0] = 0;
-    indices[1] = 1;
-    indices[2] = 2;
-    indices[3] = 3;
-    
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
@@ -1146,17 +1205,7 @@ void Draw_TileClear (int x, int y, int w, int h)
     glEnableVertexAttribArray(gl_noalphatextprogram_texcoords);
     glVertexAttribPointer(gl_noalphatextprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
     
-    GLuint elementbuffer;
-    glGenBuffers(1, &elementbuffer);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    
-    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-    glDeleteBuffers(1, &elementbuffer);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     
     glDisableVertexAttribArray(gl_noalphatextprogram_texcoords);
     glDisableVertexAttribArray(gl_noalphatextprogram_position);
@@ -1191,13 +1240,6 @@ void Draw_Fill (int x, int y, int w, int h, int c)
     vertices[6] = x;
     vertices[7] = y + h;
     
-    GLuint indices[4];
-    
-    indices[0] = 0;
-    indices[1] = 1;
-    indices[2] = 2;
-    indices[3] = 3;
-    
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
@@ -1207,17 +1249,7 @@ void Draw_Fill (int x, int y, int w, int h, int c)
     glEnableVertexAttribArray(gl_fillprogram_position);
     glVertexAttribPointer(gl_fillprogram_position, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (const GLvoid *)0);
     
-    GLuint elementbuffer;
-    glGenBuffers(1, &elementbuffer);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    
-    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-    glDeleteBuffers(1, &elementbuffer);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     
     glDisableVertexAttribArray(gl_fillprogram_position);
     
@@ -1259,13 +1291,6 @@ void Draw_FadeScreen (void)
     vertices[6] = 0.0;
     vertices[7] = vid.height;
     
-    GLuint indices[4];
-    
-    indices[0] = 0;
-    indices[1] = 1;
-    indices[2] = 2;
-    indices[3] = 3;
-    
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     
@@ -1275,17 +1300,7 @@ void Draw_FadeScreen (void)
     glEnableVertexAttribArray(gl_fillprogram_position);
     glVertexAttribPointer(gl_fillprogram_position, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (const GLvoid *)0);
     
-    GLuint elementbuffer;
-    glGenBuffers(1, &elementbuffer);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    
-    glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, 0);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-    glDeleteBuffers(1, &elementbuffer);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     
     glDisableVertexAttribArray(gl_fillprogram_position);
     

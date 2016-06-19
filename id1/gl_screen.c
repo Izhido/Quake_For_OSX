@@ -163,6 +163,28 @@ void SCR_DrawCenterString (void)
 	int		x, y;
 	int		remaining;
 
+    int charcount = 0;
+    
+    start = scr_centerstring;
+    
+    do
+    {
+        // scan the width of the line
+        for (l=0 ; l<40 ; l++)
+            if (start[l] == '\n' || !start[l])
+                break;
+        charcount += l;
+        
+        while (*start && *start != '\n')
+            start++;
+        
+        if (!*start)
+            break;
+        start++;		// skip the \n
+    } while (1);
+    
+    Draw_BeginCharSequence (charcount);
+    
 // the finale prints the characters one at a time
 	if (cl.intermission)
 		remaining = scr_printspeed.value * (cl.time - scr_centertime_start);
@@ -172,7 +194,7 @@ void SCR_DrawCenterString (void)
 	scr_erase_center = 0;
 	start = scr_centerstring;
 
-	if (scr_center_lines <= 4)
+    if (scr_center_lines <= 4)
 		y = vid.height*0.35;
 	else
 		y = 48;
@@ -186,9 +208,12 @@ void SCR_DrawCenterString (void)
 		x = (vid.width - l*8)/2;
 		for (j=0 ; j<l ; j++, x+=8)
 		{
-			Draw_Character (x, y, start[j]);	
+			Draw_CharInSequence (x, y, start[j]);
 			if (!remaining--)
+            {
+                Draw_EndCharSequence ();
 				return;
+            }
 		}
 			
 		y += 8;
@@ -200,6 +225,8 @@ void SCR_DrawCenterString (void)
 			break;
 		start++;		// skip the \n
 	} while (1);
+
+    Draw_EndCharSequence ();
 }
 
 void SCR_CheckDrawCenterString (void)

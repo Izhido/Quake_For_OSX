@@ -240,6 +240,44 @@ void Draw_String (int x, int y, char *str)
 
 /*
 ================
+Draw_BeginCharSequence
+================
+*/
+void Draw_BeginCharSequence (int count)
+{
+}
+
+/*
+================
+Draw_CharInSequence
+================
+*/
+void Draw_CharInSequence (int x, int y, int num)
+{
+    Draw_Character (x, y, num);
+}
+
+/*
+================
+Draw_StringInSequence
+================
+ */
+void Draw_StringInSequence (int x, int y, char *str)
+{
+    Draw_String (x, y, str);
+}
+
+/*
+================
+Draw_EndCharSequence
+================
+*/
+void Draw_EndCharSequence (void)
+{
+}
+
+/*
+================
 Draw_DebugChar
 
 Draws a single character directly to the upper right corner of the screen.

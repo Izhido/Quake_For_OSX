@@ -307,6 +307,39 @@ void Sbar_DrawString (int x, int y, char *str)
 }
 
 /*
+================
+Sbar_BeginCharSequence
+================
+*/
+void Sbar_BeginCharSequence (int count)
+{
+    Draw_BeginCharSequence (count);
+}
+
+/*
+================
+Sbar_DrawCharInSequence
+================
+*/
+void Sbar_DrawCharInSequence (int x, int y, int num)
+{
+    if (cl.gametype == GAME_DEATHMATCH)
+        Draw_CharInSequence ( x /*+ ((vid.width - 320)>>1) */ + 4 , y + vid.height-SBAR_HEIGHT, num);
+    else
+        Draw_CharInSequence ( x + ((vid.width - 320)>>1) + 4 , y + vid.height-SBAR_HEIGHT, num);
+}
+
+/*
+================
+Sbar_EndCharSequence
+================
+*/
+void Sbar_EndCharSequence (void)
+{
+    Draw_EndCharSequence ();
+}
+
+/*
 =============
 Sbar_itoa
 =============
@@ -659,17 +692,33 @@ void Sbar_DrawInventory (void)
 	}
 
 // ammo counts
-	for (i=0 ; i<4 ; i++)
+    int ammocharcount = 0;
+    for (i=0 ; i<4 ; i++)
+    {
+        sprintf (num, "%3i",cl.stats[STAT_SHELLS+i] );
+        if (num[0] != ' ')
+            ammocharcount++;
+        if (num[1] != ' ')
+            ammocharcount++;
+        if (num[2] != ' ')
+            ammocharcount++;
+    }
+
+    Sbar_BeginCharSequence (ammocharcount);
+
+    for (i=0 ; i<4 ; i++)
 	{
 		sprintf (num, "%3i",cl.stats[STAT_SHELLS+i] );
 		if (num[0] != ' ')
-			Sbar_DrawCharacter ( (6*i+1)*8 - 2, -24, 18 + num[0] - '0');
+			Sbar_DrawCharInSequence ( (6*i+1)*8 - 2, -24, 18 + num[0] - '0');
 		if (num[1] != ' ')
-			Sbar_DrawCharacter ( (6*i+2)*8 - 2, -24, 18 + num[1] - '0');
+			Sbar_DrawCharInSequence ( (6*i+2)*8 - 2, -24, 18 + num[1] - '0');
 		if (num[2] != ' ')
-			Sbar_DrawCharacter ( (6*i+3)*8 - 2, -24, 18 + num[2] - '0');
+			Sbar_DrawCharInSequence ( (6*i+3)*8 - 2, -24, 18 + num[2] - '0');
 	}
 
+    Sbar_EndCharSequence ();
+    
 	flashon = 0;
    // items
    for (i=0 ; i<6 ; i++)

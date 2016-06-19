@@ -218,6 +218,8 @@
 		28C4FA841CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA741CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh */; };
 		28C4FA851CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA751CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh */; };
 		28E106191CD8521F0042675A /* sys_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 28E106181CD8521F0042675A /* sys_ios_vr.c */; };
+		28E641201D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 28E6411E1D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.fsh */; };
+		28E641211D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28E6411F1D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.vsh */; };
 		28EFF3911CF54F0C005E9A0D /* net_dgrm.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEC1C63074B0007B2C4 /* net_dgrm.c */; };
 		28EFF3921CF54F25005E9A0D /* net_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AE91C63054F0007B2C4 /* net_udp.c */; };
 		28F875D31CDC54E00079A0A1 /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE121C5D6FFD00CEC48E /* common.c */; };
@@ -423,6 +425,8 @@
 		28C4FA741CE79617001CF82D /* gl_tintedpolygon1textureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_tintedpolygon1textureprogram.fsh; sourceTree = "<group>"; };
 		28C4FA751CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_tintedpolygon1textureprogram.vsh; sourceTree = "<group>"; };
 		28E106181CD8521F0042675A /* sys_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sys_ios_vr.c; sourceTree = "<group>"; };
+		28E6411E1D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_intensitypolygon1textureprogram.fsh; sourceTree = "<group>"; };
+		28E6411F1D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_intensitypolygon1textureprogram.vsh; sourceTree = "<group>"; };
 		2DBF88B71C19774C9AB0731A /* Pods-Quake_iOS_VR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.release.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.release.xcconfig"; sourceTree = "<group>"; };
 		6D54BA821C625804004687A6 /* snd_dma.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_dma.c; sourceTree = "<group>"; };
 		6D54BA831C625804004687A6 /* snd_mix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_mix.c; sourceTree = "<group>"; };
@@ -673,6 +677,8 @@
 				28C4FA691CE79617001CF82D /* gl_coloredpolygonnotextureprogram.vsh */,
 				28C4FA6A1CE79617001CF82D /* gl_fillprogram.fsh */,
 				28C4FA6B1CE79617001CF82D /* gl_fillprogram.vsh */,
+				28E6411E1D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.fsh */,
+				28E6411F1D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.vsh */,
 				2817C7A41CED6555000E491D /* gl_noalphatextprogram.fsh */,
 				2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */,
 				28C4FA6C1CE79617001CF82D /* gl_polygon1textureprogram.fsh */,
@@ -841,6 +847,7 @@
 				28C4FA7D1CE79617001CF82D /* gl_polygon1textureprogram.vsh in Resources */,
 				28C4FA781CE79617001CF82D /* gl_coloredpolygonnotextureprogram.fsh in Resources */,
 				28C4FA821CE79617001CF82D /* gl_textprogram.fsh in Resources */,
+				28E641201D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.fsh in Resources */,
 				28C4FA7C1CE79617001CF82D /* gl_polygon1textureprogram.fsh in Resources */,
 				28C4FA7F1CE79617001CF82D /* gl_polygon2texturesprogram.vsh in Resources */,
 				28C4FA7E1CE79617001CF82D /* gl_polygon2texturesprogram.fsh in Resources */,
@@ -859,6 +866,7 @@
 				288781431CD83E0800AF4F24 /* Main.storyboard in Resources */,
 				28C4FA811CE79617001CF82D /* gl_polygonnotextureprogram.vsh in Resources */,
 				28C4FA7B1CE79617001CF82D /* gl_fillprogram.vsh in Resources */,
+				28E641211D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.vsh in Resources */,
 				28C4FA851CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh in Resources */,
 				2817C7A61CED6555000E491D /* gl_noalphatextprogram.fsh in Resources */,
 				28C4FA771CE79617001CF82D /* gl_coloredpolygon1textureprogram.vsh in Resources */,

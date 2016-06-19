@@ -326,6 +326,17 @@ extern GLint gl_coloredpolygon1textureprogram_texcoords;
 extern GLint gl_coloredpolygon1textureprogram_transform;
 extern GLint gl_coloredpolygon1textureprogram_texture;
 
+extern GLuint gl_intensitypolygon1textureprogram;
+
+extern GLchar* gl_intensitypolygon1textureprogram_vertex;
+extern GLchar* gl_intensitypolygon1textureprogram_fragment;
+
+extern GLint gl_intensitypolygon1textureprogram_position;
+extern GLint gl_intensitypolygon1textureprogram_intensity;
+extern GLint gl_intensitypolygon1textureprogram_texcoords;
+extern GLint gl_intensitypolygon1textureprogram_transform;
+extern GLint gl_intensitypolygon1textureprogram_texture;
+
 extern GLuint gl_tintedpolygon1textureprogram;
 
 extern GLchar* gl_tintedpolygon1textureprogram_vertex;

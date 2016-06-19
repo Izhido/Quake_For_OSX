@@ -101,6 +101,17 @@ GLint gl_coloredpolygon1textureprogram_texcoords;
 GLint gl_coloredpolygon1textureprogram_transform;
 GLint gl_coloredpolygon1textureprogram_texture;
 
+GLuint gl_intensitypolygon1textureprogram;
+
+GLchar* gl_intensitypolygon1textureprogram_vertex;
+GLchar* gl_intensitypolygon1textureprogram_fragment;
+
+GLint gl_intensitypolygon1textureprogram_position;
+GLint gl_intensitypolygon1textureprogram_intensity;
+GLint gl_intensitypolygon1textureprogram_texcoords;
+GLint gl_intensitypolygon1textureprogram_transform;
+GLint gl_intensitypolygon1textureprogram_texture;
+
 GLuint gl_tintedpolygon1textureprogram;
 
 GLchar* gl_tintedpolygon1textureprogram_vertex;
@@ -300,6 +311,9 @@ void GL_Init (void)
     gl_coloredpolygon1textureprogram_vertex = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_coloredpolygon1textureprogram.vsh");
     gl_coloredpolygon1textureprogram_fragment = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_coloredpolygon1textureprogram.fsh");
     
+    gl_intensitypolygon1textureprogram_vertex = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_intensitypolygon1textureprogram.vsh");
+    gl_intensitypolygon1textureprogram_fragment = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_intensitypolygon1textureprogram.fsh");
+    
     gl_tintedpolygon1textureprogram_vertex = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_tintedpolygon1textureprogram.vsh");
     gl_tintedpolygon1textureprogram_fragment = Sys_LoadTextFromFile(gl_shaderdirectory, "gl_tintedpolygon1textureprogram.fsh");
     
@@ -370,6 +384,15 @@ void GL_Init (void)
     gl_coloredpolygon1textureprogram_transform = glGetUniformLocation(gl_coloredpolygon1textureprogram, "transform");
     gl_coloredpolygon1textureprogram_texture = glGetUniformLocation(gl_coloredpolygon1textureprogram, "texture");
     
+    gl_intensitypolygon1textureprogram = GL_CreateProgram ("gl_intensitypolygon1textureprogram", gl_intensitypolygon1textureprogram_vertex, gl_intensitypolygon1textureprogram_fragment);
+    
+    gl_intensitypolygon1textureprogram_position = glGetAttribLocation(gl_intensitypolygon1textureprogram, "position");
+    gl_intensitypolygon1textureprogram_intensity = glGetAttribLocation(gl_intensitypolygon1textureprogram, "intensity");
+    gl_intensitypolygon1textureprogram_texcoords = glGetAttribLocation(gl_intensitypolygon1textureprogram, "texcoords");
+    
+    gl_intensitypolygon1textureprogram_transform = glGetUniformLocation(gl_intensitypolygon1textureprogram, "transform");
+    gl_intensitypolygon1textureprogram_texture = glGetUniformLocation(gl_intensitypolygon1textureprogram, "texture");
+    
     gl_tintedpolygon1textureprogram = GL_CreateProgram ("gl_tintedpolygon1textureprogram", gl_tintedpolygon1textureprogram_vertex, gl_tintedpolygon1textureprogram_fragment);
     
     gl_tintedpolygon1textureprogram_position = glGetAttribLocation(gl_tintedpolygon1textureprogram, "position");
@@ -408,6 +431,10 @@ void GL_Init (void)
     GL_Use (gl_coloredpolygon1textureprogram);
     
     glUniform1i(gl_coloredpolygon1textureprogram_texture, 0);
+    
+    GL_Use (gl_intensitypolygon1textureprogram);
+    
+    glUniform1i(gl_intensitypolygon1textureprogram_texture, 0);
     
     GL_Use (gl_tintedpolygon1textureprogram);
     
