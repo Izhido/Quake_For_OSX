@@ -173,6 +173,8 @@ typedef struct glsequentialnormal2tex_s
     int vertexincrement;
     
     GLfloat* vertices;
+    
+    GLuint vertexbuffer;
 } glsequentialnormal2tex_t;
 
 //====================================================

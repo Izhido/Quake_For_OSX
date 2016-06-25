@@ -18,7 +18,11 @@ static quakeparms_t parms;
 
 float frame_lapse = 1.0 / 60.0;
 
+int sys_resourcesdirlength;
+
 char sys_resourcesdir[MAX_OSPATH];
+
+int sys_documentsdirlength;
 
 char sys_documentsdir[MAX_OSPATH];
 
@@ -257,11 +261,13 @@ void Sys_Cbuf_AddText(const char* text)
 
 void Sys_Init(const char* resourcesDir, const char* documentsDir)
 {
+    sys_resourcesdirlength = strlen(resourcesDir);
     memset(sys_resourcesdir, 0, MAX_OSPATH);
-    memcpy(sys_resourcesdir, resourcesDir, strlen(resourcesDir));
+    memcpy(sys_resourcesdir, resourcesDir, sys_resourcesdirlength);
     
+    sys_documentsdirlength = strlen(documentsDir);
     memset(sys_documentsdir, 0, MAX_OSPATH);
-    memcpy(sys_documentsdir, documentsDir, strlen(documentsDir));
+    memcpy(sys_documentsdir, documentsDir, sys_documentsdirlength);
     
     // Currently there is no way to access the documents folder from the device. Until that happens, keep these lines disabled:
     //printf("Documents=%s\n", sys_documentsdir);

@@ -576,4 +576,7 @@ void	VID_Shutdown (void)
     {
         free(d_8to24table);
     }
+    
+    R_DisposeSequentialNormal2Tex (&gl_brush2texbatch);
+    R_DisposeSequentialNormal2Tex (&gl_world2texbatch);
 }

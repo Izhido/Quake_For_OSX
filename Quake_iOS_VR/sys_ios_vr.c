@@ -20,7 +20,11 @@ float frame_lapse = 1.0 / 60.0;
 
 char gl_shaderdirectory[MAX_OSPATH];
 
+size_t sys_resourcesdirlength;
+
 char sys_resourcesdir[MAX_OSPATH];
+
+size_t sys_documentsdirlength;
 
 char sys_documentsdir[MAX_OSPATH];
 
@@ -31,6 +35,10 @@ char** sys_messages = NULL;
 int sys_messagescount = 0;
 
 int sys_messagessize = 0;
+
+int sys_messagesbegin = 0;
+
+int sys_logmaxlines = 0;
 
 qboolean sys_ended = false;
 
@@ -185,22 +193,55 @@ void Sys_AddMessage(char* message)
     {
         if (sys_messagescount >= sys_messagessize)
         {
-            int newsize = sys_messagescount + 64;
-            char** newmessages = malloc(newsize * sizeof(char*));
-            
-            if (sys_messages != NULL)
+            if (sys_messagesbegin > 0)
             {
-                memcpy(newmessages, sys_messages, sys_messagescount * sizeof(char*));
+                memcpy(sys_messages, sys_messages + sys_messagesbegin, (sys_messagescount - sys_messagesbegin) * sizeof(char*));
                 
-                free(sys_messages);
+                sys_messagesbegin = 0;
             }
-            
-            sys_messages = newmessages;
-            sys_messagessize = newsize;
+            else
+            {
+                int newsize = sys_messagescount + 64;
+                char** newmessages = malloc(newsize * sizeof(char*));
+                
+                if (sys_messages != NULL)
+                {
+                    memcpy(newmessages, sys_messages, sys_messagescount * sizeof(char*));
+                    
+                    free(sys_messages);
+                }
+                
+                sys_messages = newmessages;
+                sys_messagessize = newsize;
+            }
+        }
+        
+        char* ocurrence = strstr(message, sys_resourcesdir);
+        if (ocurrence != NULL)
+        {
+            strcpy(ocurrence, ocurrence + sys_resourcesdirlength);
+        }
+
+        ocurrence = strstr(message, sys_documentsdir);
+        if (ocurrence != NULL)
+        {
+            strcpy(ocurrence, ocurrence + sys_documentsdirlength);
         }
         
         sys_messages[sys_messagescount] = message;
         sys_messagescount++;
+
+        if (sys_logmaxlines > 0 && sys_messagescount - sys_messagesbegin > sys_logmaxlines)
+        {
+            char* todelete = sys_messages[sys_messagesbegin];
+            
+            if (todelete != NULL)
+            {
+                free(todelete);
+            }
+            
+            sys_messagesbegin++;
+        }
     }
 }
 
@@ -328,11 +369,13 @@ char* Sys_LoadTextFromFile(const char* directory, const char* filename)
 
 void Sys_Init(const char* resourcesDir, const char* documentsDir)
 {
+    sys_resourcesdirlength = strlen(resourcesDir);
     memset(sys_resourcesdir, 0, MAX_OSPATH);
-    memcpy(sys_resourcesdir, resourcesDir, strlen(resourcesDir));
-
+    memcpy(sys_resourcesdir, resourcesDir, sys_resourcesdirlength);
+    
+    sys_documentsdirlength = strlen(documentsDir);
     memset(sys_documentsdir, 0, MAX_OSPATH);
-    memcpy(sys_documentsdir, documentsDir, strlen(documentsDir));
+    memcpy(sys_documentsdir, documentsDir, sys_documentsdirlength);
     
     printf("Documents=%s\n", sys_documentsdir);
     
@@ -399,10 +442,10 @@ void Sys_FrameAfterRender()
 
 int Sys_MessagesCount()
 {
-    return sys_messagescount;
+    return sys_messagescount - sys_messagesbegin;
 }
 
 char* Sys_GetMessage(int index)
 {
-    return sys_messages[index];
+    return sys_messages[index + sys_messagesbegin];
 }

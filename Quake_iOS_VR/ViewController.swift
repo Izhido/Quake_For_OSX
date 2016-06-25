@@ -109,6 +109,8 @@ class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDat
         glvr_mode = 2
         glvr_eyecount = 2
         
+        NSUserDefaults.standardUserDefaults().registerDefaults(["lanConfig_joinname" : "", "lanConfig_port" : 26000, "net_ipaddress" : "", "cl_name" : "", "sys_logmaxlines" : 1000])
+        
         let ipAddress = NSUserDefaults.standardUserDefaults().stringForKey("net_ipaddress")
         
         if ipAddress != nil && !ipAddress!.isEmpty
@@ -139,6 +141,13 @@ class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDat
         if playerName != nil && !playerName!.isEmpty
         {
             Sys_Cbuf_AddText("name \(playerName!)")
+        }
+        
+        let logMaxLines = NSUserDefaults.standardUserDefaults().integerForKey("sys_logmaxlines")
+        
+        if logMaxLines != 0
+        {
+            sys_logmaxlines = Int32(logMaxLines)
         }
     }
     

@@ -28,6 +28,8 @@ extern int lanConfig_port;
 
 extern char* lanConfig_joinname;
 
+extern int sys_logmaxlines;
+
 extern qboolean sys_ended;
 
 extern qboolean sys_inerror;
