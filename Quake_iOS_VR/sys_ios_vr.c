@@ -197,6 +197,7 @@ void Sys_AddMessage(char* message)
             {
                 memcpy(sys_messages, sys_messages + sys_messagesbegin, (sys_messagescount - sys_messagesbegin) * sizeof(char*));
                 
+                sys_messagescount -= sys_messagesbegin;
                 sys_messagesbegin = 0;
             }
             else
