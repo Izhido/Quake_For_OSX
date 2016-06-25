@@ -58,23 +58,11 @@ byte		lightmaps[4*MAX_LIGHTMAPS*BLOCK_WIDTH*BLOCK_HEIGHT];
 msurface_t  *skychain = NULL;
 msurface_t  *waterchain = NULL;
 
+glsequentialnormal2tex_t gl_world2texbatch;
+glsequentialnormal2tex_t gl_brush2texbatch;
+glsequentialnormal2tex_t* gl_current2texbatch;
+
 void R_RenderDynamicLightmaps (msurface_t *fa);
-
-int gl_sequentialmark;
-
-int gl_sequentialnormalsegmentcount;
-int gl_sequentialnormalsegmenttop;
-int gl_sequentialnormalsegmentincrement;
-
-GLsizei* gl_sequentialnormalsegments;
-GLuint* gl_sequentialnormaltex0;
-GLuint* gl_sequentialnormaltex1;
-
-int gl_sequentialnormalvertexcount;
-int gl_sequentialnormalvertextop;
-int gl_sequentialnormalvertexincrement;
-
-GLfloat* gl_sequentialnormalvertices;
 
 /*
 ===============
@@ -314,6 +302,96 @@ void GL_EnableMultitexture(void)
 	}
 }
 
+void R_BeginSequentialNormal2Tex (glsequentialnormal2tex_t* batch)
+{
+    gl_current2texbatch = batch;
+    
+    batch->mark = Hunk_LowMark ();
+    
+    batch->segmentcount += batch->segmentincrement;
+    batch->segmentincrement = 0;
+    
+    if (batch->segmentcount > 0)
+    {
+        batch->segments = Hunk_AllocName(batch->segmentcount * sizeof(GLsizei), "sequential_normal_2tex_segments");
+        batch->tex0names = Hunk_AllocName(batch->segmentcount * sizeof(GLuint), "sequential_normal_2tex_tex0names");
+        batch->tex1names = Hunk_AllocName(batch->segmentcount * sizeof(GLuint), "sequential_normal_2tex_tex1names");
+    }
+    
+    batch->segmenttop = 0;
+    
+    batch->vertexcount += batch->vertexincrement;
+    batch->vertexincrement = 0;
+    
+    if (batch->vertexcount > 0)
+    {
+        batch->vertices = Hunk_AllocName(batch->vertexcount * VERTEXSIZE * sizeof(GLfloat), "sequential_normal_vertices");
+    }
+    
+    batch->vertextop = 0;
+}
+
+void R_DrawSequentialNormal2Tex (glsequentialnormal2tex_t* batch)
+{
+    GLuint vertexbuffer;
+    glGenBuffers(1, &vertexbuffer);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, batch->vertextop * sizeof(GLfloat), batch->vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(gl_polygon2texturesprogram_position);
+    glVertexAttribPointer(gl_polygon2texturesprogram_position, 3, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)0);
+    glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
+    glVertexAttribPointer(gl_polygon2texturesprogram_texcoords0, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
+    glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
+    
+    GLsizei offset = 0;
+    for (int i = 0; i < batch->segmenttop; i++)
+    {
+        GLsizei count = batch->segments[i];
+        GLuint tex0 = batch->tex0names[i];
+        GLuint tex1 = batch->tex1names[i];
+        
+        // Binds world to texture env 0
+        GL_SelectTexture(GL_TEXTURE0);
+        GL_Bind (tex0);
+        
+        // Binds lightmap to texenv 1
+        GL_EnableMultitexture(); // Same as SelectTexture (TEXTURE1)
+        GL_Bind (tex1);
+        
+        glDrawArrays(GL_TRIANGLE_FAN, offset, count);
+        
+        offset += count;
+    }
+    
+    glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
+    glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
+    glDisableVertexAttribArray(gl_polygon2texturesprogram_position);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
+}
+
+void R_EndSequentialNormal2Tex (glsequentialnormal2tex_t* batch)
+{
+    if (batch->segmenttop > 0 && batch->vertextop > 0)
+    {
+        GL_Use (gl_polygon2texturesprogram);
+        
+        R_DrawSequentialNormal2Tex (batch);
+    }
+    
+    Hunk_FreeToLowMark (batch->mark);
+}
+
+void R_DisposeSequentialNormal2Tex (glsequentialnormal2tex_t* batch)
+{
+    
+}
+
 #if 0
 /*
 ================
@@ -444,17 +522,19 @@ void R_DrawSequentialPoly (msurface_t *s)
             GL_Use (gl_polygon2texturesprogram);
             
 			t = R_TextureAnimation (s->texinfo->texture);
-			// Binds world to texture env 0
-			GL_SelectTexture(GL_TEXTURE0);
-			GL_Bind (t->gl_texturenum);
-			// Binds lightmap to texenv 1
-			GL_EnableMultitexture(); // Same as SelectTexture (TEXTURE1)
-			GL_Bind (lightmap_textures + s->lightmaptexturenum);
 			i = s->lightmaptexturenum;
 			if (lightmap_modified[i])
 			{
 				lightmap_modified[i] = false;
-				theRect = &lightmap_rectchange[i];
+
+                // Binds world to texture env 0
+                GL_SelectTexture(GL_TEXTURE0);
+                GL_Bind (t->gl_texturenum);
+                // Binds lightmap to texenv 1
+                GL_EnableMultitexture(); // Same as SelectTexture (TEXTURE1)
+                GL_Bind (lightmap_textures + i);
+                
+                theRect = &lightmap_rectchange[i];
 				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, theRect->t, 
 					BLOCK_WIDTH, theRect->h, gl_lightmap_format, GL_UNSIGNED_BYTE,
 					lightmaps+(i* BLOCK_HEIGHT + theRect->t) *BLOCK_WIDTH*lightmap_bytes);
@@ -464,22 +544,32 @@ void R_DrawSequentialPoly (msurface_t *s)
 				theRect->w = 0;
 			}
             
-            if ((gl_sequentialnormalsegmenttop + 1 < gl_sequentialnormalsegmentcount) && (gl_sequentialnormalvertextop + p->numverts < gl_sequentialnormalvertexcount))
+            glsequentialnormal2tex_t* batch = gl_current2texbatch;
+            
+            if ((batch->segmenttop + 1 < batch->segmentcount) && (batch->vertextop + p->numverts < batch->vertexcount))
             {
-                gl_sequentialnormalsegments[gl_sequentialnormalsegmenttop] = p->numverts;
-                gl_sequentialnormaltex0[gl_sequentialnormalsegmenttop] = t->gl_texturenum;
-                gl_sequentialnormaltex1[gl_sequentialnormalsegmenttop] = lightmap_textures + s->lightmaptexturenum;
+                batch->segments[batch->segmenttop] = p->numverts;
+                batch->tex0names[batch->segmenttop] = t->gl_texturenum;
+                batch->tex1names[batch->segmenttop] = lightmap_textures + s->lightmaptexturenum;
                 
-                gl_sequentialnormalsegmenttop++;
+                batch->segmenttop++;
 
-                memcpy(gl_sequentialnormalvertices + gl_sequentialnormalvertextop, p->verts, p->numverts * VERTEXSIZE * sizeof(GLfloat));
+                memcpy(batch->vertices + batch->vertextop, p->verts, p->numverts * VERTEXSIZE * sizeof(GLfloat));
                 
-                gl_sequentialnormalvertextop += (p->numverts * VERTEXSIZE);
+                batch->vertextop += (p->numverts * VERTEXSIZE);
             }
             else
             {
-                gl_sequentialnormalsegmentincrement++;
-                gl_sequentialnormalvertexincrement += p->numverts;
+                if (batch->segmenttop > 0 && batch->vertextop > 0)
+                {
+                    R_DrawSequentialNormal2Tex (batch);
+                    
+                    batch->segmenttop = 0;
+                    batch->vertextop = 0;
+                }
+                
+                batch->segmentincrement++;
+                batch->vertexincrement += p->numverts;
                 
                 GLuint vertexbuffer;
                 glGenBuffers(1, &vertexbuffer);
@@ -493,6 +583,14 @@ void R_DrawSequentialPoly (msurface_t *s)
                 glVertexAttribPointer(gl_polygon2texturesprogram_texcoords0, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
                 glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
                 glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
+                
+                // Binds world to texture env 0
+                GL_SelectTexture(GL_TEXTURE0);
+                GL_Bind (t->gl_texturenum);
+                
+                // Binds lightmap to texenv 1
+                GL_EnableMultitexture(); // Same as SelectTexture (TEXTURE1)
+                GL_Bind (lightmap_textures + i);
                 
                 glDrawArrays(GL_TRIANGLE_FAN, 0, p->numverts);
                 
@@ -1408,82 +1506,6 @@ void DrawTextureChains (void)
 	}
 }
 
-void R_BeginSequentialNormalPoly (void)
-{
-    gl_sequentialmark = Hunk_LowMark ();
-    
-    gl_sequentialnormalsegmentcount += gl_sequentialnormalsegmentincrement;
-    gl_sequentialnormalsegmentincrement = 0;
-    
-    if (gl_sequentialnormalsegmentcount > 0)
-    {
-        gl_sequentialnormalsegments = Hunk_AllocName(gl_sequentialnormalsegmentcount * sizeof(GLsizei), "sequential_normal_segments");
-        gl_sequentialnormaltex0 = Hunk_AllocName(gl_sequentialnormalsegmentcount * sizeof(GLuint), "sequential_normal_tex0");
-        gl_sequentialnormaltex1 = Hunk_AllocName(gl_sequentialnormalsegmentcount * sizeof(GLuint), "sequential_normal_tex1");
-    }
-    
-    gl_sequentialnormalsegmenttop = 0;
-    
-    gl_sequentialnormalvertexcount += gl_sequentialnormalvertexincrement;
-    gl_sequentialnormalvertexincrement = 0;
-    
-    if (gl_sequentialnormalvertexcount > 0)
-    {
-        gl_sequentialnormalvertices = Hunk_AllocName(gl_sequentialnormalvertexcount * VERTEXSIZE * sizeof(GLfloat), "sequential_normal_vertices");
-    }
-    
-    gl_sequentialnormalvertextop = 0;
-}
-
-void R_EndSequentialNormalPoly (void)
-{
-    if (gl_sequentialnormalsegmenttop > 0 && gl_sequentialnormalvertextop > 0)
-    {
-        GL_Use (gl_polygon2texturesprogram);
-        
-        GLuint vertexbuffer;
-        glGenBuffers(1, &vertexbuffer);
-        
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glBufferData(GL_ARRAY_BUFFER, gl_sequentialnormalvertextop * sizeof(GLfloat), gl_sequentialnormalvertices, GL_STATIC_DRAW);
-        
-        glEnableVertexAttribArray(gl_polygon2texturesprogram_position);
-        glVertexAttribPointer(gl_polygon2texturesprogram_position, 3, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)0);
-        glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
-        glVertexAttribPointer(gl_polygon2texturesprogram_texcoords0, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(3 * sizeof(GLfloat)));
-        glEnableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
-        glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
-        
-        GLsizei offset = 0;
-        for (int i = 0; i < gl_sequentialnormalsegmenttop; i++)
-        {
-            GLsizei count = gl_sequentialnormalsegments[i];
-            GLuint tex0 = gl_sequentialnormaltex0[i];
-            GLuint tex1 = gl_sequentialnormaltex1[i];
-            
-            GL_SelectTexture(GL_TEXTURE0);
-            GL_Bind (tex0);
-            
-            GL_EnableMultitexture(); // Same as SelectTexture (TEXTURE1)
-            GL_Bind (tex1);
-            
-            glDrawArrays(GL_TRIANGLE_FAN, offset, count);
-            
-            offset += count;
-        }
-        
-        glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
-        glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
-        glDisableVertexAttribArray(gl_polygon2texturesprogram_position);
-        
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        
-        glDeleteBuffers(1, &vertexbuffer);
-    }
-
-    Hunk_FreeToLowMark (gl_sequentialmark);
-}
-
 /*
 =================
 R_DrawBrushModel
@@ -1568,7 +1590,7 @@ e->angles[0] = -e->angles[0];	// stupid quake bug
         glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
     }
     
-    R_BeginSequentialNormalPoly ();
+    R_BeginSequentialNormal2Tex (&gl_brush2texbatch);
     
     //
 	// draw texture
@@ -1591,7 +1613,7 @@ e->angles[0] = -e->angles[0];	// stupid quake bug
 		}
 	}
 
-    R_EndSequentialNormalPoly ();
+    R_EndSequentialNormal2Tex (&gl_brush2texbatch);
     
 	R_BlendLightmaps ();
 }
@@ -1760,11 +1782,11 @@ void R_DrawWorld (void)
         glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
     }
     
-    R_BeginSequentialNormalPoly ();
+    R_BeginSequentialNormal2Tex (&gl_world2texbatch);
     
     R_RecursiveWorldNode (cl.worldmodel->nodes);
 
-    R_EndSequentialNormalPoly ();
+    R_EndSequentialNormal2Tex (&gl_world2texbatch);
     
 	DrawTextureChains ();
 

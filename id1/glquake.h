@@ -156,6 +156,24 @@ typedef struct particle_s
 	ptype_t		type;
 } particle_t;
 
+typedef struct glsequentialnormal2tex_s
+{
+    int mark;
+    
+    int segmentcount;
+    int segmenttop;
+    int segmentincrement;
+    
+    GLsizei* segments;
+    GLuint* tex0names;
+    GLuint* tex1names;
+    
+    int vertexcount;
+    int vertextop;
+    int vertexincrement;
+    
+    GLfloat* vertices;
+} glsequentialnormal2tex_t;
 
 //====================================================
 
@@ -387,6 +405,9 @@ extern GLfloat glvr_projection[16];
 
 extern vec3_t glvr_viewangles;
 
+extern glsequentialnormal2tex_t gl_world2texbatch;
+extern glsequentialnormal2tex_t gl_brush2texbatch;
+
 void GL_Use (GLuint program);
 
 void R_TranslatePlayerSkin (int playernum);
@@ -470,5 +491,9 @@ void GL_MakeAliasModelDisplayLists (model_t *m, aliashdr_t *hdr);
 void R_DrawBrushModel (entity_t *e);
 void R_DrawWorld (void);
 void GL_BuildLightmaps (void);
+void R_BeginSequentialNormal2Tex (glsequentialnormal2tex_t* batch);
+void R_DrawSequentialNormal2Tex (glsequentialnormal2tex_t* batch);
+void R_EndSequentialNormal2Tex (glsequentialnormal2tex_t* batch);
+void R_DisposeSequentialNormal2Tex (glsequentialnormal2tex_t* batch);
 
 
