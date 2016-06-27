@@ -403,9 +403,6 @@ extern GLfloat glvr_projection[16];
 
 extern vec3_t glvr_viewangles;
 
-extern glsequentialnormal2tex_t gl_world2texbatch;
-extern glsequentialnormal2tex_t gl_brush2texbatch;
-
 void GL_Use (GLuint program);
 
 void R_TranslatePlayerSkin (int playernum);
