@@ -158,8 +158,6 @@ typedef struct particle_s
 
 typedef struct glsequentialnormal2tex_s
 {
-    int mark;
-    
     int segmentcount;
     int segmenttop;
     int segmentincrement;
@@ -173,8 +171,6 @@ typedef struct glsequentialnormal2tex_s
     int vertexincrement;
     
     GLfloat* vertices;
-    
-    GLuint vertexbuffer;
 } glsequentialnormal2tex_t;
 
 //====================================================
@@ -493,9 +489,3 @@ void GL_MakeAliasModelDisplayLists (model_t *m, aliashdr_t *hdr);
 void R_DrawBrushModel (entity_t *e);
 void R_DrawWorld (void);
 void GL_BuildLightmaps (void);
-void R_BeginSequentialNormal2Tex (glsequentialnormal2tex_t* batch);
-void R_DrawSequentialNormal2Tex (glsequentialnormal2tex_t* batch);
-void R_EndSequentialNormal2Tex (glsequentialnormal2tex_t* batch);
-void R_DisposeSequentialNormal2Tex (glsequentialnormal2tex_t* batch);
-
-

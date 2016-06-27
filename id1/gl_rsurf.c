@@ -58,6 +58,8 @@ byte		lightmaps[4*MAX_LIGHTMAPS*BLOCK_WIDTH*BLOCK_HEIGHT];
 msurface_t  *skychain = NULL;
 msurface_t  *waterchain = NULL;
 
+int         gl_batchmark;
+
 glsequentialnormal2tex_t gl_world2texbatch;
 glsequentialnormal2tex_t gl_brush2texbatch;
 glsequentialnormal2tex_t* gl_current2texbatch;
@@ -306,8 +308,6 @@ void R_BeginSequentialNormal2Tex (glsequentialnormal2tex_t* batch)
 {
     gl_current2texbatch = batch;
     
-    batch->mark = Hunk_LowMark ();
-    
     batch->segmentcount += batch->segmentincrement;
     batch->segmentincrement = 0;
     
@@ -333,16 +333,8 @@ void R_BeginSequentialNormal2Tex (glsequentialnormal2tex_t* batch)
 
 void R_DrawSequentialNormal2Tex (glsequentialnormal2tex_t* batch)
 {
-    GLuint vertexbuffer = batch->vertexbuffer;
-
-    if (vertexbuffer > 0)
-    {
-        glDeleteBuffers(1, &vertexbuffer);
-    }
-
+    GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
-
-    batch->vertexbuffer = vertexbuffer;
     
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, batch->vertextop * sizeof(GLfloat), batch->vertices, GL_STATIC_DRAW);
@@ -379,6 +371,8 @@ void R_DrawSequentialNormal2Tex (glsequentialnormal2tex_t* batch)
     glDisableVertexAttribArray(gl_polygon2texturesprogram_position);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDeleteBuffers(1, &vertexbuffer);
 }
 
 void R_EndSequentialNormal2Tex (glsequentialnormal2tex_t* batch)
@@ -388,18 +382,6 @@ void R_EndSequentialNormal2Tex (glsequentialnormal2tex_t* batch)
         GL_Use (gl_polygon2texturesprogram);
         
         R_DrawSequentialNormal2Tex (batch);
-    }
-    
-    Hunk_FreeToLowMark (batch->mark);
-}
-
-void R_DisposeSequentialNormal2Tex (glsequentialnormal2tex_t* batch)
-{
-    GLuint vertexbuffer = batch->vertexbuffer;
-    
-    if (vertexbuffer > 0)
-    {
-        glDeleteBuffers(1, &vertexbuffer);
     }
 }
 
@@ -1644,6 +1626,8 @@ e->angles[0] = -e->angles[0];	// stupid quake bug
         glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
     }
     
+    gl_batchmark = Hunk_LowMark ();
+    
     R_BeginSequentialNormal2Tex (&gl_brush2texbatch);
     
     //
@@ -1668,6 +1652,8 @@ e->angles[0] = -e->angles[0];	// stupid quake bug
 	}
 
     R_EndSequentialNormal2Tex (&gl_brush2texbatch);
+    
+    Hunk_FreeToLowMark (gl_batchmark);
     
 	R_BlendLightmaps ();
 }
@@ -1836,11 +1822,15 @@ void R_DrawWorld (void)
         glUniformMatrix4fv(gl_polygon2texturesprogram_transform, 1, 0, gl_polygon_matrix);
     }
     
+    gl_batchmark = Hunk_LowMark ();
+    
     R_BeginSequentialNormal2Tex (&gl_world2texbatch);
     
     R_RecursiveWorldNode (cl.worldmodel->nodes);
 
     R_EndSequentialNormal2Tex (&gl_world2texbatch);
+    
+    Hunk_FreeToLowMark (gl_batchmark);
     
 	DrawTextureChains ();
 
