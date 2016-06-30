@@ -53,6 +53,8 @@ char	**com_argv;
 #define CMDLINE_LENGTH	256
 char	com_cmdline[CMDLINE_LENGTH];
 
+qboolean com_skipbasedir = false;
+
 qboolean		standard_quake = true, rogue, hipnotic;
 
 // this graphic needs to be in the pak file to use registered features
@@ -1744,7 +1746,7 @@ void COM_InitFilesystem (void)
 // -basedir <path>
 // Overrides the system supplied base directory (under GAMENAME)
 //
-	i = COM_CheckParm ("-basedir");
+    i = (com_skipbasedir ? 0 : COM_CheckParm ("-basedir"));
 	if (i && i < com_argc-1)
 		strcpy (basedir, com_argv[i+1]);
 	else

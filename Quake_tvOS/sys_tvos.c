@@ -279,10 +279,11 @@ void Sys_Init(const char* resourcesDir, const char* documentsDir)
     char* argv[] = { "Quake_tvOS", "-basedir", sys_resourcesdir };
     
     parms.memsize = 16*1024*1024;
-    parms.membase = malloc (parms.memsize);
-    parms.basedir = ".";
+    parms.basedir = sys_documentsdir;
     
     COM_InitArgv (argc, argv);
+    
+    parms.membase = malloc (parms.memsize);
     
     parms.argc = com_argc;
     parms.argv = com_argv;

@@ -109,7 +109,7 @@ class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDat
         glvr_mode = 2
         glvr_eyecount = 2
         
-        NSUserDefaults.standardUserDefaults().registerDefaults(["lanConfig_joinname" : "", "lanConfig_port" : 26000, "net_ipaddress" : "", "cl_name" : "", "sys_logmaxlines" : 1000])
+        NSUserDefaults.standardUserDefaults().registerDefaults(["lanConfig_joinname" : "", "lanConfig_port" : 26000, "net_ipaddress" : "", "cl_name" : "", "sys_commandlineindex" : 1, "sys_commandline2" : "-hipnotic", "sys_commandline3" : "-rogue", "sys_logmaxlines" : 1000])
         
         let ipAddress = NSUserDefaults.standardUserDefaults().stringForKey("net_ipaddress")
         
@@ -120,34 +120,51 @@ class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDat
             strcpy(net_ipaddress, ipAddress!.cStringUsingEncoding(String.defaultCStringEncoding())!)
         }
         
-        Sys_Init(NSBundle.mainBundle().resourcePath!, try! NSFileManager().URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true).path!)
+        var commandLineIndex = NSUserDefaults.standardUserDefaults().integerForKey("sys_commandlineindex")
         
-        let server = NSUserDefaults.standardUserDefaults().stringForKey("lanConfig_joinname")
-        
-        if server != nil && !server!.isEmpty
+        if commandLineIndex < 1 || commandLineIndex > 16
         {
-            strcpy(lanConfig_joinname, server!.cStringUsingEncoding(String.defaultCStringEncoding())!)
+            commandLineIndex = 1
         }
+
+        var commandLine = NSUserDefaults.standardUserDefaults().stringForKey("sys_commandline\(commandLineIndex)")
         
-        let port = NSUserDefaults.standardUserDefaults().integerForKey("lanConfig_port")
-        
-        if port != 0
+        if commandLine == nil
         {
-            lanConfig_port = Int32(port)
+            commandLine = ""
         }
+
+        Sys_Init(NSBundle.mainBundle().resourcePath!, try! NSFileManager().URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true).path!, commandLine!)
         
-        let playerName = NSUserDefaults.standardUserDefaults().stringForKey("cl_name")
-        
-        if playerName != nil && !playerName!.isEmpty
+        if (host_initialized != qboolean(0))
         {
-            Sys_Cbuf_AddText("name \(playerName!)")
-        }
-        
-        let logMaxLines = NSUserDefaults.standardUserDefaults().integerForKey("sys_logmaxlines")
-        
-        if logMaxLines != 0
-        {
-            sys_logmaxlines = Int32(logMaxLines)
+            let server = NSUserDefaults.standardUserDefaults().stringForKey("lanConfig_joinname")
+            
+            if server != nil && !server!.isEmpty
+            {
+                strcpy(lanConfig_joinname, server!.cStringUsingEncoding(String.defaultCStringEncoding())!)
+            }
+            
+            let port = NSUserDefaults.standardUserDefaults().integerForKey("lanConfig_port")
+            
+            if port != 0
+            {
+                lanConfig_port = Int32(port)
+            }
+            
+            let playerName = NSUserDefaults.standardUserDefaults().stringForKey("cl_name")
+            
+            if playerName != nil && !playerName!.isEmpty
+            {
+                Sys_Cbuf_AddText("name \(playerName!)")
+            }
+            
+            let logMaxLines = NSUserDefaults.standardUserDefaults().integerForKey("sys_logmaxlines")
+            
+            if logMaxLines != 0
+            {
+                sys_logmaxlines = Int32(logMaxLines)
+            }
         }
     }
     

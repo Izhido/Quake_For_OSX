@@ -211,10 +211,11 @@ void Sys_Cbuf_AddText(const char* text)
 void Sys_Init(int argc, char* argv[])
 {
     parms.memsize = 16*1024*1024;
-    parms.membase = malloc (parms.memsize);
-    parms.basedir = ".";
+    parms.basedir = sys_documentsdir;
     
     COM_InitArgv (argc, argv);
+    
+    parms.membase = malloc (parms.memsize);
     
     parms.argc = com_argc;
     parms.argv = com_argv;

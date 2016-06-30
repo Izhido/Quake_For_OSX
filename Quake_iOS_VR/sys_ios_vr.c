@@ -12,6 +12,8 @@
 
 extern double CACurrentMediaTime();
 
+extern qboolean com_skipbasedir;
+
 qboolean isDedicated;
 
 static quakeparms_t parms;
@@ -29,6 +31,12 @@ size_t sys_documentsdirlength;
 char sys_documentsdir[MAX_OSPATH];
 
 extern int sb_updates;
+
+char sys_commandline[MAX_MSGLEN];
+
+int sys_argc;
+
+char* sys_argv[MAX_NUM_ARGVS];
 
 char** sys_messages = NULL;
 
@@ -368,8 +376,49 @@ char* Sys_LoadTextFromFile(const char* directory, const char* filename)
     return result;
 }
 
-void Sys_Init(const char* resourcesDir, const char* documentsDir)
+void Sys_ExpandCommandLine(const char* commandLine)
 {
+    size_t length = strlen(commandLine);
+    memset(sys_commandline, 0, MAX_OSPATH);
+    memcpy(sys_commandline, "Quake_iOS_VR ", 13);
+    memcpy(sys_commandline + 13, commandLine, length);
+    
+    qboolean atwhitespace = false;
+    char* argstart = sys_commandline;
+
+    memset(sys_argv, 0, MAX_NUM_ARGVS * sizeof(char*));
+    
+    size_t i = 0;
+
+    while(sys_commandline[i] != 0)
+    {
+        if (sys_commandline[i] <= 32)
+        {
+            if (!atwhitespace)
+            {
+                sys_argv[sys_argc] = argstart;
+                sys_argc++;
+                sys_commandline[i] = 0;
+                atwhitespace = true;
+            }
+        }
+        else if (atwhitespace)
+        {
+            argstart = sys_commandline + i;
+            atwhitespace = false;
+        }
+        
+        i++;
+    }
+
+    sys_argv[sys_argc] = argstart;
+    sys_argc++;
+}
+
+void Sys_Init(const char* resourcesDir, const char* documentsDir, const char* commandLine)
+{
+    com_skipbasedir = true;
+    
     sys_resourcesdirlength = strlen(resourcesDir);
     memset(sys_resourcesdir, 0, MAX_OSPATH);
     memcpy(sys_resourcesdir, resourcesDir, sys_resourcesdirlength);
@@ -378,18 +427,17 @@ void Sys_Init(const char* resourcesDir, const char* documentsDir)
     memset(sys_documentsdir, 0, MAX_OSPATH);
     memcpy(sys_documentsdir, documentsDir, sys_documentsdirlength);
     
+    Sys_ExpandCommandLine(commandLine);
+    
     printf("Documents=%s\n", sys_documentsdir);
     
-    int argc = 3;
-    
-    char* argv[] = { "Quake_iOS_VR", "-basedir", sys_documentsdir };
-    
     parms.memsize = 16*1024*1024;
+    parms.basedir = sys_documentsdir;
+    
+    COM_InitArgv (sys_argc, sys_argv);
+    
     parms.membase = malloc (parms.memsize);
-    parms.basedir = ".";
-    
-    COM_InitArgv (argc, argv);
-    
+
     parms.argc = com_argc;
     parms.argv = com_argv;
     

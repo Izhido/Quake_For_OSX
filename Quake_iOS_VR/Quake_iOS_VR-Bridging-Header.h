@@ -40,7 +40,7 @@ void Sys_Con_Printf(const char* text);
 
 void Sys_Key_Event(int key, qboolean down);
 
-void Sys_Init(const char* resourcesDir, const char* documentsDir);
+void Sys_Init(const char* resourcesDir, const char* documentsDir, const char* commandLine);
 
 void Sys_FrameBeforeRender();
 
