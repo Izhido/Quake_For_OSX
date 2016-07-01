@@ -32,7 +32,7 @@
 			<key>Key</key>
 			<string>sys_commandline2</string>
 			<key>DefaultValue</key>
-			<string>-hipnotic</string>
+			<string>-game hipnotic -hipnotic</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>

@@ -109,7 +109,7 @@ class ViewController: UIViewController, GVRCardboardViewDelegate, UITableViewDat
         glvr_mode = 2
         glvr_eyecount = 2
         
-        NSUserDefaults.standardUserDefaults().registerDefaults(["lanConfig_joinname" : "", "lanConfig_port" : 26000, "net_ipaddress" : "", "cl_name" : "", "sys_commandlineindex" : 1, "sys_commandline2" : "-hipnotic", "sys_commandline3" : "-rogue", "sys_logmaxlines" : 1000])
+        NSUserDefaults.standardUserDefaults().registerDefaults(["lanConfig_joinname" : "", "lanConfig_port" : 26000, "net_ipaddress" : "", "cl_name" : "", "sys_commandlineindex" : 1, "sys_commandline2" : "-game hipnotic -hipnotic", "sys_commandline3" : "-rogue", "sys_logmaxlines" : 1000])
         
         let ipAddress = NSUserDefaults.standardUserDefaults().stringForKey("net_ipaddress")
         
