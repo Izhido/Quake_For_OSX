@@ -160,7 +160,7 @@ typedef struct glsequentialnormal2tex_s
 {
     int segmentcount;
     int segmenttop;
-    int segmentincrement;
+    int segmenttotal;
     
     GLsizei* segments;
     GLuint* tex0names;
@@ -168,7 +168,7 @@ typedef struct glsequentialnormal2tex_s
     
     int vertexcount;
     int vertextop;
-    int vertexincrement;
+    int vertextotal;
     
     GLfloat* vertices;
 } glsequentialnormal2tex_t;

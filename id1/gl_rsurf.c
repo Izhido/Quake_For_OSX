@@ -310,9 +310,11 @@ void GL_EnableMultitexture(void)
 
 void R_BeginSequential2Tex (glsequentialnormal2tex_t* batch)
 {
-    batch->segmentcount += batch->segmentincrement;
-    batch->segmentincrement = 0;
-    
+    if (batch->segmentcount < batch->segmenttotal)
+    {
+        batch->segmentcount = batch->segmenttotal;
+    }
+
     if (batch->segmentcount > 0)
     {
         batch->segments = Hunk_AllocName(batch->segmentcount * sizeof(GLsizei), "sequential_2tex_segments");
@@ -320,16 +322,20 @@ void R_BeginSequential2Tex (glsequentialnormal2tex_t* batch)
         batch->tex1names = Hunk_AllocName(batch->segmentcount * sizeof(GLuint), "sequential_2tex_tex1names");
     }
     
+    batch->segmenttotal = 0;
     batch->segmenttop = 0;
     
-    batch->vertexcount += batch->vertexincrement;
-    batch->vertexincrement = 0;
+    if (batch->vertexcount < batch->vertextotal)
+    {
+        batch->vertexcount = batch->vertextotal;
+    }
     
     if (batch->vertexcount > 0)
     {
         batch->vertices = Hunk_AllocName(batch->vertexcount * VERTEXSIZE * sizeof(GLfloat), "sequential_2tex_vertices");
     }
     
+    batch->vertextotal = 0;
     batch->vertextop = 0;
 }
 
@@ -586,7 +592,7 @@ void R_DrawSequentialPoly (msurface_t *s)
             
             qboolean copytobatch = false;
             
-            if (gl_normal2texbatch->segmentcount >= gl_normal2texbatch->segmenttop + 1 && gl_normal2texbatch->vertexcount >= gl_normal2texbatch->vertextop + p->numverts)
+            if (gl_normal2texbatch->segmentcount >= gl_normal2texbatch->segmenttop + 1 && gl_normal2texbatch->vertexcount >= gl_normal2texbatch->vertextop + p->numverts * VERTEXSIZE)
             {
                 copytobatch = true;
             }
@@ -620,9 +626,6 @@ void R_DrawSequentialPoly (msurface_t *s)
             }
             else
             {
-                gl_normal2texbatch->segmentincrement++;
-                gl_normal2texbatch->vertexincrement += p->numverts;
-                
                 GLuint vertexbuffer = R_CreateSequential2TexBuffers(p->numverts * VERTEXSIZE, p->verts);
                 
                 // Binds world to texture env 0
@@ -637,6 +640,9 @@ void R_DrawSequentialPoly (msurface_t *s)
                 
                 R_DisposeSequential2TexBuffers (vertexbuffer);
             }
+
+            gl_normal2texbatch->segmenttotal++;
+            gl_normal2texbatch->vertextotal += (p->numverts * VERTEXSIZE);
             
             return;
 		} else {
@@ -812,7 +818,7 @@ void R_DrawSequentialPoly (msurface_t *s)
         
         qboolean copytobatch = false;
         
-        if (gl_warped2texbatch->segmentcount >= gl_warped2texbatch->segmenttop + 1 && gl_warped2texbatch->vertexcount >= gl_warped2texbatch->vertextop + p->numverts)
+        if (gl_warped2texbatch->segmentcount >= gl_warped2texbatch->segmenttop + 1 && gl_warped2texbatch->vertexcount >= gl_warped2texbatch->vertextop + p->numverts * VERTEXSIZE)
         {
             copytobatch = true;
         }
@@ -846,9 +852,6 @@ void R_DrawSequentialPoly (msurface_t *s)
         }
         else
         {
-            gl_warped2texbatch->segmentincrement++;
-            gl_warped2texbatch->vertexincrement += p->numverts;
-
             int mark = Hunk_LowMark();
             
             GLfloat* vertices = Hunk_AllocName (p->numverts * 7 * sizeof(GLfloat), "vertex_buffer");
@@ -868,6 +871,10 @@ void R_DrawSequentialPoly (msurface_t *s)
             
             Hunk_FreeToLowMark (mark);
         }
+        
+        gl_warped2texbatch->segmenttotal++;
+        gl_warped2texbatch->vertextotal += (p->numverts * VERTEXSIZE);
+        
     } else {
 		p = s->polys;
 
@@ -1866,8 +1873,8 @@ void R_DrawWorld (void)
     R_EndSequential2Tex (gl_normal2texbatch);
     
     Hunk_FreeToLowMark (gl_batchmark);
-    
-	DrawTextureChains ();
+
+    DrawTextureChains ();
 
 	R_BlendLightmaps ();
 
