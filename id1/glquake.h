@@ -156,23 +156,6 @@ typedef struct particle_s
 	ptype_t		type;
 } particle_t;
 
-typedef struct glsequentialnormal2tex_s
-{
-    int segmentcount;
-    int segmenttop;
-    int segmenttotal;
-    
-    GLsizei* segments;
-    GLuint* tex0names;
-    GLuint* tex1names;
-    
-    int vertexcount;
-    int vertextop;
-    int vertextotal;
-    
-    GLfloat* vertices;
-} glsequentialnormal2tex_t;
-
 //====================================================
 
 
