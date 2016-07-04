@@ -60,7 +60,7 @@ msurface_t  *waterchain = NULL;
 
 int         gl_batchmark;
 
-typedef struct glsequential2texbatch_s
+typedef struct glpolygon2texbatch_s
 {
     int segmentcount;
     int segmenttop;
@@ -80,19 +80,19 @@ typedef struct glsequential2texbatch_s
     
     GLfloat* vertices;
     
+    qboolean usevertexbuffer;
+    
     GLuint vertexbuffer;
     
-} glsequential2texbatch_t;
+} glpolygon2texbatch_t;
 
-glsequential2texbatch_t gl_worldnormal2texbatch;
-glsequential2texbatch_t gl_worldwarped2texbatch;
-glsequential2texbatch_t gl_brushnormal2texbatch;
-glsequential2texbatch_t gl_brushwarped2texbatch;
+glpolygon2texbatch_t gl_worldnormal2texbatch;
+glpolygon2texbatch_t gl_worldwarped2texbatch;
+glpolygon2texbatch_t gl_brushnormal2texbatch;
+glpolygon2texbatch_t gl_brushwarped2texbatch;
 
-glsequential2texbatch_t* gl_normal2texbatch;
-glsequential2texbatch_t* gl_warped2texbatch;
-
-qboolean gl_vertexbufferinbatch;
+glpolygon2texbatch_t* gl_normal2texbatch;
+glpolygon2texbatch_t* gl_warped2texbatch;
 
 void R_RenderDynamicLightmaps (msurface_t *fa);
 
@@ -334,13 +334,13 @@ void GL_EnableMultitexture(void)
 	}
 }
 
-void R_BeginSequential2Tex (glsequential2texbatch_t* batch)
+void R_BeginPolygon2Tex (glpolygon2texbatch_t* batch)
 {
     if (batch->segmentcount < batch->segmenttotal)
     {
         batch->segmentcount = batch->segmenttotal;
         
-        if (gl_vertexbufferinbatch && batch->segmentpointers != NULL)
+        if (batch->usevertexbuffer && batch->segmentpointers != NULL)
         {
             free (batch->segmentpointers);
             batch->segmentpointers = NULL;
@@ -353,7 +353,7 @@ void R_BeginSequential2Tex (glsequential2texbatch_t* batch)
         batch->tex0names = Hunk_AllocName(batch->segmentcount * sizeof(GLuint), "sequential_2tex_tex0names");
         batch->tex1names = Hunk_AllocName(batch->segmentcount * sizeof(GLuint), "sequential_2tex_tex1names");
 
-        if (gl_vertexbufferinbatch && batch->segmentpointers == NULL)
+        if (batch->usevertexbuffer && batch->segmentpointers == NULL)
         {
             batch->segmentpointers = calloc (batch->segmentcount, sizeof(void*));
         }
@@ -377,7 +377,7 @@ void R_BeginSequential2Tex (glsequential2texbatch_t* batch)
     batch->differ = false;
 }
 
-void R_ConfigureSequential2TexBuffers (void)
+void R_ConfigurePolygon2TexBuffers (void)
 {
     glEnableVertexAttribArray(gl_polygon2texturesprogram_position);
     glVertexAttribPointer(gl_polygon2texturesprogram_position, 3, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)0);
@@ -387,7 +387,7 @@ void R_ConfigureSequential2TexBuffers (void)
     glVertexAttribPointer(gl_polygon2texturesprogram_texcoords1, 2, GL_FLOAT, GL_FALSE, VERTEXSIZE * sizeof(GLfloat), (const GLvoid *)(5 * sizeof(GLfloat)));
 }
 
-GLuint R_CreateSequential2TexBuffers (GLsizeiptr count, const GLvoid* vertices)
+GLuint R_CreatePolygon2TexBuffers (GLsizeiptr count, const GLvoid* vertices)
 {
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
@@ -395,12 +395,12 @@ GLuint R_CreateSequential2TexBuffers (GLsizeiptr count, const GLvoid* vertices)
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, count * VERTEXSIZE * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
 
-    R_ConfigureSequential2TexBuffers();
+    R_ConfigurePolygon2TexBuffers();
     
     return vertexbuffer;
 }
 
-void R_UnbindSequential2TexBuffers (void)
+void R_UnbindPolygon2TexBuffers (void)
 {
     glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords1);
     glDisableVertexAttribArray(gl_polygon2texturesprogram_texcoords0);
@@ -409,14 +409,14 @@ void R_UnbindSequential2TexBuffers (void)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void R_DisposeSequential2TexBuffers (GLuint vertexbuffer)
+void R_DisposePolygon2TexBuffers (GLuint vertexbuffer)
 {
-    R_UnbindSequential2TexBuffers ();
+    R_UnbindPolygon2TexBuffers ();
     
     glDeleteBuffers(1, &vertexbuffer);
 }
 
-void R_DrawSegmentsInSequential2Tex (glsequential2texbatch_t* batch)
+void R_DrawSegmentsInPolygon2Tex (glpolygon2texbatch_t* batch)
 {
     GLsizei offset = 0;
     
@@ -440,18 +440,18 @@ void R_DrawSegmentsInSequential2Tex (glsequential2texbatch_t* batch)
     }
 }
 
-void R_DrawSequential2Tex (glsequential2texbatch_t* batch)
+void R_DrawPolygon2Tex (glpolygon2texbatch_t* batch)
 {
-    GLuint vertexbuffer = R_CreateSequential2TexBuffers(batch->vertextop, batch->vertices);
+    GLuint vertexbuffer = R_CreatePolygon2TexBuffers(batch->vertextop, batch->vertices);
     
-    R_DrawSegmentsInSequential2Tex (batch);
+    R_DrawSegmentsInPolygon2Tex (batch);
     
-    R_DisposeSequential2TexBuffers (vertexbuffer);
+    R_DisposePolygon2TexBuffers (vertexbuffer);
 }
 
-void R_DrawPendingSequential2Tex (glsequential2texbatch_t* batch)
+void R_DrawPendingPolygon2Tex (glpolygon2texbatch_t* batch)
 {
-    if (gl_vertexbufferinbatch)
+    if (batch->usevertexbuffer)
     {
         if (batch->differ && batch->vertexbuffer > 0)
         {
@@ -462,28 +462,28 @@ void R_DrawPendingSequential2Tex (glsequential2texbatch_t* batch)
         
         if (batch->vertexbuffer == 0)
         {
-            batch->vertexbuffer = R_CreateSequential2TexBuffers(batch->vertextop, batch->vertices);
+            batch->vertexbuffer = R_CreatePolygon2TexBuffers(batch->vertextop, batch->vertices);
         }
         else
         {
             glBindBuffer(GL_ARRAY_BUFFER, batch->vertexbuffer);
             
-            R_ConfigureSequential2TexBuffers ();
+            R_ConfigurePolygon2TexBuffers ();
         }
         
-        R_DrawSegmentsInSequential2Tex (batch);
+        R_DrawSegmentsInPolygon2Tex (batch);
         
-        R_UnbindSequential2TexBuffers ();
+        R_UnbindPolygon2TexBuffers ();
     }
     else
     {
-        R_DrawSequential2Tex (batch);
+        R_DrawPolygon2Tex (batch);
     }
 }
 
-void R_ResetSequential2Tex (glsequential2texbatch_t* batch)
+void R_ResetPolygon2Tex (glpolygon2texbatch_t* batch)
 {
-    if (gl_vertexbufferinbatch && batch->segmentpointers != NULL)
+    if (batch->usevertexbuffer && batch->segmentpointers != NULL)
     {
         memset(batch->segmentpointers, 0, batch->segmentcount * sizeof(void*));
     }
@@ -492,13 +492,13 @@ void R_ResetSequential2Tex (glsequential2texbatch_t* batch)
     batch->vertextop = 0;
 }
 
-void R_EndSequential2Tex (glsequential2texbatch_t* batch)
+void R_EndPolygon2Tex (glpolygon2texbatch_t* batch)
 {
     if (batch->segmenttop > 0 && batch->vertextop > 0)
     {
         GL_Use (gl_polygon2texturesprogram);
         
-        R_DrawPendingSequential2Tex (batch);
+        R_DrawPendingPolygon2Tex (batch);
     }
 }
 
@@ -649,9 +649,9 @@ void R_DrawSequentialPoly (msurface_t *s)
             {
                 GL_Use (gl_polygon2texturesprogram);
                 
-                R_DrawPendingSequential2Tex (gl_warped2texbatch);
+                R_DrawPendingPolygon2Tex (gl_warped2texbatch);
                 
-                R_ResetSequential2Tex (gl_warped2texbatch);
+                R_ResetPolygon2Tex (gl_warped2texbatch);
             }
             
 			p = s->polys;
@@ -691,9 +691,9 @@ void R_DrawSequentialPoly (msurface_t *s)
             {
                 if (gl_normal2texbatch->segmenttop > 0 && gl_normal2texbatch->vertextop > 0)
                 {
-                    R_DrawSequential2Tex (gl_normal2texbatch);
+                    R_DrawPolygon2Tex (gl_normal2texbatch);
                     
-                    R_ResetSequential2Tex (gl_normal2texbatch);
+                    R_ResetPolygon2Tex (gl_normal2texbatch);
                 }
                 
                 if (gl_normal2texbatch->segmentcount >= 1 && gl_normal2texbatch->vertexcount >= p->numverts)
@@ -704,7 +704,7 @@ void R_DrawSequentialPoly (msurface_t *s)
             
             if (copytobatch)
             {
-                if (gl_vertexbufferinbatch && gl_normal2texbatch->segmentpointers != NULL)
+                if (gl_normal2texbatch->usevertexbuffer && gl_normal2texbatch->segmentpointers != NULL)
                 {
                     if (gl_normal2texbatch->segmentpointers[gl_normal2texbatch->segmenttop] != p->verts && !gl_normal2texbatch->differ)
                     {
@@ -726,7 +726,7 @@ void R_DrawSequentialPoly (msurface_t *s)
             }
             else
             {
-                GLuint vertexbuffer = R_CreateSequential2TexBuffers(p->numverts, p->verts);
+                GLuint vertexbuffer = R_CreatePolygon2TexBuffers(p->numverts, p->verts);
                 
                 // Binds world to texture env 0
                 GL_SelectTexture(GL_TEXTURE0);
@@ -738,7 +738,7 @@ void R_DrawSequentialPoly (msurface_t *s)
                 
                 glDrawArrays(GL_TRIANGLE_FAN, 0, p->numverts);
                 
-                R_DisposeSequential2TexBuffers (vertexbuffer);
+                R_DisposePolygon2TexBuffers (vertexbuffer);
             }
 
             gl_normal2texbatch->segmenttotal++;
@@ -842,18 +842,18 @@ void R_DrawSequentialPoly (msurface_t *s)
         {
             GL_Use (gl_polygon2texturesprogram);
             
-            R_DrawPendingSequential2Tex (gl_normal2texbatch);
+            R_DrawPendingPolygon2Tex (gl_normal2texbatch);
             
-            R_ResetSequential2Tex (gl_normal2texbatch);
+            R_ResetPolygon2Tex (gl_normal2texbatch);
         }
         
         if (gl_warped2texbatch->segmenttop > 0 && gl_warped2texbatch->vertextop > 0)
         {
             GL_Use (gl_polygon2texturesprogram);
             
-            R_DrawPendingSequential2Tex (gl_warped2texbatch);
+            R_DrawPendingPolygon2Tex (gl_warped2texbatch);
             
-            R_ResetSequential2Tex (gl_warped2texbatch);
+            R_ResetPolygon2Tex (gl_warped2texbatch);
         }
         
         GL_Use (gl_polygon1textureprogram);
@@ -878,18 +878,18 @@ void R_DrawSequentialPoly (msurface_t *s)
         {
             GL_Use (gl_polygon2texturesprogram);
             
-            R_DrawPendingSequential2Tex (gl_normal2texbatch);
+            R_DrawPendingPolygon2Tex (gl_normal2texbatch);
             
-            R_ResetSequential2Tex (gl_normal2texbatch);
+            R_ResetPolygon2Tex (gl_normal2texbatch);
         }
         
         if (gl_warped2texbatch->segmenttop > 0 && gl_warped2texbatch->vertextop > 0)
         {
             GL_Use (gl_polygon2texturesprogram);
             
-            R_DrawPendingSequential2Tex (gl_warped2texbatch);
+            R_DrawPendingPolygon2Tex (gl_warped2texbatch);
             
-            R_ResetSequential2Tex (gl_warped2texbatch);
+            R_ResetPolygon2Tex (gl_warped2texbatch);
         }
         
         GL_Use (gl_polygon1textureprogram);
@@ -922,9 +922,9 @@ void R_DrawSequentialPoly (msurface_t *s)
         {
             GL_Use (gl_polygon2texturesprogram);
             
-            R_DrawPendingSequential2Tex (gl_normal2texbatch);
+            R_DrawPendingPolygon2Tex (gl_normal2texbatch);
             
-            R_ResetSequential2Tex (gl_normal2texbatch);
+            R_ResetPolygon2Tex (gl_normal2texbatch);
         }
         
 		p = s->polys;
@@ -962,9 +962,9 @@ void R_DrawSequentialPoly (msurface_t *s)
         {
             if (gl_warped2texbatch->segmenttop > 0 && gl_warped2texbatch->vertextop > 0)
             {
-                R_DrawSequential2Tex (gl_warped2texbatch);
+                R_DrawPolygon2Tex (gl_warped2texbatch);
                 
-                R_ResetSequential2Tex (gl_warped2texbatch);
+                R_ResetPolygon2Tex (gl_warped2texbatch);
             }
             
             if (gl_warped2texbatch->segmentcount >= 1 && gl_warped2texbatch->vertexcount >= p->numverts)
@@ -975,7 +975,7 @@ void R_DrawSequentialPoly (msurface_t *s)
         
         if (copytobatch)
         {
-            if (gl_vertexbufferinbatch && gl_warped2texbatch->segmentpointers != NULL)
+            if (gl_normal2texbatch->usevertexbuffer && gl_warped2texbatch->segmentpointers != NULL)
             {
                 if (gl_warped2texbatch->segmentpointers[gl_warped2texbatch->segmenttop] != p->verts && !gl_warped2texbatch->differ)
                 {
@@ -1003,7 +1003,7 @@ void R_DrawSequentialPoly (msurface_t *s)
             
             R_CopySequentialWarped2Tex((GLfloat*)p->verts, p->numverts, vertices);
 
-            GLuint vertexbuffer = R_CreateSequential2TexBuffers(p->numverts, vertices);
+            GLuint vertexbuffer = R_CreatePolygon2TexBuffers(p->numverts, vertices);
             
             GL_SelectTexture(GL_TEXTURE0);
             GL_Bind (t->gl_texturenum);
@@ -1012,7 +1012,7 @@ void R_DrawSequentialPoly (msurface_t *s)
             
             glDrawArrays(GL_TRIANGLE_FAN, 0, p->numverts);
             
-            R_DisposeSequential2TexBuffers (vertexbuffer);
+            R_DisposePolygon2TexBuffers (vertexbuffer);
             
             Hunk_FreeToLowMark (mark);
         }
@@ -1808,10 +1808,8 @@ e->angles[0] = -e->angles[0];	// stupid quake bug
     gl_normal2texbatch = &gl_brushnormal2texbatch;
     gl_warped2texbatch = &gl_brushwarped2texbatch;
     
-    gl_vertexbufferinbatch = false;
-    
-    R_BeginSequential2Tex (gl_normal2texbatch);
-    R_BeginSequential2Tex (gl_warped2texbatch);
+    R_BeginPolygon2Tex (gl_normal2texbatch);
+    R_BeginPolygon2Tex (gl_warped2texbatch);
     
     //
 	// draw texture
@@ -1834,8 +1832,8 @@ e->angles[0] = -e->angles[0];	// stupid quake bug
 		}
 	}
 
-    R_EndSequential2Tex (gl_warped2texbatch);
-    R_EndSequential2Tex (gl_normal2texbatch);
+    R_EndPolygon2Tex (gl_warped2texbatch);
+    R_EndPolygon2Tex (gl_normal2texbatch);
     
     Hunk_FreeToLowMark (gl_batchmark);
     
@@ -2011,15 +2009,15 @@ void R_DrawWorld (void)
     gl_normal2texbatch = &gl_worldnormal2texbatch;
     gl_warped2texbatch = &gl_worldwarped2texbatch;
     
-    gl_vertexbufferinbatch = true;
+    gl_worldnormal2texbatch.usevertexbuffer = true;
 
-    R_BeginSequential2Tex (gl_normal2texbatch);
-    R_BeginSequential2Tex (gl_warped2texbatch);
+    R_BeginPolygon2Tex (gl_normal2texbatch);
+    R_BeginPolygon2Tex (gl_warped2texbatch);
     
     R_RecursiveWorldNode (cl.worldmodel->nodes);
 
-    R_EndSequential2Tex (gl_warped2texbatch);
-    R_EndSequential2Tex (gl_normal2texbatch);
+    R_EndPolygon2Tex (gl_warped2texbatch);
+    R_EndPolygon2Tex (gl_normal2texbatch);
 
     Hunk_FreeToLowMark (gl_batchmark);
 
