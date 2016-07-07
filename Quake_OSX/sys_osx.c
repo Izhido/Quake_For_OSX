@@ -211,7 +211,7 @@ void Sys_Cbuf_AddText(const char* text)
 void Sys_Init(int argc, char* argv[])
 {
     parms.memsize = 16*1024*1024;
-    parms.basedir = sys_documentsdir;
+    parms.basedir = ".";
     
     COM_InitArgv (argc, argv);
     

@@ -117,7 +117,7 @@ int UDP_Init (void)
         
         if (net_ipaddress == NULL)
         {
-            char* buff = net_ipaddresses[net_ipaddressescount - 1];
+            buff = net_ipaddresses[net_ipaddressescount - 1];
             local = gethostbyname(buff);
             if (local == NULL)
             {
@@ -131,7 +131,7 @@ int UDP_Init (void)
             
             for (int i = 0; i < net_ipaddressescount; i++)
             {
-                char* buff = net_ipaddresses[i];
+                buff = net_ipaddresses[i];
                 
                 if (strcmp(net_ipaddress, buff) == 0)
                 {

@@ -77,6 +77,16 @@ int gl_charsequencevertextop;
 
 GLfloat* gl_charsequencevertices;
 
+int gl_picsequencemark;
+
+int gl_picsequencesegmenttop;
+
+GLuint* gl_picsequencetexnames;
+
+int gl_picsequencevertextop;
+
+GLfloat* gl_picsequencevertices;
+
 void GL_Use (GLuint program)
 {
     if (currentprogram == program)
@@ -749,7 +759,7 @@ Draw_String
 */
 void Draw_String (int x, int y, char *str)
 {
-    int charcount = strlen(str);
+    int charcount = (int)strlen(str);
     
     Draw_BeginCharSequence (charcount);
     
@@ -1053,6 +1063,121 @@ void Draw_TransPic (int x, int y, qpic_t *pic)
 	Draw_Pic (x, y, pic);
 }
 
+
+/*
+ ================
+ Draw_BeginPicSequence
+ ================
+ */
+void Draw_BeginPicSequence (int count)
+{
+    gl_picsequencemark = Hunk_LowMark ();
+    
+    gl_picsequencevertices = Hunk_AllocName (count * 4 * 4 * sizeof(GLfloat), "pic_sequence_vertices");
+    
+    gl_picsequencetexnames = Hunk_AllocName (count * sizeof(GLuint), "pic_sequence_texnames");
+    
+    gl_picsequencevertextop = 0;
+    gl_picsequencesegmenttop = 0;
+}
+
+/*
+ ================
+ Draw_PicInSequence
+ ================
+ */
+void Draw_PicInSequence (int x, int y, qpic_t *pic)
+{
+    glpic_t			*gl;
+    
+    if (scrap_dirty)
+        Scrap_Upload ();
+    gl = (glpic_t *)pic->data;
+    
+    GL_Bind (gl->texnum);
+    
+    gl_picsequencetexnames[gl_picsequencesegmenttop++] = gl->texnum;
+    
+    gl_picsequencevertices[gl_picsequencevertextop++] = x;
+    gl_picsequencevertices[gl_picsequencevertextop++] = y;
+    gl_picsequencevertices[gl_picsequencevertextop++] = gl->sl;
+    gl_picsequencevertices[gl_picsequencevertextop++] = gl->tl;
+    
+    gl_picsequencevertices[gl_picsequencevertextop++] = x + pic->width;
+    gl_picsequencevertices[gl_picsequencevertextop++] = y;
+    gl_picsequencevertices[gl_picsequencevertextop++] = gl->sh;
+    gl_picsequencevertices[gl_picsequencevertextop++] = gl->tl;
+    
+    gl_picsequencevertices[gl_picsequencevertextop++] = x + pic->width;
+    gl_picsequencevertices[gl_picsequencevertextop++] = y + pic->height;
+    gl_picsequencevertices[gl_picsequencevertextop++] = gl->sh;
+    gl_picsequencevertices[gl_picsequencevertextop++] = gl->th;
+    
+    gl_picsequencevertices[gl_picsequencevertextop++] = x;
+    gl_picsequencevertices[gl_picsequencevertextop++] = y + pic->height;
+    gl_picsequencevertices[gl_picsequencevertextop++] = gl->sl;
+    gl_picsequencevertices[gl_picsequencevertextop++] = gl->th;
+}
+
+/*
+ ================
+ Draw_TransPicInSequence
+ ================
+ */
+void Draw_TransPicInSequence (int x, int y, qpic_t *pic)
+{
+    if (x < 0 || (unsigned)(x + pic->width) > vid.width || y < 0 ||
+        (unsigned)(y + pic->height) > vid.height)
+    {
+        Sys_Error ("Draw_TransPicInSequence: bad coordinates");
+    }
+    
+    Draw_PicInSequence (x, y, pic);
+}
+
+/*
+ ================
+ Draw_EndPicSequence
+ ================
+ */
+void Draw_EndPicSequence (void)
+{
+    if (gl_picsequencevertextop > 0)
+    {
+        GL_Use (gl_noalphatextprogram);
+        
+        glUniform4f(gl_noalphatextprogram_color, 1.0, 1.0, 1.0, 1.0);
+        
+        GLuint vertexbuffer;
+        glGenBuffers(1, &vertexbuffer);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glBufferData(GL_ARRAY_BUFFER, gl_picsequencevertextop * sizeof(GLfloat), gl_picsequencevertices, GL_STATIC_DRAW);
+        
+        glEnableVertexAttribArray(gl_noalphatextprogram_position);
+        glVertexAttribPointer(gl_noalphatextprogram_position, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)0);
+        glEnableVertexAttribArray(gl_noalphatextprogram_texcoords);
+        glVertexAttribPointer(gl_noalphatextprogram_texcoords, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (const GLvoid *)(2 * sizeof(GLfloat)));
+        
+        GLsizei offset = 0;
+        for (int i = 0; i < gl_picsequencesegmenttop; i++)
+        {
+            GL_Bind (gl_picsequencetexnames[i]);
+            
+            glDrawArrays(GL_TRIANGLE_FAN, offset, 4);
+            offset += 4;
+        }
+        
+        glDisableVertexAttribArray(gl_noalphatextprogram_texcoords);
+        glDisableVertexAttribArray(gl_noalphatextprogram_position);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        
+        glDeleteBuffers(1, &vertexbuffer);
+    }
+    
+    Hunk_FreeToLowMark (gl_picsequencemark);
+}
 
 /*
 =============

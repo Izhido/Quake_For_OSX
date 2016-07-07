@@ -371,6 +371,44 @@ void Draw_Pic (int x, int y, qpic_t *pic)
 
 
 /*
+ ================
+ Draw_BeginPicSequence
+ ================
+ */
+void Draw_BeginPicSequence (int count)
+{
+}
+
+/*
+ ================
+ Draw_PicInSequence
+ ================
+ */
+void Draw_PicInSequence (int x, int y, qpic_t *pic)
+{
+    Draw_Pic (x, y, pic);
+}
+
+/*
+ ================
+ Draw_TransPicInSequence
+ ================
+ */
+void Draw_TransPicInSequence (int x, int y, qpic_t *pic)
+{
+    Draw_TransPic (x, y, pic);
+}
+
+/*
+ ================
+ Draw_EndPicSequence
+ ================
+ */
+void Draw_EndPicSequence (void)
+{
+}
+
+/*
 =============
 Draw_TransPic
 =============
