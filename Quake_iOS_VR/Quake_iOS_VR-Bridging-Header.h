@@ -7,6 +7,7 @@
 //
 
 #import <GVRCardboardView.h>
+#import <SSZipArchive.h>
 
 #include "quakedef.h"
 

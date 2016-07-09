@@ -20,8 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
     func applicationWillResignActive(application: UIApplication)
     {
-        gameInterrupted = true
-        sys_ended = qboolean(1)
+        if startGame
+        {
+            gameInterrupted = true
+            sys_ended = qboolean(1)
+        }
     }
 
     func applicationDidEnterBackground(application: UIApplication)
