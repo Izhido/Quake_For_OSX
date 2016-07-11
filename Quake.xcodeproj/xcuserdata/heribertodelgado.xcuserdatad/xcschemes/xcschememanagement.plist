@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Quake_Asset_Generator.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
 		<key>Quake_OSX.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -28,6 +33,11 @@
 			<true/>
 		</dict>
 		<key>2887813A1CD83E0800AF4F24</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>289AF1E81D3400BE001CBC0F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

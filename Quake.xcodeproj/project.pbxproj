@@ -196,6 +196,12 @@
 		289A0AEB1C63054F0007B2C4 /* net_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AE91C63054F0007B2C4 /* net_udp.c */; };
 		289A0AEE1C63074B0007B2C4 /* net_dgrm.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEC1C63074B0007B2C4 /* net_dgrm.c */; };
 		289A0AF01C6307C70007B2C4 /* net_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEF1C6307C70007B2C4 /* net_osx.c */; };
+		289AF1EC1D3400BE001CBC0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289AF1EB1D3400BE001CBC0F /* AppDelegate.swift */; };
+		289AF1EE1D3400BE001CBC0F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289AF1ED1D3400BE001CBC0F /* ViewController.swift */; };
+		289AF1F01D3400BE001CBC0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 289AF1EF1D3400BE001CBC0F /* Assets.xcassets */; };
+		289AF1F31D3400BE001CBC0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 289AF1F11D3400BE001CBC0F /* Main.storyboard */; };
+		289AF1FA1D340140001CBC0F /* AssetGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289AF1F81D340140001CBC0F /* AssetGeneratorView.swift */; };
+		289AF1FB1D340140001CBC0F /* AssetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289AF1F91D340140001CBC0F /* AssetType.swift */; };
 		28BA6D4A1CA5F6A7000E5BAB /* snd_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA881C626F77004687A6 /* snd_osx.c */; };
 		28BA6D4B1CA5F6CD000E5BAB /* net_dgrm.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEC1C63074B0007B2C4 /* net_dgrm.c */; };
 		28BA6D4C1CA5F6EE000E5BAB /* net_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AE91C63054F0007B2C4 /* net_udp.c */; };
@@ -414,6 +420,14 @@
 		289A0AEC1C63074B0007B2C4 /* net_dgrm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_dgrm.c; sourceTree = "<group>"; };
 		289A0AED1C63074B0007B2C4 /* net_dgrm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_dgrm.h; sourceTree = "<group>"; };
 		289A0AEF1C6307C70007B2C4 /* net_osx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_osx.c; sourceTree = "<group>"; };
+		289AF1E91D3400BE001CBC0F /* Quake_Asset_Generator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quake_Asset_Generator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		289AF1EB1D3400BE001CBC0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		289AF1ED1D3400BE001CBC0F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		289AF1EF1D3400BE001CBC0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		289AF1F21D3400BE001CBC0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		289AF1F41D3400BE001CBC0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		289AF1F81D340140001CBC0F /* AssetGeneratorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetGeneratorView.swift; sourceTree = "<group>"; };
+		289AF1F91D340140001CBC0F /* AssetType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetType.swift; sourceTree = "<group>"; };
 		28BA6D501CA5F8BE000E5BAB /* net_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_tvos.c; sourceTree = "<group>"; };
 		28C3BDC01C5D77AA00CBB0D9 /* Quake_tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quake_tvOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C3BDC21C5D77AA00CBB0D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -469,6 +483,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		289AF1E61D3400BE001CBC0F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		28C3BDBD1C5D77AA00CBB0D9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -486,6 +507,7 @@
 				2839AD421C5D6EF700CEC48E /* Quake_OSX */,
 				28C3BDC11C5D77AA00CBB0D9 /* Quake_tvOS */,
 				2887813C1CD83E0800AF4F24 /* Quake_iOS_VR */,
+				289AF1EA1D3400BE001CBC0F /* Quake_Asset_Generator */,
 				2839AD411C5D6EF700CEC48E /* Products */,
 				EFA69186850D4E8E75706323 /* Frameworks */,
 				BD4B22393441F07265B7EBF8 /* Pods */,
@@ -498,6 +520,7 @@
 				2839AD401C5D6EF700CEC48E /* Quake_OSX.app */,
 				28C3BDC01C5D77AA00CBB0D9 /* Quake_tvOS.app */,
 				2887813B1CD83E0800AF4F24 /* Quake_iOS_VR.app */,
+				289AF1E91D3400BE001CBC0F /* Quake_Asset_Generator.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -716,6 +739,20 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		289AF1EA1D3400BE001CBC0F /* Quake_Asset_Generator */ = {
+			isa = PBXGroup;
+			children = (
+				289AF1EB1D3400BE001CBC0F /* AppDelegate.swift */,
+				289AF1ED1D3400BE001CBC0F /* ViewController.swift */,
+				289AF1F81D340140001CBC0F /* AssetGeneratorView.swift */,
+				289AF1F91D340140001CBC0F /* AssetType.swift */,
+				289AF1EF1D3400BE001CBC0F /* Assets.xcassets */,
+				289AF1F11D3400BE001CBC0F /* Main.storyboard */,
+				289AF1F41D3400BE001CBC0F /* Info.plist */,
+			);
+			path = Quake_Asset_Generator;
+			sourceTree = "<group>";
+		};
 		28C3BDC11C5D77AA00CBB0D9 /* Quake_tvOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -794,6 +831,23 @@
 			productReference = 2887813B1CD83E0800AF4F24 /* Quake_iOS_VR.app */;
 			productType = "com.apple.product-type.application";
 		};
+		289AF1E81D3400BE001CBC0F /* Quake_Asset_Generator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 289AF1F71D3400BE001CBC0F /* Build configuration list for PBXNativeTarget "Quake_Asset_Generator" */;
+			buildPhases = (
+				289AF1E51D3400BE001CBC0F /* Sources */,
+				289AF1E61D3400BE001CBC0F /* Frameworks */,
+				289AF1E71D3400BE001CBC0F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Quake_Asset_Generator;
+			productName = Quake_Asset_Generator;
+			productReference = 289AF1E91D3400BE001CBC0F /* Quake_Asset_Generator.app */;
+			productType = "com.apple.product-type.application";
+		};
 		28C3BDBF1C5D77AA00CBB0D9 /* Quake_tvOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 28C3BDCE1C5D77AA00CBB0D9 /* Build configuration list for PBXNativeTarget "Quake_tvOS" */;
@@ -826,6 +880,9 @@
 					2887813A1CD83E0800AF4F24 = {
 						CreatedOnToolsVersion = 7.3;
 					};
+					289AF1E81D3400BE001CBC0F = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 					28C3BDBF1C5D77AA00CBB0D9 = {
 						CreatedOnToolsVersion = 7.2;
 					};
@@ -847,6 +904,7 @@
 				2839AD3F1C5D6EF700CEC48E /* Quake_OSX */,
 				28C3BDBF1C5D77AA00CBB0D9 /* Quake_tvOS */,
 				2887813A1CD83E0800AF4F24 /* Quake_iOS_VR */,
+				289AF1E81D3400BE001CBC0F /* Quake_Asset_Generator */,
 			);
 		};
 /* End PBXProject section */
@@ -892,6 +950,15 @@
 				28C4FA851CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh in Resources */,
 				2817C7A61CED6555000E491D /* gl_noalphatextprogram.fsh in Resources */,
 				28C4FA771CE79617001CF82D /* gl_coloredpolygon1textureprogram.vsh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		289AF1E71D3400BE001CBC0F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				289AF1F01D3400BE001CBC0F /* Assets.xcassets in Resources */,
+				289AF1F31D3400BE001CBC0F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1106,6 +1173,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		289AF1E51D3400BE001CBC0F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				289AF1FB1D340140001CBC0F /* AssetType.swift in Sources */,
+				289AF1EE1D3400BE001CBC0F /* ViewController.swift in Sources */,
+				289AF1EC1D3400BE001CBC0F /* AppDelegate.swift in Sources */,
+				289AF1FA1D340140001CBC0F /* AssetGeneratorView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		28C3BDBC1C5D77AA00CBB0D9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1212,6 +1290,14 @@
 				288781471CD83E0800AF4F24 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		289AF1F11D3400BE001CBC0F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				289AF1F21D3400BE001CBC0F /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		28C3BDC61C5D77AA00CBB0D9 /* Main.storyboard */ = {
@@ -1437,6 +1523,98 @@
 			};
 			name = Release;
 		};
+		289AF1F51D3400BE001CBC0F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Quake_Asset_Generator/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "Izhido.Quake-Asset-Generator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		289AF1F61D3400BE001CBC0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Quake_Asset_Generator/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "Izhido.Quake-Asset-Generator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		28C3BDCC1C5D77AA00CBB0D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1561,6 +1739,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		289AF1F71D3400BE001CBC0F /* Build configuration list for PBXNativeTarget "Quake_Asset_Generator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				289AF1F51D3400BE001CBC0F /* Debug */,
+				289AF1F61D3400BE001CBC0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		28C3BDCE1C5D77AA00CBB0D9 /* Build configuration list for PBXNativeTarget "Quake_tvOS" */ = {
 			isa = XCConfigurationList;
