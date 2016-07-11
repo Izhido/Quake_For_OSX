@@ -250,6 +250,11 @@ class GameViewController: UIViewController, GVRCardboardViewDelegate
         {
             gameInterrupted = true
             
+            if (host_initialized != qboolean(0))
+            {
+                Host_Shutdown()
+            }
+            
             sys_ended = qboolean(1)
 
             setupEndingScreen()

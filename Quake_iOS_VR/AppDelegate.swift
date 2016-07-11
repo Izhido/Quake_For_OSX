@@ -23,6 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         if startGame
         {
             gameInterrupted = true
+            
+            if (host_initialized != qboolean(0))
+            {
+                Host_Shutdown()
+            }
+            
             sys_ended = qboolean(1)
         }
     }
