@@ -248,6 +248,11 @@ class GameViewController: UIViewController, GVRCardboardViewDelegate
     {
         if (event == GVRUserEvent.BackButton)
         {
+            if gameInterrupted
+            {
+                return
+            }
+
             gameInterrupted = true
             
             if (host_initialized != qboolean(0))

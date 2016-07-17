@@ -19,13 +19,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "quakedef.h"
 #include <AudioToolbox/AudioQueue.h>
+#include <pthread.h>
 
 AudioQueueRef snd_audioqueue = NULL;
+
+pthread_mutex_t snd_lock;
 
 volatile int snd_current_sample_pos = 0;
 
 void SNDDMA_Callback(void *userdata, AudioQueueRef queue, AudioQueueBufferRef buffer)
 {
+    pthread_mutex_lock(&snd_lock);
+    
+    if (snd_audioqueue == nil)
+    {
+        return;
+    }
+
     memcpy(buffer->mAudioData, shm->buffer + (snd_current_sample_pos << 1), shm->samples >> 2);
 
     AudioQueueEnqueueBuffer(queue, buffer, 0, NULL);
@@ -36,6 +46,8 @@ void SNDDMA_Callback(void *userdata, AudioQueueRef queue, AudioQueueBufferRef bu
     {
         snd_current_sample_pos = 0;
     }
+    
+    pthread_mutex_unlock(&snd_lock);
 }
 
 /*
@@ -49,6 +61,10 @@ Returns false if nothing is found.
 
 qboolean SNDDMA_Init(void)
 {
+    pthread_mutex_init(&snd_lock, NULL);
+    
+    pthread_mutex_lock(&snd_lock);
+
     shm = (void *) Hunk_AllocName(sizeof(*shm), "shm");
     shm->splitbuffer = 0;
     shm->samplebits = 16;
@@ -127,6 +143,8 @@ qboolean SNDDMA_Init(void)
     
     snd_current_sample_pos = shm->samples >> 1;
     
+    pthread_mutex_unlock(&snd_lock);
+    
     return true;
 }
 
@@ -166,6 +184,8 @@ Reset the sound device for exiting
 */
 void SNDDMA_Shutdown(void)
 {
+    pthread_mutex_lock(&snd_lock);
+    
     if (snd_audioqueue != NULL)
     {
         AudioQueueStop(snd_audioqueue, false);
@@ -174,5 +194,7 @@ void SNDDMA_Shutdown(void)
     }
     
     snd_audioqueue = NULL;
+    
+    pthread_mutex_unlock(&snd_lock);
 }
 
