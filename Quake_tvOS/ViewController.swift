@@ -342,9 +342,6 @@ class ViewController: GCEventViewController, MTKViewDelegate
 
                 extendedRemote!.controllerPausedHandler = { (controller: GCController) -> () in
                     
-                    Key_Event(255, qboolean(1)) // K_PAUSE, true
-                    Key_Event(255, qboolean(0)) // K_PAUSE, false
-                    
                     Key_Event(27, qboolean(1)) // K_ESCAPE, true
                     Key_Event(27, qboolean(0)) // K_ESCAPE, false
                     
@@ -354,7 +351,6 @@ class ViewController: GCEventViewController, MTKViewDelegate
                     
                     Key_Event(128, qboolean(pressed ? 1 : 0)) // K_UPARROW, true / false
                 }
-                
                 
                 extendedRemote!.extendedGamepad!.dpad.left.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> () in
                     
@@ -471,11 +467,17 @@ class ViewController: GCEventViewController, MTKViewDelegate
         {
             if press.type == .Menu
             {
-                Key_Event(27, qboolean(1)) // K_ESCAPE, true
+                if extendedRemote == nil
+                {
+                    Key_Event(27, qboolean(1)) // K_ESCAPE, true
+                }
             }
             else if press.type == .PlayPause
             {
-                Key_Event(255, qboolean(1)) // K_PAUSE, true
+                if extendedRemote == nil
+                {
+                    Key_Event(255, qboolean(1)) // K_PAUSE, true
+                }
             }
             else if press.type == .UpArrow
             {

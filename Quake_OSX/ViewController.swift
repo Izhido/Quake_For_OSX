@@ -268,9 +268,6 @@ class ViewController: NSViewController, MTKViewDelegate
                 
                 remote!.controllerPausedHandler = { (controller: GCController) -> () in
                     
-                    Key_Event(255, qboolean(1)) // K_PAUSE, true
-                    Key_Event(255, qboolean(0)) // K_PAUSE, false
-                    
                     Key_Event(27, qboolean(1)) // K_ESCAPE, true
                     Key_Event(27, qboolean(0)) // K_ESCAPE, false
                     

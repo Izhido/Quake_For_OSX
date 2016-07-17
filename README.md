@@ -7,6 +7,8 @@ The source code contains an Xcode 7.3 workspace with three targets:
 - tvOS 9.1 and later, playable in the 4th gen. Apple TV;
 - iOS 9.3 and later (iPhone only), specially designed to be used with a virtual reality (VR) viewer such as Google Cardboard or similar.
 
+The iOS VR target has been now published as Slip & Frag. You can get it from here: https://itunes.apple.com/us/app/slip-frag/id1133244429
+
 The first two targets (OS X, tvOS) do software rendering (instead of OpenGL); presenting to the screen, however, is performed by using Metal. The third target (iOS VR), however, does use OpenGL ES 3.0 to render both screens in a VR viewer configuration.
 
 Additionally, all targets are able to use an extended-profile gaming controller, such as the SteelSeries Nimbus (the recommended controller from Apple, as of this writing). Any extended-profile gaming controller, however, should be sufficient to play with no problems.
@@ -64,8 +66,7 @@ Controls for the tvOS target by using the Siri Remote are as follows:
 This control scheme is experimental. While the game is playable, maybe even winnable, it has a fairly steep curve to learn & master; you will need steady hands to control the game this way. Some button combinations are not possible using this scheme, so it is likely that not all areas in the game can be reached this way. Proceed with caution. YOU'VE BEEN WARNED.
 
 Controls for all targets by using an extended-profile gaming controller are as follows:
-- To access the main menu AND to pause / resume the game, press the "Menu" / "Pause" button. Use the D-pad to move around the options; press A to enter an option, B to exit the current screen.
-- To access the main menu only (without pausing the game), press B, and follow the instructions above.
+- To access the main menu, press either B or the "Menu" / "Pause" button. Use the D-pad to move around the options; press A to enter an option, B to exit the current screen.
 - To walk forward, backwards, or sidestep, use the left thumbstick.
 - To fire / attack, press the right trigger button.
 - To look up / down, or turn left / right, use the right thumbstick. NOTE: For the iOS VR target, this only works in the VR Static mode. See below for details.

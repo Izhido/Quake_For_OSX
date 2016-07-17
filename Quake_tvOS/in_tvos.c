@@ -65,6 +65,9 @@ void IN_Move (usercmd_t *cmd)
             if (cl.viewangles[PITCH] < -70)
                 cl.viewangles[PITCH] = -70;
         }
+        
+        V_StopPitchDrift();
+        
         if (key_dest == key_game)
         {
             float speed;

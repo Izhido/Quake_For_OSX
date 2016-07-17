@@ -26,9 +26,6 @@ class GameControllerSetup: NSObject
                 
                 remote!.controllerPausedHandler = { (controller: GCController) -> () in
                     
-                    Sys_Key_Event(255, qboolean(1)) // K_PAUSE, true
-                    Sys_Key_Event(255, qboolean(0)) // K_PAUSE, false
-                    
                     Sys_Key_Event(27, qboolean(1)) // K_ESCAPE, true
                     Sys_Key_Event(27, qboolean(0)) // K_ESCAPE, false
                     
