@@ -22,6 +22,10 @@ class AssetGeneratorView: NSView
     
     func nextPointSize() -> CGFloat
     {
+        if pointSize == 1024.0
+        {
+            return 180.0
+        }
         if pointSize == 180.0
         {
             return 152.0

@@ -33,7 +33,7 @@ class ViewController: NSViewController
         {
             if type == .Icon
             {
-                assetView.pointSize = 180.0
+                assetView.pointSize = 1024.0
             }
             else
             {
@@ -62,7 +62,7 @@ class ViewController: NSViewController
         {
             if assetView.assetType == .Icon
             {
-                assetView.pointSize = 180.0
+                assetView.pointSize = 1024.0
             }
             else
             {
