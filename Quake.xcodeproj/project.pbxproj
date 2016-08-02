@@ -209,6 +209,26 @@
 		28BA6D4E1CA5F722000E5BAB /* snd_mix.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA831C625804004687A6 /* snd_mix.c */; };
 		28BA6D4F1CA5F73E000E5BAB /* snd_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA861C6266E2004687A6 /* snd_mem.c */; };
 		28BA6D511CA5F8BE000E5BAB /* net_tvos.c in Sources */ = {isa = PBXBuildFile; fileRef = 28BA6D501CA5F8BE000E5BAB /* net_tvos.c */; };
+		28BFE1C01D50435C0061CFB3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1BF1D50435C0061CFB3 /* AppDelegate.m */; };
+		28BFE1C31D50435C0061CFB3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1C21D50435C0061CFB3 /* main.m */; };
+		28BFE1C61D50435C0061CFB3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1C51D50435C0061CFB3 /* ViewController.m */; };
+		28BFE1C81D50435C0061CFB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28BFE1C71D50435C0061CFB3 /* Assets.xcassets */; };
+		28BFE1CB1D50435C0061CFB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28BFE1C91D50435C0061CFB3 /* Main.storyboard */; };
+		28BFE1D31D5045CF0061CFB3 /* cmdlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1D11D5045CF0061CFB3 /* cmdlib.c */; };
+		28BFE1D51D5047840061CFB3 /* misc.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1D41D5047840061CFB3 /* misc.m */; };
+		28BFE1D81D504ADF0061CFB3 /* render.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1D71D504ADF0061CFB3 /* render.m */; };
+		28BFE1DB1D504E3B0061CFB3 /* SetBrush.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1DA1D504E3B0061CFB3 /* SetBrush.m */; };
+		28BFE1DE1D5054A60061CFB3 /* mathlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1DC1D5054A60061CFB3 /* mathlib.c */; };
+		28BFE1E11D5055180061CFB3 /* TexturePalette.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1E01D5055180061CFB3 /* TexturePalette.m */; };
+		28BFE1E41D505DB80061CFB3 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1E31D505DB80061CFB3 /* Preferences.m */; };
+		28BFE1E71D5061130061CFB3 /* EntityClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1E61D5061130061CFB3 /* EntityClass.m */; };
+		28BFE1EA1D5063600061CFB3 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1E91D5063600061CFB3 /* Entity.m */; };
+		28BFE1ED1D5068000061CFB3 /* Things.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1EC1D5068000061CFB3 /* Things.m */; };
+		28BFE1F01D50EB060061CFB3 /* Dict.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1EF1D50EB060061CFB3 /* Dict.m */; };
+		28BFE1F31D50F2F30061CFB3 /* DictList.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1F21D50F2F30061CFB3 /* DictList.m */; };
+		28BFE1F61D50F43A0061CFB3 /* Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1F51D50F43A0061CFB3 /* Map.m */; };
+		28BFE1F91D50FD460061CFB3 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1F81D50FD460061CFB3 /* Project.m */; };
+		28BFE1FC1D5102BF0061CFB3 /* Clipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1FB1D5102BF0061CFB3 /* Clipper.m */; };
 		28C3BDC31C5D77AA00CBB0D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C3BDC21C5D77AA00CBB0D9 /* AppDelegate.swift */; };
 		28C3BDC51C5D77AA00CBB0D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C3BDC41C5D77AA00CBB0D9 /* ViewController.swift */; };
 		28C3BDC81C5D77AA00CBB0D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28C3BDC61C5D77AA00CBB0D9 /* Main.storyboard */; };
@@ -429,6 +449,45 @@
 		289AF1F81D340140001CBC0F /* AssetGeneratorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetGeneratorView.swift; sourceTree = "<group>"; };
 		289AF1F91D340140001CBC0F /* AssetType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetType.swift; sourceTree = "<group>"; };
 		28BA6D501CA5F8BE000E5BAB /* net_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_tvos.c; sourceTree = "<group>"; };
+		28BFE1BC1D50435C0061CFB3 /* QuakeEd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuakeEd.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28BFE1BE1D50435C0061CFB3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		28BFE1BF1D50435C0061CFB3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		28BFE1C21D50435C0061CFB3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		28BFE1C41D50435C0061CFB3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		28BFE1C51D50435C0061CFB3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		28BFE1C71D50435C0061CFB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		28BFE1CA1D50435C0061CFB3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		28BFE1CC1D50435C0061CFB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28BFE1D01D50447A0061CFB3 /* qedefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qedefs.h; sourceTree = "<group>"; };
+		28BFE1D11D5045CF0061CFB3 /* cmdlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cmdlib.c; sourceTree = "<group>"; };
+		28BFE1D21D5045CF0061CFB3 /* cmdlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmdlib.h; sourceTree = "<group>"; };
+		28BFE1D41D5047840061CFB3 /* misc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = misc.m; sourceTree = "<group>"; };
+		28BFE1D61D504ADF0061CFB3 /* render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = render.h; sourceTree = "<group>"; };
+		28BFE1D71D504ADF0061CFB3 /* render.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = render.m; sourceTree = "<group>"; };
+		28BFE1D91D504E3B0061CFB3 /* SetBrush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetBrush.h; sourceTree = "<group>"; };
+		28BFE1DA1D504E3B0061CFB3 /* SetBrush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetBrush.m; sourceTree = "<group>"; };
+		28BFE1DC1D5054A60061CFB3 /* mathlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mathlib.c; sourceTree = "<group>"; };
+		28BFE1DD1D5054A60061CFB3 /* mathlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mathlib.h; sourceTree = "<group>"; };
+		28BFE1DF1D5055180061CFB3 /* TexturePalette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturePalette.h; sourceTree = "<group>"; };
+		28BFE1E01D5055180061CFB3 /* TexturePalette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TexturePalette.m; sourceTree = "<group>"; };
+		28BFE1E21D505DB80061CFB3 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
+		28BFE1E31D505DB80061CFB3 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
+		28BFE1E51D5061130061CFB3 /* EntityClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityClass.h; sourceTree = "<group>"; };
+		28BFE1E61D5061130061CFB3 /* EntityClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntityClass.m; sourceTree = "<group>"; };
+		28BFE1E81D5063600061CFB3 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
+		28BFE1E91D5063600061CFB3 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
+		28BFE1EB1D5068000061CFB3 /* Things.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Things.h; sourceTree = "<group>"; };
+		28BFE1EC1D5068000061CFB3 /* Things.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Things.m; sourceTree = "<group>"; };
+		28BFE1EE1D50EB060061CFB3 /* Dict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dict.h; sourceTree = "<group>"; };
+		28BFE1EF1D50EB060061CFB3 /* Dict.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dict.m; sourceTree = "<group>"; };
+		28BFE1F11D50F2F30061CFB3 /* DictList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictList.h; sourceTree = "<group>"; };
+		28BFE1F21D50F2F30061CFB3 /* DictList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DictList.m; sourceTree = "<group>"; };
+		28BFE1F41D50F43A0061CFB3 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
+		28BFE1F51D50F43A0061CFB3 /* Map.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Map.m; sourceTree = "<group>"; };
+		28BFE1F71D50FD460061CFB3 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
+		28BFE1F81D50FD460061CFB3 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Project.m; sourceTree = "<group>"; };
+		28BFE1FA1D5102BF0061CFB3 /* Clipper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Clipper.h; sourceTree = "<group>"; };
+		28BFE1FB1D5102BF0061CFB3 /* Clipper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Clipper.m; sourceTree = "<group>"; };
 		28C3BDC01C5D77AA00CBB0D9 /* Quake_tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quake_tvOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C3BDC21C5D77AA00CBB0D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28C3BDC41C5D77AA00CBB0D9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -490,6 +549,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		28BFE1B91D50435C0061CFB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		28C3BDBD1C5D77AA00CBB0D9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -508,6 +574,7 @@
 				28C3BDC11C5D77AA00CBB0D9 /* Quake_tvOS */,
 				2887813C1CD83E0800AF4F24 /* Quake_iOS_VR */,
 				289AF1EA1D3400BE001CBC0F /* Quake_Asset_Generator */,
+				28BFE1BD1D50435C0061CFB3 /* QuakeEd */,
 				2839AD411C5D6EF700CEC48E /* Products */,
 				EFA69186850D4E8E75706323 /* Frameworks */,
 				BD4B22393441F07265B7EBF8 /* Pods */,
@@ -521,6 +588,7 @@
 				28C3BDC01C5D77AA00CBB0D9 /* Quake_tvOS.app */,
 				2887813B1CD83E0800AF4F24 /* Quake_iOS_VR.app */,
 				289AF1E91D3400BE001CBC0F /* Quake_Asset_Generator.app */,
+				28BFE1BC1D50435C0061CFB3 /* QuakeEd.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -753,6 +821,59 @@
 			path = Quake_Asset_Generator;
 			sourceTree = "<group>";
 		};
+		28BFE1BD1D50435C0061CFB3 /* QuakeEd */ = {
+			isa = PBXGroup;
+			children = (
+				28BFE1FA1D5102BF0061CFB3 /* Clipper.h */,
+				28BFE1FB1D5102BF0061CFB3 /* Clipper.m */,
+				28BFE1D11D5045CF0061CFB3 /* cmdlib.c */,
+				28BFE1D21D5045CF0061CFB3 /* cmdlib.h */,
+				28BFE1EE1D50EB060061CFB3 /* Dict.h */,
+				28BFE1EF1D50EB060061CFB3 /* Dict.m */,
+				28BFE1F11D50F2F30061CFB3 /* DictList.h */,
+				28BFE1F21D50F2F30061CFB3 /* DictList.m */,
+				28BFE1E81D5063600061CFB3 /* Entity.h */,
+				28BFE1E91D5063600061CFB3 /* Entity.m */,
+				28BFE1E51D5061130061CFB3 /* EntityClass.h */,
+				28BFE1E61D5061130061CFB3 /* EntityClass.m */,
+				28BFE1F41D50F43A0061CFB3 /* Map.h */,
+				28BFE1F51D50F43A0061CFB3 /* Map.m */,
+				28BFE1DC1D5054A60061CFB3 /* mathlib.c */,
+				28BFE1DD1D5054A60061CFB3 /* mathlib.h */,
+				28BFE1D41D5047840061CFB3 /* misc.m */,
+				28BFE1E21D505DB80061CFB3 /* Preferences.h */,
+				28BFE1E31D505DB80061CFB3 /* Preferences.m */,
+				28BFE1F71D50FD460061CFB3 /* Project.h */,
+				28BFE1F81D50FD460061CFB3 /* Project.m */,
+				28BFE1D01D50447A0061CFB3 /* qedefs.h */,
+				28BFE1D61D504ADF0061CFB3 /* render.h */,
+				28BFE1D71D504ADF0061CFB3 /* render.m */,
+				28BFE1D91D504E3B0061CFB3 /* SetBrush.h */,
+				28BFE1DA1D504E3B0061CFB3 /* SetBrush.m */,
+				28BFE1DF1D5055180061CFB3 /* TexturePalette.h */,
+				28BFE1E01D5055180061CFB3 /* TexturePalette.m */,
+				28BFE1EB1D5068000061CFB3 /* Things.h */,
+				28BFE1EC1D5068000061CFB3 /* Things.m */,
+				28BFE1BE1D50435C0061CFB3 /* AppDelegate.h */,
+				28BFE1BF1D50435C0061CFB3 /* AppDelegate.m */,
+				28BFE1C41D50435C0061CFB3 /* ViewController.h */,
+				28BFE1C51D50435C0061CFB3 /* ViewController.m */,
+				28BFE1C71D50435C0061CFB3 /* Assets.xcassets */,
+				28BFE1C91D50435C0061CFB3 /* Main.storyboard */,
+				28BFE1CC1D50435C0061CFB3 /* Info.plist */,
+				28BFE1C11D50435C0061CFB3 /* Supporting Files */,
+			);
+			path = QuakeEd;
+			sourceTree = "<group>";
+		};
+		28BFE1C11D50435C0061CFB3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				28BFE1C21D50435C0061CFB3 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		28C3BDC11C5D77AA00CBB0D9 /* Quake_tvOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -848,6 +969,23 @@
 			productReference = 289AF1E91D3400BE001CBC0F /* Quake_Asset_Generator.app */;
 			productType = "com.apple.product-type.application";
 		};
+		28BFE1BB1D50435C0061CFB3 /* QuakeEd */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28BFE1CF1D50435C0061CFB3 /* Build configuration list for PBXNativeTarget "QuakeEd" */;
+			buildPhases = (
+				28BFE1B81D50435C0061CFB3 /* Sources */,
+				28BFE1B91D50435C0061CFB3 /* Frameworks */,
+				28BFE1BA1D50435C0061CFB3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QuakeEd;
+			productName = QuakeEd;
+			productReference = 28BFE1BC1D50435C0061CFB3 /* QuakeEd.app */;
+			productType = "com.apple.product-type.application";
+		};
 		28C3BDBF1C5D77AA00CBB0D9 /* Quake_tvOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 28C3BDCE1C5D77AA00CBB0D9 /* Build configuration list for PBXNativeTarget "Quake_tvOS" */;
@@ -883,6 +1021,9 @@
 					289AF1E81D3400BE001CBC0F = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					28BFE1BB1D50435C0061CFB3 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 					28C3BDBF1C5D77AA00CBB0D9 = {
 						CreatedOnToolsVersion = 7.2;
 					};
@@ -905,6 +1046,7 @@
 				28C3BDBF1C5D77AA00CBB0D9 /* Quake_tvOS */,
 				2887813A1CD83E0800AF4F24 /* Quake_iOS_VR */,
 				289AF1E81D3400BE001CBC0F /* Quake_Asset_Generator */,
+				28BFE1BB1D50435C0061CFB3 /* QuakeEd */,
 			);
 		};
 /* End PBXProject section */
@@ -959,6 +1101,15 @@
 			files = (
 				289AF1F01D3400BE001CBC0F /* Assets.xcassets in Resources */,
 				289AF1F31D3400BE001CBC0F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28BFE1BA1D50435C0061CFB3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28BFE1C81D50435C0061CFB3 /* Assets.xcassets in Resources */,
+				28BFE1CB1D50435C0061CFB3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1184,6 +1335,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		28BFE1B81D50435C0061CFB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28BFE1EA1D5063600061CFB3 /* Entity.m in Sources */,
+				28BFE1E11D5055180061CFB3 /* TexturePalette.m in Sources */,
+				28BFE1D51D5047840061CFB3 /* misc.m in Sources */,
+				28BFE1D31D5045CF0061CFB3 /* cmdlib.c in Sources */,
+				28BFE1C61D50435C0061CFB3 /* ViewController.m in Sources */,
+				28BFE1F01D50EB060061CFB3 /* Dict.m in Sources */,
+				28BFE1E41D505DB80061CFB3 /* Preferences.m in Sources */,
+				28BFE1FC1D5102BF0061CFB3 /* Clipper.m in Sources */,
+				28BFE1F31D50F2F30061CFB3 /* DictList.m in Sources */,
+				28BFE1DE1D5054A60061CFB3 /* mathlib.c in Sources */,
+				28BFE1D81D504ADF0061CFB3 /* render.m in Sources */,
+				28BFE1C31D50435C0061CFB3 /* main.m in Sources */,
+				28BFE1E71D5061130061CFB3 /* EntityClass.m in Sources */,
+				28BFE1ED1D5068000061CFB3 /* Things.m in Sources */,
+				28BFE1C01D50435C0061CFB3 /* AppDelegate.m in Sources */,
+				28BFE1F61D50F43A0061CFB3 /* Map.m in Sources */,
+				28BFE1F91D50FD460061CFB3 /* Project.m in Sources */,
+				28BFE1DB1D504E3B0061CFB3 /* SetBrush.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		28C3BDBC1C5D77AA00CBB0D9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1296,6 +1472,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				289AF1F21D3400BE001CBC0F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		28BFE1C91D50435C0061CFB3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				28BFE1CA1D50435C0061CFB3 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1615,6 +1799,97 @@
 			};
 			name = Release;
 		};
+		28BFE1CD1D50435C0061CFB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = QuakeEd/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Izhido.QuakeEd;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		28BFE1CE1D50435C0061CFB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = QuakeEd/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = Izhido.QuakeEd;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		28C3BDCC1C5D77AA00CBB0D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1745,6 +2020,15 @@
 			buildConfigurations = (
 				289AF1F51D3400BE001CBC0F /* Debug */,
 				289AF1F61D3400BE001CBC0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28BFE1CF1D50435C0061CFB3 /* Build configuration list for PBXNativeTarget "QuakeEd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28BFE1CD1D50435C0061CFB3 /* Debug */,
+				28BFE1CE1D50435C0061CFB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
