@@ -1227,7 +1227,7 @@ ZDrawSelf
 		PSstroke ();
 	}
 
-	[zview_i getPoint: (NXPoint *)p1];
+	[zview_i getPoint: (NSPoint *)p1];
 	
 	for (i=0 ; i<2 ; i++)
 		if (bmins[i] >= p1[i] || bmaxs[i] <= p1[i])

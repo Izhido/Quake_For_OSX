@@ -372,10 +372,10 @@ TEX_NumForName
 	texpal_t *t;
 	int		y;
 	id		view;
-	NXRect	b;
+	NSRect	b;
 	int		maxwidth;
 	int		maxheight;
-	NXPoint	pt;
+	NSPoint	pt;
 	
 	max = [textureList_i count];
 	y = 0;
@@ -426,12 +426,12 @@ TEX_NumForName
 		if ( [[map_i currentEntity] modifiable] )
 		{
 			[map_i makeSelectedPerform: @selector(takeCurrentTexture)];
-			///**************************************************************[quakeed_i updateAll];
+			[quakeed_i updateAll];
 		}
 		else
 			qprintf ("can't modify spawned entities");
 	}
-	///**************************************************************[quakeed_i makeFirstResponder: quakeed_i];
+	[quakeed_i makeFirstResponder: quakeed_i];
 	return self;
 }
 
@@ -454,7 +454,7 @@ TEX_NumForName
 ///**************************************************************- setSelectedTexture:(int)which
 /*{
 	texpal_t *t;
-	NXRect	r;
+	NSRect	r;
 	char	string[16];
 
 // wipe the fields

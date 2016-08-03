@@ -231,7 +231,7 @@ scanDirectory
 }
 
 
-id	entity_classes_i;
+EntityClassList	*entity_classes_i;
 
 
 - initForSourceDirectory: (char *)path
@@ -274,6 +274,11 @@ id	entity_classes_i;
 - (NSUInteger)indexOfObject:(id)object
 {
     return [list indexOfObject:object];
+}
+
+- (void)removeAllObjects
+{
+    [list removeAllObjects];
 }
 
 @end

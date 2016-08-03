@@ -40,7 +40,7 @@ id	clipper_i;
 	else
 	{
 		qprintf ("no clipplane");
-		///**************************************************************NXBeep ();
+		NSBeep ();
 	}
 	
 	return self;
@@ -83,7 +83,7 @@ id	clipper_i;
 XYClick
 ================
 */
-- XYClick: (NXPoint)pt
+- XYClick: (NSPoint)pt
 {
 	int		i;
 	vec3_t	new;
@@ -101,7 +101,7 @@ XYClick
 				pos[i][2] = [map_i currentMaxZ];
 			else
 				pos[i][2] = [map_i currentMinZ];
-			///**************************************************************[quakeed_i updateAll];
+			[quakeed_i updateAll];
 			return self;
 		}
 	}
@@ -113,7 +113,7 @@ XYClick
 	VectorCopy (new, pos[num]);
 	num++;
 
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 	
 	return self;
 }
@@ -123,7 +123,7 @@ XYClick
 XYDrag
 ================
 */
-- (BOOL)XYDrag: (NXPoint *)pt
+- (BOOL)XYDrag: (NSPoint *)pt
 {
 	int		i;
 	
@@ -138,7 +138,7 @@ XYDrag
 	return NO;
 }
 
-- ZClick: (NXPoint)pt
+- ZClick: (NSPoint)pt
 {
 	return self;
 }

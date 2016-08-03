@@ -321,7 +321,7 @@ Grab all the current UI state
 	[self setZlight: [zlight_i floatValue]];
 
 	[map_i makeGlobalPerform: @selector(flushTextures)];
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 		
 	return self;
 }

@@ -14,6 +14,13 @@
 		2817C7A71CED6555000E491D /* gl_noalphatextprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */; };
 		2817C7AA1CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A81CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh */; };
 		2817C7AB1CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A91CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh */; };
+		281B94241D512C3B00D46C44 /* KeypairView.m in Sources */ = {isa = PBXBuildFile; fileRef = 281B941F1D512C3B00D46C44 /* KeypairView.m */; };
+		281B94251D512C3B00D46C44 /* TextureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 281B94211D512C3B00D46C44 /* TextureView.m */; };
+		281B94261D512C3B00D46C44 /* ZView.m in Sources */ = {isa = PBXBuildFile; fileRef = 281B94231D512C3B00D46C44 /* ZView.m */; };
+		281B94291D512DF300D46C44 /* ZScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 281B94281D512DF300D46C44 /* ZScrollView.m */; };
+		281B942C1D512F0E00D46C44 /* PopScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 281B942B1D512F0E00D46C44 /* PopScrollView.m */; };
+		281B942F1D5155BF00D46C44 /* InspectorControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 281B942E1D5155BF00D46C44 /* InspectorControl.m */; };
+		281B94321D5159EE00D46C44 /* QuakeEd.m in Sources */ = {isa = PBXBuildFile; fileRef = 281B94311D5159EE00D46C44 /* QuakeEd.m */; };
 		281C7D901CE6C4EA003C2F54 /* in_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 281C7D8F1CE6C4EA003C2F54 /* in_ios_vr.c */; };
 		281D058A1CDC597900E422DA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 281D05891CDC597900E422DA /* OpenGLES.framework */; };
 		281D05931CDE620F00E422DA /* host.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE281C5D6FFD00CEC48E /* host.c */; };
@@ -202,6 +209,8 @@
 		289AF1F31D3400BE001CBC0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 289AF1F11D3400BE001CBC0F /* Main.storyboard */; };
 		289AF1FA1D340140001CBC0F /* AssetGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289AF1F81D340140001CBC0F /* AssetGeneratorView.swift */; };
 		289AF1FB1D340140001CBC0F /* AssetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289AF1F91D340140001CBC0F /* AssetType.swift */; };
+		28B5B5471D51123C006BEEA8 /* CameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28B5B5461D51123C006BEEA8 /* CameraView.m */; };
+		28B5B54A1D51134F006BEEA8 /* XYView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28B5B5491D51134F006BEEA8 /* XYView.m */; };
 		28BA6D4A1CA5F6A7000E5BAB /* snd_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA881C626F77004687A6 /* snd_osx.c */; };
 		28BA6D4B1CA5F6CD000E5BAB /* net_dgrm.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AEC1C63074B0007B2C4 /* net_dgrm.c */; };
 		28BA6D4C1CA5F6EE000E5BAB /* net_udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 289A0AE91C63054F0007B2C4 /* net_udp.c */; };
@@ -211,7 +220,6 @@
 		28BA6D511CA5F8BE000E5BAB /* net_tvos.c in Sources */ = {isa = PBXBuildFile; fileRef = 28BA6D501CA5F8BE000E5BAB /* net_tvos.c */; };
 		28BFE1C01D50435C0061CFB3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1BF1D50435C0061CFB3 /* AppDelegate.m */; };
 		28BFE1C31D50435C0061CFB3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1C21D50435C0061CFB3 /* main.m */; };
-		28BFE1C61D50435C0061CFB3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1C51D50435C0061CFB3 /* ViewController.m */; };
 		28BFE1C81D50435C0061CFB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28BFE1C71D50435C0061CFB3 /* Assets.xcassets */; };
 		28BFE1CB1D50435C0061CFB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28BFE1C91D50435C0061CFB3 /* Main.storyboard */; };
 		28BFE1D31D5045CF0061CFB3 /* cmdlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE1D11D5045CF0061CFB3 /* cmdlib.c */; };
@@ -286,6 +294,20 @@
 		2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_noalphatextprogram.vsh; sourceTree = "<group>"; };
 		2817C7A81CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_alphapolygon1textureprogram.fsh; sourceTree = "<group>"; };
 		2817C7A91CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_alphapolygon1textureprogram.vsh; sourceTree = "<group>"; };
+		281B941E1D512C3B00D46C44 /* KeypairView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeypairView.h; sourceTree = "<group>"; };
+		281B941F1D512C3B00D46C44 /* KeypairView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeypairView.m; sourceTree = "<group>"; };
+		281B94201D512C3B00D46C44 /* TextureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureView.h; sourceTree = "<group>"; };
+		281B94211D512C3B00D46C44 /* TextureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureView.m; sourceTree = "<group>"; };
+		281B94221D512C3B00D46C44 /* ZView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZView.h; sourceTree = "<group>"; };
+		281B94231D512C3B00D46C44 /* ZView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZView.m; sourceTree = "<group>"; };
+		281B94271D512DF300D46C44 /* ZScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZScrollView.h; sourceTree = "<group>"; };
+		281B94281D512DF300D46C44 /* ZScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZScrollView.m; sourceTree = "<group>"; };
+		281B942A1D512F0E00D46C44 /* PopScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopScrollView.h; sourceTree = "<group>"; };
+		281B942B1D512F0E00D46C44 /* PopScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopScrollView.m; sourceTree = "<group>"; };
+		281B942D1D5155BF00D46C44 /* InspectorControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorControl.h; sourceTree = "<group>"; };
+		281B942E1D5155BF00D46C44 /* InspectorControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorControl.m; sourceTree = "<group>"; };
+		281B94301D5159EE00D46C44 /* QuakeEd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuakeEd.h; sourceTree = "<group>"; };
+		281B94311D5159EE00D46C44 /* QuakeEd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuakeEd.m; sourceTree = "<group>"; };
 		281C7D8F1CE6C4EA003C2F54 /* in_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = in_ios_vr.c; sourceTree = "<group>"; };
 		281D05881CDC57CD00E422DA /* glquake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glquake.h; sourceTree = "<group>"; };
 		281D05891CDC597900E422DA /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
@@ -448,13 +470,15 @@
 		289AF1F41D3400BE001CBC0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		289AF1F81D340140001CBC0F /* AssetGeneratorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetGeneratorView.swift; sourceTree = "<group>"; };
 		289AF1F91D340140001CBC0F /* AssetType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetType.swift; sourceTree = "<group>"; };
+		28B5B5451D51123C006BEEA8 /* CameraView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraView.h; sourceTree = "<group>"; };
+		28B5B5461D51123C006BEEA8 /* CameraView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraView.m; sourceTree = "<group>"; };
+		28B5B5481D51134F006BEEA8 /* XYView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYView.h; sourceTree = "<group>"; };
+		28B5B5491D51134F006BEEA8 /* XYView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYView.m; sourceTree = "<group>"; };
 		28BA6D501CA5F8BE000E5BAB /* net_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_tvos.c; sourceTree = "<group>"; };
 		28BFE1BC1D50435C0061CFB3 /* QuakeEd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuakeEd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28BFE1BE1D50435C0061CFB3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		28BFE1BF1D50435C0061CFB3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		28BFE1C21D50435C0061CFB3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		28BFE1C41D50435C0061CFB3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		28BFE1C51D50435C0061CFB3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		28BFE1C71D50435C0061CFB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28BFE1CA1D50435C0061CFB3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28BFE1CC1D50435C0061CFB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -824,6 +848,8 @@
 		28BFE1BD1D50435C0061CFB3 /* QuakeEd */ = {
 			isa = PBXGroup;
 			children = (
+				28B5B5451D51123C006BEEA8 /* CameraView.h */,
+				28B5B5461D51123C006BEEA8 /* CameraView.m */,
 				28BFE1FA1D5102BF0061CFB3 /* Clipper.h */,
 				28BFE1FB1D5102BF0061CFB3 /* Clipper.m */,
 				28BFE1D11D5045CF0061CFB3 /* cmdlib.c */,
@@ -836,28 +862,42 @@
 				28BFE1E91D5063600061CFB3 /* Entity.m */,
 				28BFE1E51D5061130061CFB3 /* EntityClass.h */,
 				28BFE1E61D5061130061CFB3 /* EntityClass.m */,
+				281B942D1D5155BF00D46C44 /* InspectorControl.h */,
+				281B942E1D5155BF00D46C44 /* InspectorControl.m */,
+				281B941E1D512C3B00D46C44 /* KeypairView.h */,
+				281B941F1D512C3B00D46C44 /* KeypairView.m */,
 				28BFE1F41D50F43A0061CFB3 /* Map.h */,
 				28BFE1F51D50F43A0061CFB3 /* Map.m */,
 				28BFE1DC1D5054A60061CFB3 /* mathlib.c */,
 				28BFE1DD1D5054A60061CFB3 /* mathlib.h */,
 				28BFE1D41D5047840061CFB3 /* misc.m */,
+				281B942A1D512F0E00D46C44 /* PopScrollView.h */,
+				281B942B1D512F0E00D46C44 /* PopScrollView.m */,
 				28BFE1E21D505DB80061CFB3 /* Preferences.h */,
 				28BFE1E31D505DB80061CFB3 /* Preferences.m */,
 				28BFE1F71D50FD460061CFB3 /* Project.h */,
 				28BFE1F81D50FD460061CFB3 /* Project.m */,
 				28BFE1D01D50447A0061CFB3 /* qedefs.h */,
+				281B94301D5159EE00D46C44 /* QuakeEd.h */,
+				281B94311D5159EE00D46C44 /* QuakeEd.m */,
 				28BFE1D61D504ADF0061CFB3 /* render.h */,
 				28BFE1D71D504ADF0061CFB3 /* render.m */,
 				28BFE1D91D504E3B0061CFB3 /* SetBrush.h */,
 				28BFE1DA1D504E3B0061CFB3 /* SetBrush.m */,
 				28BFE1DF1D5055180061CFB3 /* TexturePalette.h */,
 				28BFE1E01D5055180061CFB3 /* TexturePalette.m */,
+				281B94201D512C3B00D46C44 /* TextureView.h */,
+				281B94211D512C3B00D46C44 /* TextureView.m */,
 				28BFE1EB1D5068000061CFB3 /* Things.h */,
 				28BFE1EC1D5068000061CFB3 /* Things.m */,
+				28B5B5481D51134F006BEEA8 /* XYView.h */,
+				28B5B5491D51134F006BEEA8 /* XYView.m */,
+				281B94271D512DF300D46C44 /* ZScrollView.h */,
+				281B94281D512DF300D46C44 /* ZScrollView.m */,
+				281B94221D512C3B00D46C44 /* ZView.h */,
+				281B94231D512C3B00D46C44 /* ZView.m */,
 				28BFE1BE1D50435C0061CFB3 /* AppDelegate.h */,
 				28BFE1BF1D50435C0061CFB3 /* AppDelegate.m */,
-				28BFE1C41D50435C0061CFB3 /* ViewController.h */,
-				28BFE1C51D50435C0061CFB3 /* ViewController.m */,
 				28BFE1C71D50435C0061CFB3 /* Assets.xcassets */,
 				28BFE1C91D50435C0061CFB3 /* Main.storyboard */,
 				28BFE1CC1D50435C0061CFB3 /* Info.plist */,
@@ -1342,11 +1382,15 @@
 				28BFE1EA1D5063600061CFB3 /* Entity.m in Sources */,
 				28BFE1E11D5055180061CFB3 /* TexturePalette.m in Sources */,
 				28BFE1D51D5047840061CFB3 /* misc.m in Sources */,
+				281B94261D512C3B00D46C44 /* ZView.m in Sources */,
+				281B94321D5159EE00D46C44 /* QuakeEd.m in Sources */,
 				28BFE1D31D5045CF0061CFB3 /* cmdlib.c in Sources */,
-				28BFE1C61D50435C0061CFB3 /* ViewController.m in Sources */,
 				28BFE1F01D50EB060061CFB3 /* Dict.m in Sources */,
+				281B94241D512C3B00D46C44 /* KeypairView.m in Sources */,
+				28B5B5471D51123C006BEEA8 /* CameraView.m in Sources */,
 				28BFE1E41D505DB80061CFB3 /* Preferences.m in Sources */,
 				28BFE1FC1D5102BF0061CFB3 /* Clipper.m in Sources */,
+				281B942F1D5155BF00D46C44 /* InspectorControl.m in Sources */,
 				28BFE1F31D50F2F30061CFB3 /* DictList.m in Sources */,
 				28BFE1DE1D5054A60061CFB3 /* mathlib.c in Sources */,
 				28BFE1D81D504ADF0061CFB3 /* render.m in Sources */,
@@ -1354,9 +1398,13 @@
 				28BFE1E71D5061130061CFB3 /* EntityClass.m in Sources */,
 				28BFE1ED1D5068000061CFB3 /* Things.m in Sources */,
 				28BFE1C01D50435C0061CFB3 /* AppDelegate.m in Sources */,
+				281B942C1D512F0E00D46C44 /* PopScrollView.m in Sources */,
 				28BFE1F61D50F43A0061CFB3 /* Map.m in Sources */,
 				28BFE1F91D50FD460061CFB3 /* Project.m in Sources */,
+				281B94291D512DF300D46C44 /* ZScrollView.m in Sources */,
 				28BFE1DB1D504E3B0061CFB3 /* SetBrush.m in Sources */,
+				281B94251D512C3B00D46C44 /* TextureView.m in Sources */,
+				28B5B54A1D51134F006BEEA8 /* XYView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2031,6 +2079,7 @@
 				28BFE1CE1D50435C0061CFB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		28C3BDCE1C5D77AA00CBB0D9 /* Build configuration list for PBXNativeTarget "Quake_tvOS" */ = {
 			isa = XCConfigurationList;

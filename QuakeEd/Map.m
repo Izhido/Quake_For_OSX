@@ -381,7 +381,7 @@ make a target connection from the original entity.
 	}
 	
 	[oldent setKey:"target" toValue: [ent targetname]];
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 
 	return self;
 }
@@ -447,7 +447,7 @@ to intervening world brushes
 		[self setCurrentEntity: bestent];
 	}
 	
-	///**************************************************************[quakeed_i disableFlushWindow];
+	[quakeed_i disableFlushWindow];
 	if ( ![bestbrush selected] )
 	{
 		if ( [map_i numSelected] == 0)
@@ -465,8 +465,8 @@ to intervening world brushes
 		qprintf ("deselected entity %i brush %i face %i", [list indexOfObject:bestent], [bestent indexOfObject: bestbrush], bestface);
 	}
 
-	///**************************************************************[quakeed_i reenableFlushWindow];
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i enableFlushWindow];
+	[quakeed_i updateAll];
 	
 	return self;
 }
@@ -631,7 +631,7 @@ setTextureRay
 	
 	///**************************************************************[texturepalette_i getTextureDef: &td];
 	
-	///**************************************************************[quakeed_i disableFlushWindow];
+	[quakeed_i disableFlushWindow];
 	if (allsides)
 	{
 		[bestbrush setTexturedef: &td];
@@ -642,9 +642,9 @@ setTextureRay
 		[bestbrush setTexturedef: &td forFace: bestface];
 		qprintf ("deselected entity %i brush %i face %i", [list indexOfObject:bestent], [bestent indexOfObject: bestbrush], bestface);
 	}
-	///**************************************************************[quakeed_i reenableFlushWindow];
+	[quakeed_i enableFlushWindow];
 		
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 	
 	return self;
 }
@@ -781,7 +781,7 @@ void sel_identity (void)
 // do it!
 	[self makeSelectedPerform: @selector(transform)];
 
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 	return self;
 }
 
@@ -907,7 +907,7 @@ UI operations
 		}
 	}
 
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 
 	return self;
 }
@@ -930,7 +930,7 @@ UI operations
 	///**************************************************************	[[o objectAt: i] setSelected: YES];
 	qprintf ("%i brushes selected", c);
 
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 
 	return self;
 }
@@ -940,14 +940,14 @@ UI operations
 	if (currentEntity != [list objectAtIndex: 0])
 	{
 		qprintf ("ERROR: can't makeEntity inside an entity");
-		///**************************************************************NXBeep ();
+		NSBeep ();
 		return self;
 	}
 	
 	if ( [self numSelected] == 0)
 	{
 		qprintf ("ERROR: must have a seed brush to make an entity");
-		///**************************************************************NXBeep ();
+		NSBeep ();
 		return self;
 	}
 	
@@ -964,7 +964,7 @@ UI operations
 	[list addObject: sb_newowner];
 	[self setCurrentEntity: sb_newowner];
 	
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 	
 	return self;
 }
@@ -987,7 +987,7 @@ UI operations
 	[self makeUnselectedPerform: selector];
 	
 	qprintf ("identified contents");
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 	
 	return self;
 }
@@ -1026,7 +1026,7 @@ UI operations
 	b = [[SetBrush alloc] initOwner: [map_i objectAtIndex:0] mins: mins maxs: maxs texture: &td];
 	[[map_i objectAtIndex: 0] addObject: b];
 	///**************************************************************[b setSelected: YES];
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 		
 	return self;
 }
@@ -1054,7 +1054,7 @@ UI operations
 	b = [[SetBrush alloc] initOwner: [map_i objectAtIndex:0] mins: mins maxs: maxs texture: &td];
 	[[map_i objectAtIndex: 0] addObject: b];
 	///**************************************************************[b setSelected: YES];
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 	
 	return self;
 }
@@ -1118,7 +1118,7 @@ subtractSelection
 	}
 
 	qprintf ("subtracted selection");
-	///**************************************************************[quakeed_i updateAll];
+	[quakeed_i updateAll];
 	
 	return self;
 }

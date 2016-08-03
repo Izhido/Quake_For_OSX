@@ -26,7 +26,9 @@ typedef enum {esize_model, esize_fixed} esize_t;
 
 @end
 
-extern	id	entity_classes_i;
+@class EntityClassList;
+
+extern	EntityClassList	*entity_classes_i;
 
 @interface EntityClassList : NSObject
 {
@@ -37,8 +39,10 @@ extern	id	entity_classes_i;
 - initForSourceDirectory: (char *)path;
 - (id)classForName: (char *)name;
 - (void)scanDirectory;
+
 - (id)objectAtIndex:(NSUInteger)index;
 - (NSUInteger)indexOfObject:(id)object;
+- (void)removeAllObjects;
 
 @end
 

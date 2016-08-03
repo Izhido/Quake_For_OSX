@@ -53,7 +53,7 @@ id	things_i;
 	matr = [sender matrixInColumn: 0];
 	lastSelected = [matr selectedRow];
 	[self loadEntityComment:[entity_classes_i objectAtIndex:lastSelected]];
-	///**************************************************************[quakeed_i makeFirstResponder: quakeed_i];
+	[quakeed_i makeFirstResponder: quakeed_i];
 	
 	return self;
 }
@@ -61,7 +61,7 @@ id	things_i;
 - doubleClickEntity: sender
 {
 	[map_i makeEntity: sender];
-	///**************************************************************[quakeed_i makeFirstResponder: quakeed_i];
+	[quakeed_i makeFirstResponder: quakeed_i];
 	return self;
 }
 
@@ -165,7 +165,7 @@ id	things_i;
 	///**************************************************************[keypairview_i calcViewSize];
 	///**************************************************************[keypairview_i display];
 	
-	///**************************************************************[quakeed_i makeFirstResponder: quakeed_i];
+	[quakeed_i makeFirstResponder: quakeed_i];
 	return self;
 }
 
@@ -185,7 +185,7 @@ id	things_i;
 //	[keyInput_i setStringValue: ""];
 //	[valueInput_i setStringValue: ""];
 	
-	///**************************************************************[quakeed_i makeFirstResponder: quakeed_i];
+	[quakeed_i makeFirstResponder: quakeed_i];
 	return self;
 }
 
@@ -250,7 +250,7 @@ id	things_i;
 	
 	[self clearInputs];
 
-	///**************************************************************[quakeed_i updateXY];
+	[quakeed_i updateXY];
 	
 	return self;
 }

@@ -38,7 +38,7 @@ extern	int					tex_count;
 ///**************************************************************typedef struct
 /*{
 	id		image;		// NXImage
-	NXRect	r;
+	NSRect	r;
 	char	*name;
 	int		index;
 	int		display;	// flag (on/off)
