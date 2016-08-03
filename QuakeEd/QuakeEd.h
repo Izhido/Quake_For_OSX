@@ -1,5 +1,6 @@
+@class QuakeEd;
 
-extern	id	quakeed_i;
+extern	QuakeEd	*quakeed_i;
 
 extern	BOOL	filter_light, filter_path, filter_entities;
 extern	BOOL	filter_clip_brushes, filter_water_brushes, filter_world;
@@ -93,6 +94,11 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 //
 - (BOOL)showCoordinates;
 - (BOOL)showNames;
+
+- (BOOL)makeFirstResponder:(id)responder;
+
+- (void)enableFlushWindow;
+- (void)disableFlushWindow;
 
 @end
 

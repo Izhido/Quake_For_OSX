@@ -111,7 +111,7 @@ FILE METHODS
 	if (old != ent)
 	{
 		[things_i newCurrentEntity];	// update inspector
-		///**************************************************************[inspcontrol_i changeInspectorTo:i_things];
+		[inspcontrol_i changeInspectorTo:i_things];
 	}
 	
 	return self;
@@ -179,15 +179,15 @@ FILE METHODS
 - writeStats
 {
 	FILE	*f;
-	///**************************************************************extern	int	c_updateall;
+	extern	int	c_updateall;
 	struct timeval tp;
 	struct timezone tzp;
 
 	gettimeofday(&tp, &tzp);
 	
 	f = fopen (FN_DEVLOG, "a");
-	///**************************************************************fprintf (f,"%i %i\n", (int)tp.tv_sec, c_updateall);
-	///**************************************************************c_updateall = 0;
+	fprintf (f,"%i %i\n", (int)tp.tv_sec, c_updateall);
+	c_updateall = 0;
 	fclose (f);
 	return self;
 }

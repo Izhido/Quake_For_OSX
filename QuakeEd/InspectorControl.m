@@ -6,7 +6,7 @@
 #import	"TexturePalette.h"
 #import	"Preferences.h"
 
-id		inspcontrol_i;
+InspectorControl		*inspcontrol_i;
 
 @implementation InspectorControl
 

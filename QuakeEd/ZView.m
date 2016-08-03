@@ -1,7 +1,7 @@
 
 #import "qedefs.h"
 
-id zview_i;
+ZView *zview_i;
 
 id zscrollview_i, zscalemenu_i, zscalebutton_i;
 
@@ -601,8 +601,8 @@ void ZScrollCallback (float dy)
 	NSPoint		neworg;
 	float		scale;
 	
-	///**************************************************************[ [zview_i superview] getBounds: &basebounds];
-	///**************************************************************[zview_i convertRectFromSuperview: &basebounds];
+	basebounds = [ [zview_i superview] bounds];
+    basebounds = [zview_i convertRect:basebounds fromView:[zview_i superview]];
 
 	neworg.y = basebounds.origin.y - dy;
 	

@@ -1,5 +1,6 @@
+@class Clipper;
 
-extern	id	clipper_i;
+extern	Clipper	*clipper_i;
 
 @interface Clipper : NSObject
 {

@@ -1,7 +1,7 @@
 
 #import "qedefs.h"
 
-id	keypairview_i;
+KeypairView	*keypairview_i;
 
 @implementation KeypairView
 

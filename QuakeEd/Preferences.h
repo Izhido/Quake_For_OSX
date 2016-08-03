@@ -1,5 +1,6 @@
+@class Preferences;
 
-extern	id	preferences_i;
+extern	Preferences	*preferences_i;
 
 extern	float		lightaxis[3];
 

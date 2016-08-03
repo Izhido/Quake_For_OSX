@@ -1,7 +1,9 @@
 
 #import <AppKit/AppKit.h>
 
-extern	id	things_i;
+@class Things;
+
+extern	Things	*things_i;
 
 #define	ENTITYNAMEKEY	"spawn"
 

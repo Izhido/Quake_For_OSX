@@ -3,7 +3,9 @@
 #import "mathlib.h"
 #import "SetBrush.h"
 
-extern	id xyview_i;
+@class XYView;
+
+extern	XYView *xyview_i;
 
 #define	MINSCALE	0.125
 #define	MAXSCALE	2.0

@@ -1,7 +1,7 @@
 
 #import "qedefs.h"
 
-id	quakeed_i;
+QuakeEd	*quakeed_i;
 id	entclasses_i;
 
 id	g_cmd_out_i;
@@ -98,11 +98,8 @@ void CheckCmdDone()
 //============================================================================
 
 @implementation QuakeEd
-{
-    NSTimer *autosave_timer;
-}
 
-- (void)invokeAutoSave
+- (void)invokeAutoSave:(NSTimer*)timer
 {
     AutoSave();
 }
@@ -124,9 +121,12 @@ init
 	quakeed_i = self;
 	dirty = autodirty = NO;
 
-    autosave_timer = [NSTimer timerWithTimeInterval:5*60 target:self selector:@selector(invokeAutoSave) userInfo:nil repeats:YES];
-
+    NSTimer *timer = [NSTimer timerWithTimeInterval:5 target:self selector:@selector(invokeAutoSave:) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    
 	///**************************************************************upath = newUserPath ();
+    
+    [self appDidInit:self];
 }
 
 - setDefaultFilename
@@ -333,34 +333,34 @@ App delegate methods
 
 - appDidInit:sender
 {
-///**************************************************************	NXScreen	const *screens;
-/*	int			screencount;
+	///**************************************************************NXScreen	const *screens;
+	///**************************************************************int			screencount;
 	
 	running = YES;
 	g_cmd_out_i = cmd_out_i;	// for qprintf
 
 	[preferences_i	readDefaults];
-	[project_i		initProject];
+	///**************************************************************[project_i		initProject];
 
 	[xyview_i setModeRadio: xy_drawmode_i];	// because xy view is inside
 											// scrollview and can't be
 											// connected directly in IB
 	
-	[self setFrameAutosaveName:"EditorWinFrame"];
+	///**************************************************************[self setFrameAutosaveName:"EditorWinFrame"];
 	[self clear: self];
 
 // go to my second monitor
-	[NXApp getScreens:&screens count:&screencount];
-	if (screencount == 2)
-		[self moveTopLeftTo:0 : screens[1].screenBounds.size.height
-		screen:screens+1];
+	///**************************************************************[NXApp getScreens:&screens count:&screencount];
+	///**************************************************************if (screencount == 2)
+	///**************************************************************	[self moveTopLeftTo:0 : screens[1].screenBounds.size.height
+	///**************************************************************	screen:screens+1];
 	
-	[self makeKeyAndOrderFront: self];
+	///**************************************************************[self makeKeyAndOrderFront: self];
 
 //[self doOpen: "/raid/quake/id1_/maps/amlev1.map"];	// DEBUG
 	[map_i newMap];
 		
-	qprintf ("ready.");*/
+	qprintf ("ready.");
 
 //malloc_debug(-1);		// DEBUG
 	
@@ -592,7 +592,7 @@ void ExpandCommand (char *in, char *out, char *src, char *dest)
 	*out = 0;
 }
 
-- (void)invokeCheckCmdDone
+- (void)invokeCheckCmdDone:(NSTimer*)timer
 {
     CheckCmdDone();
 }
@@ -680,7 +680,8 @@ saveBSP
 	}
 	else
 	{
-		cmdte = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(invokeCheckCmdDone) userInfo:nil repeats:YES];
+        cmdte = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(invokeCheckCmdDone:) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:cmdte forMode:NSRunLoopCommonModes];
 		if (! (bsppid = fork ()) )
 		{
 			system (expandedcmd);
@@ -1023,5 +1024,20 @@ keyDown
 	}
 }
 
+- (BOOL)makeFirstResponder:(id)responder
+{
+    [[[self view] window] makeFirstResponder:[[responder view] window]];
+    return YES;
+}
+
+- (void)enableFlushWindow
+{
+    [[[self view] window] enableFlushWindow];
+}
+
+- (void)disableFlushWindow
+{
+    [[[self view] window] disableFlushWindow];
+}
 
 @end

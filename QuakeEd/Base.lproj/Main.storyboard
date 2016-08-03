@@ -653,8 +653,7 @@
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="373" y="121" width="1024" height="768"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                     </window>
                     <connections>
@@ -665,18 +664,183 @@
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--View Controller-->
+        <!--Quake Ed-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="QuakeEd" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="CCh-rt-bfA" customClass="CameraView">
+                                <rect key="frame" x="0.0" y="528" width="320" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="240" id="0hx-zz-5UP"/>
+                                    <constraint firstAttribute="width" constant="320" id="pOQ-Af-Hho"/>
+                                </constraints>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="kEa-db-HWt" customClass="XYView">
+                                <rect key="frame" x="0.0" y="0.0" width="636" height="528"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="636" id="RUb-HH-s77"/>
+                                </constraints>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="6RL-bw-aiY" customClass="ZView">
+                                <rect key="frame" x="636" y="0.0" width="83" height="528"/>
+                            </customView>
+                            <containerView translatesAutoresizingMaskIntoConstraints="NO" id="XBf-xu-E5U">
+                                <rect key="frame" x="719" y="0.0" width="305" height="696"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="305" id="139-Wq-m7x"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="iSh-bw-C3h" kind="embed" id="nfy-Vl-3Vw"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="XBf-xu-E5U" secondAttribute="trailing" id="5kV-9o-627"/>
+                            <constraint firstItem="6RL-bw-aiY" firstAttribute="height" secondItem="kEa-db-HWt" secondAttribute="height" id="7F5-xV-vBs"/>
+                            <constraint firstItem="CCh-rt-bfA" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="MKa-X2-bfj"/>
+                            <constraint firstItem="6RL-bw-aiY" firstAttribute="leading" secondItem="kEa-db-HWt" secondAttribute="trailing" id="PFd-og-fli"/>
+                            <constraint firstItem="kEa-db-HWt" firstAttribute="top" secondItem="CCh-rt-bfA" secondAttribute="bottom" id="Quk-A1-tJA"/>
+                            <constraint firstItem="kEa-db-HWt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="TyY-x6-neq"/>
+                            <constraint firstItem="XBf-xu-E5U" firstAttribute="leading" secondItem="6RL-bw-aiY" secondAttribute="trailing" id="alw-I5-Mc1"/>
+                            <constraint firstAttribute="bottom" secondItem="kEa-db-HWt" secondAttribute="bottom" id="aqv-KZ-e28"/>
+                            <constraint firstAttribute="bottom" secondItem="6RL-bw-aiY" secondAttribute="bottom" id="bMx-Y4-qhO"/>
+                            <constraint firstItem="CCh-rt-bfA" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="f8o-Y3-5Uh"/>
+                            <constraint firstAttribute="bottom" secondItem="XBf-xu-E5U" secondAttribute="bottom" id="pbu-nj-xlD"/>
+                            <constraint firstItem="XBf-xu-E5U" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="72" id="u1v-pK-H3B"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="75" y="1244"/>
+        </scene>
+        <!--Tab View Controller-->
+        <scene sceneID="Oy4-Ei-NfT">
+            <objects>
+                <customObject id="JWn-Bz-PiH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <tabViewController selectedTabViewItemIndex="0" id="iSh-bw-C3h" sceneMemberID="viewController">
+                    <tabViewItems>
+                        <tabViewItem identifier="" id="ZFs-Xg-moJ"/>
+                        <tabViewItem identifier="" id="TWd-1w-5gq"/>
+                        <tabViewItem id="Twq-wa-UsF"/>
+                        <tabViewItem id="Vl1-Ha-fJE"/>
+                        <tabViewItem id="KDi-jB-jUN"/>
+                        <tabViewItem id="50h-zt-P33"/>
+                        <tabViewItem id="XB4-h8-alL"/>
+                    </tabViewItems>
+                    <tabView key="tabView" type="noTabsNoBorder" id="wVK-jO-5JX">
+                        <rect key="frame" x="0.0" y="0.0" width="369" height="477"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <font key="font" metaFont="message"/>
+                        <tabViewItems/>
+                    </tabView>
+                    <connections>
+                        <segue destination="Sxv-jT-3kB" kind="relationship" relationship="tabItems" id="2nC-pu-tTM"/>
+                        <segue destination="e1Q-3M-jqu" kind="relationship" relationship="tabItems" id="Eud-41-1H5"/>
+                        <segue destination="Dyu-fF-HvK" kind="relationship" relationship="tabItems" id="xA3-EH-rFZ"/>
+                        <segue destination="k5C-M0-jC5" kind="relationship" relationship="tabItems" id="FYO-Bc-wf9"/>
+                        <segue destination="fJY-eb-lUC" kind="relationship" relationship="tabItems" id="Zva-4n-Msi"/>
+                        <segue destination="K5n-L1-hpi" kind="relationship" relationship="tabItems" id="sKp-gt-zw5"/>
+                        <segue destination="3cV-q3-yAK" kind="relationship" relationship="tabItems" id="GiG-nH-aTh"/>
+                    </connections>
+                </tabViewController>
+            </objects>
+            <point key="canvasLocation" x="947.5" y="1225.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="MPu-eS-Als">
+            <objects>
+                <viewController id="3cV-q3-yAK" sceneMemberID="viewController">
+                    <view key="view" id="gwn-ab-jQV">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="gb6-dz-WDg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1074" y="581"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="HnM-k9-Pbe">
+            <objects>
+                <viewController id="K5n-L1-hpi" sceneMemberID="viewController">
+                    <view key="view" id="O4R-Zj-21l">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="gAu-IS-NUg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1646" y="581"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="t07-fj-mfG">
+            <objects>
+                <customObject id="maw-Pa-Cpo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <viewController id="Sxv-jT-3kB" sceneMemberID="viewController">
+                    <view key="view" id="dgS-ik-jhd">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1964" y="931"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="OSw-Z5-ZsU">
+            <objects>
+                <viewController id="k5C-M0-jC5" sceneMemberID="viewController">
+                    <view key="view" id="VbZ-eH-r4P">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="fUM-vz-G0k" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1964" y="1286"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Ed1-qE-q6P">
+            <objects>
+                <customObject id="VvA-08-ko7" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <viewController id="e1Q-3M-jqu" sceneMemberID="viewController">
+                    <view key="view" id="EOH-BY-ASO">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1964" y="1640"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="4D8-Q6-Jjc">
+            <objects>
+                <viewController id="fJY-eb-lUC" sceneMemberID="viewController">
+                    <view key="view" id="XGT-TQ-gwo">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="ejx-22-HQY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028" y="2060"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="c0h-t6-ox3">
+            <objects>
+                <viewController id="Dyu-fF-HvK" sceneMemberID="viewController">
+                    <view key="view" id="Tub-BH-H3U">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="tEw-ux-ROz" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1614" y="2060"/>
         </scene>
     </scenes>
 </document>

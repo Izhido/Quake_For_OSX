@@ -1,7 +1,7 @@
 
 #import "qedefs.h"
 
-id	things_i;
+Things	*things_i;
 
 @implementation Things
 

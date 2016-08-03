@@ -2,7 +2,9 @@
 #import <AppKit/AppKit.h>
 #import "mathlib.h"
 
-extern	id zview_i;
+@class ZView;
+
+extern	ZView* zview_i;
 
 // zplane controls the objects displayed in the xyview
 extern	float	zplane;

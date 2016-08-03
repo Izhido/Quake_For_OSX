@@ -1,7 +1,7 @@
 
 #import "qedefs.h"
 
-id	preferences_i;
+Preferences	*preferences_i;
 
 #define	DEFOWNER	"QuakeEd2"
 

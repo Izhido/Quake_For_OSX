@@ -7,7 +7,7 @@
 #import "qedefs.h"
 
 
-id	project_i;
+Project	*project_i;
 
 @implementation Project
 

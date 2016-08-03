@@ -1,7 +1,7 @@
 
 #include "qedefs.h"
 
-id	clipper_i;
+Clipper	*clipper_i;
 
 @implementation Clipper
 

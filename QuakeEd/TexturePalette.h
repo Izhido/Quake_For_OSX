@@ -47,7 +47,9 @@ extern	int					tex_count;
 #define	TEX_INDENT	10
 #define	TEX_SPACING	16
 
-extern	id texturepalette_i;
+@class TexturePalette;
+
+extern	TexturePalette *texturepalette_i;
 
 @interface TexturePalette:NSObject
 {

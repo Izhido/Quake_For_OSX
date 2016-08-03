@@ -17,7 +17,9 @@
 #define	SUBDIR_MAPS		"maps"
 #define SUBDIR_GFX		"gfx"
 
-extern	id project_i;
+@class Project;
+
+extern	Project* project_i;
 
 @interface Project:NSObject
 {

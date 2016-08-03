@@ -15,7 +15,9 @@ typedef enum
 	i_end
 } insp_e;
 
-extern	id		inspcontrol_i;
+@class InspectorControl;
+
+extern	InspectorControl		*inspcontrol_i;
 
 @interface InspectorControl:NSObject
 {

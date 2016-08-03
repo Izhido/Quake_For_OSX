@@ -1,6 +1,6 @@
 #import "qedefs.h"
 
-id xyview_i;
+XYView *xyview_i;
 
 id	scalemenu_i, gridmenu_i, scrollview_i, gridbutton_i, scalebutton_i;
 
@@ -927,8 +927,8 @@ void ScrollCallback (float dx, float dy)
 	NSPoint		neworg;
 	float		scale;
 	
-	///**************************************************************[ [xyview_i superview] getBounds: &basebounds];
-	///**************************************************************[xyview_i convertRectFromSuperview: &basebounds];
+    basebounds = [ [xyview_i superview] bounds];
+    basebounds = [xyview_i convertRect:basebounds fromView:[xyview_i superview]];
 
 	neworg.x = basebounds.origin.x - dx;
 	neworg.y = basebounds.origin.y - dy;

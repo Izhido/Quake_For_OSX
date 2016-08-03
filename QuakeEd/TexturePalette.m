@@ -1,7 +1,7 @@
 
 #import "qedefs.h"
 
-id	texturepalette_i;
+TexturePalette	*texturepalette_i;
 
 
 #define	TYP_MIPTEX	67
