@@ -211,7 +211,7 @@ class GameViewController: UIViewController, GVRCardboardViewDelegate
         let yaw_dest = [ glvr_rotation.0 * yaw_origin[0] + glvr_rotation.4 * yaw_origin[1] + glvr_rotation.8 * yaw_origin[2] + glvr_rotation.12 * yaw_origin[3], glvr_rotation.1 * yaw_origin[0] + glvr_rotation.5 * yaw_origin[1] + glvr_rotation.9 * yaw_origin[2] + glvr_rotation.13 * yaw_origin[3], glvr_rotation.2 * yaw_origin[0] + glvr_rotation.6 * yaw_origin[1] + glvr_rotation.10 * yaw_origin[2] + glvr_rotation.14 * yaw_origin[3], glvr_rotation.3 * yaw_origin[0] + glvr_rotation.7 * yaw_origin[1] + glvr_rotation.11 * yaw_origin[2] + glvr_rotation.15 * yaw_origin[3] ]
         
         glvr_viewangles.1 = 180.0 - atan2(yaw_dest[0], yaw_dest[2]) * 180.0 / Float(M_PI) // [YAW] = atan2(.x, .z)
-        
+
         Sys_FrameBeforeRender()
     }
     

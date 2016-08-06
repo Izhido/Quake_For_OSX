@@ -99,8 +99,8 @@ void GL_Bind (int texnum)
 {
 	if (gl_nobind.value)
 		texnum = char_texture;
-	if (currenttexture == texnum)
-		return;
+	//if (currenttexture == texnum)
+	//	return;
 	currenttexture = texnum;
 #ifdef _WIN32
 	bindTexFunc (GL_TEXTURE_2D, texnum);

@@ -304,7 +304,7 @@ void GL_MakeAliasModelDisplayLists (model_t *m, aliashdr_t *hdr)
 	//
 	// look for a cached version
 	//
-	strcpy (cache, "glquake/");
+	/*strcpy (cache, "glquake/");
 	COM_StripExtension (m->name+strlen("progs/"), cache+strlen("glquake/"));
 	strcat (cache, ".ms2");
 
@@ -322,14 +322,14 @@ void GL_MakeAliasModelDisplayLists (model_t *m, aliashdr_t *hdr)
 		//
 		// build it from scratch
 		//
-		Con_Printf ("meshing %s...\n",m->name);
+		Con_Printf ("meshing %s...\n",m->name);*/
 
 		BuildTris ();		// trifans or lists
 
 		//
 		// save out the cached version
 		//
-		sprintf (fullpath, "%s/%s", com_gamedir, cache);
+		/*sprintf (fullpath, "%s/%s", com_gamedir, cache);
 		f = fopen (fullpath, "wb");
 		if (f)
 		{
@@ -339,7 +339,7 @@ void GL_MakeAliasModelDisplayLists (model_t *m, aliashdr_t *hdr)
 			fwrite (&vertexorder, numorder * sizeof(vertexorder[0]), 1, f);
 			fclose (f);
 		}
-	}
+	}*/
 
 
 	// save the data out
