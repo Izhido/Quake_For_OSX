@@ -103,7 +103,7 @@ void qprintf (char *fmt, ...)		// prints text to cmd_out_i
 	vsprintf (string, fmt,argptr);
 	va_end (argptr);
 
-	///**************************************************************[g_cmd_out_i setStringValue: string];
+	[g_cmd_out_i setStringValue: [NSString stringWithCString:string encoding:[NSString defaultCStringEncoding]]];
 	///**************************************************************NXPing ();
 	
 	return;

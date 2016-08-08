@@ -10,7 +10,7 @@
 {
 	self = [super init];
 
-    list = [[NSPointerArray alloc] init];
+    list = [[NSPointerArray alloc] initWithOptions:NSPointerFunctionsOpaqueMemory];
 	
     return self;
 }
@@ -360,7 +360,7 @@ char	item[4096];
 	if (s == NULL)
 		return NULL;
 		
-    stuff = [[NSPointerArray alloc] init];
+    stuff = [[NSPointerArray alloc] initWithOptions:NSPointerFunctionsOpaqueMemory];
 			
 	[self setupMultiple:s];
 	while((s = [self getNextParameter]))

@@ -36,20 +36,23 @@ FILE METHODS
 	id		o, w;
 	
 	[oldselection removeAllObjects];
-	w = [list objectAtIndex: 0];
-	c = [w count];
-	sb_newowner = oldselection;
-	for (i=0 ; i<c ; i++)
-	{
-		o = [w objectAtIndex: 0];
-		if ([o selected])
-			[o moveToEntity];
-		else
-		{
-			[w removeObjectAtIndex: 0];
-		}
-	}
-	
+    sb_newowner = oldselection;
+    if (list.count > 0)
+    {
+        w = [list objectAtIndex: 0];
+        c = [w count];
+        for (i=0 ; i<c ; i++)
+        {
+            o = [w objectAtIndex: 0];
+            if ([o selected])
+                [o moveToEntity];
+            else
+            {
+                [w removeObjectAtIndex: 0];
+            }
+        }
+    }
+    
 	c = [list count];
 	for (i=0 ; i<c ; i++)
 	{

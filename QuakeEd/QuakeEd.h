@@ -23,7 +23,7 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 // UI objects
 	id		brushcount_i;
 	id		entitycount_i;
-	id		regionbutton_i;
+    __weak IBOutlet NSButton *regionbutton_i;
 
 	id		show_coordinates_i;
 	id		show_names_i;
@@ -36,9 +36,21 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 	id		filter_world_i;
 	
 	id		cmd_in_i;		// text fields
-	id		cmd_out_i;	
+    __weak IBOutlet NSTextField *cmd_out_i;
 	
 	id		xy_drawmode_i;	// passed over to xyview after init
+    
+    @public __weak IBOutlet NSView *inspector_i;
+
+    @public __weak IBOutlet NSPopUpButton *inspectorsel_i;
+    
+    @public __weak IBOutlet NSMenuItem *inspectorsel_project_i;
+    @public __weak IBOutlet NSMenuItem *inspectorsel_textures_i;
+    @public __weak IBOutlet NSMenuItem *inspectorsel_things_i;
+    @public __weak IBOutlet NSMenuItem *inspectorsel_prefs_i;
+    @public __weak IBOutlet NSMenuItem *inspectorsel_settings_i;
+    @public __weak IBOutlet NSMenuItem *inspectorsel_output_i;
+    @public __weak IBOutlet NSMenuItem *inspectorsel_help_i;
 }
 
 - setDefaultFilename;
@@ -59,9 +71,9 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 
 - openProject:sender;
 
-- textCommand: sender;
+- (IBAction)textCommand:(NSTextField *)sender;
 
-- applyRegion: sender;
+- (IBAction)applyRegion:(NSButton *)sender;
 
 - (BOOL)dirty;
 
@@ -69,16 +81,18 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 - centerCamera: sender;
 - centerZChecker: sender;
 
-- changeXYLookUp: sender;
+- (IBAction)changeXYLookUp:(NSButton *)sender;
 
-- setBrushRegion: sender;
-- setXYRegion: sender;
+- (IBAction)setBrushRegion:(NSButton *)sender;
+- (IBAction)setXYRegion:(NSButton *)sender;
 
-- open: sender;
-- save: sender;
-- saveAs: sender;
+- (IBAction)inspectorsel_change:(NSPopUpButton *)sender;
 
-- doOpen: (char *)fname;
+- (void)openDocument: (id)sender;
+- (void)saveDocument: (id)sender;
+- (void)saveDocumentAs: (id)sender;
+
+- doOpen: (const char *)fname;
 
 - saveBSP:(char *)cmdline dialog:(BOOL)wt;
 
@@ -99,6 +113,7 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 
 - (void)enableFlushWindow;
 - (void)disableFlushWindow;
+- (void)setTitleAsFilename:(const char*)filename;
 
 @end
 

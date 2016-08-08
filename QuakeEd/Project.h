@@ -81,7 +81,7 @@ extern	Project* project_i;
 - changeChar:(char)f to:(char)t in:(id)obj;
 - (int)searchForString:(char *)str in:(id)obj;
 
-///**************************************************************- parseProjectFile;		// read defaultsdatabase for project path
+- parseProjectFile;		// read defaultsdatabase for project path
 - openProjectFile:(char *)path;	// called by openProject and newProject
 ///**************************************************************- openProject;
 ///**************************************************************- clickedOnMap:sender;		// called if clicked on map in browser

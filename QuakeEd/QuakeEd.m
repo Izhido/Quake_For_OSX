@@ -121,6 +121,15 @@ init
 	quakeed_i = self;
 	dirty = autodirty = NO;
 
+    [[Clipper alloc] init];
+    [[TexturePalette alloc] init];
+    [[Things alloc] init];
+    [[Preferences alloc] init];
+    [[Project alloc] init];
+    [[Map alloc] init];
+    
+    [[[InspectorControl alloc] init] awakeFromNib];
+    
     NSTimer *timer = [NSTimer timerWithTimeInterval:5 target:self selector:@selector(invokeAutoSave:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     
@@ -132,7 +141,7 @@ init
 - setDefaultFilename
 {	
 	strcpy (filename, FN_TEMPSAVE);
-	///**************************************************************[self setTitleAsFilename:filename];
+	[self setTitleAsFilename:filename];
 	
 	return self;
 }
@@ -340,7 +349,7 @@ App delegate methods
 	g_cmd_out_i = cmd_out_i;	// for qprintf
 
 	[preferences_i	readDefaults];
-	///**************************************************************[project_i		initProject];
+	[project_i		initializeProject];
 
 	[xyview_i setModeRadio: xy_drawmode_i];	// because xy view is inside
 											// scrollview and can't be
@@ -376,11 +385,11 @@ App delegate methods
 
 //===========================================================================
 
-- textCommand: sender
+- (IBAction)textCommand:(NSTextField *)sender
 {
-	///**************************************************************char	const *t;
-	/*
-	t = [sender stringValue];
+	char	const *t;
+
+    t = [[sender stringValue] cStringUsingEncoding:[NSString defaultCStringEncoding]];
 	
 	if (!strcmp (t, "texname"))
 	{
@@ -391,15 +400,14 @@ App delegate methods
 		if (!b)
 		{
 			qprintf ("nothing selected");
-			return self;
+			return;
 		}
 		td = [b texturedef];
 		qprintf (td->texture);
-		return self;
+		return;
 	}
 	else
-		qprintf ("Unknown command\n");*/
-	return self;
+		qprintf ("Unknown command\n");
 }
 
 
@@ -452,7 +460,7 @@ App delegate methods
 	return self;
 }
 
-- changeXYLookUp: sender
+- (IBAction)changeXYLookUp:(NSButton *)sender
 {
 	if ([sender intValue])
 	{
@@ -463,7 +471,6 @@ App delegate methods
 		xy_viewnormal[2] = -1;
 	}
 	[self updateAll];
-	return self;
 }
 
 /*
@@ -480,7 +487,7 @@ REGION MODIFICATION
 applyRegion:
 ==================
 */
-- applyRegion: sender
+- (IBAction)applyRegion:(NSButton *)sender
 {
 	filter_clip_brushes = [filter_clip_i intValue];
 	filter_water_brushes = [filter_water_i intValue];
@@ -498,11 +505,9 @@ applyRegion:
 	[map_i makeGlobalPerform: @selector(newRegion)];
 	
 	[self updateAll];
-
-	return self;
 }
 
-- setBrushRegion: sender
+- (IBAction)setBrushRegion:(NSButton *)sender
 {
 	id		b;
 
@@ -511,7 +516,7 @@ applyRegion:
 	if ([map_i numSelected] != 1)
 	{
 		qprintf ("must have a single brush selected");
-		return self;
+		return;
 	} 
 
 	b = [map_i selectedBrush];
@@ -520,12 +525,10 @@ applyRegion:
 
 // turn region on
 	[regionbutton_i setIntValue: 1];
-	[self applyRegion: self];
-	
-	return self;
+	[self applyRegion: regionbutton_i];
 }
 
-- setXYRegion: sender
+- (IBAction)setXYRegion:(NSButton *)sender
 {
 	NSRect	bounds;
 	
@@ -541,9 +544,12 @@ applyRegion:
 	
 // turn region on
 	[regionbutton_i setIntValue: 1];
-	[self applyRegion: self];
-	
-	return self;
+	[self applyRegion: regionbutton_i];
+}
+
+- (IBAction)inspectorsel_change:(NSPopUpButton *)sender
+{
+    [inspcontrol_i changeInspector:sender];
 }
 
 //
@@ -624,7 +630,7 @@ saveBSP
 	oldPathFilter = [filter_path_i intValue];
 	[filter_light_i setIntValue:0];
 	[filter_path_i setIntValue:0];
-	[self applyRegion: self];
+	[self applyRegion: regionbutton_i];
 	
 	if ([regionbutton_i intValue])
 	{
@@ -638,11 +644,11 @@ saveBSP
 		strcpy (mappath, filename);
 		
 // save the entire thing, just in case there is a problem
-	[self save: self];
+	[self saveDocument: self];
 
 	[filter_light_i setIntValue:oldLightFilter];
 	[filter_path_i setIntValue:oldPathFilter];
-	[self applyRegion: self];
+	[self applyRegion: regionbutton_i];
 
 //
 // write the command to the bsp host
@@ -747,14 +753,14 @@ doOpen:
 Called by open or the project panel
 ==============
 */
-- doOpen: (char *)fname;
+- doOpen: (const char *)fname;
 {	
 	strcpy (filename, fname);
 	
 	[map_i readMapFile:filename];
 	
 	[regionbutton_i setIntValue: 0];
-	///**************************************************************[self setTitleAsFilename:fname];
+	[self setTitleAsFilename:fname];
 	[self updateAll];
 
 	qprintf ("%s loaded\n", fname);
@@ -768,22 +774,21 @@ Called by open or the project panel
 open
 ==============
 */
-- open: sender;
+- (void)openDocument: (id)sender
 {
-	///**************************************************************id			openpanel;
-	/*static char	*suffixlist[] = {"map", 0};
+	NSOpenPanel			*openpanel;
 
-	openpanel = [OpenPanel new];
-
-	if ( [openpanel 
-			runModalForDirectory: [project_i getMapDirectory] 
-			file: ""
-			types: suffixlist] != NX_OKTAG)
-		return self;
-
-	[self doOpen: (char *)[openpanel filename]];*/
-	
-	return self;
+	openpanel = [NSOpenPanel openPanel];
+    openpanel.allowedFileTypes = @[ @"map" ];
+    openpanel.directoryURL = [NSURL fileURLWithPath:[NSString stringWithCString:[project_i getMapDirectory] encoding:[NSString defaultCStringEncoding]]];
+    [openpanel beginWithCompletionHandler:^(NSInteger result) {
+        
+        if (result == NSFileHandlingPanelOKButton)
+        {
+            [self doOpen:openpanel.URLs[0].fileSystemRepresentation];
+        }
+        
+    }];
 }
 
 
@@ -792,13 +797,13 @@ open
 save:
 ==============
 */
-- save: sender;
+- (void)saveDocument: (id)sender
 {
 	char		backup[1024];
 
 // force a name change if using tempname
 	if (!strcmp (filename, FN_TEMPSAVE) )
-		return [self saveAs: self];
+		return [self saveDocumentAs: self];
 		
 	dirty = autodirty = NO;
 
@@ -808,8 +813,6 @@ save:
 	rename (filename, backup);		// copy old to .bak
 
 	[map_i writeMapFile: filename useRegion: NO];
-
-	return self;
 }
 
 
@@ -818,24 +821,28 @@ save:
 saveAs
 ==============
 */
-- saveAs: sender;
+- (void)saveDocumentAs: (id)sender
 {
-	///**************************************************************id		panel_i;
-	/*char	dir[1024];
+	NSSavePanel		*panel_i;
+	char	dir[1024];
 	
-	panel_i = [SavePanel new];
+	panel_i = [NSSavePanel savePanel];
 	ExtractFileBase (filename, dir);
-	[panel_i setRequiredFileType: "map"];
-	if ( [panel_i runModalForDirectory:[project_i getMapDirectory] file: dir] != NX_OKTAG)
-		return self;
-	
-	strcpy (filename, [panel_i filename]);
-	
-	[self setTitleAsFilename:filename];
-	
-	[self save: self];	*/
-	
-	return self;
+    panel_i.allowedFileTypes = @[ @"map" ];
+    panel_i.directoryURL = [NSURL fileURLWithPath:[NSString stringWithCString:[project_i getMapDirectory] encoding:[NSString defaultCStringEncoding]]];
+    [panel_i setNameFieldStringValue:[NSString stringWithCString:dir encoding:[NSString defaultCStringEncoding]]];
+    [panel_i beginWithCompletionHandler:^(NSInteger result) {
+        
+        if (result == NSFileHandlingPanelOKButton)
+        {
+            strcpy (filename, [[panel_i URL] fileSystemRepresentation]);
+            
+            [self setTitleAsFilename:filename];
+            
+            [self saveDocument: self];
+        }
+
+    }];
 }
 
 
@@ -1038,6 +1045,11 @@ keyDown
 - (void)disableFlushWindow
 {
     [[[self view] window] disableFlushWindow];
+}
+
+- (void)setTitleAsFilename:(const char*)filenameTitle
+{
+    [[[self view] window] setTitleWithRepresentedFilename:[NSString stringWithCString:filenameTitle encoding:[NSString defaultCStringEncoding]]];
 }
 
 @end

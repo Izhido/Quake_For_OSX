@@ -32,14 +32,16 @@ int _atof (char *c)
 
 void WriteNumericDefault (char *name, float value)
 {
-	char	str[128];
-	
-	sprintf (str,"%f", value);
-	///**************************************************************NXWriteDefault (DEFOWNER, name, str);
+    [[NSUserDefaults standardUserDefaults] setFloat:value forKey:[NSString stringWithCString:name encoding:[NSString defaultCStringEncoding]]];
+
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 void WriteStringDefault (char *name, char *value)
 {
-	///**************************************************************NXWriteDefault (DEFOWNER, name, value);
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:value encoding:[NSString defaultCStringEncoding]] forKey:[NSString stringWithCString:name encoding:[NSString defaultCStringEncoding]]];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 //
@@ -49,30 +51,30 @@ void WriteStringDefault (char *name, char *value)
 {
 	char *string;
 	float	value;
-///**************************************************************
-/*	string = (char *)NXGetDefaultValue(DEFOWNER,"ProjectPath");
+
+    string = (char *)[[[NSUserDefaults standardUserDefaults] stringForKey:@"ProjectPath"] cStringUsingEncoding:[NSString defaultCStringEncoding]];
 	[self setProjectPath: string];
 	
-	string = (char *)NXGetDefaultValue(DEFOWNER,"BspSoundPath");
+	string = (char *)[[[NSUserDefaults standardUserDefaults] stringForKey:@"BspSoundPath"] cStringUsingEncoding:[NSString defaultCStringEncoding]];
 	[self setBspSoundPath:string];
 
-	value = _atoi((char *)NXGetDefaultValue(DEFOWNER,"ShowBSPOutput"));
+	value = [[NSUserDefaults standardUserDefaults] floatForKey:@"ShowBSPOutput"];
 	[self setShowBSP:value];
 
-	value = _atoi((char *)NXGetDefaultValue(DEFOWNER,"OffsetBrushCopy"));
+	value = [[NSUserDefaults standardUserDefaults] floatForKey:@"OffsetBrushCopy"];
 	[self setBrushOffset:value];
 
-	value = _atoi((char *)NXGetDefaultValue(DEFOWNER,"StartWad"));
+	value = [[NSUserDefaults standardUserDefaults] floatForKey:@"StartWad"];
 	[self setStartWad:value];
 
-	value = _atof((char *)NXGetDefaultValue(DEFOWNER,"Xlight"));
+	value = [[NSUserDefaults standardUserDefaults] floatForKey:@"Xlight"];
 	[self setXlight:value];
 
-	value = _atof((char *)NXGetDefaultValue(DEFOWNER,"Ylight"));
+	value = [[NSUserDefaults standardUserDefaults] floatForKey:@"Ylight"];
 	[self setYlight:value];
 
-	value = _atof((char *)NXGetDefaultValue(DEFOWNER,"Zlight"));
-	[self setZlight:value];*/
+	value = [[NSUserDefaults standardUserDefaults] floatForKey:@"Zlight"];
+	[self setZlight:value];
 
 	return self;
 }

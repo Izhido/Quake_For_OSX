@@ -35,6 +35,12 @@ typedef struct epair_s
 - (epair_t *)epairs;
 - removeKeyPair: (char *)key;
 - removeObject:(id)o;
+
+- (NSUInteger)count;
+- (id)objectAtIndex:(NSUInteger)index;
+- (void)removeObjectAtIndex:(NSUInteger)index;
+- (void)removeAllObjects;
+
 @end
 
 

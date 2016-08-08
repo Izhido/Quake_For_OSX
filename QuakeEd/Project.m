@@ -13,7 +13,7 @@ Project	*project_i;
 
 - init
 {
-    self = [self init];
+    self = [super init];
     
 	project_i = self;
 
@@ -161,7 +161,7 @@ Project	*project_i;
 
 - initializeProject
 {
-	///**************************************************************[self parseProjectFile];
+	[self parseProjectFile];
 	if (projectInfo == NULL)
 		return self;
 	[self initializeVars];
@@ -305,26 +305,28 @@ Project	*project_i;
 //
 //	Read in the <name>.QE_Project file
 //
-///**************************************************************- parseProjectFile
-/*{
+- parseProjectFile
+{
 	char	*path;
-	int		rtn;
 	
 	path = [preferences_i getProjectPath];
 	if (!path || !path[0] || access(path,0))
 	{
-		rtn = NXRunAlertPanel("Project Error!",
-			"A default project has not been found.\n"
-			, "Open Project", NULL, NULL);
+        NSAlert* alert = [[NSAlert alloc] init];
+        alert.messageText = @"Project Error!";
+        alert.informativeText = @"A default project has not been found.";
+        [alert addButtonWithTitle:@"Open Project"];
+        [alert runModal];
+        
 		if ([self openProject] == nil)
 			while (1)		// can't run without a project
-				[NXApp terminate: self];
+				[NSApp terminate: self];
 		return self;	
 	}
 
 	[self openProjectFile:path];
 	return self;
-}*/
+}
 
 //
 //	Loads and parses a project file
@@ -358,31 +360,28 @@ Project	*project_i;
 //
 //	Open a project file
 //
-///**************************************************************- openProject
-/*{
+- openProject
+{
 	char	path[128];
-	id		openpanel;
+	NSOpenPanel		*openpanel;
 	int		rtn;
-	char	*projtypes[2] = {"qpr",NULL};
 	char	**filenames;
 	char	*dir;
 	
-	openpanel = [OpenPanel new];
-	[openpanel allowMultipleFiles:NO];
-	[openpanel chooseDirectories:NO];
-	rtn = [openpanel runModalForTypes:projtypes];
-	if (rtn == NX_OKTAG)
-	{
-		 (const char *const *)filenames = [openpanel filenames];
-		 dir = (char *)[openpanel directory];
-		 sprintf(path,"%s/%s",dir,filenames[0]);
-		 strcpy(path_projectinfo,path);
-		 [self openProjectFile:path];
-		 return self;
-	}
-	
-	return nil;
-}*/
+	openpanel = [NSOpenPanel openPanel];
+    openpanel.allowsMultipleSelection = NO;
+    openpanel.canChooseDirectories = NO;
+    openpanel.allowedFileTypes = @[ @"qpr" ];
+    
+    if ([openpanel runModal] == NSModalResponseOK)
+    {
+        [self openProjectFile:openpanel.URLs[0].fileSystemRepresentation];
+    
+        return self;
+    };
+
+    return nil;
+}
 
 
 //

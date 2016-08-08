@@ -21,10 +21,12 @@ extern	InspectorControl		*inspcontrol_i;
 
 @interface InspectorControl:NSObject
 {
-	id	inspectorView_i;	// inspector view
-	id	inspectorSubview_i;	// inspector view's current subview (gets replaced)
+	NSView	*inspectorView_i;	// inspector view
+	NSView	*inspectorSubview_i;	// inspector view's current subview (gets replaced)
 
-	NSMutableArray	*contentList;		// List of contentviews (corresponds to
+    NSViewController *inspectorSubviewController_i;
+
+    NSMutableArray	*contentList;		// List of contentviews (corresponds to
 							// insp_e enum order)
 	NSMutableArray	*windowList;			// List of Windows (corresponds to
 							// insp_e enum order)
@@ -52,17 +54,17 @@ extern	InspectorControl		*inspcontrol_i;
 	id	win_help_i;			// documentation
 	
 	// PopUpList objs
-	id	itemProject_i;		// project
-	id	itemTextures_i;		// textures
-	id	itemThings_i;		// things
-	id	itemPrefs_i;		// preferences
-	id	itemSettings_i;		// project settings
-	id	itemOutput_i;		// bsp output
-	id	itemHelp_i;			// docs
+	NSMenuItem	*itemProject_i;		// project
+	NSMenuItem	*itemTextures_i;		// textures
+	NSMenuItem	*itemThings_i;		// things
+	NSMenuItem	*itemPrefs_i;		// preferences
+	NSMenuItem	*itemSettings_i;		// project settings
+	NSMenuItem	*itemOutput_i;		// bsp output
+	NSMenuItem	*itemHelp_i;			// docs
 }
 
 - awakeFromNib;
-- changeInspector:sender;
+- (void)changeInspector:(NSPopUpButton *)sender;
 - changeInspectorTo:(insp_e)which;
 - (insp_e)getCurrentInspector;
 

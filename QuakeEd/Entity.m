@@ -478,6 +478,25 @@ int	nument;
 	return self;
 }
 
+- (NSUInteger)count
+{
+    return list.count;
+}
+
+- (id)objectAtIndex:(NSUInteger)index
+{
+    return [list objectAtIndex:index];
+}
+
+- (void)removeObjectAtIndex:(NSUInteger)index
+{
+    [list removeObjectAtIndex:index];
+}
+
+- (void)removeAllObjects
+{
+    [list removeAllObjects];
+}
 /*
 ==============================================================================
 

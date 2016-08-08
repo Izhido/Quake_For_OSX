@@ -270,6 +270,13 @@
 		28F875D71CDC55530079A0A1 /* console.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE141C5D6FFD00CEC48E /* console.c */; };
 		28F875D81CDC55680079A0A1 /* cvar.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE181C5D6FFD00CEC48E /* cvar.c */; };
 		28F875D91CDC55940079A0A1 /* gl_draw.c in Sources */ = {isa = PBXBuildFile; fileRef = 288781541CD8406100AF4F24 /* gl_draw.c */; };
+		28FCCD5B1D57A04000B19FF6 /* WinProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FCCD5A1D57A04000B19FF6 /* WinProjectViewController.m */; };
+		28FCCD5F1D57A07000B19FF6 /* WinTexturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FCCD5D1D57A07000B19FF6 /* WinTexturesViewController.m */; };
+		28FCCD631D57A0B600B19FF6 /* WinThingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FCCD621D57A0B600B19FF6 /* WinThingsViewController.m */; };
+		28FCCD661D57A0E900B19FF6 /* WinPrefsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FCCD651D57A0E900B19FF6 /* WinPrefsViewController.m */; };
+		28FCCD691D57A11300B19FF6 /* WinSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FCCD681D57A11300B19FF6 /* WinSettingsViewController.m */; };
+		28FCCD6C1D57A14800B19FF6 /* WinOutputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FCCD6B1D57A14800B19FF6 /* WinOutputViewController.m */; };
+		28FCCD6F1D57A17400B19FF6 /* WinHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FCCD6E1D57A17400B19FF6 /* WinHelpViewController.m */; };
 		6D54BA841C625804004687A6 /* snd_dma.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA821C625804004687A6 /* snd_dma.c */; };
 		6D54BA851C625804004687A6 /* snd_mix.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA831C625804004687A6 /* snd_mix.c */; };
 		6D54BA871C6266E2004687A6 /* snd_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D54BA861C6266E2004687A6 /* snd_mem.c */; };
@@ -538,6 +545,20 @@
 		28E6411E1D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_intensitypolygon1textureprogram.fsh; sourceTree = "<group>"; };
 		28E6411F1D16F7B200FF3D8F /* gl_intensitypolygon1textureprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_intensitypolygon1textureprogram.vsh; sourceTree = "<group>"; };
 		28EF2F8B1D31733C007DF509 /* GameDataDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameDataDetection.swift; sourceTree = "<group>"; };
+		28FCCD591D57A04000B19FF6 /* WinProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinProjectViewController.h; sourceTree = "<group>"; };
+		28FCCD5A1D57A04000B19FF6 /* WinProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WinProjectViewController.m; sourceTree = "<group>"; };
+		28FCCD5C1D57A07000B19FF6 /* WinTexturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinTexturesViewController.h; sourceTree = "<group>"; };
+		28FCCD5D1D57A07000B19FF6 /* WinTexturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WinTexturesViewController.m; sourceTree = "<group>"; };
+		28FCCD611D57A0B600B19FF6 /* WinThingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinThingsViewController.h; sourceTree = "<group>"; };
+		28FCCD621D57A0B600B19FF6 /* WinThingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WinThingsViewController.m; sourceTree = "<group>"; };
+		28FCCD641D57A0E900B19FF6 /* WinPrefsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinPrefsViewController.h; sourceTree = "<group>"; };
+		28FCCD651D57A0E900B19FF6 /* WinPrefsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WinPrefsViewController.m; sourceTree = "<group>"; };
+		28FCCD671D57A11300B19FF6 /* WinSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinSettingsViewController.h; sourceTree = "<group>"; };
+		28FCCD681D57A11300B19FF6 /* WinSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WinSettingsViewController.m; sourceTree = "<group>"; };
+		28FCCD6A1D57A14800B19FF6 /* WinOutputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinOutputViewController.h; sourceTree = "<group>"; };
+		28FCCD6B1D57A14800B19FF6 /* WinOutputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WinOutputViewController.m; sourceTree = "<group>"; };
+		28FCCD6D1D57A17400B19FF6 /* WinHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinHelpViewController.h; sourceTree = "<group>"; };
+		28FCCD6E1D57A17400B19FF6 /* WinHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WinHelpViewController.m; sourceTree = "<group>"; };
 		2DBF88B71C19774C9AB0731A /* Pods-Quake_iOS_VR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.release.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.release.xcconfig"; sourceTree = "<group>"; };
 		6D54BA821C625804004687A6 /* snd_dma.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_dma.c; sourceTree = "<group>"; };
 		6D54BA831C625804004687A6 /* snd_mix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snd_mix.c; sourceTree = "<group>"; };
@@ -898,6 +919,20 @@
 				281B94231D512C3B00D46C44 /* ZView.m */,
 				28BFE1BE1D50435C0061CFB3 /* AppDelegate.h */,
 				28BFE1BF1D50435C0061CFB3 /* AppDelegate.m */,
+				28FCCD591D57A04000B19FF6 /* WinProjectViewController.h */,
+				28FCCD5A1D57A04000B19FF6 /* WinProjectViewController.m */,
+				28FCCD5C1D57A07000B19FF6 /* WinTexturesViewController.h */,
+				28FCCD5D1D57A07000B19FF6 /* WinTexturesViewController.m */,
+				28FCCD611D57A0B600B19FF6 /* WinThingsViewController.h */,
+				28FCCD621D57A0B600B19FF6 /* WinThingsViewController.m */,
+				28FCCD641D57A0E900B19FF6 /* WinPrefsViewController.h */,
+				28FCCD651D57A0E900B19FF6 /* WinPrefsViewController.m */,
+				28FCCD671D57A11300B19FF6 /* WinSettingsViewController.h */,
+				28FCCD681D57A11300B19FF6 /* WinSettingsViewController.m */,
+				28FCCD6A1D57A14800B19FF6 /* WinOutputViewController.h */,
+				28FCCD6B1D57A14800B19FF6 /* WinOutputViewController.m */,
+				28FCCD6D1D57A17400B19FF6 /* WinHelpViewController.h */,
+				28FCCD6E1D57A17400B19FF6 /* WinHelpViewController.m */,
 				28BFE1C71D50435C0061CFB3 /* Assets.xcassets */,
 				28BFE1C91D50435C0061CFB3 /* Main.storyboard */,
 				28BFE1CC1D50435C0061CFB3 /* Info.plist */,
@@ -1388,23 +1423,30 @@
 				28BFE1F01D50EB060061CFB3 /* Dict.m in Sources */,
 				281B94241D512C3B00D46C44 /* KeypairView.m in Sources */,
 				28B5B5471D51123C006BEEA8 /* CameraView.m in Sources */,
+				28FCCD5B1D57A04000B19FF6 /* WinProjectViewController.m in Sources */,
 				28BFE1E41D505DB80061CFB3 /* Preferences.m in Sources */,
 				28BFE1FC1D5102BF0061CFB3 /* Clipper.m in Sources */,
+				28FCCD631D57A0B600B19FF6 /* WinThingsViewController.m in Sources */,
 				281B942F1D5155BF00D46C44 /* InspectorControl.m in Sources */,
 				28BFE1F31D50F2F30061CFB3 /* DictList.m in Sources */,
 				28BFE1DE1D5054A60061CFB3 /* mathlib.c in Sources */,
 				28BFE1D81D504ADF0061CFB3 /* render.m in Sources */,
 				28BFE1C31D50435C0061CFB3 /* main.m in Sources */,
+				28FCCD6C1D57A14800B19FF6 /* WinOutputViewController.m in Sources */,
 				28BFE1E71D5061130061CFB3 /* EntityClass.m in Sources */,
+				28FCCD6F1D57A17400B19FF6 /* WinHelpViewController.m in Sources */,
 				28BFE1ED1D5068000061CFB3 /* Things.m in Sources */,
 				28BFE1C01D50435C0061CFB3 /* AppDelegate.m in Sources */,
 				281B942C1D512F0E00D46C44 /* PopScrollView.m in Sources */,
 				28BFE1F61D50F43A0061CFB3 /* Map.m in Sources */,
 				28BFE1F91D50FD460061CFB3 /* Project.m in Sources */,
+				28FCCD5F1D57A07000B19FF6 /* WinTexturesViewController.m in Sources */,
 				281B94291D512DF300D46C44 /* ZScrollView.m in Sources */,
+				28FCCD661D57A0E900B19FF6 /* WinPrefsViewController.m in Sources */,
 				28BFE1DB1D504E3B0061CFB3 /* SetBrush.m in Sources */,
 				281B94251D512C3B00D46C44 /* TextureView.m in Sources */,
 				28B5B54A1D51134F006BEEA8 /* XYView.m in Sources */,
+				28FCCD691D57A11300B19FF6 /* WinSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
