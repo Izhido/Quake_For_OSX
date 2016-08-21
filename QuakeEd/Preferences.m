@@ -9,11 +9,11 @@ float		lightaxis[3] = {1, 0.6, 0.75};
 
 @implementation Preferences
 
-- init
+- (void)viewDidLoad
 {
-	self = [super init];
-	preferences_i = self;
-	return self;
+    [super viewDidLoad];
+
+    preferences_i = self;
 }
 
 int _atoi (char *c)
@@ -85,14 +85,14 @@ void WriteStringDefault (char *name, char *value)
 	if (!path)
 		path = "";
 	strcpy (projectpath, path);
-	///**************************************************************[startproject_i setStringValue: path];
+	[startproject_i setStringValue: [NSString stringWithCString:path encoding:[NSString defaultCStringEncoding]]];
 	WriteStringDefault ("ProjectPath", path);
 	return self;
 }
 
 - setCurrentProject:sender
 {
-	///**************************************************************[startproject_i setStringValue: [project_i currentProjectFile]];
+	[startproject_i setStringValue: [NSString stringWithCString:[project_i currentProjectFile] encoding:[NSString defaultCStringEncoding]]];
 	[self UIChanged: self];
 	return self;
 }
@@ -313,8 +313,9 @@ Grab all the current UI state
 {
 	qprintf ("defaults updated");
 	
-	///**************************************************************[self setProjectPath: (char *)[startproject_i stringValue]];
-	///**************************************************************[self setBspSoundPath: (char *)[bspSoundField_i stringValue]];
+	[self setProjectPath:
+     (char*)[[startproject_i stringValue] cStringUsingEncoding:[NSString defaultCStringEncoding]]];
+	[self setBspSoundPath: (char *)[[bspSoundField_i stringValue] cStringUsingEncoding:[NSString defaultCStringEncoding]]];
 	[self setShowBSP: [showBSP_i intValue]];
 	[self setBrushOffset: [brushOffset_i intValue]];
 	[self setStartWad: [startwad_i selectedRow]];

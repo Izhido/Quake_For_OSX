@@ -21,7 +21,7 @@
 
 extern	Project* project_i;
 
-@interface Project:NSObject
+@interface Project:NSViewController
 {
 	id	projectInfo;		// dictionary storage of project info
 

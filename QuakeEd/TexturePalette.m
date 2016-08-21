@@ -257,12 +257,10 @@ TEX_NumForName
 
 @implementation TexturePalette
 
-- init
+- (void)viewDidLoad
 {
-	self = [super init];
 	texturepalette_i = self;
 	selectedTexture = -1;
-	return self;
 }
 
 - display

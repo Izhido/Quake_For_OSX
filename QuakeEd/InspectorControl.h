@@ -19,7 +19,7 @@ typedef enum
 
 extern	InspectorControl		*inspcontrol_i;
 
-@interface InspectorControl:NSObject
+@interface InspectorControl:NSView
 {
 	NSView	*inspectorView_i;	// inspector view
 	NSView	*inspectorSubview_i;	// inspector view's current subview (gets replaced)

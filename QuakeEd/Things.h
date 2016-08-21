@@ -7,10 +7,10 @@ extern	Things	*things_i;
 
 #define	ENTITYNAMEKEY	"spawn"
 
-@interface Things:NSObject
+@interface Things:NSViewController
 {
-	id	entity_browser_i;	// browser
-	id	entity_comment_i;	// scrolling text window
+    __weak IBOutlet NSBrowser *entity_browser_i;	// browser
+    __unsafe_unretained IBOutlet NSTextView *entity_comment_i; // scrolling text window
 	
 	id	prog_path_i;
 	
@@ -18,7 +18,7 @@ extern	Things	*things_i;
 
 	id	keyInput_i;
 	id	valueInput_i;
-	id	flags_i;
+	NSArray<NSButton*>	*flags_i;
 }
 
 - initEntities;

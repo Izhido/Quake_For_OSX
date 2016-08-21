@@ -4,24 +4,52 @@
 Things	*things_i;
 
 @implementation Things
-
-- init
 {
-	self = [super init];
+    __weak IBOutlet NSButton *flags_00_i;
+    __weak IBOutlet NSButton *flags_10_i;
+    __weak IBOutlet NSButton *flags_20_i;
+    __weak IBOutlet NSButton *flags_30_i;
+    __weak IBOutlet NSButton *flags_01_i;
+    __weak IBOutlet NSButton *flags_11_i;
+    __weak IBOutlet NSButton *flags_21_i;
+    __weak IBOutlet NSButton *flags_31_i;
+    __weak IBOutlet NSButton *flags_02_i;
+    __weak IBOutlet NSButton *flags_12_i;
+    __weak IBOutlet NSButton *flags_22_i;
+    __weak IBOutlet NSButton *flags_32_i;
+}
+
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
 
 	things_i = self;
 	lastSelected = 0;
-	
-	return self;
+
+    NSMutableArray<NSButton*> *list = [[NSMutableArray<NSButton*> alloc] init];
+    
+    [list addObject:flags_00_i];
+    [list addObject:flags_10_i];
+    [list addObject:flags_20_i];
+    [list addObject:flags_30_i];
+    [list addObject:flags_01_i];
+    [list addObject:flags_11_i];
+    [list addObject:flags_21_i];
+    [list addObject:flags_31_i];
+    [list addObject:flags_02_i];
+    [list addObject:flags_12_i];
+    [list addObject:flags_22_i];
+    [list addObject:flags_32_i];
+    
+    flags_i = list;
 }
 
 //
 //	Load the TEXT object with the entity comment
 //
-- loadEntityComment:(id)obj
+- loadEntityComment:(EntityClass*)obj
 {
-	[entity_comment_i selectAll:self];
-	///**************************************************************[entity_comment_i replaceSel:[obj comments]];
+    [entity_comment_i.textStorage setAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithCString:[obj comments] encoding:[NSString defaultCStringEncoding]]]];
 
 	return self;
 }
@@ -31,15 +59,15 @@ Things	*things_i;
 {	
 	char	*path;
 
-	///**************************************************************path = [project_i getProgDirectory];
+	path = [project_i getProgDirectory];
 
-	///**************************************************************[prog_path_i setStringValue: path];
+    [prog_path_i setStringValue: [NSString stringWithCString:path encoding:[NSString defaultCStringEncoding]]];
 	
 	[[EntityClassList alloc] initForSourceDirectory: path];
 
-	///**************************************************************[self loadEntityComment:[entity_classes_i objectAt:lastSelected]];
+	///**************************************************************[self loadEntityComment:[entity_classes_i objectAtIndex:lastSelected]];
 	[entity_browser_i loadColumnZero];
-	///**************************************************************[[entity_browser_i matrixInColumn:0] selectCellAt:lastSelected :0];
+	[[entity_browser_i matrixInColumn:0] selectCellAtRow:lastSelected column:0];
 
 	[entity_browser_i setDoubleAction: @selector(doubleClickEntity:)];
 	
@@ -79,12 +107,12 @@ Things	*things_i;
 	EntityClass *ent;
 	char	*path;
 	
-	///**************************************************************path = (char *)[prog_path_i stringValue];
-	/*if (!path || !path[0])
+	path = (char *)[[prog_path_i stringValue] cStringUsingEncoding:[NSString defaultCStringEncoding]];
+	if (!path || !path[0])
 	{
 		path = [project_i getProgDirectory];
-		[prog_path_i setStringValue: path];
-	}*/
+        [prog_path_i setStringValue: [NSString stringWithCString:path encoding:[NSString defaultCStringEncoding]]];
+	}
 	
 	//	Free all entity info in memory...
 	[entity_classes_i removeAllObjects];
@@ -97,7 +125,7 @@ Things	*things_i;
 	[self loadEntityComment:[entity_classes_i objectAtIndex:lastSelected]];
 
 	[entity_browser_i loadColumnZero];
-	///**************************************************************[[entity_browser_i matrixInColumn:0] selectCellAt:lastSelected :0];
+	[[entity_browser_i matrixInColumn:0] selectCellAtRow:lastSelected column:0];
 
 	[self newCurrentEntity];	// in case flags changed
 	
@@ -118,8 +146,8 @@ Things	*things_i;
 		lastSelected = 0;
 		
 	[self loadEntityComment:classent];
-	///**************************************************************[[entity_browser_i matrixInColumn:0] selectCellAt:lastSelected :0];
-	///**************************************************************[[entity_browser_i matrixInColumn:0] scrollCellToVisible:lastSelected :0];
+	[[entity_browser_i matrixInColumn:0] selectCellAtRow:lastSelected column:0];
+	[[entity_browser_i matrixInColumn:0] scrollCellToVisibleAtRow:lastSelected column:0];
 
 	return self;
 }
@@ -144,20 +172,20 @@ Things	*things_i;
 	else
 		flags = atoi(flagname);
 	
-	[flags_i setAutodisplay: NO];
+	///**************************************************************[flags_i setAutodisplay: NO];
 	for (r=0 ; r<4 ; r++)
 		for (c=0 ; c<3 ; c++)
 		{
-			///**************************************************************cell = [flags_i cellAt: r : c];
+			cell = [flags_i objectAtIndex:c*4 + r];
 			if (c < 2)
 			{
 				flagname = [classent flagName: c*4 + r];
-				///**************************************************************[cell setTitle: flagname];
+                [cell setTitle: [NSString stringWithCString:flagname encoding:[NSString defaultCStringEncoding]]];
 			}
-			[cell setIntValue: (flags & (1<< ((c*4)+r)) ) > 0];
+			[cell setState: (flags & (1<< ((c*4)+r)) ) > 0];
 		}
-	[flags_i setAutodisplay: YES];
-	[flags_i display];
+	///**************************************************************[flags_i setAutodisplay: YES];
+	///**************************************************************[flags_i display];
 	
 //	[keyInput_i setStringValue: ""];
 //	[valueInput_i setStringValue: ""];
@@ -174,8 +202,8 @@ Things	*things_i;
 //
 - setSelectedKey:(epair_t *)ep;
 {
-	///**************************************************************[keyInput_i setStringValue:ep->key];
-	///**************************************************************[valueInput_i setStringValue:ep->value];
+    [keyInput_i setStringValue:[NSString stringWithCString:ep->key encoding:[NSString defaultCStringEncoding]]];
+	[valueInput_i setStringValue:[NSString stringWithCString:ep->value encoding:[NSString defaultCStringEncoding]]];
 	[valueInput_i	selectText:self];
 	return self;
 }
@@ -244,8 +272,8 @@ Things	*things_i;
 	else
 		strcpy (value, title);
 	
-	///**************************************************************[keyInput_i setStringValue:"angle"];
-	///**************************************************************[valueInput_i setStringValue:value];
+	[keyInput_i setStringValue:@"angle"];
+    [valueInput_i setStringValue:[NSString stringWithCString:value encoding:[NSString defaultCStringEncoding]]];
 	///**************************************************************[self addPair:NULL];
 	
 	[self clearInputs];

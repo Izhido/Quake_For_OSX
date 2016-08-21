@@ -51,7 +51,7 @@ extern	int					tex_count;
 
 extern	TexturePalette *texturepalette_i;
 
-@interface TexturePalette:NSObject
+@interface TexturePalette:NSViewController
 {
 	char	currentwad[1024];
 	id	textureList_i;

@@ -122,19 +122,16 @@ init
 	dirty = autodirty = NO;
 
     [[Clipper alloc] init];
-    [[TexturePalette alloc] init];
-    [[Things alloc] init];
-    [[Preferences alloc] init];
-    [[Project alloc] init];
     [[Map alloc] init];
-    
-    [[[InspectorControl alloc] init] awakeFromNib];
     
     NSTimer *timer = [NSTimer timerWithTimeInterval:5 target:self selector:@selector(invokeAutoSave:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     
 	///**************************************************************upath = newUserPath ();
-    
+}
+
+- (void)viewWillAppear
+{
     [self appDidInit:self];
 }
 

@@ -11,13 +11,9 @@ Project	*project_i;
 
 @implementation Project
 
-- init
+- (void)viewDidLoad
 {
-    self = [super init];
-    
 	project_i = self;
-
-	return self;
 }
 
 //===========================================================
@@ -42,7 +38,7 @@ Project	*project_i;
 	strcpy(path_finalmapdir,s);
 	strcat(path_finalmapdir,"/"SUBDIR_MAPS);	// dest dir
 	
-	///**************************************************************[basepathinfo_i	setStringValue:s];		// in Project Inspector
+	[basepathinfo_i	setStringValue:[NSString stringWithCString:s encoding:[NSString defaultCStringEncoding]]];		// in Project Inspector
 	
 	#if 0
 	if ((s = [projectInfo getStringFor:BASEPATHKEY]))
