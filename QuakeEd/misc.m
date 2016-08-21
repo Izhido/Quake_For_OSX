@@ -131,10 +131,18 @@ void Error (char *error, ...)
 	vsprintf (string,error,argptr);
 	va_end (argptr);
 
-	strcat (string, "\nmap saved to "FN_CRASHSAVE);
+    char path[4096];
+    strcpy (path, [quakeed_i workDirectory]);
+    strcat (path, FN_CRASHSAVE);
 
-	[map_i writeMapFile: FN_CRASHSAVE useRegion: NO];
-	///**************************************************************NXRunAlertPanel ("Error",string,NULL,NULL,NULL);
+    strcat (string, "\nmap saved to ");
+    strcat (string, path);
+
+	[map_i writeMapFile: path useRegion: NO];
+    NSAlert* alert = [[NSAlert alloc] init];
+    alert.messageText = @"Error";
+    alert.informativeText = [NSString stringWithCString:string encoding:[NSString defaultCStringEncoding]];
+    [alert runModal];
 		
 	[NSApp terminate: NULL];
 }

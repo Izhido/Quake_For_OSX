@@ -188,7 +188,11 @@ FILE METHODS
 
 	gettimeofday(&tp, &tzp);
 	
-	f = fopen (FN_DEVLOG, "a");
+    char path[4096];
+    strcpy (path, [quakeed_i workDirectory]);
+    strcat (path, FN_DEVLOG);
+    
+	f = fopen (path, "a");
 	fprintf (f,"%i %i\n", (int)tp.tv_sec, c_updateall);
 	c_updateall = 0;
 	fclose (f);

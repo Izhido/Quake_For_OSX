@@ -115,5 +115,7 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 - (void)disableFlushWindow;
 - (void)setTitleAsFilename:(const char*)filename;
 
+- (char*)workDirectory;
+
 @end
 

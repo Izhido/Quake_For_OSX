@@ -14,6 +14,8 @@ BOOL	running;
 
 int bsppid;
 
+char workdirectory[4096];
+
 #if 0
 // example command strings
 
@@ -51,7 +53,12 @@ void AutoSave()
 	if (autodirty)
 	{
 		autodirty = NO;
-		[map_i writeMapFile: FN_AUTOSAVE useRegion: NO];
+        
+        char path[4096];
+        strcpy (path, [quakeed_i workDirectory]);
+        strcat (path, FN_AUTOSAVE);
+		
+        [map_i writeMapFile: path useRegion: NO];
 	}
 	[map_i writeStats];
 }
@@ -61,8 +68,12 @@ void DisplayCmdOutput (void)
 {
 	char	*buffer;
 
-	LoadFile (FN_CMDOUT, (void **)&buffer);
-	unlink (FN_CMDOUT);
+    char path[4096];
+    strcpy (path, [quakeed_i workDirectory]);
+    strcat (path, FN_CMDOUT);
+    
+	LoadFile (path, (void **)&buffer);
+	unlink (path);
 	[project_i addToOutput:buffer];
 	free (buffer);
 
@@ -113,7 +124,20 @@ init
 {
     [super viewDidLoad];
 
-	///**************************************************************[self addToEventMask:
+    workdirectory[0] = 0;
+
+    char path[4096];
+    strcpy(path, [self workDirectory]);
+    strcat(path, "/tmp");
+
+    [[NSFileManager defaultManager] createDirectoryAtPath:[NSString stringWithCString:path encoding:[NSString defaultCStringEncoding]] withIntermediateDirectories:YES attributes:nil error:nil];
+
+    strcpy(path, [self workDirectory]);
+    strcat(path, "/qcache");
+	
+    [[NSFileManager defaultManager] createDirectoryAtPath:[NSString stringWithCString:path encoding:[NSString defaultCStringEncoding]] withIntermediateDirectories:YES attributes:nil error:nil];
+
+    ///**************************************************************[self addToEventMask:
 	///**************************************************************	NX_RMOUSEDRAGGEDMASK|NX_LMOUSEDRAGGEDMASK];
 	
     ///**************************************************************malloc_error(My_Malloc_Error);
@@ -137,7 +161,11 @@ init
 
 - setDefaultFilename
 {	
-	strcpy (filename, FN_TEMPSAVE);
+    char path[4096];
+    strcpy (path, [quakeed_i workDirectory]);
+    strcat (path, FN_TEMPSAVE);
+
+    strcpy (filename, path);
 	[self setTitleAsFilename:filename];
 	
 	return self;
@@ -660,7 +688,8 @@ saveBSP
 	ExpandCommand (cmdline, expandedcmd, mappath, bsppath);
 
 	strcat (expandedcmd, " > ");
-	strcat (expandedcmd, FN_CMDOUT);
+    strcpy (expandedcmd, [quakeed_i workDirectory]);
+    strcat (expandedcmd, FN_CMDOUT);
 	strcat (expandedcmd, "\n");
 	printf ("system: %s", expandedcmd);
 
@@ -799,7 +828,12 @@ save:
 	char		backup[1024];
 
 // force a name change if using tempname
-	if (!strcmp (filename, FN_TEMPSAVE) )
+    
+    char path[4096];
+    strcpy(path, [quakeed_i workDirectory]);
+    strcat(path, FN_TEMPSAVE);
+
+    if (!strcmp (filename, path) )
 		return [self saveDocumentAs: self];
 		
 	dirty = autodirty = NO;
@@ -1047,6 +1081,18 @@ keyDown
 - (void)setTitleAsFilename:(const char*)filenameTitle
 {
     [[[self view] window] setTitleWithRepresentedFilename:[NSString stringWithCString:filenameTitle encoding:[NSString defaultCStringEncoding]]];
+}
+
+- (char*)workDirectory
+{
+    if (strlen(workdirectory) == 0)
+    {
+        NSString *path;
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        path = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"QuakeEd"];
+        strcpy(workdirectory, [path cStringUsingEncoding:[NSString defaultCStringEncoding]]);
+    }
+    return workdirectory;
 }
 
 @end
