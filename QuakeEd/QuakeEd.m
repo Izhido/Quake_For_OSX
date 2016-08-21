@@ -438,7 +438,7 @@ App delegate methods
 
 - openProject:sender
 {
-	///**************************************************************[project_i	openProject];
+	[project_i	openProject];
 	return self;
 }
 

@@ -83,7 +83,7 @@ extern	Project* project_i;
 
 - parseProjectFile;		// read defaultsdatabase for project path
 - openProjectFile:(char *)path;	// called by openProject and newProject
-///**************************************************************- openProject;
+- openProject;
 ///**************************************************************- clickedOnMap:sender;		// called if clicked on map in browser
 ///**************************************************************- clickedOnWad:sender;		// called if clicked on wad in browser
 

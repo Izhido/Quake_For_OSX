@@ -423,7 +423,7 @@ char	item[4096];
 		pair->value = malloc(strlen(string)+1);
 		strcpy(pair->value,string);
 		
-		[list addPointer:&pair];
+		[list addPointer:pair];
 		c = FindBrace(fp);
 	}
 	

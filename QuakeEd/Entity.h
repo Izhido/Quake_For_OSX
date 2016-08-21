@@ -40,6 +40,7 @@ typedef struct epair_s
 - (id)objectAtIndex:(NSUInteger)index;
 - (void)removeObjectAtIndex:(NSUInteger)index;
 - (void)removeAllObjects;
+- (void)addObject:(id)object;
 
 @end
 

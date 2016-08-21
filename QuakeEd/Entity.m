@@ -497,6 +497,12 @@ int	nument;
 {
     [list removeAllObjects];
 }
+
+- (void)addObject:(id)object
+{
+    [list addObject:object];
+}
+
 /*
 ==============================================================================
 

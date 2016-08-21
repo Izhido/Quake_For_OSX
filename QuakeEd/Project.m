@@ -371,7 +371,9 @@ Project	*project_i;
     
     if ([openpanel runModal] == NSModalResponseOK)
     {
-        [self openProjectFile:openpanel.URLs[0].fileSystemRepresentation];
+        char* path = (char*)openpanel.URLs[0].fileSystemRepresentation;
+        strcpy(path_projectinfo,path);
+        [self openProjectFile:path];
     
         return self;
     };
