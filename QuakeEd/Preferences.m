@@ -90,11 +90,10 @@ void WriteStringDefault (char *name, char *value)
 	return self;
 }
 
-- setCurrentProject:sender
+- (IBAction)setCurrentProject:(NSButton *)sender
 {
 	[startproject_i setStringValue: [NSString stringWithCString:[project_i currentProjectFile] encoding:[NSString defaultCStringEncoding]]];
 	[self UIChanged: self];
-	return self;
 }
 
 - (char *)getProjectPath
@@ -110,7 +109,7 @@ void WriteStringDefault (char *name, char *value)
 //
 //	Set the BSP sound using an OpenPanel
 //
-- setBspSound:sender
+- (IBAction)setBspSound:(NSButton *)sender
 {
 	id	panel;
 	char	*types[]={"snd",NULL};
@@ -138,7 +137,6 @@ void WriteStringDefault (char *name, char *value)
 		[self playBspSound];
 	}
 */
-	return self;
 }
 
 
@@ -309,6 +307,36 @@ UIChanged
 Grab all the current UI state
 ============
 */
+- (IBAction)startproject_changed:(NSTextField *)sender
+{
+    [self UIChanged:sender];
+}
+
+- (IBAction)bspSoundField_changed:(NSTextField *)sender
+{
+    [self UIChanged:sender];
+}
+
+- (IBAction)showBSP_changed:(NSButton *)sender
+{
+    [self UIChanged:sender];
+}
+
+- (IBAction)xlight_i_changed:(NSTextField *)sender
+{
+    [self UIChanged:sender];
+}
+
+- (IBAction)ylight_i_changed:(NSTextField *)sender
+{
+    [self UIChanged:sender];
+}
+
+- (IBAction)zlight_i_changed:(NSTextField *)sender
+{
+    [self UIChanged:sender];
+}
+
 -UIChanged: sender
 {
 	qprintf ("defaults updated");

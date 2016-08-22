@@ -112,12 +112,12 @@ Project	*project_i;
 //
 - initializeProjSettings
 {
-	///**************************************************************[pis_basepath_i	setStringValue:path_basepath];
-	///**************************************************************[pis_fullvis_i	setStringValue:string_fullvis];
-	///**************************************************************[pis_fastvis_i	setStringValue:string_fastvis];
-	///**************************************************************[pis_novis_i	setStringValue:string_novis];
-	///**************************************************************[pis_relight_i	setStringValue:string_relight];
-	///**************************************************************[pis_leaktest_i	setStringValue:string_leaktest];
+    [pis_basepath_i	setStringValue:[NSString stringWithCString:path_basepath encoding:[NSString defaultCStringEncoding]]];
+	[pis_fullvis_i	setStringValue:[NSString stringWithCString:string_fullvis encoding:[NSString defaultCStringEncoding]]];
+	[pis_fastvis_i	setStringValue:[NSString stringWithCString:string_fastvis encoding:[NSString defaultCStringEncoding]]];
+	[pis_novis_i	setStringValue:[NSString stringWithCString:string_novis encoding:[NSString defaultCStringEncoding]]];
+	[pis_relight_i	setStringValue:[NSString stringWithCString:string_relight encoding:[NSString defaultCStringEncoding]]];
+	[pis_leaktest_i	setStringValue:[NSString stringWithCString:string_leaktest encoding:[NSString defaultCStringEncoding]]];
 	
 	return self;
 }

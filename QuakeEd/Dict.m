@@ -320,7 +320,7 @@ JDC
 //
 //===============================================
 char	*searchStr;
-char	item[4096];
+///**************************************************************char	item[4096];
 
 - setupMultiple:(char *)value
 {
@@ -334,8 +334,9 @@ char	item[4096];
 	
 	if (!searchStr)
 		return NULL;
-	strcpy(item,searchStr);
-	s = FindWhitespcInBuffer(item);	
+    char* result = malloc(strlen(searchStr) + 1);
+    strcpy(result, searchStr);
+    s = FindWhitespcInBuffer(result);
 	if (!*s)
 		searchStr = NULL;
 	else
@@ -343,7 +344,7 @@ char	item[4096];
 		*s = 0;
 		searchStr = FindNonwhitespcInBuffer(s+1);
 	}
-	return item;
+    return result;
 }
 
 //
@@ -368,6 +369,7 @@ char	item[4096];
 		string = malloc(ITEMSIZE);
         strcpy(string, s);
 		[stuff addPointer:string];
+        free(s);
 	}
 	
 	return stuff;

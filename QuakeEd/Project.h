@@ -34,13 +34,13 @@ extern	Project* project_i;
 	
 	id	pis_panel_i;		// outlet to Project Info Settings (PIS) panel
 
-	id	pis_basepath_i;		// outlet to PIS->base path
+    __weak IBOutlet NSTextField *pis_basepath_i;		// outlet to PIS->base path
 	id	pis_wads_i;			// outlet to PIS->wad browser	
-	id	pis_fullvis_i;		// outlet to PIS->full vis command
-	id	pis_fastvis_i;		// outlet to PIS->fast vis command
-	id	pis_novis_i;		// outlet to PIS->no vis command
-	id	pis_relight_i;		// outlet to PIS->relight command
-	id	pis_leaktest_i;		// outlet to PIS->leak test command
+    __weak IBOutlet NSTextField *pis_fullvis_i;		// outlet to PIS->full vis command
+    __weak IBOutlet NSTextField *pis_fastvis_i;		// outlet to PIS->fast vis command
+    __weak IBOutlet NSTextField *pis_novis_i;		// outlet to PIS->no vis command
+    __weak IBOutlet NSTextField *pis_relight_i;		// outlet to PIS->relight command
+    __weak IBOutlet NSTextField *pis_leaktest_i;		// outlet to PIS->leak test command
 
 	id	BSPoutput_i;		// outlet to Text
 	

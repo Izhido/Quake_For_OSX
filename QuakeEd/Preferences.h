@@ -25,18 +25,18 @@ extern	float		lightaxis[3];
 	int		startwad;			// 0 - 2
 	
 // UI targets
-	id	startproject_i;			// TextField	
+    __weak IBOutlet NSTextField *startproject_i;			// TextField
 
-	id	bspSoundField_i;		// TextField of bspSound	
+    __weak IBOutlet NSTextField *bspSoundField_i;		// TextField of bspSound
 
 	id	brushOffset_i;			// Brush Offset checkbox
-	id	showBSP_i;				// Show BSP Output checkbox
+    __weak IBOutlet NSButton *showBSP_i;				// Show BSP Output checkbox
 	
 	id	startwad_i;				// which wad to load at startup
 
-	id	xlight_i;				// X-side lighting
-	id	ylight_i;				// Y-side lighting
-	id	zlight_i;				// Z-side lighting	
+    __weak IBOutlet NSTextField *xlight_i;				// X-side lighting
+    __weak IBOutlet NSTextField *ylight_i;				// Y-side lighting
+    __weak IBOutlet NSTextField *zlight_i;				// Z-side lighting
 }
 
 - readDefaults;
@@ -56,8 +56,14 @@ extern	float		lightaxis[3];
 //
 // UI targets
 //
-- setBspSound:sender;			// use OpenPanel to select sound
-- setCurrentProject:sender;		// make current roject the default
+- (IBAction)setBspSound:(NSButton *)sender;			// use OpenPanel to select sound
+- (IBAction)setCurrentProject:(NSButton *)sender;		// make current roject the default
+- (IBAction)startproject_changed:(NSTextField *)sender;
+- (IBAction)bspSoundField_changed:(NSTextField *)sender;
+- (IBAction)showBSP_changed:(NSButton *)sender;
+- (IBAction)xlight_i_changed:(NSTextField *)sender;
+- (IBAction)ylight_i_changed:(NSTextField *)sender;
+- (IBAction)zlight_i_changed:(NSTextField *)sender;
 - UIChanged: sender;			// target for all checks and fields
 
 //

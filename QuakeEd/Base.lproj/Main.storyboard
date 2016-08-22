@@ -984,7 +984,6 @@
                                 </textFieldCell>
                                 <connections>
                                     <action selector="textCommand:" target="XfG-lQ-9wD" id="nNb-hM-cJF"/>
-                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="self.cmd_in_i" id="G44-ev-VpW"/>
                                 </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="979-gh-wgZ">
@@ -1255,12 +1254,17 @@
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
-                                <connections>
-                                    <binding destination="I15-A8-xHH" name="value" keyPath="self.basepathinfo_i" id="eX0-jy-QFB"/>
-                                </connections>
                             </textField>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="pis_basepath_i" destination="aGQ-hF-gsD" id="aEn-Ae-7Xy"/>
+                        <outlet property="pis_fastvis_i" destination="hb9-Bg-PfF" id="GYY-zk-lkH"/>
+                        <outlet property="pis_fullvis_i" destination="6Gi-RY-923" id="9vN-Vt-piO"/>
+                        <outlet property="pis_leaktest_i" destination="wnR-zy-dJV" id="wuG-43-q0O"/>
+                        <outlet property="pis_novis_i" destination="krI-df-anF" id="9xv-kh-xa3"/>
+                        <outlet property="pis_relight_i" destination="E3c-Ze-JHR" id="te3-1k-Egg"/>
+                    </connections>
                 </viewController>
                 <customObject id="GXJ-hy-hBf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1289,10 +1293,6 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
-                                <connections>
-                                    <action selector="textCommand:" target="XfG-lQ-9wD" id="guW-P4-i5L"/>
-                                    <binding destination="HxJ-Xh-cnm" name="value" keyPath="self.searchField_i" id="uF6-jG-deX"/>
-                                </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JOt-n8-xf9">
                                 <rect key="frame" x="168" y="669" width="51" height="17"/>
@@ -1604,10 +1604,6 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
-                                <connections>
-                                    <action selector="textCommand:" target="XfG-lQ-9wD" id="ODS-jc-wHW"/>
-                                    <binding destination="qAV-D7-FXr" name="value" keyPath="self.prog_path_i" id="Pin-Om-6C5"/>
-                                </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Fg-ZB-DiW">
                                 <rect key="frame" x="20" y="334" width="265" height="17"/>
@@ -1949,10 +1945,6 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
-                                <connections>
-                                    <action selector="textCommand:" target="XfG-lQ-9wD" id="7YJ-Gm-oYN"/>
-                                    <binding destination="qAV-D7-FXr" name="value" keyPath="self.keyInput_i" id="6LS-PG-Deg"/>
-                                </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P0E-14-Wdq">
                                 <rect key="frame" x="65" y="5" width="220" height="37"/>
@@ -1961,9 +1953,6 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
-                                <connections>
-                                    <binding destination="qAV-D7-FXr" name="value" keyPath="self.valueInput_i" id="tF6-6B-byq"/>
-                                </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ocf-e6-qNF">
                                 <rect key="frame" x="18" y="15" width="41" height="17"/>
@@ -2037,6 +2026,9 @@
                         <outlet property="flags_30_i" destination="yMy-9A-KTr" id="1nF-oc-Csh"/>
                         <outlet property="flags_31_i" destination="1gR-QQ-G4m" id="hEm-mS-cEJ"/>
                         <outlet property="flags_32_i" destination="XVS-Wy-asz" id="Sv2-7T-FRk"/>
+                        <outlet property="keyInput_i" destination="nbF-Qn-9vZ" id="ruw-aq-aDc"/>
+                        <outlet property="prog_path_i" destination="UYz-O5-LOU" id="L3N-bU-ZMg"/>
+                        <outlet property="valueInput_i" destination="P0E-14-Wdq" id="CKc-90-kzt"/>
                     </connections>
                 </viewController>
                 <customObject id="Goz-1H-WnS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -2083,8 +2075,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
-                                    <action selector="textCommand:" target="XfG-lQ-9wD" id="k2q-24-JbY"/>
-                                    <binding destination="oHS-2R-FGz" name="value" keyPath="self.startproject_i" id="z0M-QZ-w6V"/>
+                                    <action selector="startproject_changed:" target="oHS-2R-FGz" id="4aa-lb-oqy"/>
                                 </connections>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nHe-JT-DZq">
@@ -2094,7 +2085,7 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="setXYRegion:" target="XfG-lQ-9wD" id="byc-RX-Ofy"/>
+                                    <action selector="setCurrentProject:" target="oHS-2R-FGz" id="4wZ-9J-NSI"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uPU-qb-itI">
@@ -2113,8 +2104,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
-                                    <action selector="textCommand:" target="XfG-lQ-9wD" id="7Wb-GV-7rC"/>
-                                    <binding destination="oHS-2R-FGz" name="value" keyPath="self.bspSoundField_i" id="EJa-gU-21r"/>
+                                    <action selector="bspSoundField_changed:" target="oHS-2R-FGz" id="B7U-Tm-iPe"/>
                                 </connections>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lqq-QS-rLb">
@@ -2124,7 +2114,7 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="setXYRegion:" target="XfG-lQ-9wD" id="a3p-Cf-pC8"/>
+                                    <action selector="setBspSound:" target="oHS-2R-FGz" id="4P1-Hx-NeD"/>
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zsP-Fj-YZy">
@@ -2134,6 +2124,7 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                                 <connections>
+                                    <action selector="showBSP_changed:" target="oHS-2R-FGz" id="ft4-hF-Q5y"/>
                                     <binding destination="XfG-lQ-9wD" name="value" keyPath="self.filter_clip_i" id="zzB-Wq-fb0"/>
                                 </connections>
                             </button>
@@ -2153,8 +2144,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
-                                    <action selector="textCommand:" target="XfG-lQ-9wD" id="z4X-Fv-IWf"/>
-                                    <binding destination="oHS-2R-FGz" name="value" keyPath="self.xlight_i" id="pzr-ii-inn"/>
+                                    <action selector="xlight_i_changed:" target="oHS-2R-FGz" id="Yv3-D0-xGY"/>
                                 </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PbY-s4-o3d">
@@ -2165,8 +2155,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
-                                    <action selector="textCommand:" target="XfG-lQ-9wD" id="TqY-WD-AlR"/>
-                                    <binding destination="oHS-2R-FGz" name="value" keyPath="self.ylight_i" id="HYZ-Yx-16a"/>
+                                    <action selector="ylight_i_changed:" target="oHS-2R-FGz" id="erb-yE-O97"/>
                                 </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VF0-bN-XH2">
@@ -2177,8 +2166,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
-                                    <action selector="textCommand:" target="XfG-lQ-9wD" id="T0k-iM-JZH"/>
-                                    <binding destination="oHS-2R-FGz" name="value" keyPath="self.zlight_i" id="Sdh-sG-T01"/>
+                                    <action selector="zlight_i_changed:" target="oHS-2R-FGz" id="ka4-eE-O4Q"/>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fnm-1U-FqF">
@@ -2191,6 +2179,14 @@
                             </textField>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="bspSoundField_i" destination="5iz-rc-no8" id="bhJ-vX-tlY"/>
+                        <outlet property="showBSP_i" destination="zsP-Fj-YZy" id="L3v-bp-oUR"/>
+                        <outlet property="startproject_i" destination="GhH-ny-qFN" id="o4Z-ec-XFd"/>
+                        <outlet property="xlight_i" destination="vdU-ha-Qhh" id="C4Y-Zd-utX"/>
+                        <outlet property="ylight_i" destination="PbY-s4-o3d" id="mrO-Bd-AaC"/>
+                        <outlet property="zlight_i" destination="VF0-bN-XH2" id="Yhe-qj-Uee"/>
+                    </connections>
                 </viewController>
                 <customObject id="Xb7-00-Q7g" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2237,7 +2233,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView ambiguous="YES" editable="NO" importsGraphics="NO" baseWritingDirection="leftToRight" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="aB2-Wi-jHS">
-                                            <rect key="frame" x="0.0" y="0.0" width="263" height="3013"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="263" height="2207"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="minSize" width="263" height="654"/>

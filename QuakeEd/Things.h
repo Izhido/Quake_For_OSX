@@ -12,12 +12,12 @@ extern	Things	*things_i;
     __weak IBOutlet NSBrowser *entity_browser_i;	// browser
     __unsafe_unretained IBOutlet NSTextView *entity_comment_i; // scrolling text window
 	
-	id	prog_path_i;
+    __weak IBOutlet NSTextField *prog_path_i;
 	
 	int	lastSelected;	// last row selected in browser
 
-	id	keyInput_i;
-	id	valueInput_i;
+    __weak IBOutlet NSTextField *keyInput_i;
+    __weak IBOutlet NSTextField *valueInput_i;
 	NSArray<NSButton*>	*flags_i;
 }
 
