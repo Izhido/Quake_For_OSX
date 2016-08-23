@@ -21,21 +21,21 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 	char	filename[1024];		// full path with .map extension
 
 // UI objects
-	id		brushcount_i;
-	id		entitycount_i;
+    __weak IBOutlet NSTextField *brushcount_i;
+    __weak IBOutlet NSTextField *entitycount_i;
     __weak IBOutlet NSButton *regionbutton_i;
 
-	id		show_coordinates_i;
-	id		show_names_i;
+    __weak IBOutlet NSButton *show_coordinates_i;
+    __weak IBOutlet NSButton *show_names_i;
 
-	id		filter_light_i;
-	id		filter_path_i;
-	id		filter_entities_i;
-	id		filter_clip_i;
-	id		filter_water_i;
-	id		filter_world_i;
+    __weak IBOutlet NSButton *filter_light_i;
+    __weak IBOutlet NSButton *filter_path_i;
+    __weak IBOutlet NSButton *filter_entities_i;
+    __weak IBOutlet NSButton *filter_clip_i;
+    __weak IBOutlet NSButton *filter_water_i;
+    __weak IBOutlet NSButton *filter_world_i;
 	
-	id		cmd_in_i;		// text fields
+    __weak IBOutlet NSTextField *cmd_in_i;		// text fields
     __weak IBOutlet NSTextField *cmd_out_i;
 	
 	id		xy_drawmode_i;	// passed over to xyview after init
@@ -69,7 +69,7 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 - appDidInit:sender;
 - appWillTerminate:sender;
 
-- openProject:sender;
+- (IBAction)openProject:sender;
 
 - (IBAction)textCommand:(NSTextField *)sender;
 
@@ -77,7 +77,7 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 
 - (BOOL)dirty;
 
-- clear: sender;
+- (IBAction)clear: sender;
 - centerCamera: sender;
 - centerZChecker: sender;
 
@@ -88,20 +88,20 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 
 - (IBAction)inspectorsel_change:(NSPopUpButton *)sender;
 
-- (void)openDocument: (id)sender;
-- (void)saveDocument: (id)sender;
-- (void)saveDocumentAs: (id)sender;
+- open: sender;
+- save: sender;
+- (IBAction)saveAs: sender;
 
 - doOpen: (const char *)fname;
 
 - saveBSP:(char *)cmdline dialog:(BOOL)wt;
 
-- BSP_Full: sender;
-- BSP_FastVis: sender;
-- BSP_NoVis: sender;
-- BSP_relight: sender;
-- BSP_stop: sender;
-- BSP_entities: sender;
+- (IBAction)BSP_Full: sender;
+- (IBAction)BSP_FastVis: sender;
+- (IBAction)BSP_NoVis: sender;
+- (IBAction)BSP_relight: sender;
+- (IBAction)BSP_stop: sender;
+- (IBAction)BSP_entities: sender;
 
 //
 // UI querie for other objects

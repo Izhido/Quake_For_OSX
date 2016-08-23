@@ -26,7 +26,7 @@ typedef struct
 
 // cached rep
 	plane_t			plane;
-	///**************************************************************qtexture_t		*qtexture;
+	qtexture_t		*qtexture;
 	float			light;		// 0 - 1.0
 	winding_t		*w;
 } face_t;

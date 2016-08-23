@@ -436,22 +436,19 @@ App delegate methods
 }
 
 
-- openProject:sender
+- (IBAction)openProject:sender
 {
 	[project_i	openProject];
-	return self;
 }
 
 
-- clear: sender
+- (IBAction)clear: sender
 {	
 	[map_i newMap];
 
 	[self updateAll];
 	[regionbutton_i setIntValue: 0];
 	[self setDefaultFilename];
-
-	return self;
 }
 
 
@@ -669,7 +666,7 @@ saveBSP
 		strcpy (mappath, filename);
 		
 // save the entire thing, just in case there is a problem
-	[self saveDocument: self];
+	[self save: self];
 
 	[filter_light_i setIntValue:oldLightFilter];
 	[filter_path_i setIntValue:oldPathFilter];
@@ -725,49 +722,42 @@ saveBSP
 }
 
 
-- BSP_Full: sender
+- (IBAction)BSP_Full: sender
 {
 	[self saveBSP:[project_i getFullVisCmd] dialog: NO];
-	return self;
 }
 
-- BSP_FastVis: sender
+- (IBAction)BSP_FastVis: sender
 {
 	[self saveBSP:[project_i getFastVisCmd] dialog: NO];
-	return self;
 }
 
-- BSP_NoVis: sender
+- (IBAction)BSP_NoVis: sender
 {
 	[self saveBSP:[project_i getNoVisCmd] dialog: NO];
-	return self;
 }
 
-- BSP_relight: sender
+- (IBAction)BSP_relight: sender
 {
 	[self saveBSP:[project_i getRelightCmd] dialog: NO];
-	return self;
 }
 
-- BSP_entities: sender
+- (IBAction)BSP_entities: sender
 {
 	[self saveBSP:[project_i getEntitiesCmd] dialog: NO];
-	return self;
 }
 
-- BSP_stop: sender
+- (IBAction)BSP_stop: sender
 {
 	if (!bsppid)
 	{
 		NSBeep();
-		return self;
+		return;
 	}
 	
 	kill (bsppid, 9);
 	CheckCmdDone ();
 	[project_i addToOutput: "\n\n========= STOPPED =========\n\n"];
-	
-	return self;
 }
 
 
@@ -800,7 +790,7 @@ Called by open or the project panel
 open
 ==============
 */
-- (void)openDocument: (id)sender
+- open: sender;
 {
 	NSOpenPanel			*openpanel;
 
@@ -815,6 +805,8 @@ open
         }
         
     }];
+    
+    return self;
 }
 
 
@@ -823,7 +815,7 @@ open
 save:
 ==============
 */
-- (void)saveDocument: (id)sender
+- save: sender;
 {
 	char		backup[1024];
 
@@ -834,7 +826,7 @@ save:
     strcat(path, FN_TEMPSAVE);
 
     if (!strcmp (filename, path) )
-		return [self saveDocumentAs: self];
+		[self saveAs: self];
 		
 	dirty = autodirty = NO;
 
@@ -844,6 +836,8 @@ save:
 	rename (filename, backup);		// copy old to .bak
 
 	[map_i writeMapFile: filename useRegion: NO];
+
+    return self;
 }
 
 
@@ -852,7 +846,7 @@ save:
 saveAs
 ==============
 */
-- (void)saveDocumentAs: (id)sender
+- (IBAction)saveAs: sender;
 {
 	NSSavePanel		*panel_i;
 	char	dir[1024];
@@ -870,7 +864,7 @@ saveAs
             
             [self setTitleAsFilename:filename];
             
-            [self saveDocument: self];
+            [self save: self];
         }
 
     }];

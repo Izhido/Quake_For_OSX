@@ -1874,15 +1874,15 @@ vec3_t	sel_org;
 }
 
 
-///**************************************************************- takeCurrentTexture
-/*{
+- takeCurrentTexture
+{
 	texturedef_t	td;
 	
 	[texturepalette_i getTextureDef: &td];
 	[self setTexturedef: &td];
 	
 	return self;
-}*/
+}
 
 
 float	sb_floor_dir, sb_floor_dist;

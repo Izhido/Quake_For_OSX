@@ -219,7 +219,7 @@ JDC
 //
 //	Convert List to string
 //
-- (char *)convertListToString:(id)list
+- (char *)convertListToString:(id)sourceList
 {
 	int		i;
 	int		max;
@@ -227,11 +227,11 @@ JDC
 	char	*s;
 	char	*newstr;
 	
-	max = [list count];
+	max = [sourceList count];
 	tempstr[0] = 0;
 	for (i = 0;i < max;i++)
 	{
-		s = [list pointerAtIndex:i];
+		s = [sourceList pointerAtIndex:i];
 		strcat(tempstr,s);
 		strcat(tempstr,"  ");
 	}
@@ -320,7 +320,6 @@ JDC
 //
 //===============================================
 char	*searchStr;
-///**************************************************************char	item[4096];
 
 - setupMultiple:(char *)value
 {

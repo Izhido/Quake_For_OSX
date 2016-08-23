@@ -7,7 +7,7 @@ TexturePalette	*texturepalette_i;
 #define	TYP_MIPTEX	67
 
 int					tex_count;
-///**************************************************************qtexture_t 			qtextures[MAX_TEXTURES];
+qtexture_t 			qtextures[MAX_TEXTURES];
 
 typedef struct
 {
@@ -55,7 +55,7 @@ unsigned badtex_d[] =
 0xffff,0xffff,0xffff,0xffff,0xffff,0xffff,0xffff,0xffff
 };
 
-///**************************************************************qtexture_t	badtex = {"notexture",16,16,NULL, badtex_d, {0,0,255,255}};
+qtexture_t	badtex = {"notexture",16,16,NULL, badtex_d, {0,0,255,255}};
 
 /*
 ==============
@@ -87,9 +87,9 @@ void TEX_InitPalette (byte *pal)
 TEX_ImageFromMiptex
 =================
 */
-///**************************************************************void TEX_ImageFromMiptex (miptex_t *qtex)
-/*{
-	NXBitmapImageRep	*bm;
+void TEX_ImageFromMiptex (miptex_t *qtex)
+{
+	NSBitmapImageRep	*bm;
 	byte		*source;
 	unsigned	*dest;
 	int			width, height, i, count;
@@ -99,19 +99,19 @@ TEX_ImageFromMiptex
 	width = LittleLong(qtex->width);
 	height = LittleLong(qtex->height);
 
-	bm = [[NXBitmapImageRep alloc]	
-			initData:		NULL 
+	bm = [[NSBitmapImageRep alloc]
+			initWithBitmapDataPlanes:		NULL
 			pixelsWide:		width 
 			pixelsHigh:		height 
 			bitsPerSample:	8 
 			samplesPerPixel:3 
 			hasAlpha:		NO
 			isPlanar:		NO 
-			colorSpace:		NX_RGBColorSpace 
+			colorSpaceName:		NSDeviceRGBColorSpace
 			bytesPerRow:	width*4 
 			bitsPerPixel:	32];
 	
-	dest = (unsigned *)[bm data];
+	dest = (unsigned *)[bm bitmapData];
 	count = width*height;
 	source = (byte *)qtex + LittleLong(qtex->offsets[0]);
 	
@@ -120,7 +120,7 @@ TEX_ImageFromMiptex
 	
 	q->width = width;
 	q->height = height;
-	q->rep = bm;
+	q->rep = (__bridge id)CFBridgingRetain(bm);
 	q->data = dest;
 
 	tr = tg = tb = 0;
@@ -137,7 +137,7 @@ TEX_ImageFromMiptex
 	q->flatcolor.chan[1] = tg / count;
 	q->flatcolor.chan[2] = tb / count;
 	q->flatcolor.chan[3] = 0xff;	
-}*/
+}
 
 //=============================================================================
 
@@ -165,8 +165,8 @@ typedef struct
 TEX_InitFromWad
 =================
 */
-///**************************************************************void	TEX_InitFromWad (char *path)
-/*{
+void	TEX_InitFromWad (char *path)
+{
 	int			i;
 	char		local[1024];
 	char		newpath[1024];
@@ -184,7 +184,7 @@ TEX_InitFromWad
 	
 // free any textures
 	for (i=0 ; i<tex_count ; i++)
-		[qtextures[i].rep free];
+		CFRelease((__bridge void *)qtextures[i].rep);
 	tex_count = 0;
 
 // try and use the cached wadfile	
@@ -227,15 +227,15 @@ TEX_InitFromWad
 	stop = I_FloatTime ();
 	
 	qprintf ("loaded %s (%5.1f)", local, stop - start);
-}*/
+}
 
 /*
 =================
 TEX_NumForName
 =================
 */
-///**************************************************************qtexture_t *TEX_ForName (char *name)
-/*{
+qtexture_t *TEX_ForName (char *name)
+{
 	char	newname[16];
 	int		i;
 	qtexture_t	*q;
@@ -249,7 +249,7 @@ TEX_NumForName
 	}
 	
 	return &badtex;
-}*/
+}
 
 
 
@@ -275,10 +275,10 @@ TEX_NumForName
 	return currentwad;
 }
 
-///**************************************************************- initPaletteFromWadfile:(char *)wf
-/*{
+- initPaletteFromWadfile:(char *)wf
+{
 	int			i;
-	texpal_t	t;
+	texpal_t	*t;
 	qtexture_t	*q;
 	
 	strcpy (currentwad, wf);
@@ -290,36 +290,41 @@ TEX_NumForName
 	
 	// Create STORAGE
 	if (textureList_i)
-		[textureList_i empty];
-	else
-		textureList_i = [[Storage alloc]
-			initCount:0
-			elementSize:sizeof(texpal_t)
-			description:NULL];
+    {
+        for (i = 0; i < textureList_i.count; i++)
+        {
+            t = [textureList_i pointerAtIndex:i];
+            
+            free(t);
+        }
+    }
+    textureList_i = [[NSPointerArray alloc] initWithOptions:NSPointerFunctionsOpaqueMemory];
 				
 	// Init STORAGE
 	
 	for (i = 0,q=qtextures;i < tex_count; i++,q++)
 	{
-		t.image = q->rep;
-		t.r.size.width = [t.image pixelsWide];
-		if (t.r.size.width < 64)
-			t.r.size.width = 64;
-		t.r.size.height = [t.image pixelsHigh] + TEX_SPACING;
-		t.name = q->name;
-		t.index = i;
-		t.display = 1;
-		[textureList_i	addElement:&t];
+        t = malloc(sizeof(qtexture_t));
+        
+		t->image = q->rep;
+		t->r.size.width = [t->image pixelsWide];
+		if (t->r.size.width < 64)
+			t->r.size.width = 64;
+		t->r.size.height = [t->image pixelsHigh] + TEX_SPACING;
+		t->name = q->name;
+		t->index = i;
+		t->display = 1;
+		[textureList_i	addPointer:t];
 	}
 
 	// Calculate size of TextureView
 	[self alphabetize];
-	[self computeTextureViewSize];
+	///**************************************************************[self computeTextureViewSize];
 	[textureView_i setParent:self];
-	[self setSelectedTexture:0];
+	///**************************************************************[self setSelectedTexture:0];
 
 	return self;
-}*/
+}
 
 
 
@@ -330,14 +335,14 @@ TEX_NumForName
 }
 
 //	Alphabetize texture list - reverse order!
-///**************************************************************- alphabetize
-/*{
+- alphabetize
+{
 	int		i;
 	int		max;
 	texpal_t	*t1p;
 	texpal_t	*t2p;
-	texpal_t	t1;
-	texpal_t	t2;
+	texpal_t	*t1;
+	texpal_t	*t2;
 	int		found;
 	
 	max = [textureList_i count];
@@ -347,14 +352,14 @@ TEX_NumForName
 		found = 0;
 		for (i = 0;i < max-1;i++)
 		{
-			t1p = [textureList_i elementAt:i];
-			t2p = [textureList_i elementAt:i+1];
+			t1p = [textureList_i pointerAtIndex:i];
+			t2p = [textureList_i pointerAtIndex:i+1];
 			if (strcmp(t1p->name,t2p->name) < 0)
 			{
-				t1 = *t1p;
-				t2 = *t2p;
-				[textureList_i replaceElementAt:i with:&t2];
-				[textureList_i replaceElementAt:i+1 with:&t1];
+				t1 = t1p;
+				t2 = t2p;
+				[textureList_i replacePointerAtIndex:i withPointer:t2];
+				[textureList_i replacePointerAtIndex:i+1 withPointer:t1];
 				found = 1;
 			}
 		}
@@ -369,7 +374,7 @@ TEX_NumForName
 	int		x;
 	texpal_t *t;
 	int		y;
-	id		view;
+	NSView		*view;
 	NSRect	b;
 	int		maxwidth;
 	int		maxheight;
@@ -381,12 +386,12 @@ TEX_NumForName
 	x = TEX_INDENT;
 
 	view = [textureView_i superview];
-	[view getBounds:&b];
+    b = view.bounds;
 	maxwidth = b.size.width;
 
 	for (i = 0;i < max; i++)
 	{
-		t = [textureList_i elementAt:i];
+		t = [textureList_i pointerAtIndex:i];
 		if (x + t->r.size.width + TEX_INDENT > maxwidth)
 		{
 			x = TEX_INDENT;
@@ -404,9 +409,9 @@ TEX_NumForName
 
 	viewWidth = maxwidth;
 	viewHeight = y + TEX_SPACING;
-	[textureView_i sizeTo:viewWidth :viewHeight];
+///**************************************************************	[textureView_i sizeTo:viewWidth :viewHeight];
 	pt.x = pt.y = 0;
-	[textureView_i scrollPoint:&pt];
+	[textureView_i scrollPoint:pt];
 
 	return self;
 }
@@ -415,7 +420,7 @@ TEX_NumForName
 {
 	[self computeTextureViewSize];
 	return self;
-}*/
+}
 
 - texturedefChanged: sender
 {
@@ -505,15 +510,15 @@ TEX_NumForName
 //
 //	Return the name of the selected texture
 //
-///**************************************************************- (char *)getSelTextureName
-/*{
+- (char *)getSelTextureName
+{
 	texpal_t *t;
 	
 	if (selectedTexture == -1)
 		return NULL;
-	t = [textureList_i elementAt:selectedTexture];
+	t = [textureList_i pointerAtIndex:selectedTexture];
 	return t->name;
-}*/
+}
 
 //
 //	Set selected texture by texture name
@@ -613,8 +618,8 @@ TEX_NumForName
 //
 //	Return the current texture def to passed *
 //
-///**************************************************************- getTextureDef:(texturedef_t *)td
-/*{
+- getTextureDef:(texturedef_t *)td
+{
 	if (selectedTexture == -1)
 	{
 		memset (td, 0, sizeof(*td));
@@ -631,7 +636,7 @@ TEX_NumForName
 	td->rotate = [field_Rotate_i floatValue];
 	
 	return self;
-}*/
+}
 
 //============================================================================
 
@@ -733,8 +738,8 @@ TEX_NumForName
 //	Search for texture in entire palette
 //	Return index of texturedef, or -1 if unsuccessful
 //
-///**************************************************************- (int) searchForTextureInPalette:(char *)texture
-/*{
+- (int) searchForTextureInPalette:(char *)texture
+{
 	int		i;
 	int		max;
 	char	name[32];
@@ -748,18 +753,18 @@ TEX_NumForName
 	
 	for (i = 0; i < max; i++)
 	{
-		t = [textureList_i elementAt:i];
+		t = [textureList_i pointerAtIndex:i];
 		if (!strcmp(t->name,name))
 			return i;
 	}
 	return -1;
-};*/
+};
 
 //
 // Scan thru map & only display textures that are in map
 //
-///**************************************************************- onlyShowMapTextures:sender
-/*{
+- onlyShowMapTextures:sender
+{
 	int		max;
 	int		i;
 	int		j;
@@ -776,11 +781,11 @@ TEX_NumForName
 		for (i = 0;i < max; i++)
 			[self setDisplayFlag:i to:0];
 
-		brushes = [map_i objectAt:0];
+		brushes = [map_i objectAtIndex:0];
 		max = [brushes count];
 		for (i = 0;i < max; i++)
 		{
-			b = (SetBrush *)[brushes objectAt:i];
+			b = (SetBrush *)[brushes objectAtIndex:i];
 			numfaces = [b getNumBrushFaces];
 			for (j = 0; j < numfaces; j++)
 			{
@@ -799,7 +804,7 @@ TEX_NumForName
 			[self setDisplayFlag:i to:1];
 	}
 	
-	[textureView_i display];
+    [textureView_i setNeedsDisplay];
 	
 	return self;
 }
@@ -808,9 +813,9 @@ TEX_NumForName
 {
 	texpal_t	*tp;
 	
-	tp = [textureList_i elementAt:index];
+	tp = [textureList_i pointerAtIndex:index];
 	tp->display = value;
 	return self;
-};*/
+};
 
 @end

@@ -15,34 +15,34 @@ typedef struct
 } texturedef_t;
 
 
-///**************************************************************typedef struct
-/*{
+typedef struct
+{
 	char		name[16];
 	
 	int			width;
 	int			height;
-	NXBitmapImageRep	*rep;
+	__unsafe_unretained NSBitmapImageRep	*rep;
 	void		*data;
 	pixel32_t	flatcolor;
-} qtexture_t;*/
+} qtexture_t;
 
 #define	MAX_TEXTURES	1024
 
 extern	int					tex_count;
-///**************************************************************extern	qtexture_t 		qtextures[MAX_TEXTURES];
+extern	qtexture_t 		qtextures[MAX_TEXTURES];
 
-///**************************************************************void	TEX_InitFromWad (char *path);
-///**************************************************************qtexture_t *TEX_ForName (char *name);
+void	TEX_InitFromWad (char *path);
+qtexture_t *TEX_ForName (char *name);
 
 
-///**************************************************************typedef struct
-/*{
-	id		image;		// NXImage
+typedef struct
+{
+	__unsafe_unretained NSImageRep		*image;		// NSImage
 	NSRect	r;
 	char	*name;
 	int		index;
 	int		display;	// flag (on/off)
-} texpal_t;*/
+} texpal_t;
 
 #define	TEX_INDENT	10
 #define	TEX_SPACING	16
@@ -54,7 +54,7 @@ extern	TexturePalette *texturepalette_i;
 @interface TexturePalette:NSViewController
 {
 	char	currentwad[1024];
-	id	textureList_i;
+	NSPointerArray*	textureList_i;
 	id	textureView_i;
 	id	searchField_i;
 	id	sizeField_i;
@@ -73,19 +73,19 @@ extern	TexturePalette *texturepalette_i;
 - (char*)currentWad;
 ///**************************************************************- initPaletteFromWadfile:(char *)wf;
 ///**************************************************************- computeTextureViewSize;
-///**************************************************************- alphabetize;
+- alphabetize;
 - getList;
 - (int)getSelectedTexture;
 ///**************************************************************- setSelectedTexture:(int)which;
 ///**************************************************************- (int)getSelectedTexIndex;
 
 // Called externally
-///**************************************************************- (char *)getSelTextureName;
+- (char *)getSelTextureName;
 ///**************************************************************- setTextureByName:(char *)name;
 
 // New methods to replace the 2 above ones
 ///**************************************************************- setTextureDef:(texturedef_t *)td;
-///**************************************************************- getTextureDef:(texturedef_t *)td;
+- getTextureDef:(texturedef_t *)td;
 
 // Action methods
 ///**************************************************************- searchForTexture:sender;
@@ -109,7 +109,7 @@ extern	TexturePalette *texturepalette_i;
 
 - texturedefChanged: sender;
 ///**************************************************************- onlyShowMapTextures:sender;
-///**************************************************************- (int) searchForTextureInPalette:(char *)texture;
-///**************************************************************- setDisplayFlag:(int)index to:(int)value;
+- (int) searchForTextureInPalette:(char *)texture;
+- setDisplayFlag:(int)index to:(int)value;
 
 @end
