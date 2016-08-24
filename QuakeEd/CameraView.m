@@ -265,24 +265,21 @@ void MakeCampt (vec3_t in, campt_t *pt)
 
 void CameraMoveto(vec3_t p)
 {
-	///**************************************************************campt_t	*pt;
-	/*
-	if (upath->numberOfPoints > 2048)
-		lineflush ();
-		
+	campt_t	*pt;
+	
 	pt = &campts[cam_cur];
 	cam_cur ^= 1;
 	MakeCampt (p,pt);
 	if (!pt->clipflags)
 	{	// onscreen, so move there immediately
-		UPmoveto (upath, pt->screen[0], pt->screen[1]);
-	}*/
+		CGPathMoveToPoint (upath, nil, pt->screen[0], pt->screen[1]);
+	}
 }
 
 void ClipLine (vec3_t p1, vec3_t p2, int planenum)
 {
-	///**************************************************************float	d, d2, frac;
-	/*vec3_t	new;
+	float	d, d2, frac;
+	vec3_t	new;
 	plane_t	*pl;
 	float	scale;
 	
@@ -291,12 +288,12 @@ void ClipLine (vec3_t p1, vec3_t p2, int planenum)
 		scale = mid_x/p1[2];
 		new[0] = mid_x + p1[0]*scale;
 		new[1] = mid_y + p1[1]*scale;
-		UPmoveto (upath, new[0], new[1]);
+		CGPathMoveToPoint (upath, nil, new[0], new[1]);
 		
 		scale = mid_x/p2[2];
 		new[0] = mid_x + p2[0]*scale;
 		new[1] = mid_y + p2[1]*scale;
-		UPlineto (upath, new[0], new[1]);
+		CGPathAddLineToPoint (upath, nil, new[0], new[1]);
 		return;
 	}
 
@@ -323,14 +320,14 @@ void ClipLine (vec3_t p1, vec3_t p2, int planenum)
 	if (d > 0)
 		ClipLine (p1, new, planenum+1);
 	else
-		ClipLine (new, p2, planenum+1);*/
+		ClipLine (new, p2, planenum+1);
 }
 
 int	c_off, c_on, c_clip;
 
 void CameraLineto(vec3_t p)
 {
-	/*campt_t		*p1, *p2;
+	campt_t		*p1, *p2;
 	int			bits;
 	
 	p2 = &campts[cam_cur];
@@ -349,15 +346,15 @@ void CameraLineto(vec3_t p)
 	if (! bits )
 	{
 		c_on++;
-	UPmoveto (upath, p1->screen[0], p1->screen[1]);
-		UPlineto (upath, p2->screen[0], p2->screen[1]);
+	CGPathMoveToPoint (upath, nil, p1->screen[0], p1->screen[1]);
+		CGPathAddLineToPoint (upath, nil, p2->screen[0], p2->screen[1]);
 		return;		// entirely on screen
 	}
 	
 // needs to be clipped
 	c_clip++;
 
-	ClipLine (p1->trans, p2->trans, 0);*/
+	ClipLine (p1->trans, p2->trans, 0);
 }
 
 

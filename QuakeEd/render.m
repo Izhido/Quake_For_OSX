@@ -511,14 +511,14 @@ REN_BeginCamera
 ===================
 */
 float	r_width_2, r_height_3;
-///**************************************************************plane_t	frustum[5];
+plane_t	frustum[5];
 
 void REN_BeginCamera (void)
 {
 	r_width_2 = (float)r_width / 2;
 	r_height_3 = (float)r_height / 3;
-///**************************************************************
-/*
+
+
 // clip to right side
 	frustum[0].normal[0] = -1;
 	frustum[0].normal[1] = 0;
@@ -547,13 +547,13 @@ void REN_BeginCamera (void)
 	frustum[4].normal[0] = 0;
 	frustum[4].normal[1] = 0;
 	frustum[4].normal[2] = 1;
-	frustum[4].dist = 1;*/
+	frustum[4].dist = 1;
 }
 
 
 void REN_BeginXY (void)
-{///**************************************************************
-/*	frustum[0].normal[0] = 1;
+{
+	frustum[0].normal[0] = 1;
 	frustum[0].normal[1] = 0;
 	frustum[0].normal[2] = 0;
 	frustum[0].dist = 0;
@@ -571,7 +571,7 @@ void REN_BeginXY (void)
 	frustum[3].normal[0] = 0;
 	frustum[3].normal[1] = -1;
 	frustum[3].normal[2] = 0;
-	frustum[3].dist = -r_height;*/
+	frustum[3].dist = -r_height;
 }
 
 /*

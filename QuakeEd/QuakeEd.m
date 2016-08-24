@@ -31,7 +31,7 @@ void NopSound (void)
 	NSBeep ();
 }
 
-///**************************************************************UserPath	*upath;
+CGMutablePathRef	upath;
 
 
 void My_Malloc_Error (int code)
@@ -151,7 +151,7 @@ init
     NSTimer *timer = [NSTimer timerWithTimeInterval:5 target:self selector:@selector(invokeAutoSave:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     
-	///**************************************************************upath = newUserPath ();
+	upath = CGPathCreateMutable();
 }
 
 - (void)viewWillAppear

@@ -464,42 +464,44 @@ vec3_t	cur_linecolor;
 
 void linestart (float r, float g, float b)
 {
-	///**************************************************************beginUserPath (upath,NO);
-	/*cur_linecolor[0] = r;
+    CGPathRelease(upath);
+    upath = CGPathCreateMutable();
+	cur_linecolor[0] = r;
 	cur_linecolor[1] = g;
-	cur_linecolor[2] = b;*/
+	cur_linecolor[2] = b;
 }
 
 void lineflush (void)
 {
-	///**************************************************************if (!upath->numberOfPoints)
-	/*	return;
-	endUserPath (upath, dps_ustroke);
-	PSsetrgbcolor (cur_linecolor[0], cur_linecolor[1], cur_linecolor[2]);
-	sendUserPath (upath);
-	beginUserPath (upath,NO);*/
+    if (CGPathIsEmpty(upath))
+		return;
+    CGContextRef context = [NSGraphicsContext currentContext].CGContext;
+    CGPathCloseSubpath(upath);
+    CGContextSetStrokeColorWithColor(context, [NSColor colorWithRed:cur_linecolor[0] green:cur_linecolor[1] blue:cur_linecolor[2] alpha:1.0].CGColor);
+    CGContextAddPath(context, upath);
+    CGContextStrokePath(context);
+    CGPathRelease(upath);
+    upath = CGPathCreateMutable();
 }
 
 void linecolor (float r, float g, float b)
 {
-	///**************************************************************if (cur_linecolor[0] == r && cur_linecolor[1] == g && cur_linecolor[2] == b)
-	/*	return;	// do nothing
+	if (cur_linecolor[0] == r && cur_linecolor[1] == g && cur_linecolor[2] == b)
+		return;	// do nothing
 	lineflush ();
 	cur_linecolor[0] = r;
 	cur_linecolor[1] = g;
-	cur_linecolor[2] = b;*/
+	cur_linecolor[2] = b;
 }
 
 void XYmoveto (vec3_t pt)
 {
-	///**************************************************************if (upath->numberOfPoints > 2048)
-	/*	lineflush ();
-	UPmoveto (upath, pt[0], pt[1]);*/
+	CGPathMoveToPoint (upath, nil, pt[0], pt[1]);
 }
 
 void XYlineto (vec3_t pt)
 {
-	///**************************************************************UPlineto (upath, pt[0], pt[1]);
+	CGPathAddLineToPoint (upath, nil, pt[0], pt[1]);
 }
 
 /*
@@ -513,21 +515,23 @@ Rect is in global world (unscaled) coordinates
 ============
 */
 
-- drawGrid: (NSRect)dirtyRect
+- drawGrid: (NSRect)rect
 {
-///**************************************************************	int	x,y, stopx, stopy;
-/*	float	top,bottom,right,left;
+	int	x,y, stopx, stopy;
+	float	top,bottom,right,left;
 	char	text[10];
 	BOOL	showcoords;
 	
 	showcoords = [quakeed_i showCoordinates];
 
-	left = rect->origin.x-1;
-	bottom = rect->origin.y-1;
-	right = rect->origin.x+rect->size.width+2;
-	top = rect->origin.y+rect->size.height+2;
+	left = rect.origin.x-1;
+	bottom = rect.origin.y-1;
+	right = rect.origin.x+rect.size.width+2;
+	top = rect.origin.y+rect.size.height+2;
 
-	PSsetlinewidth (0.15);
+    
+    CGContextRef context = [NSGraphicsContext currentContext].CGContext;
+	CGContextSetLineWidth (context, 0.15);
 
 //
 // grid
@@ -555,33 +559,35 @@ Rect is in global world (unscaled) coordinates
 		if (stopy >= top)
 			stopy -= gridsize;
 			
-		beginUserPath (upath,NO);
+        CGPathRelease(upath);
+        upath = CGPathCreateMutable();
 		
 		for ( ; y<=stopy ; y+= gridsize)
 			if (y&63)
 			{
-				UPmoveto (upath, left, y);
-				UPlineto (upath, right, y);
+				CGPathMoveToPoint (upath, nil, left, y);
+				CGPathAddLineToPoint (upath, nil, right, y);
 			}
 	
 		for ( ; x<=stopx ; x+= gridsize)
 			if (x&63)
 			{
-				UPmoveto (upath, x, top);
-				UPlineto (upath, x, bottom);
+				CGPathMoveToPoint (upath, nil, x, top);
+				CGPathAddLineToPoint (upath, nil, x, bottom);
 			}
-		endUserPath (upath, dps_ustroke);
-PSsetrgbcolor (0.8,0.8,1.0);	// thin grid color
-		sendUserPath (upath);
+		CGPathCloseSubpath (upath);
+CGContextSetStrokeColorWithColor(context, [NSColor colorWithRed:0.8 green:0.8 blue:1.0 alpha:1.0].CGColor);	// thin grid color
+        CGContextAddPath(context, upath);
+        CGContextStrokePath(context);
 	
 	}
 
 //
 // tiles
 //
-	PSsetgray (0);		// for text
+	///**************************************************************PSsetgray (0);		// for text
 
-	if (scale > 4.0/64)
+	/*if (scale > 4.0/64)
 	{
 		y = floor(bottom/64);
 		stopy = floor(top/64);
