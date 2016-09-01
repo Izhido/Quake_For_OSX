@@ -11,18 +11,17 @@ float	zplanedir;
 @implementation ZView 
 
 /*
-==================
-initWithFrame:
-==================
-*/
-- initWithFrame:(NSRect)frameRect
+ ==================
+ embedInScrollView:
+ ==================
+ */
+- (ZScrollView*)embedInScrollView
 {
 	NSPoint	pt;
 	
 	origin[0] = 0.333;
 	origin[1] = 0.333;
 	
-	self = [super initWithFrame: frameRect];
 	[self allocateGState];
 	[self clearBounds];
 	
@@ -32,30 +31,29 @@ initWithFrame:
 //		
 // initialize the pop up menus
 //
-///**************************************************************	zscalemenu_i = [[PopUpList alloc] init];
-/*	[zscalemenu_i setTarget: self];
-	[zscalemenu_i setAction: @selector(scaleMenuTarget:)];
+    zscalebutton_i = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(0,0,64,16) pullsDown:YES];
+    zscalemenu_i = [zscalebutton_i menu];
+	[zscalebutton_i setTarget: self];
+	[zscalebutton_i setAction: @selector(scaleMenuTarget:)];
 
-	[zscalemenu_i addItem: "12.5%"];
-	[zscalemenu_i addItem: "25%"];
-	[zscalemenu_i addItem: "50%"];
-	[zscalemenu_i addItem: "75%"];
-	[zscalemenu_i addItem: "100%"];
-	[zscalemenu_i addItem: "200%"];
-	[zscalemenu_i addItem: "300%"];
-	[[zscalemenu_i itemList] selectCellAt: 4 : 0];
-	
-	zscalebutton_i = NXCreatePopUpListButton(zscalemenu_i);
+	[zscalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"12.5%" action:nil keyEquivalent:@""]];
+	[zscalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"25%" action:nil keyEquivalent:@""]];
+	[zscalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"50%" action:nil keyEquivalent:@""]];
+	[zscalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"75%" action:nil keyEquivalent:@""]];
+	[zscalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"100%" action:nil keyEquivalent:@""]];
+	[zscalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"200%" action:nil keyEquivalent:@""]];
+	[zscalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"300%" action:nil keyEquivalent:@""]];
+    [zscalebutton_i selectItem:[[zscalemenu_i itemArray] objectAtIndex:4]];
 
 
 // initialize the scroll view
 	zscrollview_i = [[ZScrollView alloc] 
-		initWithFrame: 		frameRect
+		initWithFrame: 		self.frame
 		button1: 		zscalebutton_i
 	];
-	[zscrollview_i setAutosizing: NX_WIDTHSIZABLE | NX_HEIGHTSIZABLE];
+	///**************************************************************[zscrollview_i setAutosizing: NX_WIDTHSIZABLE | NX_HEIGHTSIZABLE];
 
-	[[zscrollview_i setDocView: self] free];
+	[zscrollview_i setDocumentView: self];
 
 //	[superview setDrawOrigin: 0 : 0];*/
 

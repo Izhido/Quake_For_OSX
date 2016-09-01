@@ -4,6 +4,7 @@
 #import "SetBrush.h"
 
 @class XYView;
+@class PopScrollView;
 
 extern	XYView *xyview_i;
 
@@ -43,6 +44,8 @@ typedef enum {dr_wire, dr_flat, dr_texture} drawmode_t;
 // UI links
 	id			mode_radio_i;	
 }
+
+- (PopScrollView*)embedInScrollView;
 
 - (float)currentScale;
 

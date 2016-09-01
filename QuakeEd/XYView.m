@@ -10,13 +10,12 @@ float		xy_viewdist;		// clip behind this plane
 @implementation XYView
 
 /*
-==================
-initWithFrame:
-==================
-*/
-- initWithFrame:(NSRect)frameRect
+ ==================
+ embedInScrollView:
+ ==================
+ */
+- (PopScrollView*)embedInScrollView
 {
-	self = [super initWithFrame: frameRect];
 	[self allocateGState];
 	
 	realbounds = NSMakeRect(0,0,0,0);
@@ -31,49 +30,47 @@ initWithFrame:
 //		
 // initialize the pop up menus
 //
-///**************************************************************	scalemenu_i = [[PopUpList alloc] init];
-/*	[scalemenu_i setTarget: self];
-	[scalemenu_i setAction: @selector(scaleMenuTarget:)];
+    scalebutton_i = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(0,0,64,16) pullsDown:YES];
+	scalemenu_i = [scalebutton_i menu];
+	[scalebutton_i setTarget: self];
+	[scalebutton_i setAction: @selector(scaleMenuTarget:)];
 
-	[scalemenu_i addItem: "12.5%"];
-	[scalemenu_i addItem: "25%"];
-	[scalemenu_i addItem: "50%"];
-	[scalemenu_i addItem: "75%"];
-	[scalemenu_i addItem: "100%"];
-	[scalemenu_i addItem: "200%"];
-	[scalemenu_i addItem: "300%"];
-	[[scalemenu_i itemList] selectCellAt: 4 : 0];
+    [scalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"12.5%" action:nil keyEquivalent:@""]];
+	[scalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"25%" action:nil keyEquivalent:@""]];
+	[scalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"50%" action:nil keyEquivalent:@""]];
+	[scalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"75%" action:nil keyEquivalent:@""]];
+	[scalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"100%" action:nil keyEquivalent:@""]];
+	[scalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"200%" action:nil keyEquivalent:@""]];
+	[scalemenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"300%" action:nil keyEquivalent:@""]];
+    [scalebutton_i selectItem:[[scalemenu_i itemArray] objectAtIndex:4]];
+
+
+    gridbutton_i = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(0,0,64,16) pullsDown:YES];
+    gridmenu_i = [gridbutton_i menu];
+	[gridbutton_i setTarget: self];
+	[gridbutton_i setAction: @selector(gridMenuTarget:)];
+
+	[gridmenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"grid 1" action:nil keyEquivalent:@""]];
+	[gridmenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"grid 2" action:nil keyEquivalent:@""]];
+	[gridmenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"grid 4" action:nil keyEquivalent:@""]];
+	[gridmenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"grid 8" action:nil keyEquivalent:@""]];
+	[gridmenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"grid 16" action:nil keyEquivalent:@""]];
+	[gridmenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"grid 32" action:nil keyEquivalent:@""]];
+	[gridmenu_i addItem: [[NSMenuItem alloc] initWithTitle:@"grid 64" action:nil keyEquivalent:@""]];
 	
-	scalebutton_i = NXCreatePopUpListButton(scalemenu_i);
-
-
-	gridmenu_i = [[PopUpList alloc] init];
-	[gridmenu_i setTarget: self];
-	[gridmenu_i setAction: @selector(gridMenuTarget:)];
-
-	[gridmenu_i addItem: "grid 1"];
-	[gridmenu_i addItem: "grid 2"];
-	[gridmenu_i addItem: "grid 4"];
-	[gridmenu_i addItem: "grid 8"];
-	[gridmenu_i addItem: "grid 16"];
-	[gridmenu_i addItem: "grid 32"];
-	[gridmenu_i addItem: "grid 64"];
+    [gridbutton_i selectItem:[[gridmenu_i itemArray] objectAtIndex:4]];
 	
-	[[gridmenu_i itemList] selectCellAt: 4 : 0];
-	
-	gridbutton_i = NXCreatePopUpListButton(gridmenu_i);
-
 // initialize the scroll view
 	scrollview_i = [[PopScrollView alloc] 
-		initWithFrame: 		frameRect
+		initWithFrame: 		self.frame
 		button1: 		scalebutton_i
 		button2:		gridbutton_i
 	];
 	[scrollview_i setLineScroll: 64];
-	[scrollview_i setAutosizing: NX_WIDTHSIZABLE | NX_HEIGHTSIZABLE];
+	///**************************************************************[scrollview_i setAutosizing: NX_WIDTHSIZABLE | NX_HEIGHTSIZABLE];
 	
 // link objects together
-	[[scrollview_i setDocView: self] free];*/
+	[scrollview_i setDocumentView: self];
 	
 	return scrollview_i;
 

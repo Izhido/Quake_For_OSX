@@ -7,15 +7,20 @@ BOOL	timedrawing = 0;
 @implementation CameraView
 
 /*
-==================
-initWithFrame:
-==================
-*/
-- initWithFrame:(NSRect)frameRect
+ ==================
+ initWithFrame:
+ ==================
+ */
+- (instancetype)initWithFrame:(CGRect)frame
 {
+    self = [super initWithFrame:frame];
+
+    if (self == nil)
+    {
+        return nil;
+    }
+    
 	int		size;
-	
-	self = [super initWithFrame: frameRect];
 	
 	cameraview_i = self;
 	

@@ -147,6 +147,32 @@ init
 
     [[Clipper alloc] init];
     [[Map alloc] init];
+
+    NSRect camera_frame = camera_container_i.frame;
+    camera_frame.origin.x = 0;
+    camera_frame.origin.y = 0;
+    CameraView* camera_view = [[CameraView alloc] initWithFrame:camera_frame];
+    [camera_container_i addSubview:camera_view];
+    
+    NSRect xy_frame = xy_container_i.frame;
+    xy_frame.origin.x = 0;
+    xy_frame.origin.y = 0;
+    XYView* xy_view = [[XYView alloc] initWithFrame:xy_frame];
+    PopScrollView* pop_scroll_view = [xy_view embedInScrollView];
+    [xy_container_i addSubview:pop_scroll_view];
+    [pop_scroll_view setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [xy_container_i addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[pop_scroll_view]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:NSDictionaryOfVariableBindings(pop_scroll_view)]];
+    [xy_container_i addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[pop_scroll_view]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:NSDictionaryOfVariableBindings(pop_scroll_view)]];
+    
+    NSRect z_frame = z_container_i.frame;
+    z_frame.origin.x = 0;
+    z_frame.origin.y = 0;
+    ZView* z_view = [[ZView alloc] initWithFrame:z_frame];
+    ZScrollView* z_scroll_view = [z_view embedInScrollView];
+    [z_container_i addSubview:z_scroll_view];
+    [z_scroll_view setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [z_container_i addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[z_scroll_view]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:NSDictionaryOfVariableBindings(z_scroll_view)]];
+    [z_container_i addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[z_scroll_view]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:NSDictionaryOfVariableBindings(z_scroll_view)]];
     
     NSTimer *timer = [NSTimer timerWithTimeInterval:5 target:self selector:@selector(invokeAutoSave:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];

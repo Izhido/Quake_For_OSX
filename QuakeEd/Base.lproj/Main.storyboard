@@ -224,20 +224,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="CCh-rt-bfA" customClass="CameraView">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="CCh-rt-bfA">
                                 <rect key="frame" x="0.0" y="528" width="320" height="240"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="240" id="0hx-zz-5UP"/>
                                     <constraint firstAttribute="width" constant="320" id="pOQ-Af-Hho"/>
                                 </constraints>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="kEa-db-HWt" customClass="XYView">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="kEa-db-HWt">
                                 <rect key="frame" x="0.0" y="0.0" width="636" height="528"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="636" id="RUb-HH-s77"/>
                                 </constraints>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="6RL-bw-aiY" customClass="ZView">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="6RL-bw-aiY">
                                 <rect key="frame" x="636" y="0.0" width="83" height="528"/>
                             </customView>
                             <containerView translatesAutoresizingMaskIntoConstraints="NO" id="XBf-xu-E5U" customClass="InspectorControl">
@@ -586,6 +586,7 @@
                     </view>
                     <connections>
                         <outlet property="brushcount_i" destination="3t4-hx-iRz" id="lFC-fE-tzo"/>
+                        <outlet property="camera_container_i" destination="CCh-rt-bfA" id="ao0-02-TBU"/>
                         <outlet property="cmd_in_i" destination="bPo-ve-Fug" id="fc2-Sr-nr8"/>
                         <outlet property="cmd_out_i" destination="979-gh-wgZ" id="1Gi-vg-euR"/>
                         <outlet property="entitycount_i" destination="KHk-Wd-2Fk" id="sJp-6D-AqE"/>
@@ -607,6 +608,8 @@
                         <outlet property="regionbutton_i" destination="tee-S4-ZVu" id="Av3-de-ImH"/>
                         <outlet property="show_coordinates_i" destination="Qzb-ev-fTe" id="8Vg-oM-e1i"/>
                         <outlet property="show_names_i" destination="xu7-z9-E7y" id="yQD-MV-jco"/>
+                        <outlet property="xy_container_i" destination="kEa-db-HWt" id="mb3-G6-rjo"/>
+                        <outlet property="z_container_i" destination="6RL-bw-aiY" id="j0N-X7-dzu"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

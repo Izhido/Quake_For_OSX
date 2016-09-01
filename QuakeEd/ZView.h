@@ -3,6 +3,7 @@
 #import "mathlib.h"
 
 @class ZView;
+@class ZScrollView;
 
 extern	ZView* zview_i;
 
@@ -20,6 +21,8 @@ extern	float	zplanedir;
 	
 	vec3_t		origin;
 }
+
+- (ZScrollView*)embedInScrollView;
 
 - clearBounds;
 - getBounds: (float *)top :(float *)bottom;

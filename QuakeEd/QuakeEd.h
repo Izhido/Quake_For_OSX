@@ -51,6 +51,10 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
     @public __weak IBOutlet NSMenuItem *inspectorsel_settings_i;
     @public __weak IBOutlet NSMenuItem *inspectorsel_output_i;
     @public __weak IBOutlet NSMenuItem *inspectorsel_help_i;
+    
+    __weak IBOutlet NSView *camera_container_i;
+    __weak IBOutlet NSView *xy_container_i;
+    __weak IBOutlet NSView *z_container_i;
 }
 
 - setDefaultFilename;
