@@ -31,7 +31,7 @@ float	zplanedir;
 //		
 // initialize the pop up menus
 //
-    zscalebutton_i = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(0,0,64,16) pullsDown:YES];
+    zscalebutton_i = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:YES];
     zscalemenu_i = [zscalebutton_i menu];
 	[zscalebutton_i setTarget: self];
 	[zscalebutton_i setAction: @selector(scaleMenuTarget:)];
@@ -153,12 +153,12 @@ Called when the scaler popup on the window is used
 */
 - scaleMenuTarget: sender
 {
-	char	const	*item;
+	NSString	*item;
 	NSRect		visrect, sframe;
 	float		nscale;
 	
-	///**************************************************************item = [[sender selectedCell] title];
-	sscanf (item,"%f",&nscale);
+	item = [[sender selectedItem] title];
+	sscanf ([item cStringUsingEncoding:[NSString defaultCStringEncoding]],"%f",&nscale);
 	nscale /= 100;
 	
 	if (nscale == scale)
@@ -166,7 +166,7 @@ Called when the scaler popup on the window is used
 		
 // keep the center of the view constant
     visrect = self.superview.bounds;
-	///**************************************************************[superview getFrame: &sframe];
+	sframe = self.superview.frame;
 	visrect.origin.x += visrect.size.width/2;
 	visrect.origin.y += visrect.size.height/2;
 	

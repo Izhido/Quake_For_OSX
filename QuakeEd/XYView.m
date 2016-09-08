@@ -30,7 +30,7 @@ float		xy_viewdist;		// clip behind this plane
 //		
 // initialize the pop up menus
 //
-    scalebutton_i = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(0,0,64,16) pullsDown:YES];
+    scalebutton_i = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:YES];
 	scalemenu_i = [scalebutton_i menu];
 	[scalebutton_i setTarget: self];
 	[scalebutton_i setAction: @selector(scaleMenuTarget:)];
@@ -45,7 +45,7 @@ float		xy_viewdist;		// clip behind this plane
     [scalebutton_i selectItem:[[scalemenu_i itemArray] objectAtIndex:4]];
 
 
-    gridbutton_i = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(0,0,64,16) pullsDown:YES];
+    gridbutton_i = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:YES];
     gridmenu_i = [gridbutton_i menu];
 	[gridbutton_i setTarget: self];
 	[gridbutton_i setAction: @selector(gridMenuTarget:)];
@@ -516,7 +516,7 @@ Rect is in global world (unscaled) coordinates
 {
 	int	x,y, stopx, stopy;
 	float	top,bottom,right,left;
-	char	text[10];
+	NSString*	text;
 	BOOL	showcoords;
 	
 	showcoords = [quakeed_i showCoordinates];
@@ -582,9 +582,9 @@ CGContextSetStrokeColorWithColor(context, [NSColor colorWithRed:0.8 green:0.8 bl
 //
 // tiles
 //
-	///**************************************************************PSsetgray (0);		// for text
+	CGContextSetGrayStrokeColor(context, 0, 1.0);		// for text
 
-	/*if (scale > 4.0/64)
+	if (scale > 4.0/64)
 	{
 		y = floor(bottom/64);
 		stopy = floor(top/64);
@@ -604,36 +604,36 @@ CGContextSetStrokeColorWithColor(context, [NSColor colorWithRed:0.8 green:0.8 bl
 		if (stopy >= top)
 			stopy -= 64;
 			
-		beginUserPath (upath,NO);
+        CGPathRelease(upath);
+        upath = CGPathCreateMutable();
 		
 		for ( ; y<=stopy ; y+= 64)
 		{
 			if (showcoords)
 			{
-				sprintf (text, "%i",y);
-				PSmoveto(left,y);
-				PSshow(text);
+                text = [NSString stringWithFormat:@"%i", y];
+                [text drawAtPoint:CGPointMake(left,y) withAttributes:nil];
 			}
-			UPmoveto (upath, left, y);
-			UPlineto (upath, right, y);
+            CGPathMoveToPoint (upath, nil, left, y);
+            CGPathAddLineToPoint (upath, nil, right, y);
 		}
 	
 		for ( ; x<=stopx ; x+= 64)
 		{
 			if (showcoords)
 			{
-				sprintf (text, "%i",x);
-				PSmoveto(x,bottom+2);
-				PSshow(text);
+                text = [NSString stringWithFormat:@"%i", x];
+                [text drawAtPoint:CGPointMake(x,bottom+2) withAttributes:nil];
 			}
-			UPmoveto (upath, x, top);
-			UPlineto (upath, x, bottom);
+            CGPathMoveToPoint (upath, nil, x, top);
+            CGPathAddLineToPoint (upath, nil, x, bottom);
 		}
 	
-		endUserPath (upath, dps_ustroke);
-		PSsetgray (12.0/16);
-		sendUserPath (upath);
-	}*/
+        CGPathCloseSubpath (upath);
+        CGContextSetGrayStrokeColor(context, 12.0/16, 1.0);
+        CGContextAddPath(context, upath);
+        CGContextStrokePath(context);
+	}
 
 	return self;
 }
@@ -645,8 +645,8 @@ drawWire
 */
 - drawWire:(NSRect)dirtyRect
 {
-///**************************************************************	NSRect	visRect;
-/*	int	i,j, c, c2;
+	NSRect	visRect;
+	int	i,j, c, c2;
 	id	ent, brush;
 	vec3_t	mins, maxs;
 	BOOL	drawnames;
@@ -655,16 +655,17 @@ drawWire
 	
 	if ([quakeed_i showCoordinates])	// if coords are showing, update everything
 	{
-		[self getVisibleRect:&visRect];
-		rects = &visRect;
-		xy_draw_rect = *rects;
+        visRect = self.visibleRect;
+        dirtyRect = visRect;
+        xy_draw_rect = dirtyRect;
 	}
 
 	
-	NSRectClip(rects);
+    CGContextRef context = [NSGraphicsContext currentContext].CGContext;
+	NSRectClip(dirtyRect);
 		
 // erase window
-	NXEraseRect (rects);
+	NSEraseRect (dirtyRect);
 	
 // draw grid
 	[self drawGrid: dirtyRect];
@@ -675,11 +676,11 @@ drawWire
 	c = [map_i count];
 	for (i=0 ; i<c ; i++)
 	{
-		ent = [map_i objectAt: i];
+		ent = [map_i objectAtIndex: i];
 		c2 = [ent count];
 		for (j = c2-1 ; j >=0 ; j--)
 		{
-			brush = [ent objectAt: j];
+			brush = [ent objectAtIndex: j];
 			if ( [brush selected] )
 				continue;
 			if ([brush regioned])
@@ -688,13 +689,13 @@ drawWire
 		}
 		if (i > 0 && drawnames)
 		{	// draw entity names
-			brush = [ent objectAt: 0];
+			brush = [ent objectAtIndex: 0];
 			if (![brush regioned])
 			{
 				[brush getMins: mins maxs: maxs];
-				PSmoveto(mins[0], mins[1]);
-				PSsetrgbcolor (0,0,0);
-				PSshow([ent valueForQKey: "classname"]);
+                CGContextSetStrokeColorWithColor(context, [NSColor colorWithRed:0 green:0 blue:0 alpha:1.0].CGColor);
+                NSString *text = [NSString stringWithCString:[ent valueForQKey: "classname"] encoding:[NSString defaultCStringEncoding]];
+                [text drawAtPoint:CGPointMake(mins[0], mins[1]) withAttributes:nil];
 			}
 		}
 	}
@@ -706,8 +707,8 @@ drawWire
 	newrect.origin.y -= gridsize;
 	newrect.size.width += 2*gridsize;
 	newrect.size.height += 2*gridsize;
-	if (!NXEqualRect (&newrect, &realbounds))
-		[self newRealBounds: &newrect];*/
+	if (!NSEqualRects (newrect, realbounds))
+		[self newRealBounds: &newrect];
 
 	return self;
 }
@@ -797,18 +798,18 @@ drawRect
 NSRect	xy_draw_rect;
 - (void)drawRect:(NSRect)dirtyRect
 {
-///**************************************************************	static float	drawtime;	// static to shut up compiler warning
-/*
+	static float	drawtime;	// static to shut up compiler warning
+
 	if (timedrawing)
 		drawtime = I_FloatTime ();
 
-	xy_draw_rect = *rects;
+	xy_draw_rect = dirtyRect;
 	newrect.origin.x = newrect.origin.y = 99999;
 	newrect.size.width = newrect.size.height = -2*99999;
 
 // setup for text
-	PSselectfont("Helvetica-Medium",10/scale);
-	PSrotate(0);
+    CGContextRef context = [NSGraphicsContext currentContext].CGContext;
+    CGContextSetFont(context, (CGFontRef)[NSFont fontWithName:@"Helvetica-Medium" size:10/scale]);
 
 	if (drawmode == dr_texture || drawmode == dr_flat)
 		[self drawSolid];
@@ -817,10 +818,10 @@ NSRect	xy_draw_rect;
 	
 	if (timedrawing)
 	{
-		NXPing ();
+		///**************************************************************NXPing ();
 		drawtime = I_FloatTime() - drawtime;
 		printf ("CameraView drawtime: %5.3f\n", drawtime);
-	}*/
+	}
 }
 
 

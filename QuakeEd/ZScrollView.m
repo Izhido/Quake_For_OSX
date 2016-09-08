@@ -41,6 +41,9 @@ Adjust the size for the pop up scale menu
 	
 	[super tile];
     scrollerframe = self.horizontalScroller.frame;
+    scrollerframe.origin.y = scrollerframe.origin.y + scrollerframe.size.height - 22;
+    scrollerframe.size.height = 22;
+    scrollerframe.size.width -= self.verticalScroller.frame.size.width;
 	[button1 setFrame: scrollerframe];
 	
 	scrollerframe.size.width = 0;

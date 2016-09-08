@@ -49,16 +49,17 @@ Adjust the size for the pop up scale menu
     buttonframe2 = button2.frame;
 	scrollerframe = self.horizontalScroller.frame;
 
-	newframe.origin.y = scrollerframe.origin.y;
-	newframe.origin.x = self.frame.size.width - buttonframe.size.width;
-	newframe.size.width = buttonframe.size.width;
-	newframe.size.height = scrollerframe.size.height;
+    newframe.origin.y = scrollerframe.origin.y + scrollerframe.size.height - 22;///**************************************************************scrollerframe.origin.y;
+	newframe.origin.x = self.frame.size.width - 80 - self.verticalScroller.frame.size.width;///**************************************************************self.frame.size.width - buttonframe.size.width;
+    newframe.size.width = 80;///**************************************************************buttonframe.size.width;
+    newframe.size.height = 22;///**************************************************************scrollerframe.size.height;
 	scrollerframe.size.width -= newframe.size.width;
 	[button1 setFrame: newframe];
-	newframe.size.width = buttonframe2.size.width;
+    ///**************************************************************newframe.size.width = buttonframe2.size.width;
 	newframe.origin.x -= newframe.size.width;
 	[button2 setFrame: newframe];
 	scrollerframe.size.width -= newframe.size.width;
+    scrollerframe.size.width -= self.verticalScroller.frame.size.width;
 
 	[self.horizontalScroller setFrame: scrollerframe];
 
