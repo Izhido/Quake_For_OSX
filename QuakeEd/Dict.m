@@ -244,16 +244,30 @@ JDC
 //
 // JDC: I wrote this to simplify removing vectors
 //
-///**************************************************************- removeKeyword:(char *)key
-/*{
-	dict_t	*d;
+- removeKeyword:(char *)key
+{
+    int		max;
+    int		i;
+    dict_t	*d;
+    
+    max = [list count];
+    for (i = 0;i < max;i++)
+    {
+        d = [list pointerAtIndex:i];
+        if (!strcmp(d->key,key))
+        {
+            [list removePointerAtIndex:i];
+            
+            free(d->value);
+            free(d->key);
 
-	d = [self findKeyword:key];
-	if (d == NULL)
-		return self;
-	[self removeElementAt:d - (dict_t*)dataPtr];
-	return self;
-}*/
+            free(d);
+            
+            return self;
+        }
+    }
+    return self;
+}
 
 //
 //	Delete string from keyword's value

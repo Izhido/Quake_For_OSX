@@ -19,7 +19,7 @@ typedef struct
 - addString:(char *)string toValue:(char *)key;
 - (char *)convertListToString:(id)list;
 - (char *)getStringFor:(char *)name;
-///**************************************************************- removeKeyword:(char *)key;
+- removeKeyword:(char *)key;
 - (unsigned int)getValueFor:(char *)name;
 - changeStringFor:(char *)key to:(char *)value;
 - (dict_t *) findKeyword:(char *)key;

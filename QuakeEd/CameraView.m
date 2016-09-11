@@ -481,6 +481,11 @@ drawRect
 		drawtime = I_FloatTime() - drawtime;
 		printf ("CameraView drawtime: %5.3f\n", drawtime);
 	}
+
+    linestart (0,0,0);
+    [map_i makeSelectedPerform: @selector(CameraDrawSelf)];
+    [clipper_i cameraDrawSelf];
+    lineflush ();
 }
 
 

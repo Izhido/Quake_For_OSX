@@ -221,15 +221,13 @@ BOOL	updatecamera;
 
 void postappdefined (void)
 {
-	NXEvent ev;
-
 	if (updateinflight)
 		return;
 			
 // post an event at the end of the que
-	ev.type = NX_APPDEFINED;
-	///**************************************************************if (DPSPostEvent(&ev, 0) == -1)
-	///**************************************************************	printf ("WARNING: DPSPostEvent: full\n");
+    dispatch_async(dispatch_get_main_queue(), ^(){
+        [quakeed_i applicationDefined];
+    });
 //printf ("posted\n");
 	updateinflight = YES;
 }
@@ -283,7 +281,7 @@ int	c_updateall;
 - redrawInstance
 {
 	clearinstance = YES;
-	[self flushWindow];
+    [self.view display];///**************************************************************[self flushWindow];
 	return self;
 }
 
@@ -294,10 +292,10 @@ flushWindow
 instance draw the brush after each flush
 ===============
 */
--flushWindow
-{
-	///**************************************************************[super flushWindow];
-	/*
+///**************************************************************-flushWindow
+/*{
+	[super flushWindow];
+	
 	if (!running || in_error)
 		return self;		// don't lock focus before nib is finished loading
 		
@@ -336,10 +334,10 @@ instance draw the brush after each flush
 	[cameraview_i ZDrawSelf];
 	[clipper_i ZDrawSelf];
 	PSsetinstance (0);
-	[zview_i unlockFocus];*/
+	[zview_i unlockFocus];
 
 	return self;
-}
+}*/
 
 
 /*
@@ -350,24 +348,14 @@ App delegate methods
 ==============================================================================
 */
 
-- applicationDefined:(NXEvent *)theEvent
+- applicationDefined
 {
-///**************************************************************	NXEvent		ev, *evp;
-/*
 	updateinflight = NO;
 
 //printf ("serviced\n");
 	
 // update screen	
-	evp = [NXApp peekNextEvent:-1 into:&ev];
-	if (evp)
-	{
-		postappdefined();
-		return self;
-	}
-
-		
-	[self disableFlushWindow];	
+	[self disableFlushWindow];
 
 	if ([map_i count] != [entitycount_i intValue])
 		[entitycount_i setIntValue: [map_i count]];
@@ -383,10 +371,10 @@ App delegate methods
 
 	updatecamera = updatexy = updatez = NO;
 
-	[self reenableFlushWindow];
-	[self flushWindow];
+	[self enableFlushWindow];
+	///**************************************************************[self flushWindow];
 	
-//	NXPing ();*/
+//	NXPing ();
 	
 	return self;
 }

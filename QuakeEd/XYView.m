@@ -252,27 +252,27 @@ Called when the scaler popup on the window is used
 
 - scaleMenuTarget: sender
 {
-	///**************************************************************char	const	*item;
-	/*NSRect		visrect, sframe;
+	NSString	*item;
+	NSRect		visrect, sframe;
 	float		nscale;
 	
-	item = [[sender selectedCell] title];
-	sscanf (item,"%f",&nscale);
+	item = [[sender selectedItem] title];
+	sscanf ([item cStringUsingEncoding:[NSString defaultCStringEncoding]],"%f",&nscale);
 	nscale /= 100;
 	
 	if (nscale == scale)
 		return NULL;
 		
 // keep the center of the view constant
-	[superview getBounds: &visrect];
-	[superview getFrame: &sframe];
+	visrect = self.superview.bounds;
+	sframe = self.superview.frame;
 	visrect.origin.x += visrect.size.width/2;
 	visrect.origin.y += visrect.size.height/2;
 	
 	visrect.origin.x -= sframe.size.width/2/nscale;
 	visrect.origin.y -= sframe.size.height/2/nscale;
 	
-	[self setOrigin: &visrect.origin scale: nscale];*/
+	[self setOrigin: &visrect.origin scale: nscale];
 	
 	return self;
 }
@@ -371,16 +371,16 @@ Called when the scaler popup on the window is used
 
 - gridMenuTarget: sender
 {
-///**************************************************************	char	const	*item;
-/*	int			grid;
+	NSString	*item;
+	int			grid;
 	
-	item = [[sender selectedCell] title];
-	sscanf (item,"grid %d",&grid);
+	item = [[sender selectedItem] title];
+    sscanf ([item cStringUsingEncoding:[NSString defaultCStringEncoding]],"grid %d",&grid);
 
 	if (grid == gridsize)
 		return NULL;
 		
-	gridsize = grid;*/
+	gridsize = grid;
 	[quakeed_i updateAll];
 
 	return self;
@@ -822,6 +822,13 @@ NSRect	xy_draw_rect;
 		drawtime = I_FloatTime() - drawtime;
 		printf ("CameraView drawtime: %5.3f\n", drawtime);
 	}
+
+    linestart (0,0,0);
+    [map_i makeSelectedPerform: @selector(XYDrawSelf)];
+    lineflush ();
+    [cameraview_i XYDrawSelf];
+    [zview_i XYDrawSelf];
+    ///**************************************************************[clipper_i XYDrawSelf];
 }
 
 
@@ -1053,7 +1060,7 @@ void NewCallback (float dx, float dy)
 	
 	owner = [map_i currentEntity];
 	
-	///**************************************************************[texturepalette_i getTextureDef: &td];
+	[texturepalette_i getTextureDef: &td];
 	
 	newbrush = [[SetBrush alloc] initOwner: owner
 		mins: neworg maxs: newdrag texture: &td];
@@ -1065,7 +1072,7 @@ void NewCallback (float dx, float dy)
 			useGrid:	YES
 			callback:	NewCallback ];
 			
-	///**************************************************************[newbrush removeIfInvalid];
+	[newbrush removeIfInvalid];
 	
 	[quakeed_i updateCamera];
 	qprintf ("");
@@ -1104,7 +1111,7 @@ void ControlCallback (float dx, float dy)
 	dragpoint[1] = pt.y;
 	dragpoint[2] = 2048;
 		
-	///**************************************************************[[map_i selectedBrush] getXYdragface: dragpoint];
+	[[map_i selectedBrush] getXYdragface: dragpoint];
 	if (!numcontrolpoints)
 		return NO;
 	
@@ -1117,7 +1124,7 @@ void ControlCallback (float dx, float dy)
 			useGrid:	YES
 			callback:	ControlCallback ];
 			
-	///**************************************************************[[map_i selectedBrush] removeIfInvalid];
+	[[map_i selectedBrush] removeIfInvalid];
 	
 	[quakeed_i updateAll];
 
@@ -1163,7 +1170,7 @@ void ControlCallback (float dx, float dy)
 	}
 
 
-	///**************************************************************[br getXYShearPoints: dragpoint];
+	[br getXYShearPoints: dragpoint];
 	if (!numcontrolpoints)
 		return NO;
 	
@@ -1176,7 +1183,7 @@ void ControlCallback (float dx, float dy)
 			useGrid:	YES
 			callback:	ControlCallback ];
 			
-	///**************************************************************[br removeIfInvalid];
+	[br removeIfInvalid];
 	
 	[quakeed_i updateAll];
 	qprintf ("");

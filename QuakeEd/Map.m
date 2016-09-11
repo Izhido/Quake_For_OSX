@@ -124,7 +124,7 @@ FILE METHODS
 {
 	float	grid;
 	
-	///**************************************************************grid = [xyview_i gridsize];
+	grid = [xyview_i gridsize];
 	minz = grid * rint(minz/grid);
 	return minz;
 }
@@ -142,7 +142,7 @@ FILE METHODS
 	
 	[self currentMinZ];	// grid align
 	
-	///**************************************************************grid = [xyview_i gridsize];
+	grid = [xyview_i gridsize];
 	maxz = grid * rint(maxz/grid);
 
 	if (maxz <= minz)
@@ -269,8 +269,8 @@ readMapFile
 			[currentEntity removeKeyPair: "wad"];
 		else
 		{
-			///**************************************************************if (strcmp ([texturepalette_i currentWad], dat) )
-			///**************************************************************	[project_i 	setTextureWad: dat];
+			if (strcmp ([texturepalette_i currentWad], dat) )
+				[project_i 	setTextureWad: dat];
 		}
 	}
 
@@ -285,8 +285,8 @@ readMapFile
 			angle = atof( [ent valueForQKey: "angle"] );
 			angle = angle/180*M_PI;
 			[ent getVector: org forKey: "origin"];
-			///**************************************************************[cameraview_i setOrigin: org angle:angle];
-			///**************************************************************[xyview_i centerOn: org];
+			[cameraview_i setOrigin: org angle:angle];
+			[xyview_i centerOn: org];
 			break;
 		}
 	}
@@ -781,9 +781,9 @@ void sel_identity (void)
 	sb_mins[0] = sb_mins[1] = sb_mins[2] = 99999;
 	sb_maxs[0] = sb_maxs[1] = sb_maxs[2] = -99999;
 	[self makeSelectedPerform: @selector(addToBBox)];
-	///**************************************************************sel_org[0] = [xyview_i snapToGrid: (sb_mins[0] + sb_maxs[0])/2];
-	///**************************************************************sel_org[1] = [xyview_i snapToGrid: (sb_mins[1] + sb_maxs[1])/2];
-	///**************************************************************sel_org[2] = [xyview_i snapToGrid: (sb_mins[2] + sb_maxs[2])/2];
+	sel_org[0] = [xyview_i snapToGrid: (sb_mins[0] + sb_maxs[0])/2];
+	sel_org[1] = [xyview_i snapToGrid: (sb_mins[1] + sb_maxs[1])/2];
+	sel_org[2] = [xyview_i snapToGrid: (sb_mins[2] + sb_maxs[2])/2];
 	
 // do it!
 	[self makeSelectedPerform: @selector(transform)];

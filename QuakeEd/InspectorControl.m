@@ -76,7 +76,7 @@ InspectorControl		*inspcontrol_i;
 
 	// Setup inspector window with project subview first
 
-	///**************************************************************[inspectorView_i setAutoresizeSubviews:YES];
+	[inspectorView_i setAutoresizesSubviews:YES];
 
     inspectorSubviewController_i = [windowList objectAtIndex:i_project];
     [quakeed_i addChildViewController:inspectorSubviewController_i];

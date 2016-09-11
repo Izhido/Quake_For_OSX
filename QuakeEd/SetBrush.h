@@ -44,6 +44,7 @@ winding_t *ClipWinding (winding_t *in, plane_t *split);
 winding_t	*CopyWinding (winding_t *w);
 winding_t *NewWinding (int points);
 
+@class Entity;
 
 @interface SetBrush : NSObject<NSCopying>
 {
@@ -52,7 +53,7 @@ winding_t *NewWinding (int points);
 
 	BOOL		invalid;		// not a proper polyhedron
 
-	id			parent;			// the entity this brush is in
+	Entity			*parent;			// the entity this brush is in
 	vec3_t		bmins, bmaxs;
 	vec3_t		entitycolor;
 	int			numfaces;
@@ -82,21 +83,21 @@ winding_t *NewWinding (int points);
 - (BOOL)containsPoint: (vec3_t)pt;
 
 - freeWindings;
-///**************************************************************- removeIfInvalid;
+- removeIfInvalid;
 
 extern	vec3_t	region_min, region_max;
-///**************************************************************- newRegion;
+- newRegion;
 
 - (texturedef_t *)texturedef;
 - (texturedef_t *)texturedefForFace: (int)f;
 - setTexturedef: (texturedef_t *)tex;
 - setTexturedef: (texturedef_t *)tex forFace:(int)f;
 
-///**************************************************************- XYDrawSelf;
-///**************************************************************- ZDrawSelf;
-///**************************************************************- CameraDrawSelf;
-///**************************************************************- XYRenderSelf;
-///**************************************************************- CameraRenderSelf;
+- XYDrawSelf;
+- ZDrawSelf;
+- CameraDrawSelf;
+- XYRenderSelf;
+- CameraRenderSelf;
 
 - hitByRay: (vec3_t)p1 : (vec3_t) p2 : (float *)time : (int *)face;
 
@@ -105,9 +106,9 @@ extern	vec3_t	region_min, region_max;
 //
 extern	int		numcontrolpoints;
 extern	float	*controlpoints[MAX_FACES*3];
-///**************************************************************- getZdragface: (vec3_t)dragpoint;
-///**************************************************************- getXYdragface: (vec3_t)dragpoint;
-///**************************************************************- getXYShearPoints: (vec3_t)dragpoint;
+- getZdragface: (vec3_t)dragpoint;
+- getXYdragface: (vec3_t)dragpoint;
+- getXYShearPoints: (vec3_t)dragpoint;
 
 - addFace: (face_t *)f;
 
@@ -120,10 +121,10 @@ extern	vec3_t	sb_translate;
 - translate;
 
 extern	id		carve_in, carve_out;
-///**************************************************************- select;
-///**************************************************************- deselect;
-///**************************************************************- remove;
-///**************************************************************- flushTextures;
+- select;
+- deselect;
+- remove;
+- flushTextures;
 
 extern	vec3_t	sb_mins, sb_maxs;
 - addToBBox;
@@ -140,7 +141,7 @@ extern	vec3_t	sel_org;
 extern	id	sb_newowner;
 - moveToEntity;
 
-///**************************************************************- takeCurrentTexture;
+- takeCurrentTexture;
 
 extern	vec3_t	select_min, select_max;
 - selectPartial;

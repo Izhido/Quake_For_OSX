@@ -250,16 +250,16 @@ Project	*project_i;
 }*/
 
 
-///**************************************************************- setTextureWad: (char *)wf
-/*{
+- setTextureWad: (char *)wf
+{
 	int		i, c;
 	char	*name;
 	
 	qprintf ("loading %s", wf);
 
 // set the row in the settings inspector wad browser
-	c = [wadList count];
-	for (i=0 ; i<c ; i++)
+	///**************************************************************c = [wadList count];
+	/*for (i=0 ; i<c ; i++)
 	{
 		name = (char *)[wadList elementAt:i];
 		if (!strcmp(name, wf))
@@ -274,10 +274,10 @@ Project	*project_i;
 	[[map_i objectAt: 0] setKey:"wad" toValue: wf];
 //	[inspcontrol_i changeInspectorTo:i_textures];
 
-	[quakeed_i updateAll];
+	[quakeed_i updateAll];*/
 
 	return self;
-}*/
+}
 
 //
 //	Clicked on a wad name

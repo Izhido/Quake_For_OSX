@@ -299,24 +299,25 @@ Rect is in global world (unscaled) coordinates
 
 - drawGrid: (NSRect)dirtyRect
 {
-///**************************************************************	int		y, stopy;
-/*	float	top,bottom;
+	int		y, stopy;
+	float	top,bottom;
 	int		left, right;
 	int		gridsize;
-	char	text[10];
+	NSString*	text;
 	BOOL	showcoords;
 	
 	showcoords = [quakeed_i showCoordinates];
 		
-	PSsetlinewidth (0);
+    CGContextRef context = [NSGraphicsContext currentContext].CGContext;
+    CGContextSetLineWidth (context, 0.0);
 
 	gridsize = [xyview_i gridsize];
 	
 	left = self.bounds.origin.x;
 	right = 24;
 	
-	bottom = rect->origin.y-1;
-	top = rect->origin.y+rect->size.height+2;
+	bottom = dirtyRect.origin.y-1;
+	top = dirtyRect.origin.y+dirtyRect.size.height+2;
 
 //
 // grid
@@ -334,18 +335,20 @@ Rect is in global world (unscaled) coordinates
 		if (y<bottom)
 			y+= gridsize;
 			
-		beginUserPath (upath,NO);
+        CGPathRelease(upath);
+        upath = CGPathCreateMutable();
 		
 		for ( ; y<=stopy ; y+= gridsize)
 			if (y&31)
 			{
-				UPmoveto (upath, left, y);
-				UPlineto (upath, right, y);
+                CGPathMoveToPoint (upath, nil, left, y);
+                CGPathAddLineToPoint (upath, nil, right, y);
 			}
 	
-		endUserPath (upath, dps_ustroke);
-		PSsetrgbcolor (0.8,0.8,1.0);	// thin grid color
-		sendUserPath (upath);
+        CGPathCloseSubpath (upath);
+		CGContextSetStrokeColorWithColor(context, [NSColor colorWithRed:0.8 green:0.8 blue:1.0 alpha:1.0].CGColor);	// thin grid color
+        CGContextAddPath(context, upath);
+        CGContextStrokePath(context);
 	}
 
 //
@@ -361,17 +364,19 @@ Rect is in global world (unscaled) coordinates
 	if (stopy >= top)
 		stopy -= 32;
 	
-	beginUserPath (upath,NO);
+    CGPathRelease(upath);
+    upath = CGPathCreateMutable();
 	
 	for ( ; y<=stopy ; y+= 64)
 	{
-		UPmoveto (upath, left, y);
-		UPlineto (upath, right, y);
+        CGPathMoveToPoint (upath, nil, left, y);
+        CGPathAddLineToPoint (upath, nil, right, y);
 	}
 
-	endUserPath (upath, dps_ustroke);
-	PSsetgray (12.0/16.0);
-	sendUserPath (upath);
+    CGPathCloseSubpath (upath);
+    CGContextSetGrayStrokeColor(context, 12.0/16, 1.0);
+    CGContextAddPath(context, upath);
+    CGContextStrokePath(context);
 
 //
 // tiles
@@ -386,40 +391,41 @@ Rect is in global world (unscaled) coordinates
 	if (stopy >= top)
 		stopy -= 64;
 		
-	beginUserPath (upath,NO);
-	PSsetgray (0);		// for text
-	PSselectfont("Helvetica-Medium",10/scale);
-	PSrotate(0);
+    CGPathRelease(upath);
+    upath = CGPathCreateMutable();
+	CGContextSetGrayStrokeColor(context, 0, 1.0);		// for text
+	CGContextSetFont(context, (CGFontRef)[NSFont fontWithName:@"Helvetica-Medium" size:10/scale]);
 	
 	for ( ; y<=stopy ; y+= 64)
 	{
 		if (showcoords)
 		{
-			sprintf (text, "%i",y);
-			PSmoveto(left,y);
-			PSshow(text);
+            text = [NSString stringWithFormat:@"%i",y];
+            [text drawAtPoint:CGPointMake(left,y) withAttributes:nil];
 		}
-		UPmoveto (upath, left+24, y);
-		UPlineto (upath, right, y);
+        CGPathMoveToPoint (upath, nil, left+24, y);
+        CGPathAddLineToPoint (upath, nil, right, y);
 	}
 
 // divider
-	UPmoveto (upath, 0, bounds.origin.y);
-	UPlineto (upath, 0, bounds.origin.y + bounds.size.height);
+    CGPathMoveToPoint (upath, nil, 0, self.bounds.origin.y);
+    CGPathAddLineToPoint (upath, nil, 0, self.bounds.origin.y + self.bounds.size.height);
 	
-	endUserPath (upath, dps_ustroke);
-	PSsetgray (10.0/16.0);
-	sendUserPath (upath);
+    CGPathCloseSubpath (upath);
+    CGContextSetGrayStrokeColor(context, 10.0/16, 1.0);
+    CGContextAddPath(context, upath);
+    CGContextStrokePath(context);
 
 //
 // origin
 //
-	PSsetlinewidth (5);
-	PSsetgray (4.0/16.0);
-	PSmoveto (right,0);
-	PSlineto (left,0);
-	PSstroke ();
-	PSsetlinewidth (0.15);*/
+    CGContextSetLineWidth (context, 5);
+    CGContextSetGrayStrokeColor(context, 4.0/16, 1.0);
+    CGPathMoveToPoint (upath, nil, right,0);
+    CGPathAddLineToPoint (upath, nil, left,0);
+    CGContextAddPath(context, upath);
+    CGContextStrokePath(context);
+    CGContextSetLineWidth (context, 0.15);
 		
 	return self;
 }
@@ -441,17 +447,17 @@ drawRect
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-///**************************************************************	NSRect		visRect;
-/*
+	NSRect		visRect;
+
 	minheight = 999999;
 	maxheight = -999999;
 
 // allways draw the entire bar	
-	[self getVisibleRect:&visRect];
-	rects = &visRect;
+	visRect = self.visibleRect;
+	dirtyRect = visRect;
 
 // erase window
-	NXEraseRect (dirtyRect);
+	NSEraseRect (dirtyRect);
 	
 // draw grid
 	[self drawGrid: dirtyRect];
@@ -460,10 +466,14 @@ drawRect
 //	[self drawZplane];
 	
 // draw all entities
-	[map_i makeUnselectedPerform: @selector(ZDrawSelf)];
+	///**************************************************************[map_i makeUnselectedPerform: @selector(ZDrawSelf)];
 
 // possibly resize the view
-	[self newRealBounds];*/
+	[self newRealBounds];
+
+    [map_i makeSelectedPerform: @selector(ZDrawSelf)];
+    [cameraview_i ZDrawSelf];
+    ///**************************************************************[clipper_i ZDrawSelf];
 }
 
 /*
@@ -648,7 +658,7 @@ void ZControlCallback (float dy)
 	dragpoint[1] = origin[1];
 	dragpoint[2] = pt.y;
 	
-	///**************************************************************[[map_i selectedBrush] getZdragface: dragpoint];
+	[[map_i selectedBrush] getZdragface: dragpoint];
 	if (!numcontrolpoints)
 		return NO;
 	
@@ -661,7 +671,7 @@ void ZControlCallback (float dy)
 			useGrid:	YES
 			callback:	ZControlCallback ];
 			
-	///**************************************************************[[map_i selectedBrush] removeIfInvalid];
+	[[map_i selectedBrush] removeIfInvalid];
 	
 	[quakeed_i updateCamera];
 	qprintf ("");

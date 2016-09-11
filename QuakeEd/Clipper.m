@@ -73,7 +73,7 @@ Clipper	*clipper_i;
 	if ( !norm[0] && !norm[1] && !norm[2] )
 		return NO;
 	
-	///**************************************************************[texturepalette_i getTextureDef: &f->texture];
+	[texturepalette_i getTextureDef: &f->texture];
 
 	return YES;
 }
@@ -88,8 +88,8 @@ XYClick
 	int		i;
 	vec3_t	new;
 		
-	///**************************************************************new[0] = [xyview_i snapToGrid: pt.x];
-	///**************************************************************new[1] = [xyview_i snapToGrid: pt.y];
+	new[0] = [xyview_i snapToGrid: pt.x];
+	new[1] = [xyview_i snapToGrid: pt.y];
 	new[2] = [map_i currentMinZ];
 
 // see if a point is allready there
@@ -158,25 +158,25 @@ XYDrag
 	vec3_t		mid;
 	int			i;
 	
-	///**************************************************************linecolor (1,0.5,0);
+	linecolor (1,0.5,0);
 
 	for (i=0 ; i<num ; i++)
 	{
 		VectorCopy (pos[i], mid);
 		mid[0] -= 8;
 		mid[1] -= 8;
-		///**************************************************************CameraMoveto (mid);
+		CameraMoveto (mid);
 		mid[0] += 16;
 		mid[1] += 16;
-		///**************************************************************CameraLineto (mid);
+		CameraLineto (mid);
 		
 		VectorCopy (pos[i], mid);
 		mid[0] -= 8;
 		mid[1] += 8;
-		///**************************************************************CameraMoveto (mid);
+		CameraMoveto (mid);
 		mid[0] += 16;
 		mid[1] -= 16;
-		///**************************************************************CameraLineto (mid);
+		CameraLineto (mid);
 	}
 	
 	return self;

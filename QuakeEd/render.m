@@ -17,11 +17,11 @@ unsigned	*r_picbuffer;
 
 vec5_t		rightside, leftside, rightstep,leftstep;
 
-///**************************************************************face_t		*r_face;
+face_t		*r_face;
 
 BOOL		r_drawflat;
 
-///**************************************************************pixel32_t	r_flatcolor;
+pixel32_t	r_flatcolor;
 
 int	sy[20];
 
@@ -47,8 +47,8 @@ REN_SetTexture
 ====================
 */
 
-///**************************************************************void REN_SetTexture (face_t *face)
-/*{
+void REN_SetTexture (face_t *face)
+{
 	int		i;
 	int		t_heightshift;
 	qtexture_t	*q;
@@ -90,15 +90,15 @@ REN_SetTexture
 	
 	if ( (1<<t_widthshift) != t_width || (1<<t_heightshift) != t_height)
 		t_widthshift = t_heightshift = 0;	// non power of two
-}*/
+}
 
 /*
 ==================
 REN_DrawSpan
 ==================
 */
-///**************************************************************void REN_DrawSpan (int y)
-/*{
+void REN_DrawSpan (int y)
+{
 	int			x, count;
 	int			ofs;
 	int			tx, ty;
@@ -182,15 +182,15 @@ REN_DrawSpan
 		ofs++;
 	}
 
-}*/
+}
 
 /*
 ==================
 REN_DrawFlatSpan
 ==================
 */
-///**************************************************************void REN_DrawFlatSpan (int y)
-/*{
+void REN_DrawFlatSpan (int y)
+{
 	int			x, count;
 	int			ofs;
 	int			x1, x2;
@@ -229,13 +229,13 @@ REN_DrawFlatSpan
 		{
 			r_zbuffer[ofs] = zfrac;
 			out = (pixel32_t *)&r_picbuffer[ofs];
-			*out = r_flatcolor.p;
+            *out = r_flatcolor;///**************************************************************.p;
 		}
 		zfrac += zstep;
 		ofs++;
 	}
 
-}*/
+}
 
 /*
 =====================
@@ -243,8 +243,8 @@ REN_RasterizeFace
 
 =====================
 */
-///**************************************************************void REN_RasterizeFace (winding_t *w)
-/*{
+void REN_RasterizeFace (winding_t *w)
+{
 	int			y;
 	int			i;
 	int			top, bot;
@@ -329,7 +329,7 @@ REN_RasterizeFace
 			
 		y++;
 	}
-}*/
+}
 
 //=============================================================================
 
@@ -338,8 +338,8 @@ REN_RasterizeFace
 REN_DrawSpanLinear
 ==================
 */
-///**************************************************************void REN_DrawSpanLinear (int y)
-/*{
+void REN_DrawSpanLinear (int y)
+{
 	int			x, count;
 	int			ofs;
 	int			tx, ty;
@@ -413,7 +413,7 @@ REN_DrawSpanLinear
 		ofs++;
 	}
 
-}*/
+}
 
 /*
 =====================
@@ -421,8 +421,8 @@ REN_RasterizeFaceLinear
 
 =====================
 */
-///**************************************************************void REN_RasterizeFaceLinear (winding_t *w)
-/*{
+void REN_RasterizeFaceLinear (winding_t *w)
+{
 	int			y;
 	int			i;
 	int			top, bot;
@@ -501,7 +501,7 @@ REN_RasterizeFaceLinear
 			
 		y++;
 	}
-}*/
+}
 
 //============================================================================
 
@@ -579,8 +579,8 @@ void REN_BeginXY (void)
 REN_DrawCameraFace
 =====================
 */
-///**************************************************************void REN_DrawCameraFace (face_t *idpol)
-/*{
+void REN_DrawCameraFace (face_t *idpol)
+{
 	int		i;
 	float		scale;	
 	int			numvertex;
@@ -647,7 +647,7 @@ REN_DrawCameraFace
 	
 	REN_RasterizeFace (w);
 	free (w);
-}*/
+}
 
 
 /*
@@ -655,8 +655,8 @@ REN_DrawCameraFace
 REN_DrawXYFace
 =====================
 */
-///**************************************************************void REN_DrawXYFace (face_t *idpol)
-/*{
+void REN_DrawXYFace (face_t *idpol)
+{
 	int			i, j, numvertex;
 	winding_t	*w, *in;
 	float		*dest, *source;
@@ -744,5 +744,5 @@ REN_DrawXYFace
 //
 	REN_RasterizeFaceLinear (w);
 	free (w);
-}*/
+}
 

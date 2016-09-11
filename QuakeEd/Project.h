@@ -73,7 +73,7 @@ extern	Project* project_i;
 
 - (char *)currentProjectFile;
 
-///**************************************************************- setTextureWad: (char *)wf;
+- setTextureWad: (char *)wf;
 
 - addToOutput:(char *)string;
 - clearBspOutput:sender;

@@ -378,7 +378,7 @@ int	nument;
 	if (![list count] && esize == esize_model)
 	{
 		printf ("WARNING:Entity with no brushes and esize_model\n"); 
-		///**************************************************************[texturepalette_i getTextureDef: &td];
+		[texturepalette_i getTextureDef: &td];
 		for (i=0 ; i<3 ; i++)
 		{
 			emins[i] = org[i] - 8;
@@ -427,7 +427,7 @@ int	nument;
 		{	// move the playerstart temporarily to the camera position
 			temporg = YES;
 			strcpy (oldang, [self valueForQKey: "angle"]);
-			///**************************************************************sprintf (value, "%i", (int)([cameraview_i yawAngle]*180/M_PI));
+			sprintf (value, "%i", (int)([cameraview_i yawAngle]*180/M_PI));
 			[self setKey: "angle" toValue: value];
 		}
 		else if ( self != [map_i objectAtIndex: 0]
@@ -443,7 +443,7 @@ int	nument;
 		[[list objectAtIndex: 0] getMins: mins maxs: maxs];
 		if (temporg)
 		{
-			///**************************************************************[cameraview_i getOrigin: mins];
+			[cameraview_i getOrigin: mins];
 			mins[0] -= 16;
 			mins[1] -= 16;
 			mins[2] -= 48;

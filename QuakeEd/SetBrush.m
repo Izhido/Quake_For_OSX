@@ -858,8 +858,8 @@ removeIfInvalid
 So created veneers don't stay around
 ===========
 */
-///**************************************************************- removeIfInvalid
-/*{
+- removeIfInvalid
+{
 	int		i, j;
 	
 	for (i=0 ; i<numfaces ; i++)
@@ -881,7 +881,7 @@ So created veneers don't stay around
 		return nil;
 	}
 	return self;
-}*/
+}
 
 /*
 ===========
@@ -1014,8 +1014,8 @@ DRAWING ROUTINES
 
 ==============================================================================
 */
-///**************************************************************
-/*BOOL	fakebrush;
+
+BOOL	fakebrush;
 
 - drawConnections
 {
@@ -1039,12 +1039,12 @@ DRAWING ROUTINES
 	c = [map_i count];
 	for (i=0 ; i<c ; i++)
 	{
-		obj = [map_i objectAt: i];
+		obj = [map_i objectAtIndex: i];
 		targname = [obj valueForQKey: "targetname"];
 		if (strcmp (targ, targname))
 			continue;
 			
-		[[obj objectAt:0] getMins: min  maxs: max];
+		[[obj objectAtIndex:0] getMins: min  maxs: max];
 		dest[0] = (min[0] + max[0]) /2;
 		dest[1] = (min[1] + max[1]) /2;
 		
@@ -1096,20 +1096,19 @@ DRAWING ROUTINES
 	copy = [copy addFace: &face];
 	if (copy)
 	{
-		[copy perform:call];
-		[copy free];
+		[copy performSelector:call];
 	}
 	fakebrush = NO;
 	return YES;
-}*/
+}
 
 /*
 ===========
 XYDrawSelf
 ===========
 */
-///**************************************************************- XYDrawSelf
-/*{
+- XYDrawSelf
+{
 	int		i, j;
 	winding_t	*w;
 	vec3_t	mid, end, s1, s2;
@@ -1124,10 +1123,10 @@ XYDrawSelf
 	[xyview_i addToScrollRange: bmins[0] : bmins[1]];
 	[xyview_i addToScrollRange: bmaxs[0] : bmaxs[1]];
 
-	worldent = [map_i objectAt: 0];
+	worldent = [map_i objectAtIndex: 0];
 	currentent = [map_i currentEntity];
 	
-	if (parent != worldent && self == [parent objectAt: 0])
+	if (parent != worldent && self == [parent objectAtIndex: 0])
 		keybrush = YES;
 	else
 		keybrush = NO;
@@ -1195,15 +1194,15 @@ XYDrawSelf
 	}
 	
 	return self;
-}*/
+}
 
 /*
 ===========
 ZDrawSelf
 ===========
 */
-///**************************************************************- ZDrawSelf
-/*{
+- ZDrawSelf
+{
 	int			i;
 	vec3_t		p1, p2;
 	vec3_t		frontpoint, backpoint;
@@ -1216,15 +1215,17 @@ ZDrawSelf
 	[zview_i addToHeightRange: bmins[2]];
 	[zview_i addToHeightRange: bmaxs[2]];
 	
-	if (selected)
+    CGContextRef context = [NSGraphicsContext currentContext].CGContext;
+
+    if (selected)
 	{		
-		PSmoveto (1, bmaxs[2]);
-		PSlineto (23, bmaxs[2]);
-		PSlineto (23, bmins[2]);
-		PSlineto (1, bmins[2]);
-		PSlineto (1, bmaxs[2]);
-		PSsetrgbcolor (1,0,0);
-		PSstroke ();
+		CGContextMoveToPoint (context, 1, bmaxs[2]);
+		CGContextAddLineToPoint (context, 23, bmaxs[2]);
+		CGContextAddLineToPoint (context, 23, bmins[2]);
+		CGContextAddLineToPoint (context, 1, bmins[2]);
+		CGContextAddLineToPoint (context, 1, bmaxs[2]);
+        CGContextSetStrokeColorWithColor(context, [NSColor colorWithRed:1 green:0 blue:0 alpha:1.0].CGColor);
+        CGContextStrokePath (context);
 	}
 
 	[zview_i getPoint: (NSPoint *)p1];
@@ -1245,36 +1246,36 @@ ZDrawSelf
 		
 	q = TEX_ForName (faces[frontface].texture.texture);
 	
-	PSmoveto (-8, frontpoint[2]);
-	PSlineto (8, frontpoint[2]);
-	PSlineto (8, backpoint[2]);
-	PSlineto (-8, backpoint[2]);
-	PSlineto (-8, frontpoint[2]);
+    CGContextMoveToPoint (context, -8, frontpoint[2]);
+    CGContextAddLineToPoint (context, 8, frontpoint[2]);
+	CGContextAddLineToPoint (context, 8, backpoint[2]);
+	CGContextAddLineToPoint (context, -8, backpoint[2]);
+	CGContextAddLineToPoint (context, -8, frontpoint[2]);
 	
-	PSsetrgbcolor (q->flatcolor.chan[0]/255.0
-			, q->flatcolor.chan[1]/255.0
-			, q->flatcolor.chan[2]/255.0);
-	PSfill ();
+    CGContextSetFillColorWithColor(context, [NSColor colorWithRed:q->flatcolor.chan[0]/255.0
+			 green:q->flatcolor.chan[1]/255.0
+			 blue:q->flatcolor.chan[2]/255.0 alpha:1.0].CGColor);
+	CGContextFillPath (context);
 
-	PSmoveto (-12, frontpoint[2]);
-	PSlineto (12, frontpoint[2]);
-	PSlineto (12, backpoint[2]);
-	PSlineto (-12, backpoint[2]);
-	PSlineto (-12, frontpoint[2]);
+	CGContextMoveToPoint (context, -12, frontpoint[2]);
+	CGContextAddLineToPoint (context, 12, frontpoint[2]);
+	CGContextAddLineToPoint (context, 12, backpoint[2]);
+	CGContextAddLineToPoint (context, -12, backpoint[2]);
+	CGContextAddLineToPoint (context, -12, frontpoint[2]);
 	
-	PSsetrgbcolor (0,0,0);
-	PSstroke ();
+    CGContextSetStrokeColorWithColor(context, [NSColor colorWithRed:0 green:0 blue:0 alpha:1.0].CGColor);
+    CGContextStrokePath (context);
 			
 	return self;
-}*/
+}
 
 /*
 ===========
 CameraDrawSelf
 ===========
 */
-///**************************************************************- CameraDrawSelf
-/*{
+- CameraDrawSelf
+{
 	int		i, j;
 	winding_t	*w;
 	id		worldent, currentent;
@@ -1282,7 +1283,7 @@ CameraDrawSelf
 	if ([self fakeBrush: @selector(CameraDrawSelf)])
 		return self;
 	
-	worldent = [map_i objectAt: 0];
+	worldent = [map_i objectAtIndex: 0];
 	currentent = [map_i currentEntity];
 
 	if (parent != worldent && worldent == currentent)
@@ -1304,7 +1305,7 @@ CameraDrawSelf
 			CameraLineto (w->points[j]);
 	}
 	return self;
-}*/
+}
 
 
 /*
@@ -1312,8 +1313,8 @@ CameraDrawSelf
 XYRenderSelf
 ===========
 */
-///**************************************************************- XYRenderSelf
-/*{
+- XYRenderSelf
+{
 	int		i;
 	
 	if ([self fakeBrush: @selector(XYRenderSelf)])
@@ -1323,15 +1324,15 @@ XYRenderSelf
 		REN_DrawXYFace (&faces[i]);
 		
 	return self;
-}*/
+}
 
 /*
 ===========
 CameraRenderSelf
 ===========
 */
-///**************************************************************- CameraRenderSelf
-/*{
+- CameraRenderSelf
+{
 	int		i;
 	BOOL	olddraw;
 	extern qtexture_t badtex;
@@ -1364,7 +1365,7 @@ CameraRenderSelf
 	}
 			
 	return self;
-}*/
+}
 
 /*
 ==============================================================================
@@ -1379,8 +1380,8 @@ face_t	*dragface, *dragface2;
 int		numcontrolpoints;
 float	*controlpoints[MAX_FACES*3];
 
-///**************************************************************- (BOOL)checkModifiable
-/*{
+- (BOOL)checkModifiable
+{
 //	int		i;
 
 	if ( [parent modifiable] )
@@ -1394,10 +1395,10 @@ float	*controlpoints[MAX_FACES*3];
 		controlpoints[i] = faces[i/3].planepts[i%3];
 #endif	
 	return NO;
-}*/
+}
 
-///**************************************************************- getZdragface: (vec3_t)dragpoint
-/*{
+- getZdragface: (vec3_t)dragpoint
+{
 	int		i, j;
 	float	d;
 	
@@ -1597,7 +1598,7 @@ float	*controlpoints[MAX_FACES*3];
 	}
 		
 	return self;
-}*/
+}
 
 /*
 ==============================================================================
@@ -1616,13 +1617,13 @@ newRegion
 Set the regioned flag based on if the object is containted in region_min/max
 ===========
 */
-///**************************************************************- newRegion
-/*{
+- newRegion
+{
 	int		i;
 	char	*name;
 	
 // filter away entities
-	if (parent != [map_i objectAt: 0])
+	if (parent != [map_i objectAtIndex: 0])
 	{
 		if (filter_entities)
 		{
@@ -1670,7 +1671,7 @@ Set the regioned flag based on if the object is containted in region_min/max
 	
 	regioned = NO;
 	return self;
-}*/
+}
 
 vec3_t	select_min, select_max;
 - selectPartial
@@ -1721,7 +1722,7 @@ id	sb_newowner;
 	id		eclass;
 	float	*c;
 	
-	///**************************************************************[parent removeObject: self];
+	[parent removeObject: self];
 	parent = sb_newowner;
 	
 // hack to allow them to be copied to another map
@@ -1773,8 +1774,8 @@ vec3_t	sb_mins, sb_maxs;
 	return self;
 }
 
-///**************************************************************- flushTextures
-/*{	// call when texture palette changes
+- flushTextures
+{	// call when texture palette changes
 	int		i;
 	
 	for (i=0 ; i<MAX_FACES ; i++)
@@ -1815,10 +1816,9 @@ vec3_t	sb_mins, sb_maxs;
 	}
 
 	[parent removeObject: self];
-	[self free];
 
 	return nil;
-}*/
+}
 
 
 vec3_t	sel_x, sel_y, sel_z;
@@ -1942,14 +1942,14 @@ id		carve_in, carve_out;
 		Error ("addFace: numfaces == MAX_FACES");
 		
 	faces[numfaces] = *f;
-	///**************************************************************faces[numfaces].texture = faces[0].texture;
-	///**************************************************************faces[numfaces].qtexture = NULL;
+	faces[numfaces].texture = faces[0].texture;
+	faces[numfaces].qtexture = NULL;
 	faces[numfaces].w = NULL;
 	numfaces++;
 	[self calcWindings];
 	
 // remove any degenerate faces
-    return self;///**************************************************************return [self removeIfInvalid];
+    return [self removeIfInvalid];
 }
 
 - clipByFace: (face_t *)fa front:(id *)f back:(id *)b
