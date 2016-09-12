@@ -1228,7 +1228,10 @@ ZDrawSelf
         CGContextStrokePath (context);
 	}
 
-	[zview_i getPoint: (NSPoint *)p1];
+    NSPoint point;
+	[zview_i getPoint: &point];
+    p1[0] = point.x;
+    p1[1] = point.y;
 	
 	for (i=0 ; i<2 ; i++)
 		if (bmins[i] >= p1[i] || bmaxs[i] <= p1[i])

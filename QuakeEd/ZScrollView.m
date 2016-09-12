@@ -59,14 +59,12 @@ Adjust the size for the pop up scale menu
     return YES;
 }
 
-///**************************************************************- superviewSizeChanged:(const NXSize *)oldSize
-/*{
-	[super superviewSizeChanged: oldSize];
-	
-	[[self docView] newSuperBounds];
-	
-	return self;
-}*/
+- (void)resizeSubviewsWithOldSize:(NSSize)oldSize
+{
+    [super resizeSubviewsWithOldSize:oldSize];
+    
+    [[self documentView] newSuperBounds];
+}
 
 
 

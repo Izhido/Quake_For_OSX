@@ -22,7 +22,7 @@ float	zplanedir;
 	origin[0] = 0.333;
 	origin[1] = 0.333;
 	
-	[self allocateGState];
+	///**************************************************************[self allocateGState];
 	[self clearBounds];
 	
 	zview_i = self;
@@ -31,7 +31,7 @@ float	zplanedir;
 //		
 // initialize the pop up menus
 //
-    zscalebutton_i = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:YES];
+    zscalebutton_i = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:NO];
     zscalemenu_i = [zscalebutton_i menu];
 	[zscalebutton_i setTarget: self];
 	[zscalebutton_i setAction: @selector(scaleMenuTarget:)];
@@ -51,6 +51,9 @@ float	zplanedir;
 		initWithFrame: 		self.frame
 		button1: 		zscalebutton_i
 	];
+    [zscrollview_i setCopiesOnScroll:NO];
+    [zscrollview_i setHorizontalScrollElasticity:NSScrollElasticityNone];
+    [zscrollview_i setVerticalScrollElasticity:NSScrollElasticityNone];
 	///**************************************************************[zscrollview_i setAutosizing: NX_WIDTHSIZABLE | NX_HEIGHTSIZABLE];
 
 	[zscrollview_i setDocumentView: self];
@@ -97,8 +100,8 @@ setOrigin:scale:
 //
 	scale = sc;
 	
-	///**************************************************************[superview getFrame: &sframe];
-	///**************************************************************[superview getFrame: &newbounds];
+    sframe = self.superview.frame;
+    newbounds = self.superview.frame;
 	newbounds.origin = *pt;
 	newbounds.size.width /= scale; 
 	newbounds.size.height /= scale; 
@@ -118,26 +121,20 @@ setOrigin:scale:
 	}
 
 //
-// redisplay everything
-//
-	///**************************************************************[quakeed_i disableDisplay];
-
-//
 // size this view
 //
-	///**************************************************************[self sizeTo: newbounds.size.width : newbounds.size.height];
-	///**************************************************************[self setDrawOrigin: -newbounds.size.width/2 : newbounds.origin.y];
-	///**************************************************************[self moveTo: -newbounds.size.width/2 : newbounds.origin.y];
+    [self setFrameSize:newbounds.size];
+	[self setBoundsOrigin:NSMakePoint(-newbounds.size.width/2, newbounds.origin.y)];
+    [self setFrameOrigin:NSMakePoint(-newbounds.size.width/2, newbounds.origin.y)];
 	
 //
 // scroll and scale the clip view
 //
-	///**************************************************************[superview setDrawSize
-	///**************************************************************	: sframe.size.width/scale
-	///**************************************************************	: sframe.size.height/scale];
-	///**************************************************************[superview setDrawOrigin: pt->x : pt->y];
+	[self.superview setBoundsSize:NSMakeSize(
+		  sframe.size.width/scale
+		, sframe.size.height/scale)];
+	[self.superview setBoundsOrigin:NSMakePoint(pt->x, pt->y)];
 
-	///**************************************************************[quakeed_i reenableDisplay];
 	[zscrollview_i display];
 	
 	return self;
@@ -268,18 +265,14 @@ If realbounds has shrunk, nothing will change.
 //
 // size this view
 //
-///**************************************************************	[quakeed_i disableDisplay];
-/*
-	[self suspendNotifyAncestorWhenFrameChanged:YES];
-	[self sizeTo: sbounds.size.width : sbounds.size.height];
-	[self setDrawOrigin: -sbounds.size.width/2 : sbounds.origin.y];
-	[self moveTo: -sbounds.size.width/2 : sbounds.origin.y];
-	[self suspendNotifyAncestorWhenFrameChanged:NO];
-	[[superview superview] reflectScroll: superview];
+	///**************************************************************self.postsFrameChangedNotifications = NO;
+	///**************************************************************[self setFrameSize:sbounds.size];
+	///**************************************************************[self setBoundsOrigin:NSMakePoint(-sbounds.size.width/2, sbounds.origin.y)];
+	///**************************************************************[self setFrameOrigin:NSMakePoint(-sbounds.size.width/2, sbounds.origin.y)];
+	///**************************************************************self.postsFrameChangedNotifications = YES;
+	///**************************************************************[[superview superview] reflectScroll: superview];
 
-	[quakeed_i reenableDisplay];
-	
-	[[[[self superview] superview] vertScroller] display];*/
+	///**************************************************************[[[[self superview] superview] vertScroller] display];
 	
 	return self;
 }
@@ -466,7 +459,7 @@ drawRect
 //	[self drawZplane];
 	
 // draw all entities
-	///**************************************************************[map_i makeUnselectedPerform: @selector(ZDrawSelf)];
+	[map_i makeUnselectedPerform: @selector(ZDrawSelf)];
 
 // possibly resize the view
 	[self newRealBounds];

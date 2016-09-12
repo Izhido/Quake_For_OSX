@@ -465,8 +465,8 @@ drawRect
 */
 - (void)drawRect:(NSRect)dirtyRect
 {
-	static float	drawtime;	// static to shut up compiler warning
-
+///**************************************************************	static float	drawtime;	// static to shut up compiler warning
+/*
 	if (timedrawing)
 		drawtime = I_FloatTime ();
 
@@ -477,7 +477,7 @@ drawRect
 
 	if (timedrawing)
 	{
-		///**************************************************************NXPing ();
+		NXPing ();
 		drawtime = I_FloatTime() - drawtime;
 		printf ("CameraView drawtime: %5.3f\n", drawtime);
 	}
@@ -485,7 +485,7 @@ drawRect
     linestart (0,0,0);
     [map_i makeSelectedPerform: @selector(CameraDrawSelf)];
     [clipper_i cameraDrawSelf];
-    lineflush ();
+    lineflush ();*/
 }
 
 

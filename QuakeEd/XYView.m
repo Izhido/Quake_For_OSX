@@ -16,7 +16,7 @@ float		xy_viewdist;		// clip behind this plane
  */
 - (PopScrollView*)embedInScrollView
 {
-	[self allocateGState];
+	///**************************************************************[self allocateGState];
 	
 	realbounds = NSMakeRect(0,0,0,0);
 	
@@ -30,7 +30,7 @@ float		xy_viewdist;		// clip behind this plane
 //		
 // initialize the pop up menus
 //
-    scalebutton_i = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:YES];
+    scalebutton_i = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:NO];
 	scalemenu_i = [scalebutton_i menu];
 	[scalebutton_i setTarget: self];
 	[scalebutton_i setAction: @selector(scaleMenuTarget:)];
@@ -45,7 +45,7 @@ float		xy_viewdist;		// clip behind this plane
     [scalebutton_i selectItem:[[scalemenu_i itemArray] objectAtIndex:4]];
 
 
-    gridbutton_i = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:YES];
+    gridbutton_i = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:NO];
     gridmenu_i = [gridbutton_i menu];
 	[gridbutton_i setTarget: self];
 	[gridbutton_i setAction: @selector(gridMenuTarget:)];
@@ -66,6 +66,9 @@ float		xy_viewdist;		// clip behind this plane
 		button1: 		scalebutton_i
 		button2:		gridbutton_i
 	];
+    [scrollview_i setCopiesOnScroll:NO];
+    [scrollview_i setHorizontalScrollElasticity:NSScrollElasticityNone];
+    [scrollview_i setVerticalScrollElasticity:NSScrollElasticityNone];
 	[scrollview_i setLineScroll: 64];
 	///**************************************************************[scrollview_i setAutosizing: NX_WIDTHSIZABLE | NX_HEIGHTSIZABLE];
 	
@@ -126,8 +129,8 @@ setOrigin:scale:
 //
 	scale = sc;
 	
-	///**************************************************************[superview getFrame: &sframe];
-	///**************************************************************[superview getFrame: &newbounds];
+    sframe = self.superview.frame;
+	newbounds = self.superview.frame;
 	newbounds.origin = *pt;
 	newbounds.size.width /= scale; 
 	newbounds.size.height /= scale; 
@@ -138,26 +141,20 @@ setOrigin:scale:
 	newbounds = NSUnionRect (realbounds, newbounds);
 
 //
-// redisplay everything
-//
-///**************************************************************	[quakeed_i disableDisplay];
-/*
-//
 // size this view
 //
-	[self sizeTo: newbounds.size.width : newbounds.size.height];
-	[self setDrawOrigin: newbounds.origin.x : newbounds.origin.y];
-	[self moveTo: newbounds.origin.x : newbounds.origin.y];
+    [self setFrameSize:newbounds.size];
+    [self setBoundsOrigin:newbounds.origin];
+    [self setFrameOrigin:newbounds.origin];
 	
 //
 // scroll and scale the clip view
 //
-	[superview setDrawSize
-		: sframe.size.width/scale 
-		: sframe.size.height/scale];
-	[superview setDrawOrigin: pt->x : pt->y];
+    [self.superview setBoundsSize:NSMakeSize(
+		  sframe.size.width/scale
+		, sframe.size.height/scale)];
+    [self.superview setBoundsOrigin:NSMakePoint(pt->x, pt->y)];
 
-	[quakeed_i reenableDisplay];*/
 	[scrollview_i display];
 	
 	return self;
@@ -224,19 +221,16 @@ If realbounds has shrunk, nothing will change.
 //
 // size this view
 //
-///**************************************************************	[quakeed_i disableDisplay];
-/*
-	[self suspendNotifyAncestorWhenFrameChanged:YES];
-	[self sizeTo: sbounds.size.width : sbounds.size.height];
-	[self setDrawOrigin: sbounds.origin.x : sbounds.origin.y];
-	[self moveTo: sbounds.origin.x : sbounds.origin.y];
-	[self suspendNotifyAncestorWhenFrameChanged:NO];
+    self.postsFrameChangedNotifications = NO;
+    [self setFrameSize:sbounds.size];
+    [self setBoundsOrigin:sbounds.origin];
+	[self setFrameOrigin:sbounds.origin];
+	self.postsFrameChangedNotifications = YES;
 
-	[scrollview_i reflectScroll: superview];
-	[quakeed_i reenableDisplay];
+	[scrollview_i reflectScrolledClipView: (NSClipView*)self.superview];
 	
-	[[scrollview_i horizScroller] display];
-	[[scrollview_i vertScroller] display];*/
+	[[scrollview_i horizontalScroller] display];
+	[[scrollview_i verticalScroller] display];
 	
 	return self;
 }

@@ -119,23 +119,15 @@ InspectorControl		*inspcontrol_i;
 	newView = [contentList objectAtIndex:which];
 	
 	cell = [itemList objectAtIndex:which];	// set PopUpButton title
-	///**************************************************************[popUpButton_i setTitle:[cell title]];
+	[popUpButton_i setTitle:[cell title]];
 	
     inspectorSubviewController_i = [windowList objectAtIndex:which];
     [quakeed_i addChildViewController:inspectorSubviewController_i];
     
 	[inspectorView_i replaceSubview:inspectorSubview_i with:newView];
-	///**************************************************************[inspectorView_i getFrame:&r];
 	inspectorSubview_i = newView;
-	///**************************************************************[inspectorSubview_i setAutosizing:NX_WIDTHSIZABLE | NX_HEIGHTSIZABLE];
-	///**************************************************************[inspectorSubview_i sizeTo:r.size.width - 4 :r.size.height - 4];
 
-    ///**************************************************************[inspectorSubview_i lockFocus];
-	///**************************************************************[inspectorSubview_i getBounds:&f];
-	///**************************************************************PSsetgray(NX_LTGRAY);
-	///**************************************************************NSRectFill(f);
-	///**************************************************************[inspectorSubview_i unlockFocus];
-	[inspectorView_i display];
+    [inspectorView_i display];
 	
 	return self;
 }
