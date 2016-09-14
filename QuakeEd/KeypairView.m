@@ -72,7 +72,7 @@ initWithFrame:
 	int		i;
 	epair_t	*p;
 
-	loc = [NSEvent mouseLocation];
+	loc = theEvent.locationInWindow;
 	[self convertPoint:loc	fromView:NULL];
 	
 	i = (self.bounds.size.height - loc.y - 4) / LINEHEIGHT;

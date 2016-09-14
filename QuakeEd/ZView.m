@@ -534,7 +534,7 @@ static	NSPoint		oldreletive;
 
 	gridsize = [xyview_i gridsize];
 	
-	startpt = [NSEvent mouseLocation];
+	startpt = startevent.locationInWindow;
 	[self convertPoint:startpt  fromView:NULL];
 	
 	oldreletive.x = oldreletive.y = 0;
@@ -644,7 +644,7 @@ void ZControlCallback (float dy)
 	if ([map_i numSelected] != 1)
 		return NO;
 
-	pt= [NSEvent mouseLocation];
+	pt= theEvent.locationInWindow;
 	[self convertPoint:pt  fromView:NULL];
 
 	dragpoint[0] = origin[0];
@@ -657,7 +657,7 @@ void ZControlCallback (float dy)
 	
 	qprintf ("dragging brush plane");
 	
-	pt= [NSEvent mouseLocation];
+	pt= theEvent.locationInWindow;
 	[self convertPoint:pt  fromView:NULL];
 
 	[self	dragFrom:	theEvent 
@@ -685,7 +685,7 @@ mouseDown
 	int		flags;
 	vec3_t	p1;
 	
-	pt= [NSEvent mouseLocation];
+	pt= theEvent.locationInWindow;
 	[self convertPoint:pt  fromView:NULL];
 
 	p1[0] = origin[0];
@@ -759,7 +759,7 @@ rightMouseDown
 	NSPoint	pt;
 	int		flags;
 		
-	pt= [NSEvent mouseLocation];
+	pt= theEvent.locationInWindow;
 	[self convertPoint:pt  fromView:NULL];
 
 	flags = theEvent.modifierFlags & (NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask);

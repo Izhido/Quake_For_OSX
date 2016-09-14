@@ -764,7 +764,7 @@ mouseDown
 	float			forward, right, up;
 	int				flags;
 		
-	pt = [NSEvent mouseLocation];
+	pt = theEvent.locationInWindow;
 	
 	[self convertPoint:pt  fromView:NULL];
 
@@ -854,7 +854,7 @@ rightMouseDown
 	NSPoint			pt;
 	int				flags;
 		
-	pt = [NSEvent mouseLocation];
+	pt = theEvent.locationInWindow;
 	
 	[self convertPoint:pt  fromView:NULL];
 
