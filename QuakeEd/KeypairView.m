@@ -73,7 +73,7 @@ initWithFrame:
 	epair_t	*p;
 
 	loc = theEvent.locationInWindow;
-	[self convertPoint:loc	fromView:NULL];
+	loc = [self convertPoint:loc	fromView:NULL];
 	
 	i = (self.bounds.size.height - loc.y - 4) / LINEHEIGHT;
 

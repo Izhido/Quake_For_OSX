@@ -710,22 +710,22 @@ viewDrag:
 //
 // modal event loop using instance drawing
 //
-///**************************************************************	goto drawentry;
-/*
-	while (event->type != NX_RMOUSEUP)
+	goto drawentry;
+
+	while (event.type != NSRightMouseUp)
 	{
 		//
 		// calculate new point
 		//
-		newpt = event->location;
-		[self convertPoint:&newpt  fromView:NULL];
+		newpt = event.locationInWindow;
+		newpt = [self convertPoint:newpt  fromView:NULL];
 
 		dx = newpt.x - pt->x;
 		dy = newpt.y - pt->y;
 		*pt = newpt;
 	
-		ya -= dx/bounds.size.width*M_PI/2 * 4;
-		xa += dy/bounds.size.width*M_PI/2 * 4;
+		ya -= dx/self.bounds.size.width*M_PI/2 * 4;
+		xa += dy/self.bounds.size.width*M_PI/2 * 4;
 	
 		[self matrixFromAngles];
 		
@@ -733,17 +733,18 @@ drawentry:
 		[quakeed_i newinstance];
 		[self display];
 		
-		event = [NXApp getNextEvent: 
-			NX_KEYDOWNMASK | NX_RMOUSEUPMASK | NX_RMOUSEDRAGGEDMASK];
+        event = [NSApp nextEventMatchingMask: NSKeyDownMask | NSRightMouseUpMask | NSRightMouseDraggedMask untilDate:nil inMode:NSEventTrackingRunLoopMode dequeue:YES];
+        if (event == nil)
+            continue;
 	
-		if (event->type == NX_KEYDOWN)
+		if (event.type == NSKeyDown)
 		{
 			[self _keyDown: event];
 			[self display];
 			goto drawentry;
 		}
 		
-	}*/
+	}
 
 	return self;
 }
@@ -766,7 +767,7 @@ mouseDown
 		
 	pt = theEvent.locationInWindow;
 	
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	VectorCopy (origin, p1);
 	forward = 160;
@@ -856,7 +857,7 @@ rightMouseDown
 		
 	pt = theEvent.locationInWindow;
 	
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	flags = theEvent.modifierFlags & (NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask);
 

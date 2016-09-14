@@ -535,20 +535,21 @@ static	NSPoint		oldreletive;
 	gridsize = [xyview_i gridsize];
 	
 	startpt = startevent.locationInWindow;
-	[self convertPoint:startpt  fromView:NULL];
+	startpt = [self convertPoint:startpt  fromView:NULL];
 	
 	oldreletive.x = oldreletive.y = 0;
 	
-	///**************************************************************while (1)
-	/*{
-		event = [NXApp getNextEvent:
-			NX_LMOUSEUPMASK | NX_LMOUSEDRAGGEDMASK
-			| NX_RMOUSEUPMASK | NX_RMOUSEDRAGGEDMASK];
-		if (event->type == NX_LMOUSEUP || event->type == NX_RMOUSEUP)
+	while (1)
+	{
+        event = [NSApp nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask
+                 | NSRightMouseUpMask | NSRightMouseDraggedMask untilDate:nil inMode:NSEventTrackingRunLoopMode dequeue:YES];
+        if (event == nil)
+            continue;
+		if (event.type == NSLeftMouseUp || event.type == NSRightMouseUp)
 			break;
 			
-		newpt = event->location;
-		[self convertPoint:newpt  fromView:NULL];
+		newpt = event.locationInWindow;
+		newpt = [self convertPoint:newpt  fromView:NULL];
 
 		reletive.y = newpt.y - startpt.y;
 		
@@ -563,7 +564,7 @@ static	NSPoint		oldreletive;
 		delta.y = reletive.y - oldreletive.y;
 		oldreletive = reletive;			
 		callback (delta.y);		
-	}*/
+	}
 
 	return self;
 }
@@ -645,7 +646,7 @@ void ZControlCallback (float dy)
 		return NO;
 
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	dragpoint[0] = origin[0];
 	dragpoint[1] = origin[1];
@@ -658,7 +659,7 @@ void ZControlCallback (float dy)
 	qprintf ("dragging brush plane");
 	
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	[self	dragFrom:	theEvent 
 			useGrid:	YES
@@ -686,7 +687,7 @@ mouseDown
 	vec3_t	p1;
 	
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	p1[0] = origin[0];
 	p1[1] = origin[1];
@@ -760,7 +761,7 @@ rightMouseDown
 	int		flags;
 		
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	flags = theEvent.modifierFlags & (NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask);
 

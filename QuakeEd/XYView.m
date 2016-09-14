@@ -850,7 +850,7 @@ static	NSPoint		oldreletive;
 	NSPoint		reletive, delta;
 
 	startpt = startevent.locationInWindow;
-	[self convertPoint:startpt  fromView:NULL];
+	startpt = [self convertPoint:startpt  fromView:NULL];
 	
 	oldreletive.x = oldreletive.y = 0;
 	
@@ -862,21 +862,21 @@ static	NSPoint		oldreletive;
 
     while (1)
 	{
-		event = [NSApp nextEventMatchingMask: NX_LMOUSEUPMASK | NX_LMOUSEDRAGGEDMASK
-			| NX_RMOUSEUPMASK | NX_RMOUSEDRAGGEDMASK | NX_APPDEFINEDMASK untilDate:nil inMode:NSEventTrackingRunLoopMode dequeue:YES];
+		event = [NSApp nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask
+			| NSRightMouseUpMask | NSRightMouseDraggedMask | NSApplicationDefined untilDate:nil inMode:NSEventTrackingRunLoopMode dequeue:YES];
         if (event == nil)
             continue;
 
-		if (event.type == NX_LMOUSEUP || event.type == NX_RMOUSEUP)
+		if (event.type == NSLeftMouseUp || event.type == NSRightMouseUp)
 			break;
-		if (event.type == NX_APPDEFINED)
+		if (event.type == NSApplicationDefined)
 		{	// doesn't work.  grrr.
 			///**************************************************************[quakeed_i applicationDefined:event];
 			continue;
 		}
 		
 		newpt = event.locationInWindow;
-		[self convertPoint:newpt  fromView:NULL];
+		newpt = [self convertPoint:newpt  fromView:NULL];
 
 		if (ug)
 		{
@@ -989,7 +989,7 @@ void DirectionCallback (float dx, float dy)
 	qprintf ("changing camera direction");
 
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	direction[0] = pt.x;
 	direction[1] = pt.y;
@@ -1044,7 +1044,7 @@ void NewCallback (float dx, float dy)
 	qprintf ("sizing new brush");
 	
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	neworg[0] = [self snapToGrid: pt.x];
 	neworg[1] = [self snapToGrid: pt.y];
@@ -1101,7 +1101,7 @@ void ControlCallback (float dx, float dy)
 		return NO;
 		
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	dragpoint[0] = pt.x;
 	dragpoint[1] = pt.y;
@@ -1114,7 +1114,7 @@ void ControlCallback (float dx, float dy)
 	qprintf ("dragging brush plane");
 	
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	[self	dragFrom:	theEvent 
 			useGrid:	YES
@@ -1142,7 +1142,7 @@ void ControlCallback (float dx, float dy)
 	br = [map_i selectedBrush];
 	
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 // if the XY point is inside the brush, make the point on top
 	p1[0] = pt.x;
@@ -1173,7 +1173,7 @@ void ControlCallback (float dx, float dy)
 	qprintf ("dragging brush plane");
 	
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	[self	dragFrom:	theEvent 
 			useGrid:	YES
@@ -1209,7 +1209,7 @@ mouseDown
 	int		flags;
 	
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	p1[0] = p2[0] = pt.x;
 	p1[1] = p2[1] = pt.y;
@@ -1361,7 +1361,7 @@ rightMouseDown
 	int		flags;
 		
 	pt= theEvent.locationInWindow;
-	[self convertPoint:pt  fromView:NULL];
+	pt = [self convertPoint:pt  fromView:NULL];
 
 	flags = theEvent.modifierFlags & (NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask);
 
