@@ -21,7 +21,7 @@ class SetupDataViewController: UIViewController
     
     @IBOutlet weak var nextButton: UIButton!
     
-    var timer: NSTimer? = nil
+    var timer: Timer? = nil
     
     override func viewDidLoad()
     {
@@ -37,27 +37,27 @@ class SetupDataViewController: UIViewController
             "lowercase file names. This engine expects lowercase file names - rename your files and " +
         "folders if needed."
         
-        unpackButton.setTitle("Unpack Shareware Episode", forState: .Normal)
+        unpackButton.setTitle("Unpack Shareware Episode", for: UIControlState())
 
         checkGameData()
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(checkGameData), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(checkGameData), userInfo: nil, repeats: true)
         
         self.view.setNeedsLayout()
     }
     
-    override func viewDidAppear(animated: Bool)
+    override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
         
         currentViewController = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidConnect), name: "GCControllerDidConnectNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(controllerDidConnect), name: NSNotification.Name(rawValue: "GCControllerDidConnectNotification"), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidDisconnect), name: "GCControllerDidDisconnectNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(controllerDidDisconnect), name: NSNotification.Name(rawValue: "GCControllerDidDisconnectNotification"), object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool)
+    override func viewWillDisappear(_ animated: Bool)
     {
         super.viewWillDisappear(animated)
         
@@ -121,39 +121,39 @@ class SetupDataViewController: UIViewController
             commandLabel.text = commandFirstLine + commandSecondLine
         }
 
-        nextButton.hidden = hideNextButton
+        nextButton.isHidden = hideNextButton
     }
     
-    @IBAction func onUnpack(sender: UIButton)
+    @IBAction func onUnpack(_ sender: UIButton)
     {
-        let resourcesDir = NSBundle.mainBundle().resourcePath!
+        let resourcesDir = Bundle.main.resourcePath!
         
-        let documentsDir = try! NSFileManager().URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true).path!
+        let documentsDir = try! FileManager().url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path
         
         let filename = "\(resourcesDir)/quake106data.zip";
         
-        if NSFileManager.defaultManager().fileExistsAtPath(filename)
+        if FileManager.default.fileExists(atPath: filename)
         {
-            SSZipArchive.unzipFileAtPath(filename, toDestination: documentsDir)
+            SSZipArchive.unzipFile(atPath: filename, toDestination: documentsDir)
         }
         
         checkGameData()
         
-        unpackButton.setTitle("Shareware episode unpacked.", forState: .Disabled)
-        unpackButton.enabled = false
+        unpackButton.setTitle("Shareware episode unpacked.", for: .disabled)
+        unpackButton.isEnabled = false
     }
     
-    @IBAction func onNext(sender: UIButton)
+    @IBAction func onNext(_ sender: UIButton)
     {
-        performSegueWithIdentifier("ToSetupGameController", sender: self)
+        performSegue(withIdentifier: "ToSetupGameController", sender: self)
     }
     
-    func controllerDidConnect(notification: NSNotification)
+    func controllerDidConnect(_ notification: Notification)
     {
         GameControllerSetup.connect(notification.object as! GCController!)
     }
     
-    func controllerDidDisconnect(notification: NSNotification)
+    func controllerDidDisconnect(_ notification: Notification)
     {
         GameControllerSetup.disconnect(notification.object as! GCController!)
     }

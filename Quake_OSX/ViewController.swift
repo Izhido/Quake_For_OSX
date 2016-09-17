@@ -13,33 +13,33 @@ class ViewController: NSViewController, MTKViewDelegate
 {
     @IBOutlet weak var metalView: MetalView!
     
-    private var device: MTLDevice!
+    fileprivate var device: MTLDevice!
     
-    private var commandQueue: MTLCommandQueue!
+    fileprivate var commandQueue: MTLCommandQueue!
     
-    private var pipelineState: MTLRenderPipelineState!
+    fileprivate var pipelineState: MTLRenderPipelineState!
 
-    private var modelViewProjectionMatrixBuffer: MTLBuffer! = nil
+    fileprivate var modelViewProjectionMatrixBuffer: MTLBuffer! = nil
     
-    private var buffer: MTLBuffer! = nil
+    fileprivate var buffer: MTLBuffer! = nil
     
-    private var texture: MTLTexture! = nil
+    fileprivate var texture: MTLTexture! = nil
     
-    private var colorTable: MTLTexture! = nil
+    fileprivate var colorTable: MTLTexture! = nil
     
-    private var textureSamplerState: MTLSamplerState! = nil
+    fileprivate var textureSamplerState: MTLSamplerState! = nil
 
-    private var colorTableSamplerState: MTLSamplerState! = nil
+    fileprivate var colorTableSamplerState: MTLSamplerState! = nil
     
-    private var previousWidth: Float = -1
+    fileprivate var previousWidth: Float = -1
     
-    private var previousHeight: Float = -1
+    fileprivate var previousHeight: Float = -1
     
-    private var previousTime: NSTimeInterval = -1
+    fileprivate var previousTime: TimeInterval = -1
     
-    private var currentTime: NSTimeInterval = -1
+    fileprivate var currentTime: TimeInterval = -1
     
-    private var remote: GCController? = nil
+    fileprivate var remote: GCController? = nil
     
     override func viewDidLoad()
     {
@@ -47,21 +47,21 @@ class ViewController: NSViewController, MTKViewDelegate
 
         device = MTLCreateSystemDefaultDevice()
 
-        commandQueue = device.newCommandQueue()
+        commandQueue = device.makeCommandQueue()
         
         let library = device.newDefaultLibrary()
         
-        let vertexProgram = library!.newFunctionWithName("vertexMain")
+        let vertexProgram = library!.makeFunction(name: "vertexMain")
         
-        let fragmentProgram = library!.newFunctionWithName("fragmentMain")
+        let fragmentProgram = library!.makeFunction(name: "fragmentMain")
         
         let vertexDescriptor = MTLVertexDescriptor()
         
-        vertexDescriptor.attributes[0].format = .Float4
+        vertexDescriptor.attributes[0].format = .float4
         vertexDescriptor.attributes[0].offset = 0
         vertexDescriptor.attributes[0].bufferIndex = 0
         
-        vertexDescriptor.attributes[1].format = .Float2
+        vertexDescriptor.attributes[1].format = .float2
         vertexDescriptor.attributes[1].offset = 16
         vertexDescriptor.attributes[1].bufferIndex = 0
         
@@ -73,16 +73,16 @@ class ViewController: NSViewController, MTKViewDelegate
         pipelineStateDescriptor.vertexFunction = vertexProgram
         pipelineStateDescriptor.fragmentFunction = fragmentProgram
         pipelineStateDescriptor.colorAttachments[0].pixelFormat = metalView.colorPixelFormat
-        pipelineStateDescriptor.colorAttachments[0].blendingEnabled = true
-        pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = .SourceAlpha
-        pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = .SourceAlpha
-        pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .OneMinusSourceAlpha
-        pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = .OneMinusSourceAlpha
+        pipelineStateDescriptor.colorAttachments[0].isBlendingEnabled = true
+        pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
+        pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = .sourceAlpha
+        pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
+        pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = .oneMinusSourceAlpha
         pipelineStateDescriptor.sampleCount = metalView.sampleCount
         
         do
         {
-            try pipelineState = device.newRenderPipelineStateWithDescriptor(pipelineStateDescriptor)
+            try pipelineState = device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
         }
         catch let error as NSError
         {
@@ -90,7 +90,7 @@ class ViewController: NSViewController, MTKViewDelegate
             abort()
         }
 
-        modelViewProjectionMatrixBuffer = device.newBufferWithLength(16 * sizeof(Float), options:[])
+        modelViewProjectionMatrixBuffer = device.makeBuffer(length: 16 * MemoryLayout<Float>.size, options:[])
         
         let data : [Float] = [
             -1.6, 1.0, -1.0, 1.0,
@@ -104,32 +104,32 @@ class ViewController: NSViewController, MTKViewDelegate
         ]
 
         let colorTableDescriptor = MTLTextureDescriptor()
-        colorTableDescriptor.textureType = .Type1D
+        colorTableDescriptor.textureType = .type1D
         colorTableDescriptor.width = 256
         
-        colorTable = device.newTextureWithDescriptor(colorTableDescriptor)
+        colorTable = device.makeTexture(descriptor: colorTableDescriptor)
         
         let textureSamplerDescriptor = MTLSamplerDescriptor()
         
-        textureSamplerState = device.newSamplerStateWithDescriptor(textureSamplerDescriptor)
+        textureSamplerState = device.makeSamplerState(descriptor: textureSamplerDescriptor)
         
         let colorTableSamplerDescriptor = MTLSamplerDescriptor()
         
-        colorTableSamplerState = device.newSamplerStateWithDescriptor(colorTableSamplerDescriptor)
+        colorTableSamplerState = device.makeSamplerState(descriptor: colorTableSamplerDescriptor)
         
-        buffer = device.newBufferWithBytes(data, length: data.count * sizeofValue(data[0]), options:[])
+        buffer = device.makeBuffer(bytes: data, length: data.count * MemoryLayout.size(ofValue: data[0]), options:[])
 
         metalView.device = device
         metalView.delegate = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidConnect), name: "GCControllerDidConnectNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(controllerDidConnect), name: NSNotification.Name(rawValue: "GCControllerDidConnectNotification"), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidDisconnect), name: "GCControllerDidDisconnectNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(controllerDidDisconnect), name: NSNotification.Name(rawValue: "GCControllerDidDisconnectNotification"), object: nil)
         
-        Sys_Init(Process.argc, Process.unsafeArgv)
+        Sys_Init(CommandLine.argc, CommandLine.unsafeArgv)
     }
 
-    func orthographic(top: Float, bottom: Float, left: Float, right: Float, near: Float, far: Float) -> [Float]
+    func orthographic(_ top: Float, bottom: Float, left: Float, right: Float, near: Float, far: Float) -> [Float]
     {
         let ral = right + left
         let rsl = right - left
@@ -146,25 +146,25 @@ class ViewController: NSViewController, MTKViewDelegate
         ]
     }
     
-    func mtkView(view: MTKView, drawableSizeWillChange size: CGSize)
+    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize)
     {
     }
 
-    func drawInMTKView(view: MTKView)
+    func draw(in view: MTKView)
     {
         if previousTime < 0
         {
-            previousTime = NSProcessInfo().systemUptime
+            previousTime = ProcessInfo().systemUptime
         }
         else if currentTime < 0
         {
-            currentTime = NSProcessInfo().systemUptime
+            currentTime = ProcessInfo().systemUptime
         }
         else
         {
             previousTime = currentTime
             
-            currentTime = NSProcessInfo().systemUptime
+            currentTime = ProcessInfo().systemUptime
             
             frame_lapse = Float(currentTime - previousTime)
         }
@@ -200,30 +200,26 @@ class ViewController: NSViewController, MTKViewDelegate
             }
             
             let matrixData = modelViewProjectionMatrixBuffer.contents()
-            let matrixPointer = UnsafeMutablePointer<Float>(matrixData)
             
-            for i in 0..<16
-            {
-                matrixPointer[i] = matrix[i]
-            }
+            memcpy(matrixData, matrix, 16 * MemoryLayout<Float>.size)
 
             let textureDescriptor = MTLTextureDescriptor()
-            textureDescriptor.pixelFormat = .R8Unorm
+            textureDescriptor.pixelFormat = .r8Unorm
             textureDescriptor.width = Int(vid_screenWidth)
             textureDescriptor.height = Int(vid_screenHeight)
             
-            texture = device.newTextureWithDescriptor(textureDescriptor)
+            texture = device.makeTexture(descriptor: textureDescriptor)
         }
 
         let screenRegion = MTLRegionMake2D(0, 0, Int(vid_screenWidth), Int(vid_screenHeight))
         
-        texture.replaceRegion(screenRegion, mipmapLevel: 0, slice: 0, withBytes: vid_buffer, bytesPerRow: Int(vid_screenWidth), bytesPerImage: 0)
+        texture.replace(region: screenRegion, mipmapLevel: 0, slice: 0, withBytes: vid_buffer, bytesPerRow: Int(vid_screenWidth), bytesPerImage: 0)
 
         let colorTableRegion = MTLRegionMake1D(0, 256);
         
-        colorTable.replaceRegion(colorTableRegion, mipmapLevel: 0, slice: 0, withBytes: d_8to24table, bytesPerRow: 0, bytesPerImage: 0)
+        colorTable.replace(region: colorTableRegion, mipmapLevel: 0, slice: 0, withBytes: d_8to24table, bytesPerRow: 0, bytesPerImage: 0)
         
-        let commandBuffer = commandQueue.commandBuffer()
+        let commandBuffer = commandQueue.makeCommandBuffer()
         
         let renderPassDescriptor = view.currentRenderPassDescriptor
         
@@ -233,30 +229,30 @@ class ViewController: NSViewController, MTKViewDelegate
         {
             renderPassDescriptor!.colorAttachments[0].clearColor = MTLClearColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
             
-            renderPassDescriptor!.depthAttachment.loadAction = .Clear
+            renderPassDescriptor!.depthAttachment.loadAction = .clear
             
-            let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor!)
+            let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor!)
             
             commandEncoder.setRenderPipelineState(pipelineState)
             
-            commandEncoder.setVertexBuffer(buffer, offset: 0, atIndex: 0)
-            commandEncoder.setVertexBuffer(modelViewProjectionMatrixBuffer, offset: 0, atIndex: 1)
-            commandEncoder.setFragmentTexture(texture, atIndex: 0)
-            commandEncoder.setFragmentTexture(colorTable, atIndex: 1)
-            commandEncoder.setFragmentSamplerState(textureSamplerState, atIndex: 0)
-            commandEncoder.setFragmentSamplerState(colorTableSamplerState, atIndex: 1)
+            commandEncoder.setVertexBuffer(buffer, offset: 0, at: 0)
+            commandEncoder.setVertexBuffer(modelViewProjectionMatrixBuffer, offset: 0, at: 1)
+            commandEncoder.setFragmentTexture(texture, at: 0)
+            commandEncoder.setFragmentTexture(colorTable, at: 1)
+            commandEncoder.setFragmentSamplerState(textureSamplerState, at: 0)
+            commandEncoder.setFragmentSamplerState(colorTableSamplerState, at: 1)
             
-            commandEncoder.drawPrimitives(.TriangleStrip, vertexStart: 0, vertexCount: 4, instanceCount: 1)
+            commandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4, instanceCount: 1)
 
             commandEncoder.endEncoding()
             
-            commandBuffer.presentDrawable(currentDrawable!)
+            commandBuffer.present(currentDrawable!)
         }
         
         commandBuffer.commit()
     }
     
-    func controllerDidConnect(notification: NSNotification)
+    func controllerDidConnect(_ notification: Notification)
     {
         for controller in GCController.controllers()
         {
@@ -264,7 +260,7 @@ class ViewController: NSViewController, MTKViewDelegate
             {
                 remote = controller
                 
-                remote!.playerIndex = .Index1
+                remote!.playerIndex = .index1
                 
                 remote!.controllerPausedHandler = { (controller: GCController) -> () in
                     
@@ -353,11 +349,11 @@ class ViewController: NSViewController, MTKViewDelegate
         }
     }
     
-    func controllerDidDisconnect(notification: NSNotification)
+    func controllerDidDisconnect(_ notification: Notification)
     {
         if remote == notification.object as! GCController!
         {
-            remote!.playerIndex = .IndexUnset
+            remote!.playerIndex = .indexUnset
             
             in_forwardmove = 0.0
             in_sidestepmove = 0.0

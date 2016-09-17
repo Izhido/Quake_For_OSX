@@ -12,6 +12,8 @@
 int	vid_screenWidth = 320;
 int vid_screenHeight = 200;
 
+int glvr_mode = 0;
+
 byte*	vid_buffer = NULL;
 short*	zbuffer = NULL;
 byte*	surfcache = NULL;

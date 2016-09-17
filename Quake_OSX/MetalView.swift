@@ -10,11 +10,11 @@ import MetalKit
 
 class MetalView: MTKView
 {
-    private var previousModifierFlags : NSEventModifierFlags = []
+    fileprivate var previousModifierFlags : NSEventModifierFlags = []
     
-    private var trackingArea : NSTrackingArea?
+    fileprivate var trackingArea : NSTrackingArea?
     
-    private let scantokey =
+    fileprivate let scantokey =
     [
         97,  //kVK_ANSI_A                    = 0x00,
         115, //kVK_ANSI_S                    = 0x01,
@@ -145,7 +145,7 @@ class MetalView: MTKView
         128  //kVK_UpArrow                   = 0x7E
     ]
     
-    override func keyDown(theEvent: NSEvent)
+    override func keyDown(with theEvent: NSEvent)
     {
         let code = Int(theEvent.keyCode)
         
@@ -154,7 +154,7 @@ class MetalView: MTKView
         Key_Event(mapped, qboolean(1))
     }
     
-    override func keyUp(theEvent: NSEvent)
+    override func keyUp(with theEvent: NSEvent)
     {
         let code = Int(theEvent.keyCode)
         
@@ -163,31 +163,31 @@ class MetalView: MTKView
         Key_Event(mapped, qboolean(0))
     }
     
-    override func flagsChanged(theEvent: NSEvent)
+    override func flagsChanged(with theEvent: NSEvent)
     {
-        if theEvent.modifierFlags.contains(.AlternateKeyMask) && !previousModifierFlags.contains(.AlternateKeyMask)
+        if theEvent.modifierFlags.contains(.option) && !previousModifierFlags.contains(.option)
         {
             Key_Event(132, qboolean(1))
         }
-        else if !theEvent.modifierFlags.contains(.AlternateKeyMask) && previousModifierFlags.contains(.AlternateKeyMask)
+        else if !theEvent.modifierFlags.contains(.option) && previousModifierFlags.contains(.option)
         {
             Key_Event(132, qboolean(0))
         }
         
-        if theEvent.modifierFlags.contains(.ControlKeyMask) && !previousModifierFlags.contains(.ControlKeyMask)
+        if theEvent.modifierFlags.contains(.control) && !previousModifierFlags.contains(.control)
         {
             Key_Event(133, qboolean(1))
         }
-        else if !theEvent.modifierFlags.contains(.ControlKeyMask) && previousModifierFlags.contains(.ControlKeyMask)
+        else if !theEvent.modifierFlags.contains(.control) && previousModifierFlags.contains(.control)
         {
             Key_Event(133, qboolean(0))
         }
         
-        if theEvent.modifierFlags.contains(.ShiftKeyMask) && !previousModifierFlags.contains(.ShiftKeyMask)
+        if theEvent.modifierFlags.contains(.shift) && !previousModifierFlags.contains(.shift)
         {
             Key_Event(134, qboolean(1))
         }
-        else if !theEvent.modifierFlags.contains(.ShiftKeyMask) && previousModifierFlags.contains(.ShiftKeyMask)
+        else if !theEvent.modifierFlags.contains(.shift) && previousModifierFlags.contains(.shift)
         {
             Key_Event(134, qboolean(0))
         }
@@ -197,14 +197,14 @@ class MetalView: MTKView
 
     override var acceptsFirstResponder: Bool { return true }
     
-    private func createTrackingArea()
+    fileprivate func createTrackingArea()
     {
-        trackingArea = NSTrackingArea(rect: self.bounds, options: [.MouseMoved, .MouseEnteredAndExited, .ActiveAlways], owner: self, userInfo: nil)
+        trackingArea = NSTrackingArea(rect: self.bounds, options: [.mouseMoved, .mouseEnteredAndExited, .activeAlways], owner: self, userInfo: nil)
         
         addTrackingArea(trackingArea!)
     }
 
-    override func viewWillMoveToWindow(newWindow: NSWindow?)
+    override func viewWillMove(toWindow newWindow: NSWindow?)
     {
         if newWindow != nil
         {
@@ -219,38 +219,38 @@ class MetalView: MTKView
         createTrackingArea()
     }
     
-    override func mouseDown(theEvent: NSEvent)
+    override func mouseDown(with theEvent: NSEvent)
     {
         Key_Event(200, qboolean(1))
     }
     
-    override func mouseUp(theEvent: NSEvent)
+    override func mouseUp(with theEvent: NSEvent)
     {
         Key_Event(200, qboolean(0))
     }
     
-    override func mouseMoved(theEvent: NSEvent)
+    override func mouseMoved(with theEvent: NSEvent)
     {
         mx += Int32(theEvent.deltaX)
         my += Int32(theEvent.deltaY)
     }
     
-    override func rightMouseDown(theEvent: NSEvent)
+    override func rightMouseDown(with theEvent: NSEvent)
     {
         Key_Event(201, qboolean(1))
     }
     
-    override func rightMouseUp(theEvent: NSEvent)
+    override func rightMouseUp(with theEvent: NSEvent)
     {
         Key_Event(201, qboolean(0))
     }
     
-    override func mouseEntered(theEvent: NSEvent)
+    override func mouseEntered(with theEvent: NSEvent)
     {
         NSCursor.hide()
     }
     
-    override func mouseExited(theEvent: NSEvent)
+    override func mouseExited(with theEvent: NSEvent)
     {
         NSCursor.unhide()
     }

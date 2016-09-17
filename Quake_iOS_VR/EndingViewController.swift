@@ -53,41 +53,41 @@ class EndingViewController: UIViewController, UITableViewDataSource, UITableView
         
         if messagesCount > 0
         {
-            copyLogButton.hidden = false
+            copyLogButton.isHidden = false
             
-            let lastMessage = NSIndexPath(forRow: messagesCount - 1, inSection: 0)
-            consoleTableView.scrollToRowAtIndexPath(lastMessage, atScrollPosition: .Bottom, animated: true)
+            let lastMessage = IndexPath(row: messagesCount - 1, section: 0)
+            consoleTableView.scrollToRow(at: lastMessage, at: .bottom, animated: true)
         }
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return Int(Sys_MessagesCount())
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let identifier = "consoleCell"
         
-        var cell = consoleTableView.dequeueReusableCellWithIdentifier(identifier)
+        var cell = consoleTableView.dequeueReusableCell(withIdentifier: identifier)
         
         if cell == nil
         {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
+            cell = UITableViewCell(style: .default, reuseIdentifier: identifier)
             cell!.textLabel!.font = UIFont(name: "Courier", size: 10.0)
         }
         
-        cell!.textLabel!.text = String.fromCString(Sys_GetMessage(Int32(indexPath.row)))
+        cell!.textLabel!.text = String(cString: Sys_GetMessage(Int32((indexPath as NSIndexPath).row)))
         
         return cell!
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         return 12.0
     }
     
-    @IBAction func onCopyLog(sender: UIButton)
+    @IBAction func onCopyLog(_ sender: UIButton)
     {
         var log : String = ""
         
@@ -95,21 +95,21 @@ class EndingViewController: UIViewController, UITableViewDataSource, UITableView
         
         for messageIndex in 0...messageCount - 1
         {
-            log += String.fromCString(Sys_GetMessage(Int32(messageIndex)))!
+            log += String(cString: Sys_GetMessage(Int32(messageIndex)))
         }
         
-        UIPasteboard.generalPasteboard().string = log
+        UIPasteboard.general.string = log
         
-        copyLogButton.setTitle("Log copied.", forState: .Disabled)
-        copyLogButton.enabled = false
+        copyLogButton.setTitle("Log copied.", for: .disabled)
+        copyLogButton.isEnabled = false
     }
     
-    func controllerDidConnect(notification: NSNotification)
+    func controllerDidConnect(_ notification: Notification)
     {
         GameControllerSetup.connect(notification.object as! GCController!)
     }
     
-    func controllerDidDisconnect(notification: NSNotification)
+    func controllerDidDisconnect(_ notification: Notification)
     {
         GameControllerSetup.disconnect(notification.object as! GCController!)
     }

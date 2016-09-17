@@ -13,37 +13,37 @@ class ViewController: GCEventViewController, MTKViewDelegate
 {
     @IBOutlet weak var metalView: MTKView!
     
-    private var device: MTLDevice!
+    fileprivate var device: MTLDevice!
     
-    private var commandQueue: MTLCommandQueue!
+    fileprivate var commandQueue: MTLCommandQueue!
     
-    private var pipelineState: MTLRenderPipelineState!
+    fileprivate var pipelineState: MTLRenderPipelineState!
     
-    private var modelViewProjectionMatrixBuffer: MTLBuffer! = nil
+    fileprivate var modelViewProjectionMatrixBuffer: MTLBuffer! = nil
     
-    private var buffer: MTLBuffer! = nil
+    fileprivate var buffer: MTLBuffer! = nil
     
-    private var texture: MTLTexture! = nil
+    fileprivate var texture: MTLTexture! = nil
     
-    private var colorTable: MTLTexture! = nil
+    fileprivate var colorTable: MTLTexture! = nil
     
-    private var textureSamplerState: MTLSamplerState! = nil
+    fileprivate var textureSamplerState: MTLSamplerState! = nil
     
-    private var colorTableSamplerState: MTLSamplerState! = nil
+    fileprivate var colorTableSamplerState: MTLSamplerState! = nil
     
-    private var previousWidth: Float = -1
+    fileprivate var previousWidth: Float = -1
     
-    private var previousHeight: Float = -1
+    fileprivate var previousHeight: Float = -1
     
-    private var previousTime: NSTimeInterval = -1
+    fileprivate var previousTime: TimeInterval = -1
     
-    private var currentTime: NSTimeInterval = -1
+    fileprivate var currentTime: TimeInterval = -1
     
-    private var remote: GCController? = nil
+    fileprivate var remote: GCController? = nil
     
-    private var extendedRemote: GCController? = nil
+    fileprivate var extendedRemote: GCController? = nil
     
-    private var renderingStopped: Bool = false
+    fileprivate var renderingStopped: Bool = false
     
     override func viewDidLoad()
     {
@@ -51,21 +51,21 @@ class ViewController: GCEventViewController, MTKViewDelegate
         
         device = MTLCreateSystemDefaultDevice()
         
-        commandQueue = device.newCommandQueue()
+        commandQueue = device.makeCommandQueue()
         
         let library = device.newDefaultLibrary()
         
-        let vertexProgram = library!.newFunctionWithName("vertexMain")
+        let vertexProgram = library!.makeFunction(name: "vertexMain")
         
-        let fragmentProgram = library!.newFunctionWithName("fragmentMain")
+        let fragmentProgram = library!.makeFunction(name: "fragmentMain")
         
         let vertexDescriptor = MTLVertexDescriptor()
         
-        vertexDescriptor.attributes[0].format = .Float4
+        vertexDescriptor.attributes[0].format = .float4
         vertexDescriptor.attributes[0].offset = 0
         vertexDescriptor.attributes[0].bufferIndex = 0
         
-        vertexDescriptor.attributes[1].format = .Float2
+        vertexDescriptor.attributes[1].format = .float2
         vertexDescriptor.attributes[1].offset = 16
         vertexDescriptor.attributes[1].bufferIndex = 0
         
@@ -77,16 +77,16 @@ class ViewController: GCEventViewController, MTKViewDelegate
         pipelineStateDescriptor.vertexFunction = vertexProgram
         pipelineStateDescriptor.fragmentFunction = fragmentProgram
         pipelineStateDescriptor.colorAttachments[0].pixelFormat = metalView.colorPixelFormat
-        pipelineStateDescriptor.colorAttachments[0].blendingEnabled = true
-        pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = .SourceAlpha
-        pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = .SourceAlpha
-        pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .OneMinusSourceAlpha
-        pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = .OneMinusSourceAlpha
+        pipelineStateDescriptor.colorAttachments[0].isBlendingEnabled = true
+        pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
+        pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = .sourceAlpha
+        pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
+        pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = .oneMinusSourceAlpha
         pipelineStateDescriptor.sampleCount = metalView.sampleCount
         
         do
         {
-            try pipelineState = device.newRenderPipelineStateWithDescriptor(pipelineStateDescriptor)
+            try pipelineState = device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
         }
         catch let error as NSError
         {
@@ -94,7 +94,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
             abort()
         }
         
-        modelViewProjectionMatrixBuffer = device.newBufferWithLength(16 * sizeof(Float), options:[])
+        modelViewProjectionMatrixBuffer = device.makeBuffer(length: 16 * MemoryLayout<Float>.size, options:[])
         
         let data : [Float] = [
             -1.6, 1.0, -1.0, 1.0,
@@ -108,54 +108,54 @@ class ViewController: GCEventViewController, MTKViewDelegate
         ]
         
         let colorTableDescriptor = MTLTextureDescriptor()
-        colorTableDescriptor.textureType = .Type1D
+        colorTableDescriptor.textureType = .type1D
         colorTableDescriptor.width = 256
         
-        colorTable = device.newTextureWithDescriptor(colorTableDescriptor)
+        colorTable = device.makeTexture(descriptor: colorTableDescriptor)
         
         let textureSamplerDescriptor = MTLSamplerDescriptor()
         
-        textureSamplerState = device.newSamplerStateWithDescriptor(textureSamplerDescriptor)
+        textureSamplerState = device.makeSamplerState(descriptor: textureSamplerDescriptor)
         
         let colorTableSamplerDescriptor = MTLSamplerDescriptor()
         
-        colorTableSamplerState = device.newSamplerStateWithDescriptor(colorTableSamplerDescriptor)
+        colorTableSamplerState = device.makeSamplerState(descriptor: colorTableSamplerDescriptor)
         
-        buffer = device.newBufferWithBytes(data, length: data.count * sizeofValue(data[0]), options:[])
+        buffer = device.makeBuffer(bytes: data, length: data.count * MemoryLayout.size(ofValue: data[0]), options:[])
         
         metalView.device = device
         metalView.delegate = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidConnect), name: "GCControllerDidConnectNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(controllerDidConnect), name: NSNotification.Name(rawValue: "GCControllerDidConnectNotification"), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidDisconnect), name: "GCControllerDidDisconnectNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(controllerDidDisconnect), name: NSNotification.Name(rawValue: "GCControllerDidDisconnectNotification"), object: nil)
         
-        let ipAddress = NSUserDefaults.standardUserDefaults().stringForKey("net_ipaddress")
+        let ipAddress = UserDefaults.standard.string(forKey: "net_ipaddress")
         
         if ipAddress != nil && !ipAddress!.isEmpty
         {
-            net_ipaddress = UnsafeMutablePointer<Int8>(malloc(ipAddress!.characters.count + 1))
+            net_ipaddress = UnsafeMutablePointer<Int8>.allocate(capacity: ipAddress!.characters.count + 1)
             
-            strcpy(net_ipaddress, ipAddress!.cStringUsingEncoding(String.defaultCStringEncoding())!)
+            strcpy(net_ipaddress, ipAddress!.cString(using: String.defaultCStringEncoding)!)
         }
         
-        Sys_Init(NSBundle.mainBundle().resourcePath!, try! NSFileManager().URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true).path!)
+        Sys_Init(Bundle.main.resourcePath!, try! FileManager().url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path)
 
-        let server = NSUserDefaults.standardUserDefaults().stringForKey("lanConfig_joinname")
+        let server = UserDefaults.standard.string(forKey: "lanConfig_joinname")
         
         if server != nil && !server!.isEmpty
         {
-            strcpy(lanConfig_joinname, server!.cStringUsingEncoding(String.defaultCStringEncoding())!)
+            strcpy(lanConfig_joinname, server!.cString(using: String.defaultCStringEncoding)!)
         }
         
-        let port = NSUserDefaults.standardUserDefaults().integerForKey("lanConfig_port")
+        let port = UserDefaults.standard.integer(forKey: "lanConfig_port")
         
         if port != 0
         {
             lanConfig_port = Int32(port)
         }
         
-        let playerName = NSUserDefaults.standardUserDefaults().stringForKey("cl_name")
+        let playerName = UserDefaults.standard.string(forKey: "cl_name")
         
         if playerName != nil && !playerName!.isEmpty
         {
@@ -163,7 +163,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
         }
     }
     
-    func orthographic(top: Float, bottom: Float, left: Float, right: Float, near: Float, far: Float) -> [Float]
+    func orthographic(_ top: Float, bottom: Float, left: Float, right: Float, near: Float, far: Float) -> [Float]
     {
         let ral = right + left
         let rsl = right - left
@@ -188,11 +188,11 @@ class ViewController: GCEventViewController, MTKViewDelegate
         }
     }
 
-    func mtkView(view: MTKView, drawableSizeWillChange size: CGSize)
+    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize)
     {
     }
     
-    func drawInMTKView(view: MTKView)
+    func draw(in view: MTKView)
     {
         if sys_ended.rawValue != 0
         {
@@ -203,17 +203,17 @@ class ViewController: GCEventViewController, MTKViewDelegate
 
         if previousTime < 0
         {
-            previousTime = NSProcessInfo().systemUptime
+            previousTime = ProcessInfo().systemUptime
         }
         else if currentTime < 0
         {
-            currentTime = NSProcessInfo().systemUptime
+            currentTime = ProcessInfo().systemUptime
         }
         else
         {
             previousTime = currentTime
             
-            currentTime = NSProcessInfo().systemUptime
+            currentTime = ProcessInfo().systemUptime
             
             frame_lapse = Float(currentTime - previousTime)
         }
@@ -249,30 +249,26 @@ class ViewController: GCEventViewController, MTKViewDelegate
             }
             
             let matrixData = modelViewProjectionMatrixBuffer.contents()
-            let matrixPointer = UnsafeMutablePointer<Float>(matrixData)
             
-            for i in 0..<16
-            {
-                matrixPointer[i] = matrix[i]
-            }
+            memcpy(matrixData, matrix, 16 * MemoryLayout<Float>.size)
             
             let textureDescriptor = MTLTextureDescriptor()
-            textureDescriptor.pixelFormat = .R8Unorm
+            textureDescriptor.pixelFormat = .r8Unorm
             textureDescriptor.width = Int(vid_screenWidth)
             textureDescriptor.height = Int(vid_screenHeight)
             
-            texture = device.newTextureWithDescriptor(textureDescriptor)
+            texture = device.makeTexture(descriptor: textureDescriptor)
         }
         
         let screenRegion = MTLRegionMake2D(0, 0, Int(vid_screenWidth), Int(vid_screenHeight))
         
-        texture.replaceRegion(screenRegion, mipmapLevel: 0, slice: 0, withBytes: vid_buffer, bytesPerRow: Int(vid_screenWidth), bytesPerImage: 0)
+        texture.replace(region: screenRegion, mipmapLevel: 0, slice: 0, withBytes: vid_buffer, bytesPerRow: Int(vid_screenWidth), bytesPerImage: 0)
         
         let colorTableRegion = MTLRegionMake1D(0, 256);
         
-        colorTable.replaceRegion(colorTableRegion, mipmapLevel: 0, slice: 0, withBytes: d_8to24table, bytesPerRow: 0, bytesPerImage: 0)
+        colorTable.replace(region: colorTableRegion, mipmapLevel: 0, slice: 0, withBytes: d_8to24table, bytesPerRow: 0, bytesPerImage: 0)
         
-        let commandBuffer = commandQueue.commandBuffer()
+        let commandBuffer = commandQueue.makeCommandBuffer()
         
         let renderPassDescriptor = view.currentRenderPassDescriptor
         
@@ -282,30 +278,30 @@ class ViewController: GCEventViewController, MTKViewDelegate
         {
             renderPassDescriptor!.colorAttachments[0].clearColor = MTLClearColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
             
-            renderPassDescriptor!.depthAttachment.loadAction = .Clear
+            renderPassDescriptor!.depthAttachment.loadAction = .clear
             
-            let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor!)
+            let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor!)
             
             commandEncoder.setRenderPipelineState(pipelineState)
             
-            commandEncoder.setVertexBuffer(buffer, offset: 0, atIndex: 0)
-            commandEncoder.setVertexBuffer(modelViewProjectionMatrixBuffer, offset: 0, atIndex: 1)
-            commandEncoder.setFragmentTexture(texture, atIndex: 0)
-            commandEncoder.setFragmentTexture(colorTable, atIndex: 1)
-            commandEncoder.setFragmentSamplerState(textureSamplerState, atIndex: 0)
-            commandEncoder.setFragmentSamplerState(colorTableSamplerState, atIndex: 1)
+            commandEncoder.setVertexBuffer(buffer, offset: 0, at: 0)
+            commandEncoder.setVertexBuffer(modelViewProjectionMatrixBuffer, offset: 0, at: 1)
+            commandEncoder.setFragmentTexture(texture, at: 0)
+            commandEncoder.setFragmentTexture(colorTable, at: 1)
+            commandEncoder.setFragmentSamplerState(textureSamplerState, at: 0)
+            commandEncoder.setFragmentSamplerState(colorTableSamplerState, at: 1)
             
-            commandEncoder.drawPrimitives(.TriangleStrip, vertexStart: 0, vertexCount: 4, instanceCount: 1)
+            commandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4, instanceCount: 1)
             
             commandEncoder.endEncoding()
             
-            commandBuffer.presentDrawable(currentDrawable!)
+            commandBuffer.present(currentDrawable!)
         }
         
         commandBuffer.commit()
     }
 
-    func controllerDidConnect(notification: NSNotification)
+    func controllerDidConnect(_ notification: Notification)
     {
         for controller in GCController.controllers()
         {
@@ -315,7 +311,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
                 
                 if extendedRemote == nil
                 {
-                    remote!.playerIndex = .Index1
+                    remote!.playerIndex = .index1
                 }
                 
                 remote!.motion!.valueChangedHandler = { (motion: GCMotion)->() in
@@ -333,10 +329,10 @@ class ViewController: GCEventViewController, MTKViewDelegate
                 
                 if remote != nil
                 {
-                    remote!.playerIndex = .IndexUnset
+                    remote!.playerIndex = .indexUnset
                 }
 
-                extendedRemote!.playerIndex = .Index1
+                extendedRemote!.playerIndex = .index1
                 
                 in_extendedinuse = qboolean(1)
 
@@ -427,17 +423,17 @@ class ViewController: GCEventViewController, MTKViewDelegate
         }
     }
     
-    func controllerDidDisconnect(notification: NSNotification)
+    func controllerDidDisconnect(_ notification: Notification)
     {
         if extendedRemote == notification.object as! GCController!
         {
             in_extendedinuse = qboolean(0)
             
-            extendedRemote!.playerIndex = .IndexUnset
+            extendedRemote!.playerIndex = .indexUnset
             
             if remote != nil
             {
-                remote!.playerIndex = .Index1
+                remote!.playerIndex = .index1
             }
 
             in_extendedpitchangle = 0.0
@@ -450,7 +446,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
 
         if remote == notification.object as! GCController!
         {
-            remote!.playerIndex = .IndexUnset
+            remote!.playerIndex = .indexUnset
             
             in_pitchangle = 0.0
             in_rollangle = 0.0
@@ -461,32 +457,32 @@ class ViewController: GCEventViewController, MTKViewDelegate
         }
     }
     
-    override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent?)
+    override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?)
     {
         for press in presses
         {
-            if press.type == .Menu
+            if press.type == .menu
             {
                 if extendedRemote == nil
                 {
                     Key_Event(27, qboolean(1)) // K_ESCAPE, true
                 }
             }
-            else if press.type == .PlayPause
+            else if press.type == .playPause
             {
                 if extendedRemote == nil
                 {
                     Key_Event(255, qboolean(1)) // K_PAUSE, true
                 }
             }
-            else if press.type == .UpArrow
+            else if press.type == .upArrow
             {
                 if key_dest != key_game
                 {
                     Key_Event(128, qboolean(1)) // K_UPARROW, true
                 }
             }
-            else if press.type == .DownArrow
+            else if press.type == .downArrow
             {
                 if key_dest == key_game
                 {
@@ -497,7 +493,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
                     Key_Event(129, qboolean(1)) // K_DOWNARROW, true
                 }
             }
-            else if press.type == .LeftArrow
+            else if press.type == .leftArrow
             {
                 if key_dest == key_game
                 {
@@ -508,7 +504,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
                     Key_Event(130, qboolean(1)) // K_LEFTARROW, true
                 }
             }
-            else if press.type == .RightArrow
+            else if press.type == .rightArrow
             {
                 if key_dest == key_game
                 {
@@ -519,7 +515,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
                     Key_Event(131, qboolean(1)) // K_RIGHTARROW, true
                 }
             }
-            else if press.type == .Select
+            else if press.type == .select
             {
                 if key_dest == key_game
                 {
@@ -533,26 +529,26 @@ class ViewController: GCEventViewController, MTKViewDelegate
         }
     }
     
-    private func releaseAllPresses(presses: Set<UIPress>)
+    fileprivate func releaseAllPresses(_ presses: Set<UIPress>)
     {
         for press in presses
         {
-            if press.type == .Menu
+            if press.type == .menu
             {
                 Key_Event(27, qboolean(0)) // K_ESCAPE, false
             }
-            else if press.type == .PlayPause
+            else if press.type == .playPause
             {
                 Key_Event(255, qboolean(0)) // K_PAUSE, false
             }
-            else if press.type == .UpArrow
+            else if press.type == .upArrow
             {
                 if key_dest != key_game
                 {
                     Key_Event(128, qboolean(0)) // K_UPARROW, false
                 }
             }
-            else if press.type == .DownArrow
+            else if press.type == .downArrow
             {
                 if key_dest == key_game
                 {
@@ -563,21 +559,21 @@ class ViewController: GCEventViewController, MTKViewDelegate
                     Key_Event(129, qboolean(0)) // K_DOWNARROW, false
                 }
             }
-            else if press.type == .LeftArrow
+            else if press.type == .leftArrow
             {
                 if key_dest != key_game
                 {
                     Key_Event(130, qboolean(0)) // K_LEFTARROW, false
                 }
             }
-            else if press.type == .RightArrow
+            else if press.type == .rightArrow
             {
                 if key_dest != key_game
                 {
                     Key_Event(131, qboolean(0)) // K_RIGHTARROW, false
                 }
             }
-            else if press.type == .Select
+            else if press.type == .select
             {
                 if key_dest == key_game
                 {
@@ -591,17 +587,17 @@ class ViewController: GCEventViewController, MTKViewDelegate
         }
     }
 
-    override func pressesEnded(presses: Set<UIPress>, withEvent event: UIPressesEvent?)
+    override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?)
     {
         releaseAllPresses(presses)
     }
     
-    override func pressesCancelled(presses: Set<UIPress>, withEvent event: UIPressesEvent?)
+    override func pressesCancelled(_ presses: Set<UIPress>, with event: UIPressesEvent?)
     {
         releaseAllPresses(presses)
     }
 
-    private func resetTouchValues(touches: Set<UITouch>?)
+    fileprivate func resetTouchValues(_ touches: Set<UITouch>?)
     {
         if touches!.count == 1
         {
@@ -610,30 +606,30 @@ class ViewController: GCEventViewController, MTKViewDelegate
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         resetTouchValues(touches)
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         if touches.count == 1
         {
             let touch = touches.first
             
-            let point = touch!.locationInView(view)
+            let point = touch!.location(in: view)
             
             in_touchx = 2.0 * Float(point.x / view.bounds.width) - 1.0
             in_touchy = 2.0 * Float(point.y / view.bounds.height) - 1.0
         }
     }
  
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         resetTouchValues(touches)
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?)
+    override func touchesCancelled(_ touches: Set<UITouch>?, with event: UIEvent?)
     {
         resetTouchValues(touches)
     }

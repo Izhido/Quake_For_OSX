@@ -20,14 +20,14 @@ class GameDataDetection: NSObject
     
     static func detect()
     {
-        let documentsDir = try! NSFileManager().URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true).path!
+        let documentsDir = try! FileManager().url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path
         
-        let id1pak0Attributes : NSDictionary? = try? NSFileManager.defaultManager().attributesOfItemAtPath("\(documentsDir)/id1/pak0.pak")
-        let id1pak1Attributes : NSDictionary? = try? NSFileManager.defaultManager().attributesOfItemAtPath("\(documentsDir)/id1/pak1.pak")
+        let id1pak0Attributes = try? FileManager.default.attributesOfItem(atPath: "\(documentsDir)/id1/pak0.pak") as NSDictionary
+        let id1pak1Attributes = try? FileManager.default.attributesOfItem(atPath: "\(documentsDir)/id1/pak1.pak") as NSDictionary
         
-        let hipnoticpak0Attributes : NSDictionary? = try? NSFileManager.defaultManager().attributesOfItemAtPath("\(documentsDir)/hipnotic/pak0.pak")
+        let hipnoticpak0Attributes = try? FileManager.default.attributesOfItem(atPath: "\(documentsDir)/hipnotic/pak0.pak") as NSDictionary
         
-        let roguepak0Attributes : NSDictionary? = try? NSFileManager.defaultManager().attributesOfItemAtPath("\(documentsDir)/rogue/pak0.pak")
+        let roguepak0Attributes = try? FileManager.default.attributesOfItem(atPath: "\(documentsDir)/rogue/pak0.pak") as NSDictionary
         
         sharewarePresent = false
         registeredPresent = false

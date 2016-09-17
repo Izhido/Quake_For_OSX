@@ -14,7 +14,7 @@ public var currentViewController: UIViewController? = nil
 
 class GameControllerSetup: NSObject
 {
-    static func connect(controller: GCController?)
+    static func connect(_ controller: GCController?)
     {
         for controller in GCController.controllers()
         {
@@ -22,7 +22,7 @@ class GameControllerSetup: NSObject
             {
                 remote = controller
                 
-                remote!.playerIndex = .Index1
+                remote!.playerIndex = .index1
                 
                 remote!.controllerPausedHandler = { (controller: GCController) -> () in
                     
@@ -65,7 +65,7 @@ class GameControllerSetup: NSObject
                     {
                         startGame = true
                         
-                        currentViewController!.navigationController!.popToRootViewControllerAnimated(true)
+                        currentViewController!.navigationController!.popToRootViewController(animated: true)
                     }
                 }
                 
@@ -152,7 +152,7 @@ class GameControllerSetup: NSObject
         }
     }
 
-    static func disconnect(controller: GCController?)
+    static func disconnect(_ controller: GCController?)
     {
         if remote == controller
         {

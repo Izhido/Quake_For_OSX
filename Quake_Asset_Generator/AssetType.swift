@@ -8,7 +8,7 @@
 
 enum AssetType
 {
-    case None
+    case none
     
-    case Icon
+    case icon
 }

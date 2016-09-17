@@ -19,7 +19,7 @@ class ViewController: NSViewController
         // Do any additional setup after loading the view.
     }
 
-    override var representedObject: AnyObject?
+    override var representedObject: Any?
     {
         didSet
         {
@@ -27,11 +27,11 @@ class ViewController: NSViewController
         }
     }
 
-    func loadAsset(type: AssetType)
+    func loadAsset(_ type: AssetType)
     {
         if assetView.assetType != type
         {
-            if type == .Icon
+            if type == .icon
             {
                 assetView.pointSize = 1024.0
             }
@@ -42,7 +42,7 @@ class ViewController: NSViewController
         }
         else
         {
-            if type == .Icon
+            if type == .icon
             {
                 assetView.pointSize = assetView.nextPointSize()
             }
@@ -56,11 +56,11 @@ class ViewController: NSViewController
         assetView.needsDisplay = true
     }
     
-    @IBAction func generateButtonClick(sender: AnyObject)
+    @IBAction func generateButtonClick(_ sender: AnyObject)
     {
-        if assetView.assetType != .None
+        if assetView.assetType != .none
         {
-            if assetView.assetType == .Icon
+            if assetView.assetType == .icon
             {
                 assetView.pointSize = 1024.0
             }
@@ -73,8 +73,8 @@ class ViewController: NSViewController
         }
     }
     
-    @IBAction func setIconButtonClick(sender: NSButton)
+    @IBAction func setIconButtonClick(_ sender: NSButton)
     {
-        loadAsset(.Icon)
+        loadAsset(.icon)
     }    
 }

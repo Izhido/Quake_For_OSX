@@ -17,7 +17,7 @@ class IntroductionViewController: UIViewController
     
     @IBOutlet weak var commandLabel: UILabel!
     
-    var timer: NSTimer? = nil
+    var timer: Timer? = nil
     
     override func viewDidLoad()
     {
@@ -32,21 +32,21 @@ class IntroductionViewController: UIViewController
         
         checkControllerStatus()
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(checkControllerStatus), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(checkControllerStatus), userInfo: nil, repeats: true)
     }
 
-    override func viewDidAppear(animated: Bool)
+    override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
         
         currentViewController = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidConnect), name: "GCControllerDidConnectNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(controllerDidConnect), name: NSNotification.Name(rawValue: "GCControllerDidConnectNotification"), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(controllerDidDisconnect), name: "GCControllerDidDisconnectNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(controllerDidDisconnect), name: NSNotification.Name(rawValue: "GCControllerDidDisconnectNotification"), object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool)
+    override func viewWillDisappear(_ animated: Bool)
     {
         super.viewWillDisappear(animated)
         
@@ -65,17 +65,17 @@ class IntroductionViewController: UIViewController
         commandLabel.text = command
     }
 
-    @IBAction func onNext(sender: UIButton)
+    @IBAction func onNext(_ sender: UIButton)
     {
-        performSegueWithIdentifier("ToSetupData", sender: self)
+        performSegue(withIdentifier: "ToSetupData", sender: self)
     }
     
-    func controllerDidConnect(notification: NSNotification)
+    func controllerDidConnect(_ notification: Notification)
     {
         GameControllerSetup.connect(notification.object as! GCController!)
     }
     
-    func controllerDidDisconnect(notification: NSNotification)
+    func controllerDidDisconnect(_ notification: Notification)
     {
         GameControllerSetup.disconnect(notification.object as! GCController!)
     }
