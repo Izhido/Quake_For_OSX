@@ -1,21 +1,19 @@
-# Quake For OSX
+# Quake For MacOS (formerly OS X)
 
-This is a port of the original Quake rendering engine for OSX / tvOS / iOS.
+This is a port of the original Quake rendering engine for MacOS (formerly OS X) / tvOS / iOS.
 
-The source code contains an Xcode 7.3 workspace with three targets:
-- OS X 10.11 and later;
+The source code contains an Xcode 10.2.1 workspace with three targets:
+- MacOS 10.11 and later;
 - tvOS 9.1 and later, playable in the 4th gen. Apple TV;
-- iOS 9.3 and later (iPhone only), specially designed to be used with a virtual reality (VR) viewer such as Google Cardboard or similar.
+- iOS 9.3 and later (iPhone only), specially designed to be used with a virtual reality (VR) headset such as Google Cardboard or similar.
 
-The iOS VR target has been now published as Slip & Frag. You can get it from here: https://itunes.apple.com/us/app/slip-frag/id1133244429
-
-The first two targets (OS X, tvOS) do software rendering (instead of OpenGL); presenting to the screen, however, is performed by using Metal. The third target (iOS VR), however, does use OpenGL ES 3.0 to render both screens in a VR viewer configuration.
+The first two targets (MacOS, tvOS) do software rendering (instead of OpenGL); presenting to the screen, however, is performed by using Metal. The third target (iOS VR), however, does use OpenGL ES 3.0 to render both screens in a VR viewer configuration.
 
 Additionally, all targets are able to use an extended-profile gaming controller, such as the SteelSeries Nimbus (the recommended controller from Apple, as of this writing). Any extended-profile gaming controller, however, should be sufficient to play with no problems.
 
 Please notice that you MUST USE an extended-profile gaming controller in order to give commands to the iOS VR target application.
 
-To run the OS X target:
+To run the MacOS target:
 - Open the project in Xcode.
 - Select the "Quake_OSX" target.
 - "Edit Scheme" - "Run" - "Arguments Passed on Launch".
@@ -41,11 +39,11 @@ The game can be played by using either the Siri Remote that comes with the Apple
 
 To run the iOS VR target:
 - Ensure you have the latest CocoaPods version ( https://cocoapods.org ).
-- Run "pod install" / "pod update" from Terminal as needed to get the Google Cardboard SDK and SSZipArchive libraries.
+- Run "pod update" from Terminal to get the GVRSDK and SSZipArchive libraries.
 - Open the project in Xcode.
 - Select the "Quake_iOS_VR" target.
 - Go to the "Quake_iOS_VR/Resources" group.
-- Ensure that you have a "quake106data.zip" file available, containing the "id1" folder with the pak files for the shareware (or full) version of the game.
+- Ensure that you have a "quake106data.zip" file available, containing the "id1" folder with the pak files for the shareware (or full) version of the game. IMPORTANT: The filesystem for this device is case sensitive; be sure that all files and directories in the .zip file are all lowercase.
 - Connect your iPhone to your computer.
 - Have your VR viewer ready to be used with your iPhone.
 - "Product" - "Run" to start the application. If you're running it for the first time, a guide will appear to help you set up things in your device before starting the game.
@@ -83,4 +81,4 @@ This software, just like the original engine, is released under the terms of the
 
 Quake is (c) 1996-1997 id Software, Inc.
 
-Modifications for OS X / tvOS (c) 2016 Heriberto Delgado.
+Modifications for MacOS / iOS / tvOS (c) 2016-2019 Heriberto Delgado.
