@@ -49,7 +49,7 @@ class ViewController: NSViewController, MTKViewDelegate
 
         commandQueue = device.makeCommandQueue()
         
-        let library = device.newDefaultLibrary()
+        let library = device.makeDefaultLibrary()
         
         let vertexProgram = library!.makeFunction(name: "vertexMain")
         
@@ -231,28 +231,28 @@ class ViewController: NSViewController, MTKViewDelegate
             
             renderPassDescriptor!.depthAttachment.loadAction = .clear
             
-            let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor!)
+            let commandEncoder = commandBuffer!.makeRenderCommandEncoder(descriptor: renderPassDescriptor!)
             
-            commandEncoder.setRenderPipelineState(pipelineState)
+            commandEncoder!.setRenderPipelineState(pipelineState)
             
-            commandEncoder.setVertexBuffer(buffer, offset: 0, at: 0)
-            commandEncoder.setVertexBuffer(modelViewProjectionMatrixBuffer, offset: 0, at: 1)
-            commandEncoder.setFragmentTexture(texture, at: 0)
-            commandEncoder.setFragmentTexture(colorTable, at: 1)
-            commandEncoder.setFragmentSamplerState(textureSamplerState, at: 0)
-            commandEncoder.setFragmentSamplerState(colorTableSamplerState, at: 1)
+            commandEncoder!.setVertexBuffer(buffer, offset: 0, index: 0)
+            commandEncoder!.setVertexBuffer(modelViewProjectionMatrixBuffer, offset: 0, index: 1)
+            commandEncoder!.setFragmentTexture(texture, index: 0)
+            commandEncoder!.setFragmentTexture(colorTable, index: 1)
+            commandEncoder!.setFragmentSamplerState(textureSamplerState, index: 0)
+            commandEncoder!.setFragmentSamplerState(colorTableSamplerState, index: 1)
             
-            commandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4, instanceCount: 1)
+            commandEncoder!.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4, instanceCount: 1)
 
-            commandEncoder.endEncoding()
+            commandEncoder!.endEncoding()
             
-            commandBuffer.present(currentDrawable!)
+            commandBuffer!.present(currentDrawable!)
         }
         
-        commandBuffer.commit()
+        commandBuffer!.commit()
     }
     
-    func controllerDidConnect(_ notification: Notification)
+    @objc func controllerDidConnect(_ notification: Notification)
     {
         for controller in GCController.controllers()
         {
@@ -349,9 +349,9 @@ class ViewController: NSViewController, MTKViewDelegate
         }
     }
     
-    func controllerDidDisconnect(_ notification: Notification)
+    @objc func controllerDidDisconnect(_ notification: Notification)
     {
-        if remote == notification.object as! GCController!
+        if remote == notification.object as? GCController
         {
             remote!.playerIndex = .indexUnset
             

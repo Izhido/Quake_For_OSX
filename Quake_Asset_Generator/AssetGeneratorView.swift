@@ -68,13 +68,13 @@ class AssetGeneratorView: NSView
     {
         super.draw(dirtyRect)
 
-        let context = NSGraphicsContext.current()!.cgContext
+        let context = NSGraphicsContext.current!.cgContext
         
         if assetType == .icon
         {
             if pointSize > 0.0
             {
-                let borderSize = pointSize / NSScreen.main()!.backingScaleFactor
+                let borderSize = pointSize / NSScreen.main!.backingScaleFactor
                 
                 let border = CGRect(x: 0.0, y: 1024.0 - borderSize, width: borderSize, height: borderSize)
                 
@@ -92,7 +92,7 @@ class AssetGeneratorView: NSView
                 
                 var text = NSString(string: "S")
                 
-                var textAttributes = [ NSFontAttributeName : bigFont , NSForegroundColorAttributeName : NSColor(red: 1.0, green: 200.0 / 255.0, blue: 53.0 / 255.0, alpha: 1.0) ]
+                var textAttributes = [ NSAttributedString.Key.font : bigFont , NSAttributedString.Key.foregroundColor : NSColor(red: 1.0, green: 200.0 / 255.0, blue: 53.0 / 255.0, alpha: 1.0) ]
                 
                 var textSize = text.size(withAttributes: textAttributes)
                 
@@ -110,7 +110,7 @@ class AssetGeneratorView: NSView
                 
                 text = NSString(string: "&")
                 
-                textAttributes = [ NSFontAttributeName : smallFont , NSForegroundColorAttributeName : NSColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) ]
+                textAttributes = [ NSAttributedString.Key.font : smallFont , NSAttributedString.Key.foregroundColor : NSColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) ]
                 
                 textSize = text.size(withAttributes: textAttributes)
                 
@@ -126,7 +126,7 @@ class AssetGeneratorView: NSView
                 
                 text = NSString(string: "F")
                 
-                textAttributes = [ NSFontAttributeName : bigFont , NSForegroundColorAttributeName : NSColor(red: 1.0, green: 80.0 / 255.0, blue: 80.0 / 255.0, alpha: 1.0) ]
+                textAttributes = [ NSAttributedString.Key.font : bigFont , NSAttributedString.Key.foregroundColor : NSColor(red: 1.0, green: 80.0 / 255.0, blue: 80.0 / 255.0, alpha: 1.0) ]
                 
                 textSize = text.size(withAttributes: textAttributes)
                 
@@ -150,7 +150,7 @@ class AssetGeneratorView: NSView
         preview = false
     }
     
-    func generateImage()
+    @objc func generateImage()
     {
         var borderSize : CGFloat
         
@@ -163,7 +163,7 @@ class AssetGeneratorView: NSView
             borderSize = 1024.0 / pow(2, level)
         }
         
-        if borderSize * NSScreen.main()!.backingScaleFactor < 1.0
+        if borderSize * NSScreen.main!.backingScaleFactor < 1.0
         {
             return
         }
@@ -172,8 +172,8 @@ class AssetGeneratorView: NSView
         
         if assetType == .icon
         {
-            imageFrame.size.width /= NSScreen.main()!.backingScaleFactor
-            imageFrame.size.height /= NSScreen.main()!.backingScaleFactor
+            imageFrame.size.width /= NSScreen.main!.backingScaleFactor
+            imageFrame.size.height /= NSScreen.main!.backingScaleFactor
             
             imageFrame.origin.y = 1024.0 - imageFrame.size.height
         }
@@ -186,7 +186,7 @@ class AssetGeneratorView: NSView
         
         let documentsPath = paths[0]
         
-        let pngData = bitmapImageRep!.representation(using: .PNG, properties: [:])
+        let pngData = bitmapImageRep!.representation(using: .png, properties: [:])
 
         let imageName = "\(assetType)"
         
@@ -235,7 +235,7 @@ class AssetGeneratorView: NSView
         }
         else
         {
-            let scaledBorderSize = NSScreen.main()!.backingScaleFactor * borderSize
+            let scaledBorderSize = NSScreen.main!.backingScaleFactor * borderSize
             
             if scaledBorderSize > 1.0
             {

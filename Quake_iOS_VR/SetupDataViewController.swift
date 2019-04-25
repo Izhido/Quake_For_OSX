@@ -37,7 +37,7 @@ class SetupDataViewController: UIViewController
             "lowercase file names. This engine expects lowercase file names - rename your files and " +
         "folders if needed."
         
-        unpackButton.setTitle("Unpack Shareware Episode", for: UIControlState())
+        unpackButton.setTitle("Unpack Shareware Episode", for: UIControl.State())
 
         checkGameData()
         
@@ -64,7 +64,7 @@ class SetupDataViewController: UIViewController
         currentViewController = nil
     }
     
-    func checkGameData()
+    @objc func checkGameData()
     {
         GameDataDetection.detect()
 
@@ -148,13 +148,13 @@ class SetupDataViewController: UIViewController
         performSegue(withIdentifier: "ToSetupGameController", sender: self)
     }
     
-    func controllerDidConnect(_ notification: Notification)
+    @objc func controllerDidConnect(_ notification: Notification)
     {
-        GameControllerSetup.connect(notification.object as! GCController!)
+        GameControllerSetup.connect(notification.object as? GCController)
     }
     
-    func controllerDidDisconnect(_ notification: Notification)
+    @objc func controllerDidDisconnect(_ notification: Notification)
     {
-        GameControllerSetup.disconnect(notification.object as! GCController!)
+        GameControllerSetup.disconnect(notification.object as? GCController)
     }
 }

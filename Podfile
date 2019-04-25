@@ -1,5 +1,6 @@
 workspace 'Quake'
 target 'Quake_iOS_VR' do
-    pod 'GVRSDK'
-    pod 'SSZipArchive'
+  use_frameworks!
+  pod 'GVRSDK'
+  pod 'SSZipArchive'
 end

@@ -53,7 +53,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
         
         commandQueue = device.makeCommandQueue()
         
-        let library = device.newDefaultLibrary()
+        let library = device.makeDefaultLibrary()
         
         let vertexProgram = library!.makeFunction(name: "vertexMain")
         
@@ -134,7 +134,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
         
         if ipAddress != nil && !ipAddress!.isEmpty
         {
-            net_ipaddress = UnsafeMutablePointer<Int8>.allocate(capacity: ipAddress!.characters.count + 1)
+            net_ipaddress = UnsafeMutablePointer<Int8>.allocate(capacity: ipAddress!.count + 1)
             
             strcpy(net_ipaddress, ipAddress!.cString(using: String.defaultCStringEncoding)!)
         }
@@ -280,28 +280,28 @@ class ViewController: GCEventViewController, MTKViewDelegate
             
             renderPassDescriptor!.depthAttachment.loadAction = .clear
             
-            let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor!)
+            let commandEncoder = commandBuffer!.makeRenderCommandEncoder(descriptor: renderPassDescriptor!)
             
-            commandEncoder.setRenderPipelineState(pipelineState)
+            commandEncoder!.setRenderPipelineState(pipelineState)
             
-            commandEncoder.setVertexBuffer(buffer, offset: 0, at: 0)
-            commandEncoder.setVertexBuffer(modelViewProjectionMatrixBuffer, offset: 0, at: 1)
-            commandEncoder.setFragmentTexture(texture, at: 0)
-            commandEncoder.setFragmentTexture(colorTable, at: 1)
-            commandEncoder.setFragmentSamplerState(textureSamplerState, at: 0)
-            commandEncoder.setFragmentSamplerState(colorTableSamplerState, at: 1)
+            commandEncoder!.setVertexBuffer(buffer, offset: 0, index: 0)
+            commandEncoder!.setVertexBuffer(modelViewProjectionMatrixBuffer, offset: 0, index: 1)
+            commandEncoder!.setFragmentTexture(texture, index: 0)
+            commandEncoder!.setFragmentTexture(colorTable, index: 1)
+            commandEncoder!.setFragmentSamplerState(textureSamplerState, index: 0)
+            commandEncoder!.setFragmentSamplerState(colorTableSamplerState, index: 1)
             
-            commandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4, instanceCount: 1)
+            commandEncoder!.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4, instanceCount: 1)
             
-            commandEncoder.endEncoding()
+            commandEncoder!.endEncoding()
             
-            commandBuffer.present(currentDrawable!)
+            commandBuffer!.present(currentDrawable!)
         }
         
-        commandBuffer.commit()
+        commandBuffer!.commit()
     }
 
-    func controllerDidConnect(_ notification: Notification)
+    @objc func controllerDidConnect(_ notification: Notification)
     {
         for controller in GCController.controllers()
         {
@@ -316,9 +316,9 @@ class ViewController: GCEventViewController, MTKViewDelegate
                 
                 remote!.motion!.valueChangedHandler = { (motion: GCMotion)->() in
                     
-                    in_pitchangle = Float(asin(self.remote!.motion!.gravity.y) / M_PI_2)
+                    in_pitchangle = Float(asin(self.remote!.motion!.gravity.y) / (.pi / 2))
                     
-                    in_rollangle = Float(atan2(-self.remote!.motion!.gravity.x, -self.remote!.motion!.gravity.z) / M_PI_2)
+                    in_rollangle = Float(atan2(-self.remote!.motion!.gravity.x, -self.remote!.motion!.gravity.z) / (.pi / 2))
                 }
                 
                 break
@@ -423,9 +423,9 @@ class ViewController: GCEventViewController, MTKViewDelegate
         }
     }
     
-    func controllerDidDisconnect(_ notification: Notification)
+    @objc func controllerDidDisconnect(_ notification: Notification)
     {
-        if extendedRemote == notification.object as! GCController!
+        if extendedRemote == notification.object as? GCController
         {
             in_extendedinuse = qboolean(0)
             
@@ -444,7 +444,7 @@ class ViewController: GCEventViewController, MTKViewDelegate
             extendedRemote = nil
         }
 
-        if remote == notification.object as! GCController!
+        if remote == notification.object as? GCController
         {
             remote!.playerIndex = .indexUnset
             

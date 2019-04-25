@@ -56,7 +56,7 @@ class SetupGameControllerViewController: UIViewController
         currentViewController = nil
     }
     
-    func checkControllerStatus()
+    @objc func checkControllerStatus()
     {
         if remote != nil
         {
@@ -68,13 +68,13 @@ class SetupGameControllerViewController: UIViewController
         }
     }
     
-    func controllerDidConnect(_ notification: Notification)
+    @objc func controllerDidConnect(_ notification: Notification)
     {
-        GameControllerSetup.connect(notification.object as! GCController!)
+        GameControllerSetup.connect(notification.object as? GCController)
     }
     
-    func controllerDidDisconnect(_ notification: Notification)
+    @objc func controllerDidDisconnect(_ notification: Notification)
     {
-        GameControllerSetup.disconnect(notification.object as! GCController!)
+        GameControllerSetup.disconnect(notification.object as? GCController)
     }
 }

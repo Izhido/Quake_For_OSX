@@ -55,7 +55,7 @@ class EndingViewController: UIViewController, UITableViewDataSource, UITableView
         {
             copyLogButton.isHidden = false
             
-            let lastMessage = IndexPath(row: messagesCount - 1, section: 0)
+            let lastMessage = IndexPath(row: Int(messagesCount) - 1, section: 0)
             consoleTableView.scrollToRow(at: lastMessage, at: .bottom, animated: true)
         }
     }
@@ -104,13 +104,13 @@ class EndingViewController: UIViewController, UITableViewDataSource, UITableView
         copyLogButton.isEnabled = false
     }
     
-    func controllerDidConnect(_ notification: Notification)
+    @objc func controllerDidConnect(_ notification: Notification)
     {
-        GameControllerSetup.connect(notification.object as! GCController!)
+        GameControllerSetup.connect(notification.object as? GCController)
     }
     
-    func controllerDidDisconnect(_ notification: Notification)
+    @objc func controllerDidDisconnect(_ notification: Notification)
     {
-        GameControllerSetup.disconnect(notification.object as! GCController!)
+        GameControllerSetup.disconnect(notification.object as? GCController)
     }
 }

@@ -10,7 +10,7 @@ import MetalKit
 
 class MetalView: MTKView
 {
-    fileprivate var previousModifierFlags : NSEventModifierFlags = []
+    fileprivate var previousModifierFlags : NSEvent.ModifierFlags = []
     
     fileprivate var trackingArea : NSTrackingArea?
     

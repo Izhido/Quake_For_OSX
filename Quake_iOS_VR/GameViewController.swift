@@ -61,13 +61,13 @@ class GameViewController: UIViewController, GVRCardboardViewDelegate
         
         if startGame
         {
-            cardboardView = self.view as! GVRCardboardView
+            cardboardView = self.view as? GVRCardboardView
             
             cardboardView.delegate = self
             cardboardView.vrModeEnabled = true
             
             displayLink = CADisplayLink(target: self, selector: #selector(render))
-            displayLink.add(to: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
+            displayLink.add(to: RunLoop.current, forMode: RunLoop.Mode.default)
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(controllerDidConnect), name: NSNotification.Name(rawValue: "GCControllerDidConnectNotification"), object: nil)
@@ -82,7 +82,7 @@ class GameViewController: UIViewController, GVRCardboardViewDelegate
         currentViewController = nil
     }
 
-    func render()
+    @objc func render()
     {
         cardboardView.render()
     }
@@ -111,7 +111,7 @@ class GameViewController: UIViewController, GVRCardboardViewDelegate
         
         if ipAddress != nil && !ipAddress!.isEmpty
         {
-            net_ipaddress = UnsafeMutablePointer<Int8>.allocate(capacity: ipAddress!.characters.count + 1)
+            net_ipaddress = UnsafeMutablePointer<Int8>.allocate(capacity: ipAddress!.count + 1)
 
             strcpy(net_ipaddress, ipAddress!.cString(using: String.defaultCStringEncoding)!)
         }
@@ -230,9 +230,9 @@ class GameViewController: UIViewController, GVRCardboardViewDelegate
 
         let pitchroll_dest = [ pitchroll_0, pitchroll_1, pitchroll_2, pitchroll_3 ]
         
-        glvr_viewangles.0 = asin(pitchroll_dest[2]) * 180.0 / Float(M_PI) // [PITCH] = asin(.z)
+        glvr_viewangles.0 = asin(pitchroll_dest[2]) * 180.0 / .pi // [PITCH] = asin(.z)
         
-        glvr_viewangles.2 = atan2(pitchroll_dest[1], pitchroll_dest[0]) * 180.0 / Float(M_PI) - 90.0 // [ROLL] atan2(.y, .x) - 90
+        glvr_viewangles.2 = atan2(pitchroll_dest[1], pitchroll_dest[0]) * 180.0 / .pi - 90.0 // [ROLL] atan2(.y, .x) - 90
         
         let yaw_origin : [GLfloat] = [ 1.0, 0.0, 0.0, 1.0 ]
         
@@ -266,7 +266,7 @@ class GameViewController: UIViewController, GVRCardboardViewDelegate
         
         let yaw_dest = [ yaw_0, yaw_1, yaw_2, yaw_3 ]
         
-        glvr_viewangles.1 = 180.0 - atan2(yaw_dest[0], yaw_dest[2]) * 180.0 / Float(M_PI) // [YAW] = atan2(.x, .z)
+        glvr_viewangles.1 = 180.0 - atan2(yaw_dest[0], yaw_dest[2]) * 180.0 / .pi // [YAW] = atan2(.x, .z)
 
         Sys_FrameBeforeRender()
     }
@@ -326,14 +326,14 @@ class GameViewController: UIViewController, GVRCardboardViewDelegate
     {
     }
     
-    func controllerDidConnect(_ notification: Notification)
+    @objc func controllerDidConnect(_ notification: Notification)
     {
-        GameControllerSetup.connect(notification.object as! GCController!)
+        GameControllerSetup.connect(notification.object as? GCController)
     }
     
-    func controllerDidDisconnect(_ notification: Notification)
+    @objc func controllerDidDisconnect(_ notification: Notification)
     {
-        GameControllerSetup.disconnect(notification.object as! GCController!)
+        GameControllerSetup.disconnect(notification.object as? GCController)
     }
 }
 

@@ -4,11 +4,6 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>QuakeEd.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>6</integer>
-		</dict>
 		<key>Quake_Asset_Generator.xcscheme</key>
 		<dict>
 			<key>orderHint</key>

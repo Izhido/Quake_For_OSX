@@ -53,7 +53,7 @@ class IntroductionViewController: UIViewController
         currentViewController = nil
     }
 
-    func checkControllerStatus()
+    @objc func checkControllerStatus()
     {
         var command = "Tap on Next when you are ready."
 
@@ -70,13 +70,13 @@ class IntroductionViewController: UIViewController
         performSegue(withIdentifier: "ToSetupData", sender: self)
     }
     
-    func controllerDidConnect(_ notification: Notification)
+    @objc func controllerDidConnect(_ notification: Notification)
     {
-        GameControllerSetup.connect(notification.object as! GCController!)
+        GameControllerSetup.connect(notification.object as? GCController)
     }
     
-    func controllerDidDisconnect(_ notification: Notification)
+    @objc func controllerDidDisconnect(_ notification: Notification)
     {
-        GameControllerSetup.disconnect(notification.object as! GCController!)
+        GameControllerSetup.disconnect(notification.object as? GCController)
     }
 }
