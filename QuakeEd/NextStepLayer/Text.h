@@ -2,6 +2,8 @@
 
 @interface Text : NSTextView
 
+@property (nonatomic, assign) const char* stringValueAsString;
+
 -(int)textLength;
 
 -(void)setSel:(int)start :(int)end;

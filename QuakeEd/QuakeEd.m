@@ -129,7 +129,7 @@ defer:(BOOL)flag
 /S&F*****/
 	return self;
 }
-/*/S&F*****
+
 - setDefaultFilename
 {	
 	strcpy (filename, FN_TEMPSAVE);
@@ -137,7 +137,7 @@ defer:(BOOL)flag
 	
 	return self;
 }
-
+/*/S&F*****
 
 - (BOOL)dirty
 {
@@ -160,9 +160,9 @@ BOOL	updatexy;
 BOOL	updatez;
 BOOL	updatecamera;
 
-/*/S&F*****void postappdefined (void)
+void postappdefined (void)
 {
-	NXEvent ev;
+	/*/S&F*****NXEvent ev;
 
 	if (updateinflight)
 		return;
@@ -172,12 +172,12 @@ BOOL	updatecamera;
 	if (DPSPostEvent(&ev, 0) == -1)
 		printf ("WARNING: DPSPostEvent: full\n");
 //printf ("posted\n");
-	updateinflight = YES;
+	updateinflight = YES;/S&F*****/
 }
-/S&F*****/
+
 
 int	c_updateall;
-/*/S&F*****- updateAll			// when a model has been changed
+- updateAll			// when a model has been changed
 {
 	updatecamera = updatexy = updatez = YES;
 	c_updateall++;
@@ -185,7 +185,7 @@ int	c_updateall;
 	return self;
 }
 
-- updateAll:sender
+/*/S&F*****- updateAll:sender
 {
 	[self updateAll];
 	return self;
@@ -330,12 +330,12 @@ App delegate methods
 //	NXPing ();
 	
 	return self;
-}
+}/S&F*****/
 
 - appDidInit:sender
 {
-	NXScreen	const *screens;
-	int			screencount;
+	//S&F*****NXScreen	const *screens;
+	//S&F*****int			screencount;
 	
 	running = YES;
 	g_cmd_out_i = cmd_out_i;	// for qprintf
@@ -347,15 +347,15 @@ App delegate methods
 											// scrollview and can't be
 											// connected directly in IB
 	
-	[self setFrameAutosaveName:"EditorWinFrame"];
+	//S&F*****[self setFrameAutosaveName:"EditorWinFrame"];
 	[self clear: self];
 
 // go to my second monitor
-	[NXApp getScreens:&screens count:&screencount];
+	/*/S&F*****[NXApp getScreens:&screens count:&screencount];
 	if (screencount == 2)
 		[self moveTopLeftTo:0 : screens[1].screenBounds.size.height
 		screen:screens+1];
-	
+	/S&F*****/
 	[self makeKeyAndOrderFront: self];
 
 //[self doOpen: "/raid/quake/id1_/maps/amlev1.map"];	// DEBUG
@@ -377,7 +377,7 @@ App delegate methods
 
 //===========================================================================
 
-- textCommand: sender
+/*/S&F*****- textCommand: sender
 {
 	char	const *t;
 	
@@ -408,7 +408,7 @@ App delegate methods
 {
 	[project_i	openProject];
 	return self;
-}
+}/S&F*****/
 
 
 - clear: sender
@@ -423,7 +423,7 @@ App delegate methods
 }
 
 
-- centerCamera: sender
+/*/S&F*****- centerCamera: sender
 {
 	NXRect	sbounds;
 	

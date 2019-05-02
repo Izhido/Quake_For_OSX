@@ -2,6 +2,16 @@
 
 @implementation Text
 
+-(const char*)stringValueAsString
+{
+    return [self.string cStringUsingEncoding:NSString.defaultCStringEncoding];
+}
+
+-(void)setStringValueAsString:(const char*)value
+{
+    self.string = [NSString stringWithCString:value encoding:NSString.defaultCStringEncoding];
+}
+
 -(int)textLength
 {
     return (int)self.string.length;

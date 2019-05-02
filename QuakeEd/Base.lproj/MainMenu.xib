@@ -832,20 +832,20 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0wN-aN-nGV">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0wN-aN-nGV" customClass="TextField">
                         <rect key="frame" x="327" y="588" width="105" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0" id="Tzo-fg-Kz4">
-                            <font key="font" metaFont="systemBold" size="11"/>
+                            <font key="font" metaFont="smallSystemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uTK-PF-vLE">
-                        <rect key="frame" x="327" y="535" width="105" height="17"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uTK-PF-vLE" customClass="TextField">
+                        <rect key="frame" x="327" y="536" width="105" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0" id="n7X-c3-2f7">
-                            <font key="font" metaFont="systemBold" size="11"/>
+                            <font key="font" metaFont="smallSystemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -990,7 +990,7 @@
                         <rect key="frame" x="565" y="607" width="152" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="FILTER" id="dcI-92-fHS">
-                            <font key="font" metaFont="systemBold" size="11"/>
+                            <font key="font" metaFont="smallSystemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -1002,7 +1002,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="266" height="31"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="14G-WV-gGB">
+                                <textView ambiguous="YES" editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="14G-WV-gGB" customClass="Text">
                                     <rect key="frame" x="0.0" y="0.0" width="266" height="31"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1031,7 +1031,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fax-ig-Fja">
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fax-ig-Fja" customClass="TextField">
                         <rect key="frame" x="449" y="496" width="266" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Command input" drawsBackground="YES" id="Bxb-v0-Jwy">
@@ -1043,20 +1043,54 @@
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ef-oG-Ngp">
                         <rect key="frame" x="811" y="702" width="125" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="xfM-R4-GAT" id="U6D-KG-Rdl">
+                        <popUpButtonCell key="cell" type="push" title="Help" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="gag-KQ-evd" id="U6D-KG-Rdl">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                             <menu key="menu" id="HfH-6a-yuv">
                                 <items>
-                                    <menuItem title="Item 1" state="on" id="xfM-R4-GAT"/>
-                                    <menuItem title="Item 2" id="Tag-KH-yhe"/>
-                                    <menuItem title="Item 3" id="Yvn-OL-qzP"/>
+                                    <menuItem title="Help" state="on" id="gag-KQ-evd">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="OtherViews" id="cH6-1r-9oy">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Maps" id="yXr-r2-4W3">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Textures" id="rkq-Zt-pVp">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Preferences" id="j36-Vd-hjH">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Project Settings" id="IrG-BX-ruW">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="BSP Output" id="I4J-XP-a7j">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
                                 </items>
                             </menu>
                         </popUpButtonCell>
                     </popUpButton>
                 </subviews>
             </view>
+            <connections>
+                <outlet property="brushcount_i" destination="uTK-PF-vLE" id="ivt-fE-36b"/>
+                <outlet property="cmd_in_i" destination="fax-ig-Fja" id="Nge-Lk-4HU"/>
+                <outlet property="cmd_out_i" destination="14G-WV-gGB" id="PV9-ef-Nzm"/>
+                <outlet property="entitycount_i" destination="0wN-aN-nGV" id="ddY-8V-ZUA"/>
+                <outlet property="filter_clip_i" destination="BG9-7i-JuJ" id="BBk-oB-UAt"/>
+                <outlet property="filter_entities_i" destination="jFC-aj-rvq" id="LUN-7H-qvW"/>
+                <outlet property="filter_light_i" destination="gjD-NH-xOn" id="vIg-tl-ixQ"/>
+                <outlet property="filter_path_i" destination="UAB-zA-JtO" id="JwH-T4-kwz"/>
+                <outlet property="filter_water_i" destination="l8Z-89-WpJ" id="19U-EF-oE8"/>
+                <outlet property="filter_world_i" destination="Bza-1k-07j" id="ISE-wC-qCZ"/>
+                <outlet property="regionbutton_i" destination="X8B-yU-Raw" id="Top-mA-0s8"/>
+                <outlet property="show_coordinates_i" destination="zDp-KR-Ssw" id="6tg-Qr-FDI"/>
+                <outlet property="show_names_i" destination="AG7-FW-2bT" id="Uaq-WG-u9v"/>
+                <outlet property="xy_drawmode_i" destination="sTT-B0-6bL" id="HEe-gh-Nep"/>
+            </connections>
         </window>
     </objects>
     <resources>

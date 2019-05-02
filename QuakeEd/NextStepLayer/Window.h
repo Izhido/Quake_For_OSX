@@ -11,4 +11,6 @@
 
 -(void)reenableFlushWindow;
 
+-(void)setTitleAsFilename:(const char*)filename;
+
 @end
