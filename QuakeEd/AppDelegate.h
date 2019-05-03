@@ -2,4 +2,6 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
+-(void)postApplicationDefinedEvent;
+
 @end

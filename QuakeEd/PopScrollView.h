@@ -1,4 +1,4 @@
-#import <appkit/appkit.h>
+#import <appkit/appkit_nextsteplayer.h>//S&F*****<appkit/appkit.h>
 
 @interface PopScrollView : ScrollView
 {

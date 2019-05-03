@@ -1,4 +1,4 @@
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 #import <NXRect.h>
 
 @interface Scroller : NSObject

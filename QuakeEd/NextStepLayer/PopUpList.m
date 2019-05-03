@@ -1,8 +1,14 @@
-#import "PopUpList.h"
+#import <PopUpList.h>
 
 @implementation PopUpList
 {
     Menu* menu;
+}
+
+-(void)getFrame:(NXRect*)frame
+{
+    NSRect rect = self.frame;
+    *frame = rect;
 }
 
 -(void)addItem:(const char*)item

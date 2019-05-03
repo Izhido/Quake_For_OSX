@@ -14,7 +14,7 @@
     {
         numElements = count;
         data = [NSMutableData dataWithLength:count * elementSize];
-        dataPtr = data.bytes;
+        dataPtr = data.mutableBytes;
         self->elementSize = elementSize;
         self->description = description;
     }
@@ -28,21 +28,23 @@
 
 -(void*)elementAt:(int)index
 {
-    return (void*)((unsigned char*)data.bytes) + index * elementSize;
+    return (void*)((unsigned char*)data.mutableBytes) + index * elementSize;
 }
 
 -(void)addElement:(void*)element
 {
     [data appendBytes:element length:elementSize];
+    dataPtr = data.mutableBytes;
     numElements++;
 }
 
 -(void)removeElementAt:(int)index
 {
     NSMutableData* newData = [NSMutableData dataWithLength:(numElements - 1) * elementSize];
-    memcpy(newData.bytes, data.bytes, index * elementSize);
-    memcpy(newData.bytes + index * elementSize, data.bytes + (index + 1) * elementSize, (numElements - index - 1) * elementSize);
+    memcpy(newData.mutableBytes, data.mutableBytes, index * elementSize);
+    memcpy(((unsigned char*)newData.mutableBytes) + index * elementSize, ((unsigned char*)data.mutableBytes) + (index + 1) * elementSize, (numElements - index - 1) * elementSize);
     data = newData;
+    dataPtr = data.mutableBytes;
 }
 
 -(void)replaceElementAt:(int)index with:(void*)element
@@ -51,7 +53,7 @@
     {
         return;
     }
-    unsigned char* toReplace = ((unsigned char*)data.bytes) + index * elementSize;
+    unsigned char* toReplace = ((unsigned char*)data.mutableBytes) + index * elementSize;
     memcpy(toReplace, element, elementSize);
 }
 

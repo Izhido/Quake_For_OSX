@@ -1,4 +1,4 @@
-#import "Menu.h"
+#import <Menu.h>
 
 @implementation Menu
 {

@@ -1,4 +1,4 @@
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 #import <NXRect.h>
 
 @interface View : NSView
@@ -17,6 +17,8 @@
 
 -(void)setAutoresizeSubviews:(BOOL)autoresizeSubviews;
 
+-(void)drawSelf:(const NXRect *)rects :(int)rectCount;
+
 @end
 
 void NXDrawBitmap(NXRect* rect, int width, int height, int bps, int spp, int bpp, int bpr, BOOL isPlanar, BOOL hasAlpha, NSColorSpaceName colorSpaneName, const char* planes);
@@ -31,7 +33,9 @@ void NXRectFill(NXRect* rect);
 
 int NXRunAlertPanel(const char* title, const char* msgFormat, const char* defaultButton, const char* alternateButton, const char* otherButton);
 
-void PSusecontext(CGContextRef context);
+void PSnewinstance();
+
+void PSsetinstance(int instance);
 
 void PSarc(float x, float y, float radius, float startAngle, float endAngle);
 

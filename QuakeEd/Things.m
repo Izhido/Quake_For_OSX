@@ -153,7 +153,7 @@ id	things_i;
 			if (c < 2)
 			{
 				flagname = [classent flagName: c*4 + r];
-				[cell setTitle: [NSString stringWithCString:flagname encoding:NSString.defaultCStringEncoding]];//S&F*****flagname];
+                [cell setTitle: [NSString stringWithCString:(flagname == nil ? "" : flagname) encoding:NSString.defaultCStringEncoding]];//S&F*****flagname];
 			}
 			[cell setIntValue: (flags & (1<< ((c*4)+r)) ) > 0];
 		}

@@ -117,16 +117,16 @@ defer:(BOOL)flag
 
 /*/S&F*****	[self addToEventMask:
 		NX_RMOUSEDRAGGEDMASK|NX_LMOUSEDRAGGEDMASK];	
-	
+/S&F*****/
     malloc_error(My_Malloc_Error);
 	
 	quakeed_i = self;
 	dirty = autodirty = NO;
 
-	DPSAddTimedEntry(5*60, AutoSave, self, NX_BASETHRESHOLD);
+	//S&F*****DPSAddTimedEntry(5*60, AutoSave, self, NX_BASETHRESHOLD);
 
 	upath = newUserPath ();
-/S&F*****/
+
 	return self;
 }
 
@@ -137,13 +137,13 @@ defer:(BOOL)flag
 	
 	return self;
 }
-/*/S&F*****
+
 
 - (BOOL)dirty
 {
 	return dirty;
 }
-/S&F*****/
+
 /*
 ===============================================================================
 
@@ -162,7 +162,7 @@ BOOL	updatecamera;
 
 void postappdefined (void)
 {
-	/*/S&F*****NXEvent ev;
+	NXEvent ev;
 
 	if (updateinflight)
 		return;
@@ -172,7 +172,7 @@ void postappdefined (void)
 	if (DPSPostEvent(&ev, 0) == -1)
 		printf ("WARNING: DPSPostEvent: full\n");
 //printf ("posted\n");
-	updateinflight = YES;/S&F*****/
+	updateinflight = YES;
 }
 
 
@@ -235,7 +235,7 @@ flushWindow
 instance draw the brush after each flush
 ===============
 */
-/*/S&F*****-flushWindow
+-flushWindow
 {
 	[super flushWindow];
 	
@@ -260,7 +260,7 @@ instance draw the brush after each flush
 	PSsetinstance (0);
 	[cameraview_i unlockFocus];	
 
-	[xyview_i lockFocus];
+	/*/S&F*****[xyview_i lockFocus];
 	PSsetinstance (1);
 	linestart (0,0,0);
 	[map_i makeSelectedPerform: @selector(XYDrawSelf)];
@@ -277,11 +277,11 @@ instance draw the brush after each flush
 	[cameraview_i ZDrawSelf];
 	[clipper_i ZDrawSelf];
 	PSsetinstance (0);
-	[zview_i unlockFocus];
+	[zview_i unlockFocus];/S&F*****/
 
 	return self;
 }
-/S&F*****/
+
 
 /*
 ==============================================================================
@@ -291,7 +291,7 @@ App delegate methods
 ==============================================================================
 */
 
-/*/S&F*****- applicationDefined:(NXEvent *)theEvent
+- applicationDefined:(NXEvent *)theEvent
 {
 	NXEvent		ev, *evp;
 	
@@ -300,12 +300,12 @@ App delegate methods
 //printf ("serviced\n");
 	
 // update screen	
-	evp = [NXApp peekNextEvent:-1 into:&ev];
+	/*/S&F*****evp = [NXApp peekNextEvent:-1 into:&ev];
 	if (evp)
 	{
 		postappdefined();
 		return self;
-	}
+	}/S&F*****/
 
 		
 	[self disableFlushWindow];	
@@ -330,7 +330,7 @@ App delegate methods
 //	NXPing ();
 	
 	return self;
-}/S&F*****/
+}
 
 - appDidInit:sender
 {
@@ -546,7 +546,7 @@ applyRegion:
 	
 	return self;
 }
-
+/S&F*****/
 //
 // UI querie for other objects
 //
@@ -559,7 +559,7 @@ applyRegion:
 {
 	return [show_names_i intValue];
 }
-/S&F*****/
+
 
 /*
 ==============================================================================

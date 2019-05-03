@@ -2,6 +2,17 @@
 
 @implementation View
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self)
+    {
+        NXRect frame = self.frame;
+        self = [self initFrame:&frame];
+    }
+    return self;
+}
+
 -(instancetype)initFrame:(const NXRect*)frame
 {
     return [super initWithFrame:*frame];
@@ -41,6 +52,16 @@
 -(void)setAutoresizeSubviews:(BOOL)autoresizeSubviews
 {
     self.autoresizesSubviews = autoresizeSubviews;
+}
+
+-(void)drawSelf:(const NXRect *)rects :(int)rectCount
+{
+}
+
+-(void)drawRect:(NSRect)dirtyRect
+{
+    PSnewinstance();
+    [self drawSelf:&dirtyRect :1];
 }
 
 @end
@@ -104,11 +125,15 @@ CGContextRef currentContextForPSFunctions = nil;
 float currentXForPSFunctions = 0;
 float currentYForPSFunctions = 0;
 
-void PSusecontext(CGContextRef context)
+void PSnewinstance()
 {
-    currentContextForPSFunctions = context;
+    currentContextForPSFunctions = NSGraphicsContext.currentContext.CGContext;
     currentXForPSFunctions = 0;
     currentYForPSFunctions = 0;
+}
+
+void PSsetinstance(int instance)
+{
 }
 
 void PSarc(float x, float y, float radius, float startAngle, float endAngle)

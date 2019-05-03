@@ -1,4 +1,3 @@
-#import <Cocoa/Cocoa.h>
 #import <Scroller.h>
 
 #define NX_BEZEL NSBezelBorder

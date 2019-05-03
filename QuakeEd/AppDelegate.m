@@ -19,4 +19,14 @@
     [(QuakeEd*)self.window appWillTerminate:self];
 }
 
+-(void)postApplicationDefinedEvent
+{
+    [self performSelectorOnMainThread:@selector(applicationDefined) withObject:nil waitUntilDone:NO];
+}
+
+-(void)applicationDefined
+{
+    [(QuakeEd*)self.window applicationDefined:nil];
+}
+
 @end

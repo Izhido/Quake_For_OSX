@@ -25,4 +25,6 @@
 
 -(id)free;
 
+-(void)freeObjects;
+
 @end

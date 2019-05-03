@@ -29,6 +29,10 @@
 
 -(id)objectAt:(int)index
 {
+    if (index < 0 || index >= list.count)
+    {
+        return nil;
+    }
     return [list objectAtIndex:index];
 }
 
@@ -75,6 +79,10 @@
 -(id)free
 {
     return self;
+}
+
+-(void)freeObjects
+{
 }
 
 @end

@@ -243,7 +243,6 @@
 		28C4FA851CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 28C4FA751CE79617001CF82D /* gl_tintedpolygon1textureprogram.vsh */; };
 		28C616FB2275E6600035C408 /* NXHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C616FA2275E6600035C408 /* NXHandler.m */; };
 		28C616FE2276554F0035C408 /* NXPing.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C616FD2276554F0035C408 /* NXPing.m */; };
-		28C61701227659D50035C408 /* DPSDoUserPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C61700227659D50035C408 /* DPSDoUserPath.m */; };
 		28C6170422765B5B0035C408 /* NXBeep.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C6170322765B5B0035C408 /* NXBeep.m */; };
 		28C6170722765DFC0035C408 /* Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C6170622765DFC0035C408 /* Map.m */; };
 		28C6170A22765F030035C408 /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C6170922765F030035C408 /* List.m */; };
@@ -529,8 +528,6 @@
 		28C616FA2275E6600035C408 /* NXHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXHandler.m; sourceTree = "<group>"; };
 		28C616FC2276554F0035C408 /* NXPing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXPing.h; sourceTree = "<group>"; };
 		28C616FD2276554F0035C408 /* NXPing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXPing.m; sourceTree = "<group>"; };
-		28C616FF227659D50035C408 /* DPSDoUserPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DPSDoUserPath.h; sourceTree = "<group>"; };
-		28C61700227659D50035C408 /* DPSDoUserPath.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DPSDoUserPath.m; sourceTree = "<group>"; };
 		28C6170222765B5B0035C408 /* NXBeep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXBeep.h; sourceTree = "<group>"; };
 		28C6170322765B5B0035C408 /* NXBeep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXBeep.m; sourceTree = "<group>"; };
 		28C6170522765DFC0035C408 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -570,7 +567,7 @@
 		28EB47B42275205000953944 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28EB47B52275205000953944 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		28EB47B72275205000953944 /* QuakeEd.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QuakeEd.entitlements; sourceTree = "<group>"; };
-		28EB47BD2275211900953944 /* appkit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = appkit.h; sourceTree = "<group>"; };
+		28EB47BD2275211900953944 /* appkit_nextsteplayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = appkit_nextsteplayer.h; sourceTree = "<group>"; };
 		28EB47BE2275218300953944 /* QuakeEd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuakeEd.h; sourceTree = "<group>"; };
 		28EB47BF2275218300953944 /* QuakeEd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuakeEd.m; sourceTree = "<group>"; };
 		28EB47C12275221D00953944 /* qedefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qedefs.h; sourceTree = "<group>"; };
@@ -1004,8 +1001,6 @@
 			children = (
 				28EB47BC227520E900953944 /* appkit */,
 				28EB47C92275D92100953944 /* dpsclient */,
-				28C616FF227659D50035C408 /* DPSDoUserPath.h */,
-				28C61700227659D50035C408 /* DPSDoUserPath.m */,
 				28C6170822765F030035C408 /* List.h */,
 				28C6170922765F030035C408 /* List.m */,
 				28FB5A282276AF5800DEDB98 /* Matrix.h */,
@@ -1055,7 +1050,7 @@
 		28EB47BC227520E900953944 /* appkit */ = {
 			isa = PBXGroup;
 			children = (
-				28EB47BD2275211900953944 /* appkit.h */,
+				28EB47BD2275211900953944 /* appkit_nextsteplayer.h */,
 				28EB47CD2275DB0300953944 /* errors.h */,
 				28EB47CE2275DB1300953944 /* graphics.h */,
 			);
@@ -1656,7 +1651,6 @@
 				28FB5A2A2276AF5800DEDB98 /* Matrix.m in Sources */,
 				28FB5A2422769C0200DEDB98 /* OpenPanel.m in Sources */,
 				28FB5A302276B73E00DEDB98 /* Things.m in Sources */,
-				28C61701227659D50035C408 /* DPSDoUserPath.m in Sources */,
 				288B45C02279DA8000944F1F /* ZScrollView.m in Sources */,
 				288B45BA2279DA5200944F1F /* TextureView.m in Sources */,
 				28EB47D02275DDAC00953944 /* NXZone.m in Sources */,

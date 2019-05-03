@@ -1,5 +1,5 @@
 #import <OpenPanel.h>
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 
 @implementation OpenPanel
 {
@@ -72,11 +72,21 @@
 -(char**)filenamesAsStringList
 {
     [self releaseFilenamesAsStringList];
-    filenamesAsStringListCount = (int)openPanel.filenames.count;
+    NSString* directory = openPanel.directoryURL.path;
+    if ([directory characterAtIndex:directory.length - 1] == '/')
+    {
+        directory = [directory substringToIndex:directory.length - 1];
+    }
+    filenamesAsStringListCount = (int)openPanel.URLs.count;
     filenamesAsStringList = malloc(sizeof(char*) * (filenamesAsStringListCount + 1));
     for (int i = 0; i < filenamesAsStringListCount; i++)
     {
-        NSString* filename = openPanel.filenames[i];
+        NSString* filename = openPanel.URLs[i].path;
+        filename = [filename substringFromIndex:directory.length];
+        if ([filename characterAtIndex:0] == '/')
+        {
+            filename = [filename substringFromIndex:1];
+        }
         filenamesAsStringList[i] = malloc(filename.length + 1);
         strcpy(filenamesAsStringList[i], [filename cStringUsingEncoding:NSString.defaultCStringEncoding]);
     }
@@ -95,7 +105,11 @@
 -(char*)directoryAsString
 {
     [self releaseDirectoryAsString];
-    NSString* directory = openPanel.directory;
+    NSString* directory = openPanel.directoryURL.path;
+    if ([directory characterAtIndex:directory.length - 1] == '/')
+    {
+        directory = [directory substringToIndex:directory.length - 1];
+    }
     directoryAsString = malloc(directory.length + 1);
     strcpy(directoryAsString, [directory cStringUsingEncoding:NSString.defaultCStringEncoding]);
     return directoryAsString;

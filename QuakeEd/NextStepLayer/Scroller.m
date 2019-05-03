@@ -1,5 +1,4 @@
-#import "Scroller.h"
-#import <Cocoa/Cocoa.h>
+#import <Scroller.h>
 
 @implementation Scroller
 {

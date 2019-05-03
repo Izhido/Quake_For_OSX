@@ -1,5 +1,5 @@
 #import <Sound.h>
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 
 @implementation Sound
 {
