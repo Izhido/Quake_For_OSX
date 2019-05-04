@@ -4,6 +4,7 @@
 @implementation OpenPanel
 {
     NSOpenPanel* openPanel;
+    char* filenameAsString;
     char** filenamesAsStringList;
     int filenamesAsStringListCount;
     char* directoryAsString;
@@ -15,6 +16,7 @@
     if (self != nil)
     {
         openPanel = [NSOpenPanel new];
+        filenameAsString = nil;
         filenamesAsStringList = nil;
         filenamesAsStringListCount = 0;
         directoryAsString = nil;
@@ -54,6 +56,23 @@
         i++;
     }
     return [openPanel runModalForTypes:typesAsArray];
+}
+
+-(void)releaseFilenameAsString
+{
+    if (filenameAsString != nil)
+    {
+        free(filenameAsString);
+    }
+}
+
+-(char*)filenameAsString
+{
+    [self releaseFilenameAsString];
+    NSString* filename = openPanel.URL.path;
+    filenameAsString = malloc(filename.length + 1);
+    strcpy(filenameAsString, [filename cStringUsingEncoding:NSString.defaultCStringEncoding]);
+    return filenameAsString;
 }
 
 -(void)releaseFilenamesAsStringList
@@ -117,6 +136,7 @@
 
 - (void)dealloc
 {
+    [self releaseFilenameAsString];
     [self releaseFilenamesAsStringList];
     [self releaseDirectoryAsString];
 }

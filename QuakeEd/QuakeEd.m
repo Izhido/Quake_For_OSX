@@ -185,7 +185,7 @@ int	c_updateall;
 	return self;
 }
 
-/*/S&F*****- updateAll:sender
+- updateAll:sender
 {
 	[self updateAll];
 	return self;
@@ -227,7 +227,7 @@ int	c_updateall;
 	[self flushWindow];
 	return self;
 }
-/S&F*****/
+
 /*
 ===============
 flushWindow
@@ -402,13 +402,13 @@ App delegate methods
 		qprintf ("Unknown command\n");
 	return self;
 }
-
+/S&F*****/
 
 - openProject:sender
 {
 	[project_i	openProject];
 	return self;
-}/S&F*****/
+}
 
 
 - clear: sender
@@ -743,7 +743,7 @@ doOpen:
 Called by open or the project panel
 ==============
 */
-/*/S&F*****- doOpen: (char *)fname;
+- doOpen: (char *)fname;
 {	
 	strcpy (filename, fname);
 	
@@ -757,14 +757,14 @@ Called by open or the project panel
 	
 	return self;
 }
-/S&F*****/
+
 
 /*
 ==============
 open
 ==============
 */
-/*/S&F*****- open: sender;
+- open: sender;
 {
 	id			openpanel;
 	static char	*suffixlist[] = {"map", 0};
@@ -772,16 +772,16 @@ open
 	openpanel = [OpenPanel new];
 
 	if ( [openpanel 
-			runModalForDirectory: [project_i getMapDirectory] 
+			/*/S&F*****runModalForDirectory*/runModalForDirectoryAsString: [project_i getMapDirectory]
 			file: ""
 			types: suffixlist] != NX_OKTAG)
 		return self;
 
-	[self doOpen: (char *)[openpanel filename]];
+    [self doOpen: (char *)[openpanel filenameAsString]];//S&F*****filename]];
 	
 	return self;
 }
-/S&F*****/
+
 
 /*
 ==============
@@ -871,40 +871,40 @@ keyDown
 ===============
 */
 
-#define	KEY_RIGHTARROW		0xae
-#define	KEY_LEFTARROW		0xac
-#define	KEY_UPARROW			0xad
-#define	KEY_DOWNARROW		0xaf
+#define	KEY_RIGHTARROW		63235//S&F*****0xae
+#define	KEY_LEFTARROW		63234//S&F*****0xac
+#define	KEY_UPARROW			63232//S&F*****0xad
+#define	KEY_DOWNARROW		63233//S&F*****0xaf
 
-/*/S&F*****- keyDown:(NXEvent *)theEvent
+- keyDown:(/*/S&F*****NXEvent*/NSEvent *)theEvent
 {
     int		ch;
 	
 // function keys
-	switch (theEvent->data.key.keyCode)
+	switch (theEvent/*/S&F*****->data.key*/.keyCode)
 	{
-	case 60:	// F2
+	case /*/S&F*****60*/120:	// F2
 		[cameraview_i setDrawMode: dr_wire];
 		qprintf ("wire draw mode");
 		return self;
-	case 61:	// F3
+	case /*/S&F*****61*/99:	// F3
 		[cameraview_i setDrawMode: dr_flat];
 		qprintf ("flat draw mode");
 		return self;
-	case 62:	// F4
+	case /*/S&F*****62*/118:	// F4
 		[cameraview_i setDrawMode: dr_texture];
 		qprintf ("texture draw mode");
 		return self;
 
-	case 63:	// F5
+	case /*/S&F*****63*/96:	// F5
 		[xyview_i setDrawMode: dr_wire];
 		qprintf ("wire draw mode");
 		return self;
-	case 64:	// F6
+	case /*/S&F*****64*/97:	// F6
 		qprintf ("texture draw mode");
 		return self;
 		
-	case 66:	// F8
+	case /*/S&F*****66*/100:	// F8
 		[cameraview_i homeView: self];
 		return self;
 		
@@ -921,12 +921,12 @@ keyDown
 		return self;
 		
 	case 109:	// end
-		[self deselect: self];
+		//S&F*****[self deselect: self];
 		return self;
 	}
 
 // portable things
-    ch = tolower(theEvent->data.key.charCode);
+    ch = tolower(/*/S&F*****theEvent->data.key.charCode*/[theEvent.charactersIgnoringModifiers characterAtIndex:0]);
 		
 	switch (ch)
 	{
@@ -945,7 +945,7 @@ keyDown
 
 	case 27:	// escape
 		autodirty = dirty = YES;
-		[self deselect: self];
+		//S&F*****[self deselect: self];
 		return self;
 		
 	case 127:	// delete
@@ -1021,6 +1021,6 @@ keyDown
 
     return self;
 }
-/S&F*****/
+
 
 @end

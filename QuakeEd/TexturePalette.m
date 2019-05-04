@@ -167,7 +167,7 @@ TEX_InitFromWad
 */
 void	TEX_InitFromWad (char *path)
 {
-	int			i;
+	/*/S&F*****int			i;
 	char		local[1024];
 	char		newpath[1024];
 	byte		*wadfile;
@@ -226,7 +226,7 @@ void	TEX_InitFromWad (char *path)
 
 	stop = I_FloatTime ();
 	
-	qprintf ("loaded %s (%5.1f)", local, stop - start);
+	qprintf ("loaded %s (%5.1f)", local, stop - start);/S&F*****/
 }
 
 /*

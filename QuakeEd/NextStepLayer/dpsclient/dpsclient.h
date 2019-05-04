@@ -21,4 +21,4 @@ typedef enum _DPSUserPathOp {
 
 #define dps_float 48
 
-#define dps_ustroke 0
+#define dps_ustroke 1

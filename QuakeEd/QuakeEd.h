@@ -56,7 +56,7 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 - appDidInit:sender;
 - appWillTerminate:sender;
 
-- openProject:sender;
+- /*/S&F*****/(IBAction)/*/S&F*****/openProject:sender;
 
 - textCommand: sender;
 
@@ -64,7 +64,7 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 
 - (BOOL)dirty;
 
-- clear: sender;
+- /*/S&F*****/(IBAction)/*/S&F*****/clear: sender;
 - centerCamera: sender;
 - centerZChecker: sender;
 
@@ -73,20 +73,20 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 - setBrushRegion: sender;
 - setXYRegion: sender;
 
-- open: sender;
-- save: sender;
-- saveAs: sender;
+- /*/S&F*****/(IBAction)/*/S&F*****/open: sender;
+- /*/S&F*****/(IBAction)/*/S&F*****/save: sender;
+- /*/S&F*****/(IBAction)/*/S&F*****/saveAs: sender;
 
 - doOpen: (char *)fname;
 
 - saveBSP:(char *)cmdline dialog:(BOOL)wt;
 
-- BSP_Full: sender;
-- BSP_FastVis: sender;
-- BSP_NoVis: sender;
-- BSP_relight: sender;
-- BSP_stop: sender;
-- BSP_entities: sender;
+- /*/S&F*****/(IBAction)/*/S&F*****/BSP_Full: sender;
+- /*/S&F*****/(IBAction)/*/S&F*****/BSP_FastVis: sender;
+- /*/S&F*****/(IBAction)/*/S&F*****/BSP_NoVis: sender;
+- /*/S&F*****/(IBAction)/*/S&F*****/BSP_relight: sender;
+- /*/S&F*****/(IBAction)/*/S&F*****/BSP_stop: sender;
+- /*/S&F*****/(IBAction)/*/S&F*****/BSP_entities: sender;
 
 //
 // UI querie for other objects

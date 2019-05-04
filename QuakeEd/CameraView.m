@@ -880,17 +880,17 @@ keyDown
 ===============
 */
 
-#define	KEY_RIGHTARROW		0xae
-#define	KEY_LEFTARROW		0xac
-#define	KEY_UPARROW			0xad
-#define	KEY_DOWNARROW		0xaf
+#define	KEY_RIGHTARROW		63235//S&F*****0xae
+#define	KEY_LEFTARROW		63234//S&F*****0xac
+#define	KEY_UPARROW			63232//S&F*****0xad
+#define	KEY_DOWNARROW		63233//S&F*****0xaf
 
 
-- _keyDown: (NXEvent *)theEvent
+- _keyDown: (/*/S&F*****NXEvent*/NSEvent *)theEvent
 {
     int	ch;
 	
-    ch = tolower(theEvent->data.key.charCode);
+    ch = tolower(/*/S&F*****theEvent->data.key.charCode*/[theEvent.charactersIgnoringModifiers characterAtIndex:0]);
 	
 	switch (ch)
 	{

@@ -10,6 +10,8 @@
 
 -(int)runModalForTypesAsStringList:(char**)types;
 
+-(char*)filenameAsString;
+
 -(char**)filenamesAsStringList;
 
 -(char*)directoryAsString;

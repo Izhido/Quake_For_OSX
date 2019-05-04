@@ -42,7 +42,7 @@ extern	BOOL	timedrawing;
 - (float)yawAngle;
 
 - matrixFromAngles;
-- _keyDown: (NXEvent *)theEvent;
+- _keyDown: (/*/S&F*****NXEvent*/NSEvent *)theEvent;
 
 - drawMode: sender;
 - setDrawMode: (drawmode_t)mode;
