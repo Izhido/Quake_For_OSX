@@ -43,7 +43,7 @@ extern	BOOL	timedrawing;
 
 - matrixFromAngles;
 - _keyDown: (/*/S&F*****NXEvent*/NSEvent *)theEvent;
-
+/*/S&F*****/- setModeRadio: m;
 - drawMode: sender;
 - setDrawMode: (drawmode_t)mode;
 

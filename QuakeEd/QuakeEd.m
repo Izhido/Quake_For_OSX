@@ -300,12 +300,12 @@ App delegate methods
 //printf ("serviced\n");
 	
 // update screen	
-	/*/S&F*****evp = [NXApp peekNextEvent:-1 into:&ev];
+	evp = [NXApp peekNextEvent:-1 into:&ev];
 	if (evp)
 	{
 		postappdefined();
 		return self;
-	}/S&F*****/
+	}
 
 		
 	[self disableFlushWindow];	
@@ -334,8 +334,8 @@ App delegate methods
 
 - appDidInit:sender
 {
-	//S&F*****NXScreen	const *screens;
-	//S&F*****int			screencount;
+	NXScreen	const *screens;
+	int			screencount;
 	
 	running = YES;
 	g_cmd_out_i = cmd_out_i;	// for qprintf
@@ -346,16 +346,16 @@ App delegate methods
 	[xyview_i setModeRadio: xy_drawmode_i];	// because xy view is inside
 											// scrollview and can't be
 											// connected directly in IB
-	
+    /*/S&F*****/[cameraview_i setModeRadio:mode_radio_i];
 	//S&F*****[self setFrameAutosaveName:"EditorWinFrame"];
 	[self clear: self];
 
 // go to my second monitor
-	/*/S&F*****[NXApp getScreens:&screens count:&screencount];
+	[NXApp getScreens:&screens count:&screencount];
 	if (screencount == 2)
 		[self moveTopLeftTo:0 : screens[1].screenBounds.size.height
 		screen:screens+1];
-	/S&F*****/
+	
 	[self makeKeyAndOrderFront: self];
 
 //[self doOpen: "/raid/quake/id1_/maps/amlev1.map"];	// DEBUG
@@ -377,11 +377,11 @@ App delegate methods
 
 //===========================================================================
 
-/*/S&F*****- textCommand: sender
+- textCommand: sender
 {
 	char	const *t;
 	
-	t = [sender stringValue];
+	t = [sender /*/S&F*****stringValue*/stringValueAsString];
 	
 	if (!strcmp (t, "texname"))
 	{
@@ -402,7 +402,7 @@ App delegate methods
 		qprintf ("Unknown command\n");
 	return self;
 }
-/S&F*****/
+
 
 - openProject:sender
 {
@@ -451,7 +451,7 @@ App delegate methods
 	[self updateAll];
 	
 	return self;
-}
+}/S&F*****/
 
 - changeXYLookUp: sender
 {
@@ -466,7 +466,7 @@ App delegate methods
 	[self updateAll];
 	return self;
 }
-/S&F*****/
+
 /*
 ==============================================================================
 
@@ -502,7 +502,7 @@ applyRegion:
 
 	return self;
 }
-
+/S&F*****/
 - setBrushRegion: sender
 {
 	id		b;
@@ -528,10 +528,10 @@ applyRegion:
 
 - setXYRegion: sender
 {
-	NXRect	bounds;
+	/*/S&F*****NXRect*/NSRect	bounds;
 	
 // get xy size
-	[[xyview_i superview] getBounds: &bounds];
+    bounds = [xyview_i superview].bounds;//S&F*****[[xyview_i superview] getBounds: &bounds];
 
 	region_min[0] = bounds.origin.x;
 	region_min[1] = bounds.origin.y;
@@ -546,7 +546,7 @@ applyRegion:
 	
 	return self;
 }
-/S&F*****/
+
 //
 // UI querie for other objects
 //

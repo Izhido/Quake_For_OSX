@@ -2,37 +2,58 @@
 
 @implementation Matrix
 {
-    NSMutableDictionary<NSNumber*, NSMutableDictionary<NSNumber*, id>*>* cells;
+    id target;
+    SEL action;
 }
 
--(void)addViewAtRow:(int)row column:(int)column view:(NSView*)view
+-(void)setTarget:(id)target
 {
-    if (cells == nil)
+    self->target = target;
+}
+
+-(void)setAction:(SEL)action
+{
+    self->action = action;
+}
+
+-(int)selectedCol
+{
+    for (int i = 0; i < self.subviews.count; i++)
     {
-        cells = [NSMutableDictionary<NSNumber*, NSMutableDictionary<NSNumber*, id>*> new];
+        NSView* subview = self.subviews[i];
+        if ([subview isKindOfClass:[NSButton class]])
+        {
+            NSButton* button = (NSButton*)subview;
+            if (button.state == NSControlStateValueOn)
+            {
+                return i;
+            }
+        }
     }
-    NSNumber* rowKey = @(row);
-    NSMutableDictionary<NSNumber*, id>* rowDictionary = [cells objectForKey:rowKey];
-    if (rowDictionary == nil)
-    {
-        rowDictionary = [NSMutableDictionary<NSNumber*, id> new];
-        [cells setObject:rowDictionary forKey:rowKey];
-    }
-    NSNumber* columnKey = @(column);
-    [rowDictionary setObject:view forKey:columnKey];
+    return -1;
 }
 
 -(id)cellAt:(int)row :(int)column
 {
-    NSMutableDictionary<NSNumber*, id>* rowDictionary = [cells objectForKey:@(row)];
-    return [rowDictionary objectForKey:@(column)];
+    return nil;
 }
 
 -(void)selectCellAt:(int)row :(int)column
 {
-    NSMutableDictionary<NSNumber*, id>* rowDictionary = [cells objectForKey:@(row)];
-    id cell = [rowDictionary objectForKey:@(column)];
-    [((NSButton*)cell) setState:NSOnState];
+    NSView* subview = self.subviews[column];
+    if ([subview isKindOfClass:[NSButton class]])
+    {
+        NSButton* button = (NSButton*)subview;
+        button.state = NSControlStateValueOn;
+    }
+}
+
+- (IBAction)commonAction:(NSButton *)sender
+{
+    if ([target respondsToSelector:action])
+    {
+        [target performSelector:action withObject:self];
+    }
 }
 
 @end

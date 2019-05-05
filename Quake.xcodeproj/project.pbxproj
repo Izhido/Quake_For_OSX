@@ -254,6 +254,7 @@
 		28C6171C227675BA0035C408 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C6171B227675BA0035C408 /* Preferences.m */; };
 		28C6171F227676FA0035C408 /* Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C6171E227676FA0035C408 /* Storage.m */; };
 		28D216D0227A165D00F51D12 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D216CF227A165D00F51D12 /* Menu.m */; };
+		28D27EEA227E7E0400B57422 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D27EE9227E7E0400B57422 /* Application.m */; };
 		28E0F9C42277475B00A3AA83 /* InspectorControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E0F9C22277475B00A3AA83 /* InspectorControl.m */; };
 		28E0F9C7227747E200A3AA83 /* Clipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E0F9C5227747E100A3AA83 /* Clipper.m */; };
 		28E0F9CA22774AC500A3AA83 /* XYView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E0F9C822774AC500A3AA83 /* XYView.m */; };
@@ -550,6 +551,9 @@
 		28C6171E227676FA0035C408 /* Storage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Storage.m; sourceTree = "<group>"; };
 		28D216CE227A165D00F51D12 /* Menu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
 		28D216CF227A165D00F51D12 /* Menu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Menu.m; sourceTree = "<group>"; };
+		28D27EE8227E7E0400B57422 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		28D27EE9227E7E0400B57422 /* Application.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
+		28D27EEB227E857400B57422 /* NXScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXScreen.h; sourceTree = "<group>"; };
 		28E0F9C22277475B00A3AA83 /* InspectorControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorControl.m; sourceTree = "<group>"; };
 		28E0F9C32277475B00A3AA83 /* InspectorControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorControl.h; sourceTree = "<group>"; };
 		28E0F9C5227747E100A3AA83 /* Clipper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Clipper.m; sourceTree = "<group>"; };
@@ -1001,6 +1005,8 @@
 			children = (
 				28EB47BC227520E900953944 /* appkit */,
 				28EB47C92275D92100953944 /* dpsclient */,
+				28D27EE8227E7E0400B57422 /* Application.h */,
+				28D27EE9227E7E0400B57422 /* Application.m */,
 				28C6170822765F030035C408 /* List.h */,
 				28C6170922765F030035C408 /* List.m */,
 				28FB5A282276AF5800DEDB98 /* Matrix.h */,
@@ -1019,6 +1025,7 @@
 				28C616FD2276554F0035C408 /* NXPing.m */,
 				28EB47C5227527E800953944 /* NXRect.h */,
 				2898B8D3227A522F00FDA09A /* NXRect.m */,
+				28D27EEB227E857400B57422 /* NXScreen.h */,
 				28EB47CC2275D9E000953944 /* NXZone.h */,
 				28EB47CF2275DDAC00953944 /* NXZone.m */,
 				28C617142276668E0035C408 /* Object.h */,
@@ -1640,6 +1647,7 @@
 				28C61710227660080035C408 /* cmdlib.c in Sources */,
 				2898B8D2227A501200FDA09A /* misc.m in Sources */,
 				288B45B42279DA3000944F1F /* PopScrollView.m in Sources */,
+				28D27EEA227E7E0400B57422 /* Application.m in Sources */,
 				28E0F9C7227747E200A3AA83 /* Clipper.m in Sources */,
 				28EB47C02275218300953944 /* QuakeEd.m in Sources */,
 				28EB47B62275205000953944 /* main.m in Sources */,

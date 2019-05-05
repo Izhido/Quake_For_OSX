@@ -125,10 +125,10 @@ homeView
 	
 	return self;
 }
-
+/*/S&F*****/- setModeRadio: m{mode_radio_i = m;[mode_radio_i setTarget: self];[mode_radio_i setAction: @selector(drawMode:)];return self;}
 - drawMode: sender
 {
-	//S&F*****drawmode = [sender selectedCol];
+	drawmode = [sender selectedCol];
 	[quakeed_i updateCamera];
 	return self;
 }
@@ -698,8 +698,8 @@ viewDrag:
 */
 - viewDrag:(NXPoint *)pt
 {
-	/*/S&F*****float	dx,dy;
-	NXEvent		*event;
+	float	dx,dy;
+	/*/S&F*****NXEvent*/NSEvent		*event;
 	NXPoint		newpt;
 	
 //
@@ -707,17 +707,17 @@ viewDrag:
 //
 	goto drawentry;
 
-	while (event->type != NX_RMOUSEUP)
+	while (event/*/S&F*****->type*/.type != NX_RMOUSEUP)
 	{
 		//
 		// calculate new point
 		//
-		newpt = event->location;
-		[self convertPoint:&newpt  fromView:NULL];
+		newpt.x = event.locationInWindow.x; newpt.y = event.locationInWindow.y;//S&F*****newpt = event->location;
+		[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&newpt  fromView:NULL];
 
 		dx = newpt.x - pt->x;
 		dy = newpt.y - pt->y;
-		*pt = newpt;
+        *pt = newpt;/*/S&F*****/NSRect bounds = self.bounds;
 	
 		ya -= dx/bounds.size.width*M_PI/2 * 4;
 		xa += dy/bounds.size.width*M_PI/2 * 4;
@@ -728,17 +728,17 @@ drawentry:
 		[quakeed_i newinstance];
 		[self display];
 		
-		event = [NXApp getNextEvent: 
+        event = [NXApp getNextEvent:
 			NX_KEYDOWNMASK | NX_RMOUSEUPMASK | NX_RMOUSEDRAGGEDMASK];
 	
-		if (event->type == NX_KEYDOWN)
+		if (event/*/S&F*****->type*/.type == NX_KEYDOWN)
 		{
 			[self _keyDown: event];
 			[self display];
 			goto drawentry;
 		}
 		
-	}/S&F*****/
+	}
 
 	return self;
 }
@@ -751,17 +751,17 @@ drawentry:
 mouseDown
 ===================
 */
-- mouseDown:(NXEvent *)theEvent
+- mouseDown:(/*/S&F*****NXEvent*/NSEvent *)theEvent
 {
-	/*/S&F*****NXPoint			pt;
+	NXPoint			pt;
 	int				i;
 	vec3_t			p1, p2;
 	float			forward, right, up;
 	int				flags;
 		
-	pt = theEvent->location;
+    pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt = theEvent->location;
 	
-	[self convertPoint:&pt  fromView:NULL];
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
 	VectorCopy (origin, p1);
 	forward = 160;
@@ -772,7 +772,7 @@ mouseDown
 	for (i=0 ; i<3 ; i++)
 		p2[i] = p1[i] + 100*p2[i];
 
-	flags = theEvent->flags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
+	flags = theEvent/*/S&F*****->flags*/.modifierFlags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
 
 //
 // bare click to select a texture
@@ -837,7 +837,7 @@ mouseDown
 
 	qprintf ("bad flags for click");
 	NopSound ();
-	/S&F*****/
+	
 	return self;
 }
 
@@ -846,16 +846,16 @@ mouseDown
 rightMouseDown
 ===================
 */
-- rightMouseDown:(NXEvent *)theEvent
+- rightMouseDown:(/*/S&F*****NXEvent*/NSEvent *)theEvent
 {
-	/*/S&F*****NXPoint			pt;
+	NXPoint			pt;
 	int				flags;
 		
-	pt = theEvent->location;
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt = theEvent->location;
 	
-	[self convertPoint:&pt  fromView:NULL];
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
-	flags = theEvent->flags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
+	flags = theEvent/*/S&F*****->flags*/.modifierFlags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
 
 //
 // click = drag camera
@@ -870,7 +870,7 @@ rightMouseDown
 
 	qprintf ("bad flags for click");
 	NopSound ();
-	/S&F*****/
+	
 	return self;
 }
 

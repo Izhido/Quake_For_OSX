@@ -19,6 +19,11 @@
     [(QuakeEd*)self.window appWillTerminate:self];
 }
 
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
+{
+    return YES;
+}
+
 -(void)postApplicationDefinedEvent
 {
     [self performSelectorOnMainThread:@selector(applicationDefined) withObject:nil waitUntilDone:NO];

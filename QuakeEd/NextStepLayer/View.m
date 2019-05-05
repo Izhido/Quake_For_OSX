@@ -64,6 +64,13 @@
     [self drawSelf:&dirtyRect :1];
 }
 
+-(void)convertPointAsNXPoint:(NXPoint*)point fromView:(NSView*)view
+{
+    NSPoint converted = [self convertPoint:NSMakePoint(point->x, point->y) fromView:view];
+    point->x = converted.x;
+    point->y = converted.y;
+}
+
 @end
 
 void NXDrawBitmap(NXRect* rect, int width, int height, int bps, int spp, int bpp, int bpr, BOOL isPlanar, BOOL hasAlpha, NSColorSpaceName colorSpaceName, const char* planes)
@@ -212,7 +219,7 @@ void PSsetrgbcolor(float r, float g, float b)
 
 void PSshow(const char* text)
 {
-    CGContextShowText(currentContextForPSFunctions, text, strlen(text));
+    [[NSString stringWithCString:text encoding:NSString.defaultCStringEncoding] drawAtPoint:NSMakePoint(currentXForPSFunctions, currentYForPSFunctions) withAttributes:@{NSFontAttributeName:[NSFont systemFontOfSize:NSFont.systemFontSize], NSForegroundColorAttributeName: NSColor.blackColor}];
 }
 
 void PSstroke()

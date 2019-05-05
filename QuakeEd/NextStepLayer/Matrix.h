@@ -2,7 +2,11 @@
 
 @interface Matrix : NSView
 
--(void)addViewAtRow:(int)row column:(int)column view:(NSView*)view;
+-(void)setTarget:(id)target;
+
+-(void)setAction:(SEL)action;
+
+-(int)selectedCol;
 
 -(id)cellAt:(int)row :(int)column;
 

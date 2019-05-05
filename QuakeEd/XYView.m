@@ -95,7 +95,7 @@ initFrame:
 
 - drawMode: sender
 {
-	//S&F*****drawmode = [sender selectedCol];
+	drawmode = [sender selectedCol];
 	[quakeed_i updateXY];
 	return self;
 }
@@ -761,7 +761,7 @@ drawSolid
 //
 // display the output
 //
-	[self lockFocus];
+	/*/S&F*****[self lockFocus];
 	[[self window] setBackingType:NX_RETAINED];
 
 	planes[0] = (unsigned char *)r_picbuffer;
@@ -782,7 +782,7 @@ drawSolid
 	NXPing ();
 	[[self window] setBackingType:NX_BUFFERED];
 	[self unlockFocus];
-	
+	/S&F*****/
 	return self;
 }
 

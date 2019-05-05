@@ -1,5 +1,6 @@
 #import <AppKit/AppKit.h>
 #import <NXRect.h>
+#import <NXScreen.h>
 
 #define NX_RETAINED NSBackingStoreRetained
 
@@ -14,6 +15,8 @@
 -(void)setTitleAsFilename:(const char*)filename;
 
 -(void)applicationDefined:(NXEvent*)event;
+
+-(void)moveTopLeftTo:(int)x :(int)y screen:(const NXScreen*)screen;
 
 @end
 

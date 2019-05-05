@@ -19,6 +19,8 @@
 
 -(void)drawSelf:(const NXRect *)rects :(int)rectCount;
 
+-(void)convertPointAsNXPoint:(NXPoint*)point fromView:(NSView*)view;
+
 @end
 
 void NXDrawBitmap(NXRect* rect, int width, int height, int bps, int spp, int bpp, int bpr, BOOL isPlanar, BOOL hasAlpha, NSColorSpaceName colorSpaneName, const char* planes);

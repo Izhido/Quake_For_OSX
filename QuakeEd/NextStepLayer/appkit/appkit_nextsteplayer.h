@@ -15,8 +15,7 @@
 #import <PopUpList.h>
 #import <Menu.h>
 #import <Scroller.h>
-
-#define NXApp NSApp
+#import <Application.h>
 
 #define NX_OKTAG NSOKButton
 

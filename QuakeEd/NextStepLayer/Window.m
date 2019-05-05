@@ -2,12 +2,17 @@
 #import "AppDelegate.h"
 #import <dpsclient/dpsclient.h>
 #import <View.h>
+#import <Application.h>
 
 @implementation Window
 
 - (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)backingStoreType defer:(BOOL)flag
 {
     self = [self initContent:&contentRect style:style backing:backingStoreType buttonMask:0 defer:flag];
+    if (self != nil)
+    {
+        NXApp = [Application new];
+    }
     return self;
 }
 
@@ -30,13 +35,21 @@
 {
 }
 
+-(void)moveTopLeftTo:(int)x :(int)y screen:(const NXScreen*)screen
+{
+    NSPoint origin = screen->screen.visibleFrame.origin;
+    origin.x += x;
+    origin.y += (y - screen->screenBounds.size.height);
+    [self setFrameOrigin:origin];
+}
+
 @end
 
 int DPSPostEvent(NXEvent* event, int atStart)
 {
     if (event->type == NX_APPDEFINED)
     {
-        [((AppDelegate*)NSApp.delegate) postApplicationDefinedEvent];
+        [((AppDelegate*)NSApplication.sharedApplication.delegate) postApplicationDefinedEvent];
     }
     return 0;
 }
