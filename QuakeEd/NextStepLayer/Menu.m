@@ -1,23 +1,24 @@
 #import <Menu.h>
+#import <PopUpList.h>
 
 @implementation Menu
 {
-    NSPopUpButton* button;
+    PopUpList* list;
 }
 
--(instancetype)initWithPopUpButton:(NSPopUpButton*)button
+-(instancetype)initWithPopUpList:(PopUpList*)list
 {
     self = [super init];
     if (self != nil)
     {
-        self->button = button;
+        self->list = list;
     }
     return self;
 }
 
 -(void)selectCellAt:(int)row :(int)column
 {
-    [button selectItemAtIndex:row];
+    list.selection = row;
 }
 
 @end

@@ -1,33 +1,48 @@
 #import <PopUpList.h>
+#import <Menu.h>
 
 @implementation PopUpList
-{
-    Menu* menu;
-}
 
--(void)getFrame:(NXRect*)frame
+-(instancetype)init
 {
-    NSRect rect = self.frame;
-    *frame = rect;
+    self = [super init];
+    if (self)
+    {
+        _items = [NSMutableArray<NSString*> new];
+    }
+    return self;
 }
 
 -(void)addItem:(const char*)item
 {
-    [self addItemWithTitle:[NSString stringWithCString:item encoding:NSString.defaultCStringEncoding]];
+    [self.items addObject:[NSString stringWithCString:item encoding:NSString.defaultCStringEncoding]];
 }
 
 -(Menu*)itemList
 {
-    if (menu == nil)
+    return [[Menu alloc] initWithPopUpList:self];;
+}
+
+-(void)menuItemSelected:(id)sender
+{
+    if ([self.target respondsToSelector:self.action])
     {
-        menu = [[Menu alloc] initWithPopUpButton:self];
+        [self.target performSelector:self.action withObject:self.button];
     }
-    return menu;
 }
 
 @end
 
-NSPopUpButton* NXCreatePopUpListButton(PopUpList* list)
+Button* NXCreatePopUpListButton(PopUpList* list)
 {
-    return list;
+    Button* button = [[Button alloc] initWithFrame:NSMakeRect(0,0,80,20) pullsDown:NO];
+    for (NSString* item in list.items)
+    {
+        [button addItemWithTitle:item];
+    }
+    button.target = list;
+    button.action = @selector(menuItemSelected:);
+    [button selectItemAtIndex:list.selection];
+    list.button = button;
+    return button;
 }

@@ -26,6 +26,14 @@
     [self enableFlushWindow];
 }
 
+-(void)disableDisplay
+{
+}
+
+-(void)reenableDisplay
+{
+}
+
 -(void)setTitleAsFilename:(const char*)filename
 {
     [self setTitleWithRepresentedFilename:[NSString stringWithCString:filename encoding:NSString.defaultCStringEncoding]];

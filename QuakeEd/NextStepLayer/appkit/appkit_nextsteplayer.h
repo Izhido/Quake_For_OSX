@@ -16,6 +16,7 @@
 #import <Menu.h>
 #import <Scroller.h>
 #import <Application.h>
+#import <Button.h>
 
 #define NX_OKTAG NSOKButton
 

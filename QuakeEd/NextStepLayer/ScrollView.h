@@ -17,6 +17,10 @@
 
 -(void)setVertScrollerRequired:(BOOL)required;
 
+-(Scroller*)horizScroller;
+
+-(Scroller*)vertScroller;
+
 -(id)setDocView:(id)view;
 
 -(void)setAutosizing:(int)mask;

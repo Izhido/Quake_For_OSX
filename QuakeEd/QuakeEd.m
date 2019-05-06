@@ -423,11 +423,11 @@ App delegate methods
 }
 
 
-/*/S&F*****- centerCamera: sender
+- centerCamera: sender
 {
-	NXRect	sbounds;
+	/*/S&F*****NXRect*/NSRect	sbounds;
 	
-	[[xyview_i superview] getBounds: &sbounds];
+	sbounds = [xyview_i superview].bounds;//S&F*****[[xyview_i superview] getBounds: &sbounds];
 	
 	sbounds.origin.x += sbounds.size.width/2;
 	sbounds.origin.y += sbounds.size.height/2;
@@ -440,9 +440,9 @@ App delegate methods
 
 - centerZChecker: sender
 {
-	NXRect	sbounds;
+	/*/S&F*****NXRect*/NSRect	sbounds;
 	
-	[[xyview_i superview] getBounds: &sbounds];
+	sbounds = [xyview_i superview].bounds;//S&F*****[[xyview_i superview] getBounds: &sbounds];
 	
 	sbounds.origin.x += sbounds.size.width/2;
 	sbounds.origin.y += sbounds.size.height/2;
@@ -451,7 +451,7 @@ App delegate methods
 	[self updateAll];
 	
 	return self;
-}/S&F*****/
+}
 
 - changeXYLookUp: sender
 {
@@ -481,7 +481,7 @@ REGION MODIFICATION
 applyRegion:
 ==================
 */
-/*/S&F*****- applyRegion: sender
+- applyRegion: sender
 {
 	filter_clip_brushes = [filter_clip_i intValue];
 	filter_water_brushes = [filter_water_i intValue];
@@ -502,7 +502,7 @@ applyRegion:
 
 	return self;
 }
-/S&F*****/
+
 - setBrushRegion: sender
 {
 	id		b;

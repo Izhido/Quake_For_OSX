@@ -3,10 +3,12 @@
 
 @interface Scroller : NSObject
 
--(instancetype)initWithScroller:(NSScroller*)scroller;
+-(instancetype)initWithScrollView:(NSScrollView*)scrollView isVertical:(BOOL)isVertical;
 
 -(void)getFrame:(NXRect*)frame;
 
 -(void)setFrame:(NXRect*)frame;
+
+-(void)display;
 
 @end

@@ -2,27 +2,47 @@
 
 @implementation Scroller
 {
-    NSScroller* scroller;
+    NSScrollView* scrollView;
+    BOOL isVertical;
 }
 
--(instancetype)initWithScroller:(NSScroller*)scroller
+-(instancetype)initWithScrollView:(NSScrollView*)scrollView isVertical:(BOOL)isVertical
 {
     self = [super init];
     if (self != nil)
     {
-        self->scroller = scroller;
+        self->scrollView = scrollView;
+        self->isVertical = isVertical;
     }
     return self;
 }
 
+-(NSScroller*)scrollerReference
+{
+    if (isVertical)
+    {
+        return scrollView.verticalScroller;
+    }
+    return scrollView.horizontalScroller;
+}
+
 -(void)getFrame:(NXRect*)frame
 {
-    *frame = scroller.frame;
+    NSScroller* scroller = self.scrollerReference;
+    frame->origin = scroller.frame.origin;
+    frame->size = scroller.frame.size;
 }
 
 -(void)setFrame:(NXRect*)frame
 {
+    NSScroller* scroller = self.scrollerReference;
     scroller.frame = *frame;
+}
+
+-(void)display
+{
+    NSScroller* scroller = self.scrollerReference;
+    [scroller display];
 }
 
 @end

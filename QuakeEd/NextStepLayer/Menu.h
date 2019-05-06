@@ -1,8 +1,10 @@
-#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
+
+@class PopUpList;
 
 @interface Menu : NSObject
 
--(instancetype)initWithPopUpButton:(NSPopUpButton*)button;
+-(instancetype)initWithPopUpList:(PopUpList*)list;
 
 -(void)selectCellAt:(int)row :(int)column;
 

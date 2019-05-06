@@ -155,11 +155,11 @@ Called when the scaler popup on the window is used
 */
 - scaleMenuTarget: sender
 {
-	/*/S&F*****char	const	*item;
+	char	const	*item;
 	NXRect		visrect, sframe;
 	float		nscale;
 	
-	item = [[sender selectedCell] title];
+	item = [[sender selectedCell] title]/*/S&F*****/.cString;
 	sscanf (item,"%f",&nscale);
 	nscale /= 100;
 	
@@ -167,8 +167,8 @@ Called when the scaler popup on the window is used
 		return NULL;
 		
 // keep the center of the view constant
-	[superview getBounds: &visrect];
-	[superview getFrame: &sframe];
+	visrect = self.superview.bounds;//S&F*****[superview getBounds: &visrect];
+	sframe = self.superview.frame;//S&F*****[superview getFrame: &sframe];
 	visrect.origin.x += visrect.size.width/2;
 	visrect.origin.y += visrect.size.height/2;
 	
@@ -176,7 +176,7 @@ Called when the scaler popup on the window is used
 	visrect.origin.y -= sframe.size.height/2/nscale;
 	
 	[self setOrigin: &visrect.origin scale: nscale];
-	/S&F*****/
+	
 	return self;
 }
 

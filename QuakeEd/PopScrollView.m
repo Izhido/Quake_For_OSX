@@ -54,10 +54,10 @@ Adjust the size for the pop up scale menu
 	newframe.size.width = buttonframe.size.width;
 	newframe.size.height = scrollerframe.size.height;
 	scrollerframe.size.width -= newframe.size.width;
-	//S&F*****[button1 setFrame: &newframe];
+	[/*/S&F*****/(Button*)/*/S&F*****/button1 setFrame: /*/S&F*****&*/newframe];
 	newframe.size.width = buttonframe2.size.width;
 	newframe.origin.x -= newframe.size.width;
-	//S&F*****[button2 setFrame: &newframe];
+	[/*/S&F*****/(Button*)/*/S&F*****/button2 setFrame: /*/S&F*****&*/newframe];
 	scrollerframe.size.width -= newframe.size.width;
 
 	[hScroller setFrame: &scrollerframe];

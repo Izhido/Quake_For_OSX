@@ -237,7 +237,7 @@ id	things_i;
 	const char *title;
 	char	value[10];
 	
-    title = [[[sender selectedCell] title] cStringUsingEncoding:NSString.defaultCStringEncoding];//S&F*****[[sender selectedCell] title];
+    title = [[sender selectedCell] title]/*/S&F*****/.cString;
 	if (!strcmp(title,"Up"))
 		strcpy (value, "-1");
 	else if (!strcmp(title,"Dn"))

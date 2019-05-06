@@ -30,12 +30,52 @@
     visibleRect->size = self.visibleRect.size;
 }
 
--(void)sizeTo:(int)width :(int)height
+-(void)moveTo:(CGFloat)x :(CGFloat)y
+{
+    NSRect frame = self.frame;
+    frame.origin.x = x;
+    frame.origin.y = y;
+    self.frame = frame;
+}
+
+-(void)sizeTo:(CGFloat)width :(CGFloat)height
 {
     NSRect frame = self.frame;
     frame.size.width = width;
     frame.size.height = height;
     self.frame = frame;
+}
+
+-(void)setDrawOrigin:(CGFloat)x :(CGFloat)y
+{
+    NSRect bounds = self.bounds;
+    bounds.origin.x = x;
+    bounds.origin.y = y;
+    self.bounds = bounds;
+}
+
+-(void)setDrawSize:(CGFloat)width :(CGFloat)height
+{
+    NSRect bounds = self.bounds;
+    bounds.size.width = width;
+    bounds.size.height = height;
+    self.bounds = bounds;
+}
+
+-(void)setDrawOriginInSuperview:(CGFloat)x :(CGFloat)y
+{
+    NSRect bounds = self.superview.bounds;
+    bounds.origin.x = x;
+    bounds.origin.y = y;
+    self.superview.bounds = bounds;
+}
+
+-(void)setDrawSizeInSuperview:(CGFloat)width :(CGFloat)height
+{
+    NSRect bounds = self.superview.bounds;
+    bounds.size.width = width;
+    bounds.size.height = height;
+    self.superview.bounds = bounds;
 }
 
 -(void)scrollPointAsNXPoint:(NXPoint*)point
@@ -60,8 +100,9 @@
 
 -(void)drawRect:(NSRect)dirtyRect
 {
-    PSnewinstance();
+    PSsetinstance(1);
     [self drawSelf:&dirtyRect :1];
+    PSsetinstance(0);
 }
 
 -(void)convertPointAsNXPoint:(NXPoint*)point fromView:(NSView*)view
@@ -69,6 +110,15 @@
     NSPoint converted = [self convertPoint:NSMakePoint(point->x, point->y) fromView:view];
     point->x = converted.x;
     point->y = converted.y;
+}
+
+-(void)convertRectFromSuperview:(NXRect*)rect
+{
+    NSRect converted = [self convertRect:NSMakeRect(rect->origin.x, rect->origin.y, rect->size.width, rect->size.height) fromView:self.superview];
+    rect->origin.x = converted.origin.x;
+    rect->origin.y = converted.origin.y;
+    rect->size.width = converted.size.width;
+    rect->size.height = converted.size.height;
 }
 
 @end
@@ -134,13 +184,20 @@ float currentYForPSFunctions = 0;
 
 void PSnewinstance()
 {
-    currentContextForPSFunctions = NSGraphicsContext.currentContext.CGContext;
-    currentXForPSFunctions = 0;
-    currentYForPSFunctions = 0;
 }
 
 void PSsetinstance(int instance)
 {
+    if (instance == 1)
+    {
+        currentContextForPSFunctions = NSGraphicsContext.currentContext.CGContext;
+        currentXForPSFunctions = 0;
+        currentYForPSFunctions = 0;
+    }
+    else
+    {
+        currentContextForPSFunctions = nil;
+    }
 }
 
 void PSarc(float x, float y, float radius, float startAngle, float endAngle)

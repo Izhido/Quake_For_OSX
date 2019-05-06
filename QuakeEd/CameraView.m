@@ -368,7 +368,7 @@ drawSolid
 */
 - drawSolid
 {
-	/*/S&F*****unsigned char	*planes[5];
+	unsigned char	*planes[5];
 		
 //
 // draw it
@@ -377,7 +377,7 @@ drawSolid
 	VectorCopy (matrix[0], r_matrix[0]);
 	VectorCopy (matrix[1], r_matrix[1]);
 	VectorCopy (matrix[2], r_matrix[2]);
-	
+    /*/S&F*****/NSRect bounds = self.bounds;
 	r_width = bounds.size.width;
 	r_height = bounds.size.height;
 	r_picbuffer = imagebuffer;
@@ -417,7 +417,7 @@ drawSolid
 	[[self window] setBackingType:NX_BUFFERED];
 	
 	
-	/S&F*****/
+	
 	return self;
 }
 
@@ -555,8 +555,8 @@ modalMoveLoop
 */
 - modalMoveLoop: (NXPoint *)basept :(vec3_t)movemod : converter
 {
-	/*/S&F*****vec3_t		originbase;
-	NXEvent		*event;
+	vec3_t		originbase;
+	/*/S&F*****NXEvent*/NSEvent		*event;
 	NXPoint		newpt;
 //	NXPoint		brushpt;
 	vec3_t		delta;
@@ -573,13 +573,13 @@ modalMoveLoop
 //
 	goto drawentry;
 
-	while (event->type != NX_LMOUSEUP && event->type != NX_RMOUSEUP)
+	while (event/*/S&F*****->type*/.type != NX_LMOUSEUP && event/*/S&F*****->type*/.type != NX_RMOUSEUP)
 	{
 		//
 		// calculate new point
 		//
-		newpt = event->location;
-		[converter convertPoint:&newpt  fromView:NULL];
+		newpt.x = event.locationInWindow.x; newpt.y = event.locationInWindow.y;//S&F*****newpt = event->location;
+		[converter /*/S&F*****convertPoint*/convertPointAsNXPoint:&newpt  fromView:NULL];
 				
 		delta[0] = newpt.x-basept->x;
 		delta[1] = newpt.y-basept->y;
@@ -618,14 +618,14 @@ drawentry:
 		event = [NXApp getNextEvent: NX_LMOUSEUPMASK | NX_LMOUSEDRAGGEDMASK
 			| NX_RMOUSEUPMASK | NX_RMOUSEDRAGGEDMASK | NX_APPDEFINEDMASK];
 	
-		if (event->type == NX_KEYDOWN)
+		if (event/*/S&F*****->type*/.type == NX_KEYDOWN)
 		{
 			[self _keyDown: event];
 			[self display];
 			goto drawentry;
 		}
 		
-	}/S&F*****/
+	}
 
 	return self;
 }

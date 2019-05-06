@@ -41,7 +41,7 @@ Adjust the size for the pop up scale menu
 	
 	[super tile];
 	[hScroller getFrame: &scrollerframe];
-	//S&F*****[button1 setFrame: &scrollerframe];
+	[/*/S&F*****/(Button*)/*/S&F*****/button1 setFrame: /*/S&F*****&*/scrollerframe];
 	
 	scrollerframe.size.width = 0;
 	[hScroller setFrame: &scrollerframe];

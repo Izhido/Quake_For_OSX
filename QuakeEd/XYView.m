@@ -121,7 +121,7 @@ setOrigin:scale:
 */
 - setOrigin: (NXPoint *)pt scale: (float)sc
 {
-	/*/S&F*****NXRect		sframe;
+	NXRect		sframe;
 	NXRect		newbounds;
 	
 //
@@ -129,9 +129,9 @@ setOrigin:scale:
 //
 	scale = sc;
 	
-	[superview getFrame: &sframe];
-	[superview getFrame: &newbounds];
-	newbounds.origin = *pt;
+    sframe.origin.x = self.superview.frame.origin.x; sframe.origin.y = self.superview.frame.origin.y; sframe.size.width = self.superview.frame.size.width; sframe.size.height = self.superview.frame.size.height;//S&F*****[superview getFrame: &sframe];
+	newbounds.origin.x = self.superview.frame.origin.x; newbounds.origin.y = self.superview.frame.origin.y; newbounds.size.width = self.superview.frame.size.width; newbounds.size.height = self.superview.frame.size.height;//S&F*****[superview getFrame: &newbounds];
+    newbounds.origin.x = pt->x; newbounds.origin.y = pt->y;//S&F*****newbounds.origin = *pt;
 	newbounds.size.width /= scale; 
 	newbounds.size.height /= scale; 
 	
@@ -155,23 +155,23 @@ setOrigin:scale:
 //
 // scroll and scale the clip view
 //
-	[superview setDrawSize
+	[/*/S&F****superview setDrawSize*/self setDrawSizeInSuperview
 		: sframe.size.width/scale 
 		: sframe.size.height/scale];
-	[superview setDrawOrigin: pt->x : pt->y];
+	[/*/S&F****superview setDrawOrigin*/self setDrawOriginInSuperview: pt->x : pt->y];
 
 	[quakeed_i reenableDisplay];
 	[scrollview_i display];
-	/S&F*****/
+	
 	return self;
 }
 
 - centerOn: (vec3_t)org
 {
-	/*/S&F*****NXRect	sbounds;
+	/*/S&F*****NXRect*/NSRect	sbounds;
 	NXPoint	mid, delta;
 	
-	[[xyview_i superview] getBounds: &sbounds];
+	sbounds = [xyview_i superview].bounds;//S&F*****[[xyview_i superview] getBounds: &sbounds];
 	
 	mid.x = sbounds.origin.x + sbounds.size.width/2;
 	mid.y = sbounds.origin.y + sbounds.size.height/2;
@@ -182,7 +182,7 @@ setOrigin:scale:
 	sbounds.origin.x += delta.x;
 	sbounds.origin.y += delta.y;
 	
-	[self setOrigin: &sbounds.origin scale: scale];/S&F*****/
+	[self setOrigin: &sbounds.origin scale: scale];
 	return self;
 }
 
@@ -214,14 +214,14 @@ If realbounds has shrunk, nothing will change.
 */
 - newRealBounds: (NXRect *)nb
 {
-	/*/S&F*****NXRect		sbounds;
+	NXRect		sbounds;
 	
 	realbounds = *nb;
 	
 //
 // calculate the area visible in the cliprect
 //
-	[superview getBounds: &sbounds];
+	sbounds = self.superview.bounds;//S&F*****[superview getBounds: &sbounds];
 	NXUnionRect (nb, &sbounds);
 
 //
@@ -229,18 +229,18 @@ If realbounds has shrunk, nothing will change.
 //
 	[quakeed_i disableDisplay];
 
-	[self suspendNotifyAncestorWhenFrameChanged:YES];
+	//S&F*****[self suspendNotifyAncestorWhenFrameChanged:YES];
 	[self sizeTo: sbounds.size.width : sbounds.size.height];
 	[self setDrawOrigin: sbounds.origin.x : sbounds.origin.y];
 	[self moveTo: sbounds.origin.x : sbounds.origin.y];
-	[self suspendNotifyAncestorWhenFrameChanged:NO];
+	//S&F*****[self suspendNotifyAncestorWhenFrameChanged:NO];
 
-	[scrollview_i reflectScroll: superview];
+	//S&F*****[scrollview_i reflectScroll: superview];
 	[quakeed_i reenableDisplay];
 	
 	[[scrollview_i horizScroller] display];
 	[[scrollview_i vertScroller] display];
-	/S&F*****/
+	
 	return self;
 }
 
@@ -255,11 +255,11 @@ Called when the scaler popup on the window is used
 
 - scaleMenuTarget: sender
 {
-	/*/S&F*****char	const	*item;
+	char	const	*item;
 	NXRect		visrect, sframe;
 	float		nscale;
 	
-	item = [[sender selectedCell] title];
+	item = [[sender selectedCell] title]/*/S&F*****/.cString;
 	sscanf (item,"%f",&nscale);
 	nscale /= 100;
 	
@@ -267,8 +267,8 @@ Called when the scaler popup on the window is used
 		return NULL;
 		
 // keep the center of the view constant
-	[superview getBounds: &visrect];
-	[superview getFrame: &sframe];
+	visrect = self.superview.bounds;//S&F*****[superview getBounds: &visrect];
+	sframe = self.superview.frame;//S&F*****[superview getFrame: &sframe];
 	visrect.origin.x += visrect.size.width/2;
 	visrect.origin.y += visrect.size.height/2;
 	
@@ -276,7 +276,7 @@ Called when the scaler popup on the window is used
 	visrect.origin.y -= sframe.size.height/2/nscale;
 	
 	[self setOrigin: &visrect.origin scale: nscale];
-	/S&F*****/
+	
 	return self;
 }
 
@@ -374,10 +374,10 @@ Called when the scaler popup on the window is used
 
 - gridMenuTarget: sender
 {
-	/*/S&F*****char	const	*item;
+	char	const	*item;
 	int			grid;
 	
-	item = [[sender selectedCell] title];
+	item = [[sender selectedCell] title]/*/S&F*****/.cString;
 	sscanf (item,"grid %d",&grid);
 
 	if (grid == gridsize)
@@ -385,7 +385,7 @@ Called when the scaler popup on the window is used
 		
 	gridsize = grid;
 	[quakeed_i updateAll];
-/S&F*****/
+
 	return self;
 }
 
@@ -761,7 +761,7 @@ drawSolid
 //
 // display the output
 //
-	/*/S&F*****[self lockFocus];
+	[self lockFocus];
 	[[self window] setBackingType:NX_RETAINED];
 
 	planes[0] = (unsigned char *)r_picbuffer;
@@ -782,7 +782,7 @@ drawSolid
 	NXPing ();
 	[[self window] setBackingType:NX_BUFFERED];
 	[self unlockFocus];
-	/S&F*****/
+	
 	return self;
 }
 
@@ -838,16 +838,16 @@ dragLoop:
 ================
 */
 static	NXPoint		oldreletive;
-- dragFrom: (NXEvent *)startevent 
+- dragFrom: (/*/S&F*****NXEvent*/NSEvent *)startevent
 	useGrid: (BOOL)ug
 	callback: (void (*) (float dx, float dy)) callback
 {
-	/*/S&F*****NXEvent		*event;
+	/*/S&F*****NXEvent*/NSEvent		*event;
 	NXPoint		startpt, newpt;
 	NXPoint		reletive, delta;
 
-	startpt = startevent->location;
-	[self convertPoint:&startpt  fromView:NULL];
+	startpt.x = startevent.locationInWindow.x; startpt.y = startevent.locationInWindow.y;//S&F*****startpt = startevent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&startpt  fromView:NULL];
 	
 	oldreletive.x = oldreletive.y = 0;
 	
@@ -862,16 +862,16 @@ static	NXPoint		oldreletive;
 		event = [NXApp getNextEvent: NX_LMOUSEUPMASK | NX_LMOUSEDRAGGEDMASK
 			| NX_RMOUSEUPMASK | NX_RMOUSEDRAGGEDMASK | NX_APPDEFINEDMASK];
 
-		if (event->type == NX_LMOUSEUP || event->type == NX_RMOUSEUP)
+		if (event/*/S&F*****->*/.type == NX_LMOUSEUP || event/*/S&F*****->*/.type == NX_RMOUSEUP)
 			break;
-		if (event->type == NX_APPDEFINED)
+		if (event/*/S&F*****->*/.type == NX_APPDEFINED)
 		{	// doesn't work.  grrr.
-			[quakeed_i applicationDefined:event];
+			//S&F*****[quakeed_i applicationDefined:event];
 			continue;
 		}
 		
-		newpt = event->location;
-		[self convertPoint:&newpt  fromView:NULL];
+		newpt.x = event.locationInWindow.x; newpt.y = event.locationInWindow.y;//S&F*****newpt = event->location;
+		[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&newpt  fromView:NULL];
 
 		if (ug)
 		{
@@ -890,7 +890,7 @@ static	NXPoint		oldreletive;
 
 		callback (delta.x , delta.y );
 		
-	}/S&F*****/
+	}
 
 	return self;
 }
@@ -909,7 +909,7 @@ void DragCallback (float dx, float dy)
 	[quakeed_i redrawInstance];
 }
 
-- selectionDragFrom: (NXEvent*)theEvent	
+- selectionDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent
 {
 	qprintf ("dragging selection");
 	[self	dragFrom:	theEvent 
@@ -925,11 +925,11 @@ void DragCallback (float dx, float dy)
 
 void ScrollCallback (float dx, float dy)
 {
-	/*/S&F*****NXRect		basebounds;
+	NXRect		basebounds;
 	NXPoint		neworg;
 	float		scale;
 	
-	[ [xyview_i superview] getBounds: &basebounds];
+	basebounds = [xyview_i superview].bounds;//S&F*****[ [xyview_i superview] getBounds: &basebounds];
 	[xyview_i convertRectFromSuperview: &basebounds];
 
 	neworg.x = basebounds.origin.x - dx;
@@ -939,10 +939,10 @@ void ScrollCallback (float dx, float dy)
 	
 	oldreletive.x -= dx;
 	oldreletive.y -= dy;
-	[xyview_i setOrigin: &neworg scale: scale];/S&F*****/
+	[xyview_i setOrigin: &neworg scale: scale];
 }
 
-- scrollDragFrom: (NXEvent*)theEvent	
+- scrollDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent
 {
 	qprintf ("scrolling view");
 	[self	dragFrom:	theEvent 
@@ -977,14 +977,14 @@ void DirectionCallback (float dx, float dy)
 	[cameraview_i display];
 }
 
-- directionDragFrom: (NXEvent*)theEvent	
+- directionDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent
 {
-	/*/S&F*****NXPoint			pt;
+	NXPoint			pt;
 
 	qprintf ("changing camera direction");
 
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
 	direction[0] = pt.x;
 	direction[1] = pt.y;
@@ -994,7 +994,7 @@ void DirectionCallback (float dx, float dy)
 	[self	dragFrom:	theEvent 
 			useGrid:	NO
 			callback:	DirectionCallback ];
-	qprintf ("");/S&F*****/
+	qprintf ("");
 	return self;	
 }
 
@@ -1030,7 +1030,7 @@ void NewCallback (float dx, float dy)
 	[quakeed_i redrawInstance];
 }
 
-- newBrushDragFrom: (NXEvent*)theEvent	
+- newBrushDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent
 {
 	/*id				owner;
 	texturedef_t	td;
@@ -1087,7 +1087,7 @@ void ControlCallback (float dx, float dy)
 	[quakeed_i redrawInstance];
 }
 
-- (BOOL)planeDragFrom: (NXEvent*)theEvent	
+- (BOOL)planeDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent
 {
 	/*/S&F*****NXPoint			pt;
 	vec3_t			dragpoint;
@@ -1123,7 +1123,7 @@ void ControlCallback (float dx, float dy)
 	return YES;
 }
 
-- (BOOL)shearDragFrom: (NXEvent*)theEvent	
+- (BOOL)shearDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent	
 {
 	/*/S&F*****NXPoint			pt;
 	vec3_t			dragpoint;
@@ -1196,22 +1196,22 @@ void ControlCallback (float dx, float dy)
 mouseDown
 ===================
 */
-- mouseDown:(NXEvent *)theEvent
+- mouseDown:(/*/S&F*****NXEvent*/NSEvent *)theEvent
 {
-	/*/S&F*****NXPoint	pt;
+	NXPoint	pt;
 	id		ent;
 	vec3_t	p1, p2;
 	int		flags;
 	
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
 	p1[0] = p2[0] = pt.x;
 	p1[1] = p2[1] = pt.y;
 	p1[2] = xy_viewnormal[2] * -4096;
 	p2[2] = xy_viewnormal[2] * 4096;
 
-	flags = theEvent->flags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
+	flags = theEvent/*/S&F*****->flags*/.modifierFlags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
 	
 //
 // shift click to select / deselect a brush from the world
@@ -1237,7 +1237,7 @@ mouseDown
 	if ( flags == 0 )
 	{
 	// if double click, position Z checker
-		if (theEvent->data.mouse.click > 1)
+		if (theEvent/*/S&F*****->data.mouse.click*/.clickCount > 1)
 		{
 			qprintf ("positioned Z checker");
 			[zview_i setPoint: &pt];
@@ -1247,7 +1247,7 @@ mouseDown
 		}
 		
 	// check eye
-		if ( [cameraview_i XYmouseDown: &pt flags: theEvent->flags] )
+		if ( [cameraview_i XYmouseDown: &pt flags: theEvent/*/S&F*****->flags*/.modifierFlags] )
 			return self;		// camera move
 			
 	// check z post
@@ -1284,7 +1284,7 @@ mouseDown
 		[cameraview_i setXYOrigin: &pt];
 		[quakeed_i newinstance];
 		[cameraview_i display];
-		[cameraview_i XYmouseDown: &pt flags: theEvent->flags];
+		[cameraview_i XYmouseDown: &pt flags: theEvent/*/S&F*****->flags*/.modifierFlags];
 		qprintf ("");
 		return self;
 	}
@@ -1339,7 +1339,7 @@ return self;
 	}
 		
 	qprintf ("bad flags for click");
-	NopSound ();/S&F*****/
+	NopSound ();
 	return self;
 }
 
@@ -1348,15 +1348,15 @@ return self;
 rightMouseDown
 ===================
 */
-- rightMouseDown:(NXEvent *)theEvent
+- rightMouseDown:(/*/S&F*****NXEvent*/NSEvent *)theEvent
 {
-	/*/S&F*****NXPoint	pt;
+	NXPoint	pt;
 	int		flags;
 		
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
-	flags = theEvent->flags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
+	flags = theEvent/*/S&F*****->flags*/.modifierFlags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
 
 	if (flags == NX_COMMANDMASK)
 	{
@@ -1374,7 +1374,7 @@ rightMouseDown
 	}
 	
 	qprintf ("bad flags for click");
-	NopSound ();/S&F*****/
+	NopSound ();
 
 	return self;
 }

@@ -12,6 +12,10 @@
 
 -(void)reenableFlushWindow;
 
+-(void)disableDisplay;
+
+-(void)reenableDisplay;
+
 -(void)setTitleAsFilename:(const char*)filename;
 
 -(void)applicationDefined:(NXEvent*)event;

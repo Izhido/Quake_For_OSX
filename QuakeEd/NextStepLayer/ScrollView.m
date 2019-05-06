@@ -7,8 +7,9 @@
     self = [super initWithFrame:*frame];
     if (self != nil)
     {
-        hScroller = [[Scroller alloc] initWithScroller:self.horizontalScroller];
-        vScroller = [[Scroller alloc] initWithScroller:self.verticalScroller];
+        self.scrollerStyle = NSScrollerStyleLegacy;
+        hScroller = [[Scroller alloc] initWithScrollView:self isVertical:NO];
+        vScroller = [[Scroller alloc] initWithScrollView:self isVertical:YES];
     }
     return self;
 }
@@ -21,6 +22,16 @@
 -(void)setVertScrollerRequired:(BOOL)required
 {
     self.hasVerticalScroller = required;
+}
+
+-(Scroller*)horizScroller
+{
+    return hScroller;
+}
+
+-(Scroller*)vertScroller
+{
+    return vScroller;
 }
 
 -(id)setDocView:(id)view

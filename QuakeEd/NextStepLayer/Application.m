@@ -44,7 +44,7 @@
 
 -(NSEvent*)getNextEvent:(int)mask
 {
-    return [NSApplication.sharedApplication nextEventMatchingMask:mask untilDate:nil inMode:NSDefaultRunLoopMode dequeue:YES];
+    return [NSApplication.sharedApplication nextEventMatchingMask:mask untilDate:NSDate.distantFuture inMode:NSEventTrackingRunLoopMode dequeue:YES];
 }
 
 -(void)terminate:(id)sender

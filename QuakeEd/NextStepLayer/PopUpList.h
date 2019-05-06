@@ -1,9 +1,19 @@
-#import <Menu.h>
-#import <NXRect.h>
+#import <AppKit/AppKit.h>
+#import <Button.h>
 
-@interface PopUpList : NSPopUpButton
+@class Menu;
 
--(void)getFrame:(NXRect*)frame;
+@interface PopUpList : NSObject
+
+@property (nonatomic, readonly) NSMutableArray<NSString*>* items;
+
+@property (nonatomic, strong) id target;
+
+@property (nonatomic, assign) SEL action;
+
+@property (nonatomic, assign) int selection;
+
+@property (nonatomic, strong) Button* button;
 
 -(void)addItem:(const char*)item;
 
@@ -11,4 +21,4 @@
 
 @end
 
-NSPopUpButton* NXCreatePopUpListButton(PopUpList* list);
+Button* NXCreatePopUpListButton(PopUpList* list);

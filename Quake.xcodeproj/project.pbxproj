@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2807AD681CFC9DC0004A2C68 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2807AD671CFC9DC0004A2C68 /* Settings.bundle */; };
+		280A95C9227F7FB60068F8E5 /* Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 280A95C8227F7FB60068F8E5 /* Button.m */; };
 		280E8C681CF8C63F00500C75 /* id1 in Resources */ = {isa = PBXBuildFile; fileRef = 280E8C671CF8C63F00500C75 /* id1 */; };
 		281179672279D62E0099E9BB /* PopUpList.m in Sources */ = {isa = PBXBuildFile; fileRef = 281179662279D62E0099E9BB /* PopUpList.m */; };
 		2817C7A61CED6555000E491D /* gl_noalphatextprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A41CED6555000E491D /* gl_noalphatextprogram.fsh */; };
@@ -311,6 +312,8 @@
 /* Begin PBXFileReference section */
 		153169104D01DAE8AF82A08C /* Pods-Quake_iOS_VR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.debug.xcconfig"; sourceTree = "<group>"; };
 		2807AD671CFC9DC0004A2C68 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		280A95C7227F7FB60068F8E5 /* Button.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
+		280A95C8227F7FB60068F8E5 /* Button.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Button.m; sourceTree = "<group>"; };
 		280E8C671CF8C63F00500C75 /* id1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = id1; path = "../../../Downloads/Quake Shareware (1_06) PAK/id1"; sourceTree = "<group>"; };
 		281179652279D62E0099E9BB /* PopUpList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopUpList.h; sourceTree = "<group>"; };
 		281179662279D62E0099E9BB /* PopUpList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PopUpList.m; sourceTree = "<group>"; };
@@ -1007,6 +1010,8 @@
 				28EB47C92275D92100953944 /* dpsclient */,
 				28D27EE8227E7E0400B57422 /* Application.h */,
 				28D27EE9227E7E0400B57422 /* Application.m */,
+				280A95C7227F7FB60068F8E5 /* Button.h */,
+				280A95C8227F7FB60068F8E5 /* Button.m */,
 				28C6170822765F030035C408 /* List.h */,
 				28C6170922765F030035C408 /* List.m */,
 				28FB5A282276AF5800DEDB98 /* Matrix.h */,
@@ -1664,6 +1669,7 @@
 				28EB47D02275DDAC00953944 /* NXZone.m in Sources */,
 				288B45B72279DA4600944F1F /* render.m in Sources */,
 				288B45BF2279DA8000944F1F /* ZView.m in Sources */,
+				280A95C9227F7FB60068F8E5 /* Button.m in Sources */,
 				288B45B02279DA1200944F1F /* KeypairView.m in Sources */,
 				288B45C62279EE3000944F1F /* Scroller.m in Sources */,
 				28C617162276668E0035C408 /* Object.m in Sources */,

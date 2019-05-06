@@ -9,7 +9,17 @@
 
 -(void)getVisibleRect:(NXRect*)visibleRect;
 
--(void)sizeTo:(int)width :(int)height;
+-(void)moveTo:(CGFloat)x :(CGFloat)y;
+
+-(void)sizeTo:(CGFloat)width :(CGFloat)height;
+
+-(void)setDrawOrigin:(CGFloat)x :(CGFloat)y;
+
+-(void)setDrawSize:(CGFloat)width :(CGFloat)height;
+
+-(void)setDrawOriginInSuperview:(CGFloat)x :(CGFloat)y;
+
+-(void)setDrawSizeInSuperview:(CGFloat)width :(CGFloat)height;
 
 -(void)scrollPointAsNXPoint:(NXPoint*)point;
 
@@ -20,6 +30,8 @@
 -(void)drawSelf:(const NXRect *)rects :(int)rectCount;
 
 -(void)convertPointAsNXPoint:(NXPoint*)point fromView:(NSView*)view;
+
+-(void)convertRectFromSuperview:(NXRect*)rect;
 
 @end
 
