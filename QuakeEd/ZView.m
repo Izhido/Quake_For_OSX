@@ -91,7 +91,7 @@ setOrigin:scale:
 */
 - setOrigin: (NXPoint *)pt scale: (float)sc
 {
-	/*/S&F*****NXRect		sframe;
+	NXRect		sframe;
 	NXRect		newbounds;
 	
 //
@@ -99,9 +99,9 @@ setOrigin:scale:
 //
 	scale = sc;
 	
-	[superview getFrame: &sframe];
-	[superview getFrame: &newbounds];
-	newbounds.origin = *pt;
+	sframe.origin.x = self.superview.frame.origin.x; sframe.origin.y = self.superview.frame.origin.y; sframe.size.width = self.superview.frame.size.width; sframe.size.height = self.superview.frame.size.height;//S&F*****[superview getFrame: &sframe];
+	newbounds.origin.x = self.superview.frame.origin.x; newbounds.origin.y = self.superview.frame.origin.y; newbounds.size.width = self.superview.frame.size.width; newbounds.size.height = self.superview.frame.size.height;//S&F*****[superview getFrame: &newbounds];
+	newbounds.origin.x = pt->x; newbounds.origin.y = pt->y;//S&F*****newbounds.origin = *pt;
 	newbounds.size.width /= scale; 
 	newbounds.size.height /= scale; 
 	
@@ -134,14 +134,14 @@ setOrigin:scale:
 //
 // scroll and scale the clip view
 //
-	[superview setDrawSize
+	[/*/S&F****superview setDrawSize*/self setDrawSizeInSuperview
 		: sframe.size.width/scale 
 		: sframe.size.height/scale];
-	[superview setDrawOrigin: pt->x : pt->y];
+	[/*/S&F****superview setDrawOrigin*/self setDrawOriginInSuperview: pt->x : pt->y];
 
 	[quakeed_i reenableDisplay];
 	[zscrollview_i display];
-	/S&F*****/
+	
 	return self;
 }
 
@@ -238,7 +238,7 @@ If realbounds has shrunk, nothing will change.
 */
 - newRealBounds
 {
-	/*/S&F*****NXRect		sbounds;
+	NXRect		sbounds;
 	float		vistop, visbottom;
 
 	if (minheight == oldminheight && maxheight == oldmaxheight)
@@ -253,7 +253,7 @@ If realbounds has shrunk, nothing will change.
 //
 // calculate the area visible in the cliprect
 //
-	[superview getBounds: &sbounds];
+	sbounds = self.superview.bounds;//S&F*****[superview getBounds: &sbounds];
 	visbottom = sbounds.origin.y;
 	vistop = visbottom + sbounds.size.height;
 	
@@ -261,7 +261,7 @@ If realbounds has shrunk, nothing will change.
 		maxheight = vistop;
 	if (visbottom < minheight)
 		minheight = visbottom;
-	if (minheight == bounds.origin.y && maxheight-minheight == bounds.size.height)
+	if (minheight == /*/S&F*****/self./*/S&F*****/bounds.origin.y && maxheight-minheight == /*/S&F*****/self./*/S&F*****/bounds.size.height)
 		return self;
 		
 	sbounds.origin.y = minheight;
@@ -272,17 +272,17 @@ If realbounds has shrunk, nothing will change.
 //
 	[quakeed_i disableDisplay];
 
-	[self suspendNotifyAncestorWhenFrameChanged:YES];
+	//S&F*****[self suspendNotifyAncestorWhenFrameChanged:YES];
 	[self sizeTo: sbounds.size.width : sbounds.size.height];
 	[self setDrawOrigin: -sbounds.size.width/2 : sbounds.origin.y];
 	[self moveTo: -sbounds.size.width/2 : sbounds.origin.y];
-	[self suspendNotifyAncestorWhenFrameChanged:NO];
-	[[superview superview] reflectScroll: superview];
+	//S&F*****[self suspendNotifyAncestorWhenFrameChanged:NO];
+	//S&F*****[[superview superview] reflectScroll: superview];
 
 	[quakeed_i reenableDisplay];
 	
-	[[[[self superview] superview] vertScroller] display];
-	/S&F*****/
+	//S&F*****[[[[self superview] superview] vertScroller] display];
+	
 	return self;
 }
 
@@ -524,19 +524,19 @@ dragLoop:
 ================
 */
 static	NXPoint		oldreletive;
-- dragFrom: (NXEvent *)startevent 
+- dragFrom: (/*/S&F*****NXEvent*/NSEvent *)startevent 
 	useGrid: (BOOL)ug
 	callback: (void (*) (float dy)) callback
 {
-	/*/S&F*****NXEvent		*event;
+	/*/S&F*****NXEvent*/NSEvent		*event;
 	NXPoint		startpt, newpt;
 	NXPoint		reletive, delta;
 	int		gridsize;
 
 	gridsize = [xyview_i gridsize];
 	
-	startpt = startevent->location;
-	[self convertPoint:&startpt  fromView:NULL];
+	startpt.x = startevent.locationInWindow.x; startpt.y = startevent.locationInWindow.y;//S&F*****startpt = startevent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&startpt  fromView:NULL];
 	
 	oldreletive.x = oldreletive.y = 0;
 	
@@ -545,11 +545,11 @@ static	NXPoint		oldreletive;
 		event = [NXApp getNextEvent: 
 			NX_LMOUSEUPMASK | NX_LMOUSEDRAGGEDMASK
 			| NX_RMOUSEUPMASK | NX_RMOUSEDRAGGEDMASK];
-		if (event->type == NX_LMOUSEUP || event->type == NX_RMOUSEUP)
+		if (event/*/S&F*****->*/.type == NX_LMOUSEUP || event/*/S&F*****->*/.type == NX_RMOUSEUP)
 			break;
 			
-		newpt = event->location;
-		[self convertPoint:&newpt  fromView:NULL];
+		newpt.x = event.locationInWindow.x; newpt.y = event.locationInWindow.y;//S&F*****newpt = event->location;
+		[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&newpt  fromView:NULL];
 
 		reletive.y = newpt.y - startpt.y;
 		
@@ -564,7 +564,7 @@ static	NXPoint		oldreletive;
 		delta.y = reletive.y - oldreletive.y;
 		oldreletive = reletive;			
 		callback (delta.y);		
-	}/S&F*****/
+	}
 
 	return self;
 }
@@ -583,7 +583,7 @@ void ZDragCallback (float dy)
 	[quakeed_i redrawInstance];
 }
 
-- selectionDragFrom: (NXEvent*)theEvent	
+- selectionDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent
 {
 	qprintf ("dragging selection");
 	[self	dragFrom:	theEvent 
@@ -599,11 +599,11 @@ void ZDragCallback (float dy)
 
 void ZScrollCallback (float dy)
 {
-	/*/S&F*****NXRect		basebounds;
+	NXRect		basebounds;
 	NXPoint		neworg;
 	float		scale;
 	
-	[ [zview_i superview] getBounds: &basebounds];
+	basebounds = [zview_i superview].bounds;//S&F*****[ [zview_i superview] getBounds: &basebounds];
 	[zview_i convertRectFromSuperview: &basebounds];
 
 	neworg.y = basebounds.origin.y - dy;
@@ -611,10 +611,10 @@ void ZScrollCallback (float dy)
 	scale = [zview_i currentScale];
 	
 	oldreletive.y -= dy;
-	[zview_i setOrigin: &neworg scale: scale];/S&F*****/
+	[zview_i setOrigin: &neworg scale: scale];
 }
 
-- scrollDragFrom: (NXEvent*)theEvent	
+- scrollDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent
 {
 	qprintf ("scrolling view");
 	[self	dragFrom:	theEvent 
@@ -637,16 +637,16 @@ void ZControlCallback (float dy)
 	[quakeed_i redrawInstance];
 }
 
-- (BOOL)planeDragFrom: (NXEvent*)theEvent	
+- (BOOL)planeDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent	
 {
-	/*/S&F*****NXPoint			pt;
+	NXPoint			pt;
 	vec3_t			dragpoint;
 	
 	if ([map_i numSelected] != 1)
 		return NO;
 
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
 	dragpoint[0] = origin[0];
 	dragpoint[1] = origin[1];
@@ -658,8 +658,8 @@ void ZControlCallback (float dy)
 	
 	qprintf ("dragging brush plane");
 	
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
 	[self	dragFrom:	theEvent 
 			useGrid:	YES
@@ -668,7 +668,7 @@ void ZControlCallback (float dy)
 	[[map_i selectedBrush] removeIfInvalid];
 	
 	[quakeed_i updateCamera];
-	qprintf ("");/S&F*****/
+	qprintf ("");
 	return YES;
 }
 
@@ -680,20 +680,20 @@ void ZControlCallback (float dy)
 mouseDown
 ===================
 */
-- mouseDown:(NXEvent *)theEvent
+- mouseDown:(/*/S&F*****NXEvent*/NSEvent *)theEvent
 {
-	/*/S&F*****NXPoint	pt;
+	NXPoint	pt;
 	int		flags;
 	vec3_t	p1;
 	
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
 	p1[0] = origin[0];
 	p1[1] = origin[1];
 	p1[2] = pt.y;
 	
-	flags = theEvent->flags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
+	flags = theEvent/*/S&F*****->flags*/.modifierFlags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
 
 //
 // shift click to select / deselect a brush from the world
@@ -720,7 +720,7 @@ mouseDown
 	{
 		[cameraview_i setZOrigin: pt.y];
 		[quakeed_i updateAll];
-		[cameraview_i ZmouseDown: &pt flags:theEvent->flags];
+		[cameraview_i ZmouseDown: &pt flags:theEvent/*/S&F*****->flags*/.modifierFlags];
 		return self;
 	}
 
@@ -730,7 +730,7 @@ mouseDown
 	if ( flags == 0 )
 	{
 // check eye
-		if ( [cameraview_i ZmouseDown: &pt flags:theEvent->flags] )
+		if ( [cameraview_i ZmouseDown: &pt flags:theEvent/*/S&F*****->flags*/.modifierFlags] )
 			return self;
 			
 		if ([map_i numSelected])
@@ -747,7 +747,7 @@ mouseDown
 	}
 		
 	qprintf ("bad flags for click");
-	NopSound ();/S&F*****/
+	NopSound ();
 	return self;
 }
 
@@ -756,15 +756,15 @@ mouseDown
 rightMouseDown
 ===================
 */
-- rightMouseDown:(NXEvent *)theEvent
+- rightMouseDown:(/*/S&F*****NXEvent*/NSEvent *)theEvent
 {
-	/*/S&F*****NXPoint	pt;
+	NXPoint	pt;
 	int		flags;
 		
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
-	flags = theEvent->flags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
+	flags = theEvent/*/S&F*****->flags*/.modifierFlags & (NX_SHIFTMASK | NX_CONTROLMASK | NX_ALTERNATEMASK | NX_COMMANDMASK);
 
 	
 //
@@ -776,7 +776,7 @@ rightMouseDown
 	}
 
 	qprintf ("bad flags for click");
-	NopSound ();/S&F*****/
+	NopSound ();
 
 	return self;
 }
@@ -797,8 +797,8 @@ modalMoveLoop
 */
 - modalMoveLoop: (NXPoint *)basept :(vec3_t)movemod : converter
 {
-	/*/S&F*****vec3_t		originbase;
-	NXEvent		*event;
+	vec3_t		originbase;
+	/*/S&F*****NXEvent*/NSEvent		*event;
 	NXPoint		newpt;
 	vec3_t		delta;
 	
@@ -811,13 +811,13 @@ modalMoveLoop
 //
 	goto drawentry;
 
-	while (event->type != NX_LMOUSEUP)
+	while (event/*/S&F*****->type*/.type != NX_LMOUSEUP)
 	{
 		//
 		// calculate new point
 		//
-		newpt = event->location;
-		[converter convertPoint:&newpt  fromView:NULL];
+		newpt.x = event.locationInWindow.x; newpt.y = event.locationInWindow.y;//S&F*****newpt = event->location;
+		[converter /*/S&F*****convertPoint*/convertPointAsNXPoint:&newpt  fromView:NULL];
 				
 		delta[0] = newpt.x-basept->x;
 		delta[1] = newpt.y-basept->y;
@@ -843,7 +843,7 @@ drawentry:
 // draw the brush back into the window buffer
 //
 //	[xyview_i display];
-	/S&F*****/
+	
 	return self;
 }
 
