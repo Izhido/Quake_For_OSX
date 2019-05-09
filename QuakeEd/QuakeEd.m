@@ -245,14 +245,14 @@ instance draw the brush after each flush
 	if (_flushDisabled)
 		return self;
 		
-	[cameraview_i lockFocus];	
+	//S&F*****[cameraview_i lockFocus];
 	if (clearinstance)
 	{
 		PSnewinstance ();
 		clearinstance = NO;
 	}
 
-	PSsetinstance (1);
+	/*/S&F*****PSsetinstance (1);
 	linestart (0,0,0);
 	[map_i makeSelectedPerform: @selector(CameraDrawSelf)];
 	[clipper_i cameraDrawSelf];
@@ -260,7 +260,7 @@ instance draw the brush after each flush
 	PSsetinstance (0);
 	[cameraview_i unlockFocus];	
 
-	/*/S&F*****[xyview_i lockFocus];
+	[xyview_i lockFocus];
 	PSsetinstance (1);
 	linestart (0,0,0);
 	[map_i makeSelectedPerform: @selector(XYDrawSelf)];
@@ -315,11 +315,11 @@ App delegate methods
 	if ([[map_i currentEntity] count] != [brushcount_i intValue])
 		[brushcount_i setIntValue: [[map_i currentEntity] count]];
 		
-	if (updatecamera)
+	//S&F*****if (updatecamera)
 		[cameraview_i display];
-	if (updatexy)
+	//S&F*****if (updatexy)
 		[xyview_i display];
-	if (updatez)
+	//S&F*****if (updatez)
 		[zview_i display];
 
 	updatecamera = updatexy = updatez = NO;

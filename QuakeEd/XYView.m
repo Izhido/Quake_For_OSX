@@ -761,8 +761,8 @@ drawSolid
 //
 // display the output
 //
-	[self lockFocus];
-	[[self window] setBackingType:NX_RETAINED];
+	//S&F*****[self lockFocus];
+	//S&F*****[[self window] setBackingType:NX_RETAINED];
 
 	planes[0] = (unsigned char *)r_picbuffer;
 	NXDrawBitmap(
@@ -780,8 +780,8 @@ drawSolid
 	);
 	
 	NXPing ();
-	[[self window] setBackingType:NX_BUFFERED];
-	[self unlockFocus];
+	//S&F*****[[self window] setBackingType:NX_BUFFERED];
+	//S&F*****[self unlockFocus];
 	
 	return self;
 }
@@ -818,7 +818,7 @@ NXRect	xy_draw_rect;
 		drawtime = I_FloatTime() - drawtime;
 		printf ("CameraView drawtime: %5.3f\n", drawtime);
 	}
-
+/*/S&F*****/PSsetinstance(1);linestart(0,0,0);[map_i makeSelectedPerform:@selector(XYDrawSelf)];lineflush();[cameraview_i XYDrawSelf];[zview_i XYDrawSelf];[clipper_i XYDrawSelf];PSsetinstance(0);
 	return self;
 }
 

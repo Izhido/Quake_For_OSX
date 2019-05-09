@@ -466,7 +466,7 @@ drawSelf
 
 // possibly resize the view
 	[self newRealBounds];
-
+/*/S&F*****/PSsetinstance(1);[map_i makeSelectedPerform:@selector(ZDrawSelf)];[cameraview_i ZDrawSelf];[clipper_i ZDrawSelf];PSsetinstance(0);
 	return self;
 }
 

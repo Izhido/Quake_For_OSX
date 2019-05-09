@@ -479,7 +479,7 @@ drawSelf
 		drawtime = I_FloatTime() - drawtime;
 		printf ("CameraView drawtime: %5.3f\n", drawtime);
 	}
-
+/*/S&F*****/PSsetinstance(1);linestart(0,0,0);[map_i makeSelectedPerform:@selector(CameraDrawSelf)];[clipper_i cameraDrawSelf];lineflush();PSsetinstance(0);
 	return self;
 }
 
@@ -613,7 +613,7 @@ drawentry:
 		// instance draw new frame
 		//
 		[quakeed_i newinstance];
-		[self display];
+        [quakeed_i updateAll];//S&F*****[self display];
 		
 		event = [NXApp getNextEvent: NX_LMOUSEUPMASK | NX_LMOUSEDRAGGEDMASK
 			| NX_RMOUSEUPMASK | NX_RMOUSEDRAGGEDMASK | NX_APPDEFINEDMASK];
@@ -621,7 +621,7 @@ drawentry:
 		if (event/*/S&F*****->type*/.type == NX_KEYDOWN)
 		{
 			[self _keyDown: event];
-			[self display];
+			[quakeed_i updateAll];//S&F*****[self display];
 			goto drawentry;
 		}
 		
@@ -726,7 +726,7 @@ viewDrag:
 		
 drawentry:
 		[quakeed_i newinstance];
-		[self display];
+		[quakeed_i updateAll];//S&F*****[self display];
 		
         event = [NXApp getNextEvent:
 			NX_KEYDOWNMASK | NX_RMOUSEUPMASK | NX_RMOUSEDRAGGEDMASK];
@@ -734,7 +734,7 @@ drawentry:
 		if (event/*/S&F*****->type*/.type == NX_KEYDOWN)
 		{
 			[self _keyDown: event];
-			[self display];
+			[quakeed_i updateAll];//S&F*****[self display];
 			goto drawentry;
 		}
 		
