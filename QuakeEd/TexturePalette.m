@@ -55,7 +55,7 @@ unsigned badtex_d[] =
 0xffff,0xffff,0xffff,0xffff,0xffff,0xffff,0xffff,0xffff
 };
 
-qtexture_t	badtex = {"notexture",16,16,/*/S&F*****NULL,*/ badtex_d, {0,0,255,255}};
+qtexture_t	badtex = {"notexture",16,16,NULL, badtex_d, {0,0,255,255}};
 
 /*
 ==============
@@ -89,7 +89,7 @@ TEX_ImageFromMiptex
 */
 void TEX_ImageFromMiptex (miptex_t *qtex)
 {
-	//S&F*****NXBitmapImageRep	*bm;
+	NXBitmapImageRep	*bm;
 	byte		*source;
 	unsigned	*dest;
 	int			width, height, i, count;
@@ -99,7 +99,7 @@ void TEX_ImageFromMiptex (miptex_t *qtex)
 	width = LittleLong(qtex->width);
 	height = LittleLong(qtex->height);
 
-	/*/S&F*****bm = [[NXBitmapImageRep alloc]
+	bm = [[NXBitmapImageRep alloc]
 			initData:		NULL 
 			pixelsWide:		width 
 			pixelsHigh:		height 
@@ -111,7 +111,7 @@ void TEX_ImageFromMiptex (miptex_t *qtex)
 			bytesPerRow:	width*4 
 			bitsPerPixel:	32];
 	
-	dest = (unsigned *)[bm data];/S&F*****/
+	dest = (unsigned *)[bm /*/S&F*****data*/bitmapData];
 	count = width*height;
 	source = (byte *)qtex + LittleLong(qtex->offsets[0]);
 	
@@ -120,18 +120,18 @@ void TEX_ImageFromMiptex (miptex_t *qtex)
 	
 	q->width = width;
 	q->height = height;
-	//S&F*****q->rep = bm;
-	//S&F*****q->data = dest;
+	q->rep = bm;
+	q->data = dest;
 
 	tr = tg = tb = 0;
 	
-	/*/S&F*****for (i=0 ; i<count ; i++)
+	for (i=0 ; i<count ; i++)
 	{
 		dest[i] = tex_palette[source[i]];
 		tr += ((pixel32_t *)&dest[i])->chan[0];
 		tg += ((pixel32_t *)&dest[i])->chan[1];
 		tb += ((pixel32_t *)&dest[i])->chan[2];
-	}/S&F*****/
+	}
 	
 	q->flatcolor.chan[0] = tr / count;
 	q->flatcolor.chan[1] = tg / count;
@@ -167,7 +167,7 @@ TEX_InitFromWad
 */
 void	TEX_InitFromWad (char *path)
 {
-	/*/S&F*****int			i;
+	int			i;
 	char		local[1024];
 	char		newpath[1024];
 	byte		*wadfile;
@@ -183,8 +183,8 @@ void	TEX_InitFromWad (char *path)
 	strcat(newpath, path);
 	
 // free any textures
-	//S&F*****for (i=0 ; i<tex_count ; i++)
-		//S&F*****[qtextures[i].rep free];
+	for (i=0 ; i<tex_count ; i++)
+		[qtextures[i].rep free];
 	tex_count = 0;
 
 // try and use the cached wadfile	
@@ -226,7 +226,7 @@ void	TEX_InitFromWad (char *path)
 
 	stop = I_FloatTime ();
 	
-	qprintf ("loaded %s (%5.1f)", local, stop - start);/S&F*****/
+	qprintf ("loaded %s (%5.1f)", local, stop - start);
 }
 
 /*
@@ -303,11 +303,11 @@ qtexture_t *TEX_ForName (char *name)
 	
 	for (i = 0,q=qtextures;i < tex_count; i++,q++)
 	{
-		//S&F*****t.image = q->rep;
-		//S&F*****t.r.size.width = [t.image pixelsWide];
+		t.image = q->rep;
+		t.r.size.width = [/*/S&F*****/(NXBitmapImageRep*)/*/S&F*****/t.image pixelsWide];
 		if (t.r.size.width < 64)
 			t.r.size.width = 64;
-		//S&F*****t.r.size.height = [t.image pixelsHigh] + TEX_SPACING;
+		t.r.size.height = [/*/S&F*****/(NXBitmapImageRep*)/*/S&F*****/t.image pixelsHigh] + TEX_SPACING;
 		t.name = q->name;
 		t.index = i;
 		t.display = 1;

@@ -21,7 +21,7 @@ typedef struct
 	
 	int			width;
 	int			height;
-	//S&F*****NXBitmapImageRep	*rep;
+	NXBitmapImageRep	*rep;
 	void		*data;
 	pixel32_t	flatcolor;
 } qtexture_t;

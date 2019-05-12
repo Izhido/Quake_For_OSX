@@ -7,7 +7,7 @@
 		<key>QuakeEd.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>9</integer>
+			<integer>10</integer>
 		</dict>
 		<key>Quake_Asset_Generator.xcscheme</key>
 		<dict>
@@ -28,6 +28,11 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
+		</dict>
+		<key>fakewad.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>9</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -53,6 +58,11 @@
 			<true/>
 		</dict>
 		<key>28C3BDBF1C5D77AA00CBB0D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>28EAD4562286300800E8446B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

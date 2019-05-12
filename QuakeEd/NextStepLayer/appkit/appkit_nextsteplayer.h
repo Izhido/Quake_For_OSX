@@ -17,6 +17,7 @@
 #import <Scroller.h>
 #import <Application.h>
 #import <Button.h>
+#import <NXBitmapImageRep.h>
 
 #define NX_OKTAG NSOKButton
 
