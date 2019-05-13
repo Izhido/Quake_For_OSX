@@ -4,6 +4,8 @@
 
 -(instancetype)initData:(unsigned char *)data pixelsWide:(int)width pixelsHigh:(int)height bitsPerSample:(int)bps samplesPerPixel:(int)spp hasAlpha:(BOOL)alpha isPlanar:(BOOL)config colorSpace:(NSString*)space bytesPerRow:(int)rowBytes bitsPerPixel:(int)pixelBits;
 
+-(void)drawAt:(NXPoint*)point;
+
 -(id)free;
 
 @end

@@ -7,6 +7,12 @@
     return [self initWithBitmapDataPlanes:&data pixelsWide:width pixelsHigh:height bitsPerSample:bps samplesPerPixel:spp hasAlpha:alpha isPlanar:config colorSpaceName:space bitmapFormat:NSBitmapFormatThirtyTwoBitLittleEndian bytesPerRow:rowBytes bitsPerPixel:pixelBits];
 }
 
+-(void)drawAt:(NXPoint*)point
+{
+    NSPoint origin = NSMakePoint(point->x, point->y);
+    [self drawAtPoint:origin];
+}
+
 -(id)free
 {
     return self;

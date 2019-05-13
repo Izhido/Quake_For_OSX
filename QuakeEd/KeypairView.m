@@ -68,16 +68,16 @@ initFrame:
 	return self;
 }
 
-- mouseDown:(NXEvent *)theEvent
+- mouseDown:(/*/S&F*****NXEvent*/NSEvent *)theEvent
 {
-	/*/S&F*****NXPoint	loc;
+	NXPoint	loc;
 	int		i;
 	epair_t	*p;
 
-	loc = theEvent->location;
-	[self convertPoint:&loc	fromView:NULL];
+	loc.x = theEvent.locationInWindow.x; loc.y = theEvent.locationInWindow.y;//S&F*****loc = theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&loc	fromView:NULL];
 	
-	i = (bounds.size.height - loc.y - 4) / LINEHEIGHT;
+	i = (/*/S&F*****/self./*/S&F*****/bounds.size.height - loc.y - 4) / LINEHEIGHT;
 
 	p = [[map_i currentEntity] epairs];
 	while (	i )
@@ -89,7 +89,7 @@ initFrame:
 	}
 	if (p)
 		[things_i setSelectedKey: p];
-	/S&F*****/
+	
 	return self;
 }
 

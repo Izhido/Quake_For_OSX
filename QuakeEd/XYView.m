@@ -804,7 +804,7 @@ NXRect	xy_draw_rect;
 	newrect.size.width = newrect.size.height = -2*99999;
 
 // setup for text
-	PSselectfont("Helvetica-Medium",10/scale);
+	PSselectfont(/*/S&F*****"Helvetica-Medium"*/"Helvetica",10/scale);
 	PSrotate(0);
 
 	if (drawmode == dr_texture || drawmode == dr_flat)

@@ -188,7 +188,7 @@ XYDrag
 	char	text[8];
 	
 	PSsetrgbcolor (1,0.5,0);
-	PSselectfont("Helvetica-Medium",10/[xyview_i currentScale]);
+	PSselectfont(/*/S&F*****"Helvetica-Medium"*/"Helvetica",10/[xyview_i currentScale]);
 	PSrotate(0);
 
 	for (i=0 ; i<num ; i++)
@@ -209,7 +209,7 @@ XYDrag
 	char	text[8];
 	
 	PSsetrgbcolor (1,0.5,0);
-	PSselectfont("Helvetica-Medium",10/[zview_i currentScale]);
+	PSselectfont(/*/S&F*****"Helvetica-Medium"*/"Helvetica",10/[zview_i currentScale]);
 	PSrotate(0);
 
 	for (i=0 ; i<num ; i++)

@@ -390,7 +390,7 @@ Rect is in global world (unscaled) coordinates
 		
 	beginUserPath (upath,NO);
 	PSsetgray (0);		// for text
-	PSselectfont("Helvetica-Medium",10/scale);
+	PSselectfont(/*/S&F*****"Helvetica-Medium"*/"Helvetica",10/scale);
 	PSrotate(0);
 	
 	for ( ; y<=stopy ; y+= 64)

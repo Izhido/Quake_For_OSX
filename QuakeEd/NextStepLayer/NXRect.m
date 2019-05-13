@@ -17,6 +17,11 @@ void NXUnionRect(NXRect* first, NXRect* second)
     second->size = result.size;
 }
 
+BOOL NXPointInRect(NXPoint* point, NXRect* rect)
+{
+    return NSPointInRect(NSMakePoint(point->x, point->y), *rect);
+}
+
 void NXSetRect(NXRect* rect, CGFloat x, CGFloat y, CGFloat width, CGFloat height)
 {
     *rect = NSMakeRect(x, y, width, height);

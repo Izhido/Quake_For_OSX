@@ -383,7 +383,7 @@ qtexture_t *TEX_ForName (char *name)
 	x = TEX_INDENT;
 
 	view = [textureView_i superview];
-	[view getBounds:&b];
+	b = ((NSView*)view).bounds;//S&F*****[view getBounds:&b];
 	maxwidth = b.size.width;
 
 	for (i = 0;i < max; i++)

@@ -190,8 +190,9 @@ int NXRunAlertPanel(const char* title, const char* msgFormat, const char* defaul
 }
 
 CGContextRef currentContextForPSFunctions = nil;
-float currentXForPSFunctions = 0;
-float currentYForPSFunctions = 0;
+CGFloat currentXForPSFunctions = 0;
+CGFloat currentYForPSFunctions = 0;
+NSFont* currentFontForPSFunctions = nil;
 
 void PSnewinstance()
 {
@@ -204,6 +205,7 @@ void PSsetinstance(int instance)
         currentContextForPSFunctions = NSGraphicsContext.currentContext.CGContext;
         currentXForPSFunctions = 0;
         currentYForPSFunctions = 0;
+        currentFontForPSFunctions = [NSFont systemFontOfSize:[NSFont smallSystemFontSize]];
     }
     else
     {
@@ -265,7 +267,16 @@ void PSrotate(float angle)
 
 void PSselectfont(const char* name, float size)
 {
-    CGContextSelectFont(currentContextForPSFunctions, name, size, kCGEncodingFontSpecific);
+    NSString* nameAsString = [NSString stringWithCString:name encoding:NSString.defaultCStringEncoding];
+    NSFont* newFont = nil;
+    if (currentFontForPSFunctions == nil || ![currentFontForPSFunctions.fontName isEqualToString:nameAsString] || currentFontForPSFunctions.pointSize != size)
+    {
+        newFont = [NSFont fontWithName:nameAsString size:size];
+    }
+    if (newFont != nil)
+    {
+        currentFontForPSFunctions = newFont;
+    }
 }
 
 void PSsetgray(float gray)
@@ -287,7 +298,7 @@ void PSsetrgbcolor(float r, float g, float b)
 
 void PSshow(const char* text)
 {
-    [[NSString stringWithCString:text encoding:NSString.defaultCStringEncoding] drawAtPoint:NSMakePoint(currentXForPSFunctions, currentYForPSFunctions) withAttributes:@{NSFontAttributeName:[NSFont systemFontOfSize:NSFont.systemFontSize], NSForegroundColorAttributeName: NSColor.blackColor}];
+    [[NSString stringWithCString:text encoding:NSString.defaultCStringEncoding] drawAtPoint:NSMakePoint(currentXForPSFunctions, currentYForPSFunctions) withAttributes:@{NSFontAttributeName:currentFontForPSFunctions, NSForegroundColorAttributeName: NSColor.blackColor}];
 }
 
 void PSstroke()

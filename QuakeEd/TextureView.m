@@ -40,7 +40,7 @@ NOTE: I am specifically not using cached image reps, because the data is also ne
 	
 	selected = [parent_i getSelectedTexture];
 	list_i = [parent_i getList];
-	PSselectfont("Helvetica-Medium",FONTSIZE);
+	PSselectfont(/*/S&F*****"Helvetica-Medium"*/"Helvetica",FONTSIZE);
 	PSrotate(0);
 	
 	PSsetgray(NX_LTGRAY);
@@ -64,7 +64,7 @@ NOTE: I am specifically not using cached image reps, because the data is also ne
 			r.size.width, r.size.height);
         p.x = t->r.origin.x; p.y = t->r.origin.y;//S&F*****p = t->r.origin;
 		p.y += TEX_SPACING;
-		//S&F*****[t->image drawAt:&p];
+		[t->image drawAt:&p];
 		PSsetgray(0);
 		x = t->r.origin.x;
 		y = t->r.origin.y + 7;
@@ -100,7 +100,7 @@ NOTE: I am specifically not using cached image reps, because the data is also ne
 			
 			p.x = t->r.origin.x; p.y = t->r.origin.y;//S&F*****p = t->r.origin;
 			p.y += TEX_SPACING;
-			//S&F*****[t->image drawAt:&p];
+			[t->image drawAt:&p];
 			x = t->r.origin.x;
 			y = t->r.origin.y + 7;
 			PSmoveto(x,y);
@@ -117,7 +117,7 @@ NOTE: I am specifically not using cached image reps, because the data is also ne
 	return self;
 }
 
-/*/S&F*****- mouseDown:(NXEvent *)theEvent
+- mouseDown:(/*/S&F*****NXEvent*/NSEvent *)theEvent
 {
 	NXPoint	loc;
 	int		i;
@@ -127,9 +127,9 @@ NOTE: I am specifically not using cached image reps, because the data is also ne
 	id		list;
 	NXRect	r;
 
-	oldwindowmask = [window addToEventMask:NX_LMOUSEDRAGGEDMASK];
-	loc = theEvent->location;
-	[self convertPoint:&loc	fromView:NULL];
+	//S&F*****oldwindowmask = [window addToEventMask:NX_LMOUSEDRAGGEDMASK];
+	loc.x = theEvent.locationInWindow.x; loc.y = theEvent.locationInWindow.y;//S&F*****loc = theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&loc	fromView:NULL];
 	
 	list = [parent_i getList];
 	max = [list count];
@@ -145,8 +145,8 @@ NOTE: I am specifically not using cached image reps, because the data is also ne
 		}
 	}
 	
-	[window	setEventMask:oldwindowmask];
+	//S&F*****[window	setEventMask:oldwindowmask];
 	return self;
-}/S&F*****/
+}
 
 @end

@@ -8,7 +8,7 @@ extern	id	keypairview_i;
 - calcViewSize;
 
 #define	SPACING		4
-#define	FONTSIZE	12
+#define	FONTSIZE	/*/S&F*****12*/10
 #define	EXTRASPC	2
 
 #define	LINEHEIGHT	16
