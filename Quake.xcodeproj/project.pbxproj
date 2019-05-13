@@ -15,6 +15,7 @@
 		2817C7A71CED6555000E491D /* gl_noalphatextprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */; };
 		2817C7AA1CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A81CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh */; };
 		2817C7AB1CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2817C7A91CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh */; };
+		2819A5C1228856FA00079B4A /* TabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2819A5C0228856FA00079B4A /* TabViewItem.m */; };
 		281C7D901CE6C4EA003C2F54 /* in_ios_vr.c in Sources */ = {isa = PBXBuildFile; fileRef = 281C7D8F1CE6C4EA003C2F54 /* in_ios_vr.c */; };
 		281D058A1CDC597900E422DA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 281D05891CDC597900E422DA /* OpenGLES.framework */; };
 		281D05931CDE620F00E422DA /* host.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE281C5D6FFD00CEC48E /* host.c */; };
@@ -338,6 +339,8 @@
 		2817C7A51CED6555000E491D /* gl_noalphatextprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_noalphatextprogram.vsh; sourceTree = "<group>"; };
 		2817C7A81CED72C0000E491D /* gl_alphapolygon1textureprogram.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_alphapolygon1textureprogram.fsh; sourceTree = "<group>"; };
 		2817C7A91CED72C0000E491D /* gl_alphapolygon1textureprogram.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = gl_alphapolygon1textureprogram.vsh; sourceTree = "<group>"; };
+		2819A5BF228856FA00079B4A /* TabViewItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabViewItem.h; sourceTree = "<group>"; };
+		2819A5C0228856FA00079B4A /* TabViewItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabViewItem.m; sourceTree = "<group>"; };
 		281C7D8F1CE6C4EA003C2F54 /* in_ios_vr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = in_ios_vr.c; sourceTree = "<group>"; };
 		281D05881CDC57CD00E422DA /* glquake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glquake.h; sourceTree = "<group>"; };
 		281D05891CDC597900E422DA /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
@@ -1111,6 +1114,8 @@
 				28FB5A262276A82C00DEDB98 /* Sound.m */,
 				28C6171D227676FA0035C408 /* Storage.h */,
 				28C6171E227676FA0035C408 /* Storage.m */,
+				2819A5BF228856FA00079B4A /* TabViewItem.h */,
+				2819A5C0228856FA00079B4A /* TabViewItem.m */,
 				28FB5A1F22769A5500DEDB98 /* Text.h */,
 				28FB5A2022769A5500DEDB98 /* Text.m */,
 				28FB5A162276926C00DEDB98 /* TextField.h */,
@@ -1748,6 +1753,7 @@
 				28E0F9C42277475B00A3AA83 /* InspectorControl.m in Sources */,
 				288B45C92279F9A300944F1F /* EntityClass.m in Sources */,
 				28C61710227660080035C408 /* cmdlib.c in Sources */,
+				2819A5C1228856FA00079B4A /* TabViewItem.m in Sources */,
 				2898B8D2227A501200FDA09A /* misc.m in Sources */,
 				288B45B42279DA3000944F1F /* PopScrollView.m in Sources */,
 				28D27EEA227E7E0400B57422 /* Application.m in Sources */,

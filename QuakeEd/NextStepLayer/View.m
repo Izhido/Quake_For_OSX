@@ -24,6 +24,12 @@
     bounds->size = self.bounds.size;
 }
 
+-(void)getFrame:(NXRect*)frame
+{
+    frame->origin = self.frame.origin;
+    frame->size = self.frame.size;
+}
+
 -(void)getVisibleRect:(NXRect*)visibleRect
 {
     visibleRect->origin = self.visibleRect.origin;
@@ -92,6 +98,11 @@
 -(void)setAutoresizeSubviews:(BOOL)autoresizeSubviews
 {
     self.autoresizesSubviews = autoresizeSubviews;
+}
+
+-(void)setAutosizing:(int)mask
+{
+    self.autoresizingMask = mask;
 }
 
 -(void)drawSelf:(const NXRect *)rects :(int)rectCount

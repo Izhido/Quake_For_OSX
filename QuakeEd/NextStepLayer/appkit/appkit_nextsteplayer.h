@@ -18,6 +18,7 @@
 #import <Application.h>
 #import <Button.h>
 #import <NXBitmapImageRep.h>
+#import <TabViewItem.h>
 
 #define NX_OKTAG NSOKButton
 

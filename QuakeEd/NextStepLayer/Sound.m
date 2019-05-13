@@ -8,12 +8,20 @@
 
 -(instancetype)initFromSoundfile:(const char*)filename
 {
-    self = [super init];
-    if (self != nil)
+    NSSound* sound = [[NSSound alloc] initWithContentsOfFile:[NSString stringWithCString:filename encoding:NSString.defaultCStringEncoding] byReference:YES];
+    if (sound != nil)
     {
-        sound = [[NSSound alloc] initWithContentsOfFile:[NSString stringWithCString:filename encoding:NSString.defaultCStringEncoding] byReference:YES];
+        self = [super init];
+        if (self != nil)
+        {
+            self->sound = sound;
+        }
+        return self;
     }
-    return self;
+    else
+    {
+        return nil;
+    }
 }
 
 @end

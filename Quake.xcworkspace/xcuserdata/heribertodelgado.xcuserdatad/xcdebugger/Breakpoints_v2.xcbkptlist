@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "id1/model.c"
-            timestampString = "579306958.1656179"
+            filePath = "QuakeEd/NextStepLayer/Object.m"
+            timestampString = "579417048.691117"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "382"
-            endingLineNumber = "382"
-            landmarkName = "Mod_LoadTextures()"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "NXWriteDefault()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

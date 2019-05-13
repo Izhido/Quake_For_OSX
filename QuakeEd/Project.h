@@ -19,7 +19,7 @@
 
 extern	id project_i;
 
-@interface Project:Object
+@interface Project:Object/*/S&F*****/<NXBrowserDataSource>/*/S&F*****/
 {
 	id	projectInfo;		// dictionary storage of project info
 
@@ -78,13 +78,13 @@ extern	id project_i;
 - initProjSettings;
 - changeChar:(char)f to:(char)t in:(id)obj;
 - (int)searchForString:(char *)str in:(id)obj;
-
+/*/S&F*****/- setClickedOnMapToBrowser:browser;
 - parseProjectFile;		// read defaultsdatabase for project path
 - openProjectFile:(char *)path;	// called by openProject and newProject
 - openProject;
 - clickedOnMap:sender;		// called if clicked on map in browser
 - clickedOnWad:sender;		// called if clicked on wad in browser
-
+/*/S&F*****/- setClickedOnWadToBrowser:browser;
 //	methods to querie the project file
 
 - (char *)getMapDirectory;

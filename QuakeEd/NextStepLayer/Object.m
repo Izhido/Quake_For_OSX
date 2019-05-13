@@ -18,10 +18,13 @@
 
 @end
 
+char latestDefaultValue[4096];
+
 char* NXGetDefaultValue(const char* owner, const char* key)
 {
     NSString* value = [NSUserDefaults.standardUserDefaults stringForKey:[NSString stringWithCString:key encoding:NSString.defaultCStringEncoding]];
-    return [value cStringUsingEncoding:NSString.defaultCStringEncoding];
+    strncpy(latestDefaultValue, [value cStringUsingEncoding:NSString.defaultCStringEncoding], 4096);
+    return latestDefaultValue;
 }
 
 void NXWriteDefault(const char* owner, const char* key, const char* value)

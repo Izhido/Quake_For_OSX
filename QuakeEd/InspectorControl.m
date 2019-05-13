@@ -107,13 +107,13 @@ id		inspcontrol_i;
 	[inspectorView_i getFrame:&r];
 	inspectorSubview_i = newView;
 	[inspectorSubview_i setAutosizing:NX_WIDTHSIZABLE | NX_HEIGHTSIZABLE];
-	[inspectorSubview_i sizeTo:r.size.width - 4 :r.size.height - 4];
+	/*/S&F*****/[inspectorSubview_i moveTo:4 :4];/*/S&F*****/[inspectorSubview_i sizeTo:r.size.width - 4 :r.size.height - 4];
 	
-	[inspectorSubview_i lockFocus];
+	/*/S&F*****[inspectorSubview_i lockFocus];
 	[inspectorSubview_i getBounds:&f];
 	PSsetgray(NX_LTGRAY);
 	NXRectFill(&f);
-	[inspectorSubview_i unlockFocus];
+	[inspectorSubview_i unlockFocus];/S&F*****/
 	[inspectorView_i display];
 	
 	return self;

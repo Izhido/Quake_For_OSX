@@ -163,10 +163,10 @@ id	project_i;
 	if (projectInfo == NULL)
 		return self;
 	self = /*/S&F*****/[self initVars];
-	[mapbrowse_i reuseColumns:YES];
+    [mapbrowse_i reuseColumns:YES];
 	[mapbrowse_i loadColumnZero];
-	[pis_wads_i reuseColumns:YES];
-	[pis_wads_i loadColumnZero];
+    [pis_wads_i reuseColumns:YES];/*/S&F*****/((NXBrowser*)pis_wads_i).dataSource = self; [project_i setClickedOnWadToBrowser:pis_wads_i];/*/S&F*****/
+    [pis_wads_i loadColumnZero];
 
 	[things_i		initEntities];
 	
@@ -218,7 +218,7 @@ id	project_i;
 		name = [list elementAt:i];
 		[matrix addRow];
         cell = [matrix cellAtRow:i column:0];//S&F*****cell = [matrix cellAt:i :0];
-        [cell setStringValue:[NSString stringWithCString:name encoding:NSString.defaultCStringEncoding]];//S&F*****name];
+        [cell setStringValue:/*/S&F*****name*/[NSString stringWithCString:name encoding:NSString.defaultCStringEncoding]/*/S&F*****/];
 		[cell setLeaf:YES];
 		[cell setLoaded:YES];
 	}
@@ -236,7 +236,7 @@ id	project_i;
 	id	panel;
 	
 	matrix = [sender matrixInColumn:0];
-	row = [matrix selectedRow];
+	row = [matrix selectedRow];/*/S&F*****/if (row < 0) return self;
 	sprintf(fname,"%s/%s.map",path_mapdirectory,
 		(char *)[mapList elementAt:row]);
 	
@@ -291,7 +291,7 @@ id	project_i;
 	char	*name;
 	
 	matrix = [sender matrixInColumn:0];
-	row = [matrix selectedRow];
+    row = [matrix selectedRow];/*/S&F*****/if (row < 0) return self;
 
 	name = (char *)[wadList elementAt:row];
 	[self setTextureWad: name];
@@ -381,8 +381,8 @@ id	project_i;
 	
 	return nil;
 }
-
-
+/*/S&F*****/- setClickedOnMapToBrowser:browser { [(NXBrowser*)browser setTarget:self]; [(NXBrowser*)browser setAction:@selector(clickedOnMap:)]; return self;}/*/S&F*****/
+/*/S&F*****/- setClickedOnWadToBrowser:browser { [(NXBrowser*)browser setTarget:self]; [(NXBrowser*)browser setAction:@selector(clickedOnWad:)]; return self;}/*/S&F*****/
 //
 //	Search for a string in a List of strings
 //

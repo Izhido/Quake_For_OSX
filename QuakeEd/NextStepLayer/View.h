@@ -7,6 +7,8 @@
 
 -(void)getBounds:(NXRect*)bounds;
 
+-(void)getFrame:(NXRect*)frame;
+
 -(void)getVisibleRect:(NXRect*)visibleRect;
 
 -(void)moveTo:(CGFloat)x :(CGFloat)y;
@@ -26,6 +28,8 @@
 -(void)scrollRectToVisibleAsNXRect:(const NXRect *)rect;
 
 -(void)setAutoresizeSubviews:(BOOL)autoresizeSubviews;
+
+-(void)setAutosizing:(int)mask;
 
 -(void)drawSelf:(const NXRect *)rects :(int)rectCount;
 
