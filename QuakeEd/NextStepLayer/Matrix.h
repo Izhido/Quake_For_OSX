@@ -2,6 +2,8 @@
 
 @interface Matrix : NSView
 
+@property (nonatomic, assign) int rowCount;
+
 -(void)setTarget:(id)target;
 
 -(void)setAction:(SEL)action;

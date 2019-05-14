@@ -42,7 +42,7 @@ id	things_i;
     [[entity_browser_i matrixInColumn:0] selectCellAtRow:lastSelected column:0];//S&F*****selectCellAt:lastSelected :0];
 
 	[entity_browser_i setDoubleAction: @selector(doubleClickEntity:)];
-	
+    /*/S&F*****/((Matrix*)flags_i).rowCount = 4;
 	return self;
 }
 
@@ -145,7 +145,7 @@ id	things_i;
 	else
 		flags = atoi(flagname);
 	
-	[flags_i setAutodisplay: NO];
+	//S&F*****[flags_i setAutodisplay: NO];
 	for (r=0 ; r<4 ; r++)
 		for (c=0 ; c<3 ; c++)
 		{
@@ -153,11 +153,11 @@ id	things_i;
 			if (c < 2)
 			{
 				flagname = [classent flagName: c*4 + r];
-                [cell setTitle: [NSString stringWithCString:(flagname == nil ? "" : flagname) encoding:NSString.defaultCStringEncoding]];//S&F*****flagname];
+                [cell setTitle: /*/S&F*****flagname*/[NSString stringWithCString:(flagname == nil ? "" : flagname) encoding:NSString.defaultCStringEncoding]/*/S&F*****/];
 			}
 			[cell setIntValue: (flags & (1<< ((c*4)+r)) ) > 0];
 		}
-	[flags_i setAutodisplay: YES];
+	//S&F*****[flags_i setAutodisplay: YES];
 	[flags_i display];
 	
 //	[keyInput_i setStringValue: ""];

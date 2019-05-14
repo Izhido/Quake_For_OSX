@@ -35,7 +35,7 @@
 
 -(id)cellAt:(int)row :(int)column
 {
-    return nil;
+    return self.subviews[column * self.rowCount + row];
 }
 
 -(void)selectCellAt:(int)row :(int)column
