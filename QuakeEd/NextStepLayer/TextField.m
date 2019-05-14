@@ -9,7 +9,25 @@
 
 -(void)setStringValueAsString:(const char*)value
 {
-    self.stringValue = [NSString stringWithCString:value encoding:NSString.defaultCStringEncoding];
+    if (value == nil)
+    {
+        self.stringValue = @"";
+    }
+    else
+    {
+        self.stringValue = [NSString stringWithCString:value encoding:NSString.defaultCStringEncoding];
+    }
+}
+
+-(void)selectAll:(id)sender
+{
+    [self selectText:sender];
+}
+
+-(void)replaceSel:(const char*)string
+{
+    
+    [self setStringValueAsString:string];
 }
 
 @end

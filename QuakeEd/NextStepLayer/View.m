@@ -144,7 +144,7 @@ void NXEraseRect(NXRect* rect)
     NSEraseRect(*rect);
 }
 
-int NXGrayComponent(int gray)
+float NXGrayComponent(float gray)
 {
     return gray;
 }

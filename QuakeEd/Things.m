@@ -37,7 +37,7 @@ id	things_i;
 	
 	[[EntityClassList alloc] initForSourceDirectory: path];
 
-	[self loadEntityComment:[entity_classes_i objectAt:lastSelected]];
+    [self loadEntityComment:[entity_classes_i objectAt:lastSelected]];/*/S&F*****/((NXBrowser*)entity_browser_i).dataSource = self; [(NXBrowser*)entity_browser_i setTarget:self]; [(NXBrowser*)entity_browser_i setAction:@selector(selectEntity:)];/*/S&F*****/
 	[entity_browser_i loadColumnZero];
     [[entity_browser_i matrixInColumn:0] selectCellAtRow:lastSelected column:0];//S&F*****selectCellAt:lastSelected :0];
 
@@ -306,8 +306,8 @@ id	things_i;
 	{
 		object = [entity_classes_i objectAt:i];
 		[matrix addRow];
-		cell = [matrix cellAt:i++ :0];
-		[cell setStringValue:[object /*/S&F*****classname*/className]];
+        cell = [matrix /*/S&F*****cellAt:i++ :0*/cellAtRow:i++ column:0/*/S&F*****/];
+        [cell setStringValue:/*/S&F*****[object classname]*/[NSString stringWithCString:[object classname] encoding:NSString.defaultCStringEncoding]/*/S&F*****/];
 		[cell setLeaf:YES];
 		[cell setLoaded:YES];
 	}

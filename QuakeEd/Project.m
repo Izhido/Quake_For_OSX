@@ -217,7 +217,7 @@ id	project_i;
 	{
 		name = [list elementAt:i];
 		[matrix addRow];
-        cell = [matrix cellAtRow:i column:0];//S&F*****cell = [matrix cellAt:i :0];
+        cell = [matrix /*/S&F*****cellAt:i :0*/cellAtRow:i column:0/*/S&F*****/];
         [cell setStringValue:/*/S&F*****name*/[NSString stringWithCString:name encoding:NSString.defaultCStringEncoding]/*/S&F*****/];
 		[cell setLeaf:YES];
 		[cell setLoaded:YES];

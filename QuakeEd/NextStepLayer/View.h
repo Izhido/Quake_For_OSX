@@ -43,7 +43,7 @@ void NXDrawBitmap(NXRect* rect, int width, int height, int bps, int spp, int bpp
 
 void NXEraseRect(NXRect* rect);
 
-int NXGrayComponent(int gray);
+float NXGrayComponent(float gray);
 
 void NXRectClip(NXRect* rect);
 

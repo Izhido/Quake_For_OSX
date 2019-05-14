@@ -408,7 +408,7 @@ qtexture_t *TEX_ForName (char *name)
 	viewHeight = y + TEX_SPACING;
 	[textureView_i sizeTo:viewWidth :viewHeight];
 	pt.x = pt.y = 0;
-    [textureView_i scrollPointAsNXPoint:&pt];//S&F*****[textureView_i scrollPoint:&pt];
+    [textureView_i /*/S&F*****scrollPoint*/scrollPointAsNXPoint:&pt];
 
 	return self;
 }

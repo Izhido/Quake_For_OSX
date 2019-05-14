@@ -5,7 +5,7 @@ extern	id	things_i;
 
 #define	ENTITYNAMEKEY	"spawn"
 
-@interface Things:Object
+@interface Things:Object/*/S&F*****/<NXBrowserDataSource>/*/S&F*****/
 {
 	id	entity_browser_i;	// browser
 	id	entity_comment_i;	// scrolling text window

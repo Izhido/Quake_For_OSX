@@ -17,10 +17,10 @@ initFrame:
 	return self;
 }
 
-
+/*/S&F*****/-(BOOL)isFlipped { return YES; }
 - calcViewSize
 {
-	/*/S&F*****NXCoord	w;
+	NXCoord	w;
 	NXCoord	h;
 	NXRect	b;
 	NXPoint	pt;
@@ -30,14 +30,14 @@ initFrame:
 	ent = [map_i currentEntity];
 	count = [ent numPairs];
 
-	[superview setFlipped: YES];
+	//S&F*****[superview setFlipped: YES];
 	
-	[superview getBounds:&b];
+	b = self.superview.bounds;//S&F*****[superview getBounds:&b];
 	w = b.size.width;
 	h = LINEHEIGHT*count + SPACING;
 	[self	sizeTo:w :h];
 	pt.x = pt.y = 0;
-	[self scrollPoint: &pt];/S&F*****/
+	[self /*/S&F*****scrollPoint*/scrollPointAsNXPoint: &pt];
 	return self;
 }
 
