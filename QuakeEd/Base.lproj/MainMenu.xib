@@ -1431,7 +1431,7 @@
                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wMO-BE-Z8Q" customClass="TextField">
                                             <rect key="frame" x="13" y="384" width="262" height="64"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Comment field" drawsBackground="YES" id="hiI-R1-P76">
+                                            <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hiI-R1-P76">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1457,6 +1457,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="p9m-wI-qht"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yze-Km-97r">
                                                     <rect key="frame" x="0.0" y="35" width="89" height="18"/>
@@ -1465,6 +1468,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="oCa-px-TXE"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WFg-Ri-2Vj">
                                                     <rect key="frame" x="0.0" y="17" width="89" height="18"/>
@@ -1473,6 +1479,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="6G4-KQ-SVn"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Di-Gl-Vbb">
                                                     <rect key="frame" x="0.0" y="-1" width="89" height="18"/>
@@ -1481,6 +1490,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="pI5-8H-42B"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vab-eW-o64">
                                                     <rect key="frame" x="88" y="53" width="89" height="18"/>
@@ -1489,6 +1501,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="zTZ-oT-Dki"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kOb-Dn-0Eu">
                                                     <rect key="frame" x="88" y="35" width="89" height="18"/>
@@ -1497,6 +1512,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="fqH-sG-k5x"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pb8-3D-Y1E">
                                                     <rect key="frame" x="88" y="17" width="89" height="18"/>
@@ -1505,6 +1523,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="Unh-sa-yHg"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ze9-lP-nIr">
                                                     <rect key="frame" x="88" y="-1" width="89" height="18"/>
@@ -1513,6 +1534,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="8IR-Ea-KpU"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Xq-m4-cV2">
                                                     <rect key="frame" x="176" y="53" width="89" height="18"/>
@@ -1521,6 +1545,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="Voo-CW-fmn"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="njw-Au-W30">
                                                     <rect key="frame" x="176" y="35" width="89" height="18"/>
@@ -1529,6 +1556,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="h2I-wK-pkb"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Pj-PG-BDL">
                                                     <rect key="frame" x="176" y="17" width="89" height="18"/>
@@ -1537,6 +1567,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="8an-gK-6Kh"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sHh-Im-UF6">
                                                     <rect key="frame" x="176" y="-1" width="89" height="18"/>
@@ -1545,6 +1578,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="commonAction:" target="Jdw-c7-FlO" id="MrW-Gd-aeS"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </customView>

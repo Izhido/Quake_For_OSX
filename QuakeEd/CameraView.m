@@ -125,7 +125,7 @@ homeView
 	
 	return self;
 }
-/*/S&F*****/- setModeRadio: m{mode_radio_i = m;[mode_radio_i setTarget: self];[mode_radio_i setAction: @selector(drawMode:)];return self;}
+/*/S&F*****/- setModeRadio: m { mode_radio_i = m; [mode_radio_i setTarget:self]; [mode_radio_i setAction:@selector(drawMode:)]; return self; }
 - drawMode: sender
 {
 	drawmode = [sender selectedCol];

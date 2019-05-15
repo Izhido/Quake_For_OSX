@@ -42,7 +42,7 @@ id	things_i;
     [[entity_browser_i matrixInColumn:0] selectCellAtRow:lastSelected column:0];//S&F*****selectCellAt:lastSelected :0];
 
 	[entity_browser_i setDoubleAction: @selector(doubleClickEntity:)];
-    /*/S&F*****/((Matrix*)flags_i).rowCount = 4;
+    /*/S&F*****/((Matrix*)flags_i).rowCount = 4; [flags_i setTarget:self]; [flags_i setAction:@selector(setFlags:)];
 	return self;
 }
 
