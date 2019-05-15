@@ -163,7 +163,7 @@ id	project_i;
 	if (projectInfo == NULL)
 		return self;
 	self = /*/S&F*****/[self initVars];
-    [mapbrowse_i reuseColumns:YES];
+    [mapbrowse_i reuseColumns:YES];/*/S&F*****/((NXBrowser*)mapbrowse_i).dataSource = self; [project_i setClickedOnMapToBrowser:mapbrowse_i];/*/S&F*****/
 	[mapbrowse_i loadColumnZero];
     [pis_wads_i reuseColumns:YES];/*/S&F*****/((NXBrowser*)pis_wads_i).dataSource = self; [project_i setClickedOnWadToBrowser:pis_wads_i];/*/S&F*****/
     [pis_wads_i loadColumnZero];
