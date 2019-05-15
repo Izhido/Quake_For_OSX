@@ -111,7 +111,7 @@ void WriteStringDefault (char *name, char *value)
 - setBspSound:sender
 {
 	id	panel;
-	char	*types[]={"snd",NULL};
+	char	*types[]={/*/S&F*****"snd"*/"aiff"/*/S&F*****/,NULL};
 	int	rtn;
 	char	**filename;
 	char	path[1024], file[64];
@@ -157,7 +157,7 @@ void WriteStringDefault (char *name, char *value)
 {
 	if (!path)
 		path = "";
-	strcpy(bspSound,path);
+	/*/S&F*****/for (int i = 0; i <= strlen(path); i++) { bspSound[i] = path[i]; };//S&F*****strcpy(bspSound,path);
 
 	if (bspSound_i)
 		[bspSound_i free];

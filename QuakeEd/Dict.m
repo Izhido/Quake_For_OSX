@@ -320,11 +320,7 @@ char	item[4096];
 	
 	if (!searchStr)
 		return NULL;
-    for(int i = 0; i <= strlen(searchStr); i++)
-    {
-        item[i] = searchStr[i];
-        
-    };//S&F*****strcpy(item,searchStr);
+    /*/S&F*****/for (int i = 0; i <= strlen(searchStr); i++) { item[i] = searchStr[i]; };//S&F*****strcpy(item,searchStr);
 	s = FindWhitespcInBuffer(item);	
 	if (!*s)
 		searchStr = NULL;

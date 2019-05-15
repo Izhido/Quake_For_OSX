@@ -4,4 +4,6 @@
 
 -(instancetype)initFromSoundfile:(const char*)filename;
 
+-(id)free;
+
 @end

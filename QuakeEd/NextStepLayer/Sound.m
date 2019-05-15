@@ -24,4 +24,9 @@
     }
 }
 
+-(id)free
+{
+    return self;
+}
+
 @end
