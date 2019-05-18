@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "$(SRCROOT)/../Quake-Tools/QuakeEd/jrbase1.map /qcache/gfx/base.wad"
+            argument = "$(SRCROOT)/../quake/maps/jrbase1.map $(SRCROOT)/../quake/gfx/base.wad"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

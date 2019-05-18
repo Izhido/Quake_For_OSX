@@ -80,3 +80,19 @@ void DPSDoUserPath(float* points, int numberOfPoints, int dataType, char* ops, i
     }
     PSstroke();
 }
+
+DPSTimedEntry DPSAddTimedEntry(double period, DPSTimedEntryProc handler, id userData, int priority)
+{
+    DPSTimedEntry tag;
+    void (^tick)(NSTimer* _Nonnull timer) = ^(NSTimer* _Nonnull timer)
+    {
+        handler(tag, 0, (__bridge void *)(userData));
+    };
+    tag = [NSTimer scheduledTimerWithTimeInterval:period repeats:YES block:tick];
+    return tag;
+}
+
+void DPSRemoveTimedEntry(DPSTimedEntry tag)
+{
+    [tag invalidate];
+}

@@ -124,6 +124,7 @@
 		2839AEAA1C5D6FFD00CEC48E /* zone.c in Sources */ = {isa = PBXBuildFile; fileRef = 2839AE6A1C5D6FFD00CEC48E /* zone.c */; };
 		2839AEAE1C5D710700CEC48E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2839AEAC1C5D710700CEC48E /* Main.storyboard */; };
 		283AEA211D31928800916D85 /* quake106data.zip in Resources */ = {isa = PBXBuildFile; fileRef = 283AEA201D31928800916D85 /* quake106data.zip */; };
+		28651F26229071ED003490EF /* SavePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 28651F25229071ED003490EF /* SavePanel.m */; };
 		2873B10D1C5D7E0F00CE4775 /* in_tvos.c in Sources */ = {isa = PBXBuildFile; fileRef = 2873B10A1C5D7E0F00CE4775 /* in_tvos.c */; };
 		2873B10E1C5D7E0F00CE4775 /* sys_tvos.c in Sources */ = {isa = PBXBuildFile; fileRef = 2873B10B1C5D7E0F00CE4775 /* sys_tvos.c */; };
 		2873B1111C5D7E8900CE4775 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2873B1101C5D7E8900CE4775 /* Shaders.metal */; };
@@ -461,6 +462,8 @@
 		2839AE6B1C5D6FFD00CEC48E /* zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zone.h; sourceTree = "<group>"; };
 		2839AEAD1C5D710700CEC48E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
 		283AEA201D31928800916D85 /* quake106data.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = quake106data.zip; sourceTree = "<group>"; };
+		28651F24229071ED003490EF /* SavePanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SavePanel.h; sourceTree = "<group>"; };
+		28651F25229071ED003490EF /* SavePanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SavePanel.m; sourceTree = "<group>"; };
 		28727E051CE049CB00B7E433 /* anorm_dots.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = anorm_dots.h; sourceTree = "<group>"; };
 		2873B1091C5D7E0E00CE4775 /* Quake_tvOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Quake_tvOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		2873B10A1C5D7E0F00CE4775 /* in_tvos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = in_tvos.c; sourceTree = "<group>"; };
@@ -1106,6 +1109,8 @@
 				28FB5A2322769C0200DEDB98 /* OpenPanel.m */,
 				281179652279D62E0099E9BB /* PopUpList.h */,
 				281179662279D62E0099E9BB /* PopUpList.m */,
+				28651F24229071ED003490EF /* SavePanel.h */,
+				28651F25229071ED003490EF /* SavePanel.m */,
 				288B45C42279EE3000944F1F /* Scroller.h */,
 				288B45C52279EE3000944F1F /* Scroller.m */,
 				288B45C12279DBBC00944F1F /* ScrollView.h */,
@@ -1760,6 +1765,7 @@
 				28E0F9C7227747E200A3AA83 /* Clipper.m in Sources */,
 				28EB47C02275218300953944 /* QuakeEd.m in Sources */,
 				28EB47B62275205000953944 /* main.m in Sources */,
+				28651F26229071ED003490EF /* SavePanel.m in Sources */,
 				28C6170422765B5B0035C408 /* NXBeep.m in Sources */,
 				28C6170D22765FA00035C408 /* mathlib.c in Sources */,
 				28EB47AE2275204F00953944 /* AppDelegate.m in Sources */,

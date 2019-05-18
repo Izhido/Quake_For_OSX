@@ -23,6 +23,11 @@
     self.selectedRange = range;
 }
 
+-(void)replaceSel:(const char*)string
+{
+    [self insertText:[NSString stringWithCString:string encoding:NSString.defaultCStringEncoding] replacementRange:self.selectedRange];
+}
+
 -(void)scrollSelToVisible
 {
     [self scrollRangeToVisible:self.selectedRange];

@@ -240,14 +240,14 @@ id	project_i;
 	sprintf(fname,"%s/%s.map",path_mapdirectory,
 		(char *)[mapList elementAt:row]);
 	
-	panel = NXGetAlertPanel("Loading...",
+	/*S&F*****panel = NXGetAlertPanel("Loading...",
 		"Loading map. Please wait.",NULL,NULL,NULL);
-	[panel orderFront:NULL];
+	[panel orderFront:NULL];/S&F*****/
 
 	[quakeed_i doOpen:fname];
 
-	[panel performClose:NULL];
-	NXFreeAlertPanel(panel);
+	/*S&F*****[panel performClose:NULL];
+	NXFreeAlertPanel(panel);/S&F*****/
 	return self;
 }
 

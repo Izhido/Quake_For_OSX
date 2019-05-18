@@ -24,6 +24,11 @@
     }
 }
 
+-(void)play
+{
+    [sound play];
+}
+
 -(id)free
 {
     return self;

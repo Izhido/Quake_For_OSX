@@ -45,7 +45,7 @@ AutoSave
 Every five minutes, save a modified map
 ===============
 */
-/*/S&F*****void AutoSave(DPSTimedEntry tag, double now, void *userData)
+void AutoSave(DPSTimedEntry tag, double now, void *userData)
 {
 // automatic backup
 	if (autodirty)
@@ -73,7 +73,7 @@ void DisplayCmdOutput (void)
 	
 	NXPing ();
 }
-/S&F*****/
+
 /*
 ===============
 CheckCmdDone
@@ -81,7 +81,7 @@ CheckCmdDone
 See if the BSP is done
 ===============
 */
-/*/S&F*****DPSTimedEntry	cmdte;
+DPSTimedEntry	cmdte;
 void CheckCmdDone(DPSTimedEntry tag, double now, void *userData)
 {
     union wait statusp;
@@ -93,7 +93,7 @@ void CheckCmdDone(DPSTimedEntry tag, double now, void *userData)
 	bsppid = 0;
 	DPSRemoveTimedEntry( cmdte );	
 }
-/S&F*****/
+
 //============================================================================
 
 @implementation QuakeEd
@@ -123,7 +123,7 @@ defer:(BOOL)flag
 	quakeed_i = self;
 	dirty = autodirty = NO;
 
-	//S&F*****DPSAddTimedEntry(5*60, AutoSave, self, NX_BASETHRESHOLD);
+	DPSAddTimedEntry(5*60, AutoSave, self, NX_BASETHRESHOLD);
 
 	upath = newUserPath ();
 
@@ -569,7 +569,7 @@ BSP PROCESSING
 ==============================================================================
 */
 
-/*/S&F*****void ExpandCommand (char *in, char *out, char *src, char *dest)
+void ExpandCommand (char *in, char *out, char *src, char *dest)
 {
 	while (*in)
 	{
@@ -592,14 +592,14 @@ BSP PROCESSING
 	}
 	*out = 0;
 }
-/S&F*****/
+
 
 /*
 =============
 saveBSP
 =============
 */
-/*/S&F*****- saveBSP:(char *)cmdline dialog:(BOOL)wt
+- saveBSP:(char *)cmdline dialog:(BOOL)wt
 {
 	char	expandedcmd[1024];
 	char	mappath[1024];
@@ -733,7 +733,7 @@ saveBSP
 	
 	return self;
 }
-/S&F*****/
+
 
 
 /*
@@ -788,7 +788,7 @@ open
 save:
 ==============
 */
-/*/S&F*****- save: sender;
+- save: sender;
 {
 	char		backup[1024];
 
@@ -807,14 +807,14 @@ save:
 
 	return self;
 }
-/S&F*****/
+
 
 /*
 ==============
 saveAs
 ==============
 */
-/*/S&F*****- saveAs: sender;
+- saveAs: sender;
 {
 	id		panel_i;
 	char	dir[1024];
@@ -822,10 +822,10 @@ saveAs
 	panel_i = [SavePanel new];
 	ExtractFileBase (filename, dir);
 	[panel_i setRequiredFileType: "map"];
-	if ( [panel_i runModalForDirectory:[project_i getMapDirectory] file: dir] != NX_OKTAG)
+	if ( [panel_i /*/S&F*****runModalForDirectory*/runModalForDirectoryAsString:[project_i getMapDirectory] file: dir] != NX_OKTAG)
 		return self;
 	
-	strcpy (filename, [panel_i filename]);
+	strcpy (filename, [panel_i /*/S&F*****filename*/filenameAsString]);
 	
 	[self setTitleAsFilename:filename];
 	
@@ -833,7 +833,7 @@ saveAs
 	
 	return self;
 }
-/S&F*****/
+
 
 /*
 ===============================================================================
@@ -847,7 +847,7 @@ saveAs
 //
 //	AJR - added this for Project info
 //
-/*/S&F*****- (char *)currentFilename
+- (char *)currentFilename
 {
 	return filename;
 }
@@ -863,7 +863,7 @@ saveAs
 	
 	return self;
 }
-/S&F*****/
+
 
 /*
 ===============
