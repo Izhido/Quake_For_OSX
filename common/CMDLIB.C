@@ -3,7 +3,7 @@
 #include "cmdlib.h"
 #include <sys/types.h>
 #include <sys/stat.h>
-
+/*/S&F*****/#include <unistd.h>
 #ifdef WIN32
 #include <direct.h>
 #endif
@@ -11,7 +11,7 @@
 #ifdef NeXT
 #include <libc.h>
 #endif
-#include <unistd.h>//S&F*****
+
 #define PATHSEPERATOR   '/'
 
 // set these before calling CheckParm
@@ -126,7 +126,7 @@ char *ExpandPathAndArchive (char *path)
 char *copystring(char *s)
 {
 	char	*b;
-	b = malloc(strlen(s)+1);
+	b = /*/S&F*****/(char*)/*/S&F*****/malloc(strlen(s)+1);
 	strcpy (b, s);
 	return b;
 }

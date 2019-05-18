@@ -10,10 +10,10 @@
 #include <ctype.h>
 #include <time.h>
 #include <stdarg.h>
-
+/*/S&F*****/#include <stdbool.h>
 #ifndef __BYTEBOOL__
 #define __BYTEBOOL__
-typedef enum {false, true} qboolean;
+typedef bool qboolean;//S&F*****typedef enum {false, true} qboolean;
 typedef unsigned char byte;
 #endif
 
