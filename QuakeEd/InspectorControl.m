@@ -24,37 +24,37 @@ id		inspcontrol_i;
 
 	[windowList addObject:win_project_i];
 	[contentList addObject:[win_project_i contentView]];
-    [itemProject_i setKeyEquivalent:@"1"];//S&F*****'1'];
+    [itemProject_i setKeyEquivalent:/*/S&F*****'1'*/@"1"];/*/S&F*****/[itemProject_i setKeyEquivalentModifierMask:NSEventModifierFlagCommand];/*/S&F*****/
 	[itemList addObject:itemProject_i];
 
 	[windowList addObject:win_textures_i];
 	[contentList addObject:[win_textures_i contentView]];
-	[itemTextures_i setKeyEquivalent:@"2"];//S&F*****'2'];
+	[itemTextures_i setKeyEquivalent:/*/S&F*****'2'*/@"2"];/*/S&F*****/[itemTextures_i setKeyEquivalentModifierMask:NSEventModifierFlagCommand];/*/S&F*****/
 	[itemList addObject:itemTextures_i];
 
 	[windowList addObject:win_things_i];
 	[contentList addObject:[win_things_i contentView]];
-	[itemThings_i setKeyEquivalent:@"3"];//S&F*****'3'];
+	[itemThings_i setKeyEquivalent:/*/S&F*****'3'*/@"3"];/*/S&F*****/[itemThings_i setKeyEquivalentModifierMask:NSEventModifierFlagCommand];/*/S&F*****/
 	[itemList addObject:itemThings_i];
 	
 	[windowList addObject:win_prefs_i];
 	[contentList addObject:[win_prefs_i contentView]];
-	[itemPrefs_i setKeyEquivalent:@"4"];//S&F*****'4'];
+	[itemPrefs_i setKeyEquivalent:/*/S&F*****'4'*/@"4"];/*/S&F*****/[itemPrefs_i setKeyEquivalentModifierMask:NSEventModifierFlagCommand];/*/S&F*****/
 	[itemList addObject:itemPrefs_i];
 
 	[windowList addObject:win_settings_i];
 	[contentList addObject:[win_settings_i contentView]];
-	[itemSettings_i setKeyEquivalent:@"5"];//S&F*****'5'];
+	[itemSettings_i setKeyEquivalent:/*/S&F*****'5'*/@"5"];/*/S&F*****/[itemSettings_i setKeyEquivalentModifierMask:NSEventModifierFlagCommand];/*/S&F*****/
 	[itemList addObject:itemSettings_i];
 
 	[windowList addObject:win_output_i];
 	[contentList addObject:[win_output_i contentView]];
-	[itemOutput_i setKeyEquivalent:@"6"];//S&F*****'6'];
+	[itemOutput_i setKeyEquivalent:/*/S&F*****'6'*/@"6"];/*/S&F*****/[itemOutput_i setKeyEquivalentModifierMask:NSEventModifierFlagCommand];/*/S&F*****/
 	[itemList addObject:itemOutput_i];
 
 	[windowList addObject:win_help_i];
 	[contentList addObject:[win_help_i contentView]];
-	[itemHelp_i setKeyEquivalent:@"7"];//S&F*****'7'];
+	[itemHelp_i setKeyEquivalent:/*/S&F*****'7'*/@"7"];/*/S&F*****/[itemHelp_i setKeyEquivalentModifierMask:NSEventModifierFlagCommand];/*/S&F*****/
 	[itemList addObject:itemHelp_i];
 
 	// Setup inspector window with project subview first
