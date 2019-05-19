@@ -733,7 +733,7 @@ saveBSP
 	
 	return self;
 }
-
+/*/S&F*****/-homeView: sender { [cameraview_i homeView: self]; return self; }/*/S&F*****/
 
 
 /*
@@ -1021,6 +1021,6 @@ keyDown
 
     return self;
 }
-
-
+/*/S&F*****/- showHelp: sender { [inspcontrol_i changeInspectorTo:i_help]; return self; }/*/S&F*****/
+/*/S&F*****/- preferences: sender { [inspcontrol_i changeInspectorTo:i_prefs]; return self; }/*/S&F*****/
 @end

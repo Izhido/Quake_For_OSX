@@ -76,7 +76,7 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 - open: sender;
 - save: sender;
 - saveAs: sender;
-
+/*/S&F*****/- showHelp: sender;
 - doOpen: (char *)fname;
 
 - saveBSP:(char *)cmdline dialog:(BOOL)wt;
@@ -87,12 +87,12 @@ void qprintf (char *fmt, ...);		// prints text to cmd_out_i
 - BSP_relight: sender;
 - BSP_stop: sender;
 - BSP_entities: sender;
-
+/*/S&F*****/- homeView: sender;
 //
 // UI querie for other objects
 //
 - (BOOL)showCoordinates;
 - (BOOL)showNames;
-
+/*/S&F*****/- preferences: sender;
 @end
 
