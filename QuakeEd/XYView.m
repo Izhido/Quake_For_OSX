@@ -974,7 +974,7 @@ void DirectionCallback (float dx, float dy)
 
 	[cameraview_i setOrigin: org angle: ya];
 	[quakeed_i newinstance];
-	[cameraview_i display];
+	[quakeed_i updateAll];//S&F*****[cameraview_i display];
 }
 
 - directionDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent

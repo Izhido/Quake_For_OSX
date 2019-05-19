@@ -832,7 +832,7 @@ drawentry:
 		// instance draw new frame
 		//
 		[quakeed_i newinstance];
-		[self display];
+		[quakeed_i updateAll];//S&F*****[self display];
 		NXPing ();
 				
 		event = [NXApp getNextEvent: 

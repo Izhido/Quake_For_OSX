@@ -224,7 +224,7 @@ int	c_updateall;
 - redrawInstance
 {
 	clearinstance = YES;
-	[self flushWindow];
+	[quakeed_i updateAll];//S&F*****[self flushWindow];
 	return self;
 }
 
