@@ -4,7 +4,12 @@
 
 -(id)copyFromZone:(NXZone*)zone
 {
-    return nil;
+    return [[self.class allocWithZone:zone] init];
+}
+
+-(id)copyWithZone:(NSZone*)zone
+{
+    return [self copyFromZone:zone];
 }
 
 -(void)freeObjects

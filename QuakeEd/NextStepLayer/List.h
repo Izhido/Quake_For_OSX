@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import <NXZone.h>
 
 @interface List : NSObject
 {
@@ -26,5 +27,7 @@
 -(id)free;
 
 -(void)freeObjects;
+
+-(id)copyFromZone:(NXZone*)zone;
 
 @end

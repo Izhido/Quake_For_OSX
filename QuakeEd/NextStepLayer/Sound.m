@@ -24,9 +24,9 @@
     }
 }
 
--(void)play
+-(BOOL)play
 {
-    [sound play];
+    return [sound play];
 }
 
 -(id)free

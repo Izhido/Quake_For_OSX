@@ -921,7 +921,7 @@ keyDown
 		return self;
 		
 	case 109:	// end
-		//S&F*****[self deselect: self];
+		[self deselect: self];
 		return self;
 	}
 
@@ -945,7 +945,7 @@ keyDown
 
 	case 27:	// escape
 		autodirty = dirty = YES;
-		//S&F*****[self deselect: self];
+		[self deselect: self];
 		return self;
 		
 	case 127:	// delete

@@ -623,11 +623,11 @@ initOwner:::
 
 - copyFromZone:(NXZone *)zone
 {
-	id	new;
+	/*/S&F*****id*/SetBrush*	new;
 	
 	[self freeWindings];
 	new = [super copyFromZone: zone];
-	
+	/*/S&F*****/new->regioned = regioned; new->selected = selected; new->invalid = invalid; new->parent = parent; _VectorCopy(bmins, new->bmins); _VectorCopy(bmaxs, new->bmaxs); _VectorCopy(entitycolor, new->entitycolor); new->numfaces = numfaces; for (int i = 0; i < MAX_FACES; i++) new->faces[i] = faces[i];
 	[self calcWindings];
 	[new calcWindings];
 	

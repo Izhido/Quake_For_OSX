@@ -1032,14 +1032,14 @@ void NewCallback (float dx, float dy)
 
 - newBrushDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent
 {
-	/*id				owner;
+	id				owner;
 	texturedef_t	td;
 	NXPoint			pt;
 
 	qprintf ("sizing new brush");
 	
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
 	neworg[0] = [self snapToGrid: pt.x];
 	neworg[1] = [self snapToGrid: pt.y];
@@ -1057,7 +1057,7 @@ void NewCallback (float dx, float dy)
 		mins: neworg maxs: newdrag texture: &td];
 	[owner addObject: newbrush];
 	
-	[newbrush setSelected: YES];
+	[/*/S&F*****/(SetBrush*)/*/S&F*****/newbrush setSelected: YES];
 	
 	[self	dragFrom:	theEvent 
 			useGrid:	YES
@@ -1066,7 +1066,7 @@ void NewCallback (float dx, float dy)
 	[newbrush removeIfInvalid];
 	
 	[quakeed_i updateCamera];
-	qprintf ("");/S&F*****/
+	qprintf ("");
 	return self;
 	
 }
@@ -1089,14 +1089,14 @@ void ControlCallback (float dx, float dy)
 
 - (BOOL)planeDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent
 {
-	/*/S&F*****NXPoint			pt;
+	NXPoint			pt;
 	vec3_t			dragpoint;
 
 	if ([map_i numSelected] != 1)
 		return NO;
 		
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
 	dragpoint[0] = pt.x;
 	dragpoint[1] = pt.y;
@@ -1108,8 +1108,8 @@ void ControlCallback (float dx, float dy)
 	
 	qprintf ("dragging brush plane");
 	
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
 	[self	dragFrom:	theEvent 
 			useGrid:	YES
@@ -1119,13 +1119,13 @@ void ControlCallback (float dx, float dy)
 	
 	[quakeed_i updateAll];
 
-	qprintf ("");/S&F*****/
+	qprintf ("");
 	return YES;
 }
 
 - (BOOL)shearDragFrom: (/*/S&F*****NXEvent*/NSEvent*)theEvent	
 {
-	/*/S&F*****NXPoint			pt;
+	NXPoint			pt;
 	vec3_t			dragpoint;
 	vec3_t			p1, p2;
 	float			time;
@@ -1136,8 +1136,8 @@ void ControlCallback (float dx, float dy)
 		return NO;
 	br = [map_i selectedBrush];
 	
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
 // if the XY point is inside the brush, make the point on top
 	p1[0] = pt.x;
@@ -1167,8 +1167,8 @@ void ControlCallback (float dx, float dy)
 	
 	qprintf ("dragging brush plane");
 	
-	pt= theEvent->location;
-	[self convertPoint:&pt  fromView:NULL];
+	pt.x = theEvent.locationInWindow.x; pt.y = theEvent.locationInWindow.y;//S&F*****pt= theEvent->location;
+	[self /*/S&F*****convertPoint*/convertPointAsNXPoint:&pt  fromView:NULL];
 
 	[self	dragFrom:	theEvent 
 			useGrid:	YES
@@ -1177,7 +1177,7 @@ void ControlCallback (float dx, float dy)
 	[br removeIfInvalid];
 	
 	[quakeed_i updateAll];
-	qprintf ("");/S&F*****/
+	qprintf ("");
 	return YES;
 }
 

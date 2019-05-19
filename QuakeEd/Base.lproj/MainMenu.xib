@@ -373,24 +373,45 @@
                         <items>
                             <menuItem title="Subtract" id="8Oq-x5-9cV">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="subtractSelection:" target="ZhY-Vf-8Bz" id="fsL-LE-gMF"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Clone" id="rgs-aF-Laa">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="cloneSelection:" target="ZhY-Vf-8Bz" id="TxJ-Sd-XP8"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Tall" id="4nL-4b-K6k">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="tallBrush:" target="ZhY-Vf-8Bz" id="WYo-xU-EzP"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Short" id="d8w-K0-yQc">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="shortBrush:" target="ZhY-Vf-8Bz" id="MkY-Q3-wuf"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Select partial inside" id="nfg-P5-P8q">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="selectPartiallyInside:" target="ZhY-Vf-8Bz" id="5u6-gR-zNZ"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Select complete inside" id="BxI-YJ-Tqs">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="selectCompletelyInside:" target="ZhY-Vf-8Bz" id="Xr2-sb-fjq"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Select complete entity" id="RMO-TN-OEK">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="selectCompleteEntity:" target="ZhY-Vf-8Bz" id="eNW-ZE-hBj"/>
+                                </connections>
                             </menuItem>
                         </items>
                     </menu>
@@ -992,12 +1013,23 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n9A-5P-YyT">
+                                            <rect key="frame" x="224" y="646" width="56" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="In Use" bezelStyle="regularSquare" imagePosition="right" inset="2" id="Rvq-7G-OlD">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="smallSystem"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="onlyShowMapTextures:" target="OlS-Lo-oRJ" id="6yS-BI-hKX"/>
+                                            </connections>
+                                        </button>
                                         <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FDg-Bo-SfD" customClass="ScrollView">
                                             <rect key="frame" x="4" y="75" width="274" height="560"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="JE7-KN-b4E">
                                                 <rect key="frame" x="1" y="1" width="272" height="558"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qb7-Rr-Dzz" customClass="TextureView">
                                                         <rect key="frame" x="0.0" y="0.0" width="257" height="543"/>
@@ -1048,12 +1080,15 @@
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VUr-TI-HJl" customClass="TextField">
                                             <rect key="frame" x="4" y="0.0" width="40" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="H4K-0C-fB2">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="H4K-0C-fB2">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="Cbb-ab-k2k"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="texturedefChanged:" target="OlS-Lo-oRJ" id="Zu1-hc-o37"/>
+                                            </connections>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SkE-sg-DEs">
                                             <rect key="frame" x="51" y="53" width="37" height="14"/>
@@ -1089,12 +1124,15 @@
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2x2-mA-loh" customClass="TextField">
                                             <rect key="frame" x="49" y="0.0" width="40" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="YKr-jR-Fpg">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="YKr-jR-Fpg">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="urR-of-ZdJ"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="texturedefChanged:" target="OlS-Lo-oRJ" id="zcz-lB-zVe"/>
+                                            </connections>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="52u-Vu-aCj">
                                             <rect key="frame" x="94" y="53" width="41" height="14"/>
@@ -1130,12 +1168,15 @@
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5uq-hW-jMk" customClass="TextField">
                                             <rect key="frame" x="94" y="0.0" width="40" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="dWs-ET-feU">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="dWs-ET-feU">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="eu9-uY-ebO"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="texturedefChanged:" target="OlS-Lo-oRJ" id="x6z-33-KJM"/>
+                                            </connections>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4MD-j0-pg1">
                                             <rect key="frame" x="136" y="53" width="46" height="14"/>
@@ -1171,12 +1212,15 @@
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gvh-vE-5fU" customClass="TextField">
                                             <rect key="frame" x="139" y="0.0" width="40" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Akm-5r-cDG">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Akm-5r-cDG">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="0IN-yd-bvN"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="texturedefChanged:" target="OlS-Lo-oRJ" id="e5l-o4-xGr"/>
+                                            </connections>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cLP-XN-sAE">
                                             <rect key="frame" x="181" y="53" width="46" height="14"/>
@@ -1212,12 +1256,15 @@
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1yr-4Y-yge" customClass="TextField">
                                             <rect key="frame" x="184" y="0.0" width="40" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="qf1-Zo-L3L">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="qf1-Zo-L3L">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="iOP-rS-0tN"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="texturedefChanged:" target="OlS-Lo-oRJ" id="Con-DB-UHG"/>
+                                            </connections>
                                         </textField>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PIk-V2-Pac">
                                             <rect key="frame" x="224" y="2" width="60" height="32"/>
@@ -1229,17 +1276,6 @@
                                             <connections>
                                                 <action selector="clearTexinfo:" target="OlS-Lo-oRJ" id="IOc-Dm-Aix"/>
                                             </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n9A-5P-YyT">
-                                            <rect key="frame" x="224" y="646" width="56" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="In Use" bezelStyle="regularSquare" imagePosition="right" inset="2" id="Rvq-7G-OlD">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="smallSystem"/>
-                                                <connections>
-                                                    <action selector="changeXYLookUp:" target="QvC-M9-y7g" id="QH4-sQ-ZN0"/>
-                                                </connections>
-                                            </buttonCell>
                                         </button>
                                     </subviews>
                                 </view>
@@ -1490,7 +1526,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="PyI-s7-ksx">
                                                 <rect key="frame" x="1" y="1" width="260" height="87"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iU8-hJ-kT6" customClass="KeypairView">
                                                         <rect key="frame" x="0.0" y="0.0" width="245" height="72"/>
@@ -1999,7 +2035,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="viB-bz-LRj">
                                                 <rect key="frame" x="0.0" y="0.0" width="286" height="635"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="1gc-ag-cJU" customClass="Text">
                                                         <rect key="frame" x="0.0" y="0.0" width="286" height="635"/>
@@ -2045,7 +2081,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="O4b-IT-VxX">
                                                 <rect key="frame" x="0.0" y="0.0" width="286" height="682"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" editable="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" allowsDocumentBackgroundColorChange="YES" smartInsertDelete="YES" id="wCX-h3-u0I">
                                                         <rect key="frame" x="0.0" y="-24" width="286" height="3681"/>
@@ -6918,6 +6954,7 @@ Obscure commands are entered by typing the command into the command field (under
                 <outlet property="win_things_i" destination="HGZ-P1-JLp" id="CAE-8U-mXO"/>
             </connections>
         </customObject>
+        <customObject id="pyw-07-sYG" customClass="Clipper"/>
     </objects>
     <resources>
         <image name="DownArrow" width="12" height="12"/>

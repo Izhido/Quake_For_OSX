@@ -51,6 +51,7 @@
 -(void)insertObject:(id)object at:(int)index
 {
     [list insertObject:object atIndex:index];
+    numElements++;
 }
 
 -(int)indexOf:(id)object
@@ -60,7 +61,7 @@
 
 -(id)removeObject:(id)object
 {
-    int position = [list indexOfObject:object];
+    NSUInteger position = [list indexOfObject:object];
     if (position == NSNotFound)
     {
         return nil;
@@ -83,6 +84,16 @@
 
 -(void)freeObjects
 {
+}
+
+-(id)copyFromZone:(NXZone*)zone
+{
+    return [[self.class allocWithZone:zone] init];
+}
+
+-(id)copyWithZone:(NSZone*)zone
+{
+    return [self copyFromZone:zone];
 }
 
 @end
