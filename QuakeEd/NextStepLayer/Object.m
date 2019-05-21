@@ -28,6 +28,10 @@ char latestDefaultValue[4096];
 char* NXGetDefaultValue(const char* owner, const char* key)
 {
     NSString* value = [NSUserDefaults.standardUserDefaults stringForKey:[NSString stringWithCString:key encoding:NSString.defaultCStringEncoding]];
+    if (value == nil)
+    {
+        return nil;
+    }
     strncpy(latestDefaultValue, [value cStringUsingEncoding:NSString.defaultCStringEncoding], 4096);
     return latestDefaultValue;
 }

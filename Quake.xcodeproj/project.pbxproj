@@ -258,6 +258,7 @@
 		28C6171F227676FA0035C408 /* Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C6171E227676FA0035C408 /* Storage.m */; };
 		28D216D0227A165D00F51D12 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D216CF227A165D00F51D12 /* Menu.m */; };
 		28D27EEA227E7E0400B57422 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D27EE9227E7E0400B57422 /* Application.m */; };
+		28D58C9622938B2D00598580 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 28D58C9522938B2D00598580 /* Credits.rtf */; };
 		28E0F9C42277475B00A3AA83 /* InspectorControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E0F9C22277475B00A3AA83 /* InspectorControl.m */; };
 		28E0F9C7227747E200A3AA83 /* Clipper.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E0F9C5227747E100A3AA83 /* Clipper.m */; };
 		28E0F9CA22774AC500A3AA83 /* XYView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E0F9C822774AC500A3AA83 /* XYView.m */; };
@@ -603,6 +604,7 @@
 		28D27EE8227E7E0400B57422 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		28D27EE9227E7E0400B57422 /* Application.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		28D27EEB227E857400B57422 /* NXScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXScreen.h; sourceTree = "<group>"; };
+		28D58C9522938B2D00598580 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		28E0F9C22277475B00A3AA83 /* InspectorControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorControl.m; sourceTree = "<group>"; };
 		28E0F9C32277475B00A3AA83 /* InspectorControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorControl.h; sourceTree = "<group>"; };
 		28E0F9C5227747E100A3AA83 /* Clipper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Clipper.m; sourceTree = "<group>"; };
@@ -1118,6 +1120,7 @@
 				288B45BE2279DA7F00944F1F /* ZScrollView.m */,
 				288B45BB2279DA7F00944F1F /* ZView.h */,
 				288B45BD2279DA7F00944F1F /* ZView.m */,
+				28D58C9522938B2D00598580 /* Credits.rtf */,
 			);
 			path = QuakeEd;
 			sourceTree = "<group>";
@@ -1378,7 +1381,9 @@
 				TargetAttributes = {
 					2839AD3F1C5D6EF700CEC48E = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = EZ7GK5VS2K;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 					2887813A1CD83E0800AF4F24 = {
 						CreatedOnToolsVersion = 7.3;
@@ -1505,6 +1510,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28EB47B02275205000953944 /* Assets.xcassets in Resources */,
+				28D58C9622938B2D00598580 /* Credits.rtf in Resources */,
 				28EB47B32275205000953944 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2059,10 +2065,12 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = EZ7GK5VS2K;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2086,6 +2094,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "Izhido.Quake-OSX";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "Quake_OSX/Quake_OSX-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2111,10 +2120,12 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = EZ7GK5VS2K;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2131,6 +2142,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "Izhido.Quake-OSX";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "Quake_OSX/Quake_OSX-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -2532,6 +2544,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = EZ7GK5VS2K;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2546,8 +2559,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.heribertodelgado.QuakeEd;
+				PRODUCT_BUNDLE_IDENTIFIER = Izhido.QuakeEd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SYSTEM_HEADER_SEARCH_PATHS = "$(SRCROOT)/QuakeEd/NextStepLayer";
 			};
@@ -2576,6 +2590,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = EZ7GK5VS2K;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2585,8 +2600,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.heribertodelgado.QuakeEd;
+				PRODUCT_BUNDLE_IDENTIFIER = Izhido.QuakeEd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SYSTEM_HEADER_SEARCH_PATHS = "$(SRCROOT)/QuakeEd/NextStepLayer";
 			};
