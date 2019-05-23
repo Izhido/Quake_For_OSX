@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -965,7 +966,7 @@
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="Project" identifier="" id="dhc-e5-MZU" customClass="TabViewItem">
-                                <view key="view" ambiguous="YES" id="G4r-Ot-StM" customClass="View">
+                                <view key="view" id="G4r-Ot-StM" customClass="View">
                                     <rect key="frame" x="0.0" y="0.0" width="286" height="682"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -2033,7 +2034,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Output" identifier="" id="dDb-nD-HsN" customClass="TabViewItem">
-                                <view key="view" id="fxT-IF-Wob" customClass="View">
+                                <view key="view" ambiguous="YES" id="fxT-IF-Wob" customClass="View">
                                     <rect key="frame" x="0.0" y="0.0" width="286" height="682"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -2042,7 +2043,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="viB-bz-LRj">
                                                 <rect key="frame" x="0.0" y="0.0" width="286" height="635"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="1gc-ag-cJU" customClass="Text">
                                                         <rect key="frame" x="0.0" y="0.0" width="286" height="635"/>

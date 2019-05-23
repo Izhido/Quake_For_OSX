@@ -28,7 +28,7 @@
 lumpinfo_t		*lumpinfo;		// location of each lump on disk
 int				numlumps;
 
-wadinfo_t		header;
+wadinfo_t		/*/S&F*****header*/w_header;
 FILE			*wadhandle;
 
 
@@ -47,21 +47,21 @@ void W_OpenWad (char *filename)
 // open the file and add to directory
 //	
 	wadhandle = SafeOpenRead (filename);
-	SafeRead (wadhandle, &header, sizeof(header));
+	SafeRead (wadhandle, &/*/S&F*****header*/w_header, sizeof(/*/S&F*****header*/w_header));
 
-	if (strncmp(header.identification,"WAD2",4))
+	if (strncmp(/*/S&F*****header*/w_header.identification,"WAD2",4))
 		Error ("Wad file %s doesn't have WAD2 id\n",filename);
 		
-	header.numlumps = LittleLong(header.numlumps);
-	header.infotableofs = LittleLong(header.infotableofs);
+	/*/S&F*****header*/w_header.numlumps = LittleLong(/*/S&F*****header*/w_header.numlumps);
+	/*/S&F*****header*/w_header.infotableofs = LittleLong(/*/S&F*****header*/w_header.infotableofs);
 
-	numlumps = header.numlumps;
+	numlumps = /*/S&F*****header*/w_header.numlumps;
 
 	length = numlumps*sizeof(lumpinfo_t);
 	lumpinfo = /*/S&F*****/(lumpinfo_t*)/*/S&F*****/malloc (length);
 	lump_p = lumpinfo;
 	
-	fseek (wadhandle, header.infotableofs, SEEK_SET);
+	fseek (wadhandle, /*/S&F*****header*/w_header.infotableofs, SEEK_SET);
 	SafeRead (wadhandle, lumpinfo, length);
 
 //
@@ -241,7 +241,7 @@ NewWad
 ===============
 */
 
-void NewWad (char *pathname, qboolean bigendien)
+void /*/S&F*****NewWad*/W_NewWad (char *pathname, qboolean bigendien)
 {
 	outwad = SafeOpenWrite (pathname);
 	fseek (outwad, sizeof(wadinfo_t), SEEK_SET);
@@ -268,7 +268,7 @@ AddLump
 ===============
 */
 
-void	AddLump (char *name, void *buffer, int length, int type, int compress)
+void	/*/S&F*****AddLump*/W_AddLump (char *name, void *buffer, int length, int type, int compress)
 {
 	lumpinfo_t	*info;
 	int			ofs;
@@ -299,7 +299,7 @@ WriteWad
 ===============
 */
 
-void WriteWad (void)
+void /*/S&F*****WriteWad*/W_WriteWad (void)
 {
 	wadinfo_t	header;
 	int			ofs;

@@ -32,7 +32,7 @@ typedef struct
 
 extern	lumpinfo_t		*lumpinfo;		// location of each lump on disk
 extern	int				numlumps;
-extern	wadinfo_t		header;
+extern	wadinfo_t		/*/S&F*****header*/w_header;
 
 void	W_OpenWad (char *filename);
 int		W_CheckNumForName (char *name);
@@ -47,7 +47,7 @@ void CleanupName (char *in, char *out);
 //
 // wad creation
 //
-void	NewWad (char *pathname, qboolean bigendien);
-void	AddLump (char *name, void *buffer, int length, int type, int compress);
-void	WriteWad (void);
+void	/*/S&F*****NewWad*/W_NewWad (char *pathname, qboolean bigendien);
+void	/*/S&F*****AddLump*/W_AddLump (char *name, void *buffer, int length, int type, int compress);
+void	/*/S&F*****WriteWad*/W_WriteWad (void);
 

@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-basedir &quot;/Users/heribertodelgado/Downloads/Quake Shareware (1_06) PAK&quot;"
+            argument = "-basedir &quot;/Users/heribertodelgado/Projects/test_maps/quake&quot; -game test_maps"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

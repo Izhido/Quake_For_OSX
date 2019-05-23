@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/heribertodelgado/Downloads/quake_map_source/E1M1.map"
+            argument = "/Users/heribertodelgado/Projects/test_maps/quake/test_maps/maps/jrbase1.map /Users/heribertodelgado/Projects/test_maps/quake/test_maps/maps/jrbase1.bsp"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

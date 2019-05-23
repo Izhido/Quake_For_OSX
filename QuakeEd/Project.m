@@ -56,7 +56,7 @@ id	project_i;
 		strcpy(path_finalmapdir,s);
 		strcat(path_finalmapdir,"/"SUBDIR_MAPS);	// dest dir
 		
-		[basepathinfo_i	/*/S&F*****setStringValue*/setStringValueAsString:s];		// in Project Inspector
+		[basepathinfo_i	setStringValueAsString:s];		// in Project Inspector
 	}
 	#endif
 		

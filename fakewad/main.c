@@ -167,8 +167,8 @@ int main(int argc, char* argv[])
             }
         } while(true);
     } while(true);
-    NewWad(argv[2], false);
-    AddLump("PALETTE", palette, 768, TYP_LUMPY, false);
+    W_NewWad(argv[2], false);
+    W_AddLump("PALETTE", palette, 768, TYP_LUMPY, false);
     int lumpsize = sizeof(miptex_t) + 64 * 64 + 32 * 32 + 16 * 16 + 8 * 8;
     unsigned char* lump = malloc(lumpsize);
     miptex_t* miptex = (miptex_t*)lump;
@@ -234,8 +234,8 @@ int main(int argc, char* argv[])
             }
             previous = pixel;
         }
-        AddLump(miptex->name, lump, lumpsize, TYP_LUMPY + 3, false);
+        W_AddLump(miptex->name, lump, lumpsize, TYP_LUMPY + 3, false);
     };
-    WriteWad();
+    W_WriteWad();
     return EXIT_SUCCESS;
 }

@@ -25,7 +25,12 @@
 
 -(void)replaceSel:(const char*)string
 {
-    [self insertText:[NSString stringWithCString:string encoding:NSString.defaultCStringEncoding] replacementRange:self.selectedRange];
+    NSString* text = self.string;
+    if (text == nil)
+    {
+        text = @"";
+    }
+    self.string = [text stringByReplacingCharactersInRange:self.selectedRange withString:[NSString stringWithCString:string encoding:NSString.defaultCStringEncoding]];
 }
 
 -(void)scrollSelToVisible
