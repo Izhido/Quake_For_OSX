@@ -1021,7 +1021,7 @@ being registered.
 */
 void COM_CheckRegistered (void)
 {
-	int             h;
+	/*/S&F*****int             h;
 	unsigned short  check[128];
 	int                     i;
 
@@ -1047,9 +1047,9 @@ void COM_CheckRegistered (void)
 			Sys_Error ("Corrupted data file.");
 	
 	Cvar_Set ("cmdline", com_cmdline);
-	Cvar_Set ("registered", "1");
+	Cvar_Set ("registered", "1");/S&F*****/
 	static_registered = 1;
-	Con_Printf ("Playing registered version.\n");
+	//S&F*****Con_Printf ("Playing registered version.\n");
 }
 
 
