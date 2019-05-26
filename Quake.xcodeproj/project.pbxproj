@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		280162D6229A412F005BE77C /* LegacyScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 280162D5229A412F005BE77C /* LegacyScroller.m */; };
 		2807AD681CFC9DC0004A2C68 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2807AD671CFC9DC0004A2C68 /* Settings.bundle */; };
 		280A95C9227F7FB60068F8E5 /* Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 280A95C8227F7FB60068F8E5 /* Button.m */; };
 		280E8C681CF8C63F00500C75 /* id1 in Resources */ = {isa = PBXBuildFile; fileRef = 280E8C671CF8C63F00500C75 /* id1 */; };
@@ -390,6 +391,8 @@
 
 /* Begin PBXFileReference section */
 		153169104D01DAE8AF82A08C /* Pods-Quake_iOS_VR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quake_iOS_VR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quake_iOS_VR/Pods-Quake_iOS_VR.debug.xcconfig"; sourceTree = "<group>"; };
+		280162D4229A412F005BE77C /* LegacyScroller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LegacyScroller.h; sourceTree = "<group>"; };
+		280162D5229A412F005BE77C /* LegacyScroller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LegacyScroller.m; sourceTree = "<group>"; };
 		2807AD671CFC9DC0004A2C68 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		280A95C7227F7FB60068F8E5 /* Button.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
 		280A95C8227F7FB60068F8E5 /* Button.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Button.m; sourceTree = "<group>"; };
@@ -1229,6 +1232,8 @@
 				28D27EE9227E7E0400B57422 /* Application.m */,
 				280A95C7227F7FB60068F8E5 /* Button.h */,
 				280A95C8227F7FB60068F8E5 /* Button.m */,
+				280162D4229A412F005BE77C /* LegacyScroller.h */,
+				280162D5229A412F005BE77C /* LegacyScroller.m */,
 				28C6170822765F030035C408 /* List.h */,
 				28C6170922765F030035C408 /* List.m */,
 				28FB5A282276AF5800DEDB98 /* Matrix.h */,
@@ -2057,6 +2062,7 @@
 				288B45C62279EE3000944F1F /* Scroller.m in Sources */,
 				28C617162276668E0035C408 /* Object.m in Sources */,
 				28C616FE2276554F0035C408 /* NXPing.m in Sources */,
+				280162D6229A412F005BE77C /* LegacyScroller.m in Sources */,
 				28FB5A182276926C00DEDB98 /* TextField.m in Sources */,
 				28C6170A22765F030035C408 /* List.m in Sources */,
 				28C6171F227676FA0035C408 /* Storage.m in Sources */,

@@ -912,14 +912,52 @@
                             </customView>
                         </subviews>
                     </customView>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JcB-r2-LhT" customClass="XYView">
+                    <scrollView fixedFrame="YES" horizontalLineScroll="64" horizontalPageScroll="64" verticalLineScroll="64" verticalPageScroll="64" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fPg-z1-YkV" customClass="XYScrollView">
                         <rect key="frame" x="0.0" y="0.0" width="638" height="492"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    </customView>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6vY-v0-uVB" customClass="ZView">
-                        <rect key="frame" x="638" y="0.0" width="86" height="492"/>
+                        <clipView key="contentView" ambiguous="YES" copiesOnScroll="NO" id="qP7-RY-NWb">
+                            <rect key="frame" x="1" y="1" width="636" height="490"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dXx-25-QAC" customClass="XYView">
+                                    <rect key="frame" x="0.0" y="0.0" width="621" height="475"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="gze-5Z-nr3" customClass="LegacyScroller">
+                            <rect key="frame" x="1" y="475" width="636" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="0fx-04-ayU" customClass="LegacyScroller">
+                            <rect key="frame" x="621" y="1" width="16" height="490"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                    <scrollView fixedFrame="YES" horizontalLineScroll="64" horizontalPageScroll="64" verticalLineScroll="64" verticalPageScroll="64" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4H-e7-3fc" customClass="ZScrollView">
+                        <rect key="frame" x="640" y="0.0" width="84" height="492"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    </customView>
+                        <clipView key="contentView" ambiguous="YES" copiesOnScroll="NO" id="rC2-YX-wF0">
+                            <rect key="frame" x="1" y="1" width="82" height="490"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ckt-lL-4Yj" customClass="ZView">
+                                    <rect key="frame" x="0.0" y="0.0" width="67" height="475"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="5KL-sh-WXD" customClass="LegacyScroller">
+                            <rect key="frame" x="1" y="475" width="82" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="645-D5-ujC" customClass="LegacyScroller">
+                            <rect key="frame" x="67" y="1" width="16" height="490"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ef-oG-Ngp">
                         <rect key="frame" x="812" y="702" width="125" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>

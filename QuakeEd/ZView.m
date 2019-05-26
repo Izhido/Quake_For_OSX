@@ -32,7 +32,7 @@ initFrame:
 //		
 // initialize the pop up menus
 //
-	zscalemenu_i = [[PopUpList alloc] init];
+	/*/S&F*****zscalemenu_i = [[PopUpList alloc] init];
 	[zscalemenu_i setTarget: self];
 	[zscalemenu_i setAction: @selector(scaleMenuTarget:)];
 
@@ -57,7 +57,7 @@ initFrame:
 
 	[[zscrollview_i setDocView: self] free];
 
-//	[superview setDrawOrigin: 0 : 0];
+//	[superview setDrawOrigin: 0 : 0];/S&F*****/
 
 	minheight = 0;
 	maxheight = 64;
@@ -69,7 +69,7 @@ initFrame:
 	
 	[self setOrigin: &pt scale: 1];
 	
-	return zscrollview_i;
+	return /*/S&F*****zscrollview_i*/self;
 }
 
 - setXYOrigin: (NXPoint *)pt

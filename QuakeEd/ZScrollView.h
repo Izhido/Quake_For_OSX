@@ -5,7 +5,7 @@
 	id	button1;
 }
 
-- initFrame:(const NXRect *)frameRect button1: b1;
+- /*/S&F*****initFrame*/createWithFrame:(const NXRect *)frameRect button1: b1;
 - tile;
-
+/*/S&F*****/- scaleMenuTarget: sender;
 @end

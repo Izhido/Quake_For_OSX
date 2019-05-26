@@ -224,7 +224,7 @@ int	c_updateall;
 - redrawInstance
 {
 	clearinstance = YES;
-	[quakeed_i updateAll];//S&F*****[self flushWindow];
+	[self flushWindow];
 	return self;
 }
 
@@ -245,14 +245,14 @@ instance draw the brush after each flush
 	if (_flushDisabled)
 		return self;
 		
-	//S&F*****[cameraview_i lockFocus];
+	[cameraview_i lockFocus];
 	if (clearinstance)
 	{
 		PSnewinstance ();
 		clearinstance = NO;
 	}
 
-	/*/S&F*****PSsetinstance (1);
+	PSsetinstance (1);
 	linestart (0,0,0);
 	[map_i makeSelectedPerform: @selector(CameraDrawSelf)];
 	[clipper_i cameraDrawSelf];
@@ -277,7 +277,7 @@ instance draw the brush after each flush
 	[cameraview_i ZDrawSelf];
 	[clipper_i ZDrawSelf];
 	PSsetinstance (0);
-	[zview_i unlockFocus];/S&F*****/
+	[zview_i unlockFocus];
 
 	return self;
 }
@@ -315,11 +315,11 @@ App delegate methods
 	if ([[map_i currentEntity] count] != [brushcount_i intValue])
 		[brushcount_i setIntValue: [[map_i currentEntity] count]];
 		
-	//S&F*****if (updatecamera)
+	if (updatecamera)
 		[cameraview_i display];
-	//S&F*****if (updatexy)
+	if (updatexy)
 		[xyview_i display];
-	//S&F*****if (updatez)
+	if (updatez)
 		[zview_i display];
 
 	updatecamera = updatexy = updatez = NO;

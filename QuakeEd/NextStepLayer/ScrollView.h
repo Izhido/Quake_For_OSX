@@ -11,8 +11,6 @@
     Scroller* vScroller;
 }
 
--(instancetype)initFrame:(const NXRect*)frame;
-
 -(void)setHorizScrollerRequired:(BOOL)required;
 
 -(void)setVertScrollerRequired:(BOOL)required;

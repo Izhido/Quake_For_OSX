@@ -2,7 +2,7 @@
 #import <appkit/appkit_nextsteplayer.h>//S&F*****<appkit/appkit.h>
 #import "mathlib.h"
 #import "SetBrush.h"
-
+/*/S&F*****/#import "PopScrollView.h"
 extern	id xyview_i;
 
 #define	MINSCALE	0.125
@@ -55,12 +55,14 @@ typedef enum {dr_wire, dr_flat, dr_texture} drawmode_t;
 - addToScrollRange: (float)x :(float)y;
 - setOrigin: (NXPoint *)pt scale: (float)sc;
 - centerOn: (vec3_t)org;
-
+/*/S&F*****/- scaleMenuTarget: sender;
 - drawMode: sender;
-
+/*/S&F*****/- gridMenuTarget: sender;
 - superviewChanged;
 
 - (int)gridsize;
 - (float)snapToGrid: (float)f;
 
 @end
+/*/S&F*****>>>>>*/@interface XYScrollView : PopScrollView
+@end/*/S&F*****<<<<<*/

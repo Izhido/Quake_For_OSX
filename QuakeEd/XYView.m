@@ -16,7 +16,7 @@ initFrame:
 */
 - initFrame:(const NXRect *)frameRect
 {
-	self = /*/S&F*****/[super initFrame:frameRect];
+	//S&F*****/self = [super initFrame:frameRect];
 	[self allocateGState];
 	
 	NXSetRect (&realbounds, 0,0,0,0);
@@ -31,7 +31,7 @@ initFrame:
 //		
 // initialize the pop up menus
 //
-	scalemenu_i = [[PopUpList alloc] init];
+	/*/S&F*****scalemenu_i = [[PopUpList alloc] init];
 	[scalemenu_i setTarget: self];
 	[scalemenu_i setAction: @selector(scaleMenuTarget:)];
 
@@ -64,7 +64,7 @@ initFrame:
 	gridbutton_i = NXCreatePopUpListButton(gridmenu_i);
 
 // initialize the scroll view
-	scrollview_i = [[PopScrollView alloc] 
+	scrollview_i = [[PopScrollView alloc]
 		initFrame: 		frameRect 
 		button1: 		scalebutton_i
 		button2:		gridbutton_i
@@ -75,7 +75,7 @@ initFrame:
 // link objects together
 	[[scrollview_i setDocView: self] free];
 	
-	return scrollview_i;
+     return scrollview_i;/S&F*****/return self;
 
 }
 
@@ -1382,3 +1382,62 @@ rightMouseDown
 
 @end
 
+/*/S&F*****>>>>>*/@implementation XYScrollView
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self)
+    {
+        scalemenu_i = [[PopUpList alloc] init];
+        [scalemenu_i setTarget: self];
+        [scalemenu_i setAction: @selector(scaleMenuTarget:)];
+        
+        [scalemenu_i addItem: "12.5%"];
+        [scalemenu_i addItem: "25%"];
+        [scalemenu_i addItem: "50%"];
+        [scalemenu_i addItem: "75%"];
+        [scalemenu_i addItem: "100%"];
+        [scalemenu_i addItem: "200%"];
+        [scalemenu_i addItem: "300%"];
+        [[scalemenu_i itemList] selectCellAt: 4 : 0];
+        
+        scalebutton_i = NXCreatePopUpListButton(scalemenu_i);
+        
+        
+        gridmenu_i = [[PopUpList alloc] init];
+        [gridmenu_i setTarget: self];
+        [gridmenu_i setAction: @selector(gridMenuTarget:)];
+        
+        [gridmenu_i addItem: "grid 1"];
+        [gridmenu_i addItem: "grid 2"];
+        [gridmenu_i addItem: "grid 4"];
+        [gridmenu_i addItem: "grid 8"];
+        [gridmenu_i addItem: "grid 16"];
+        [gridmenu_i addItem: "grid 32"];
+        [gridmenu_i addItem: "grid 64"];
+        
+        [[gridmenu_i itemList] selectCellAt: 4 : 0];
+        
+        gridbutton_i = NXCreatePopUpListButton(gridmenu_i);
+        
+        scrollview_i = self;
+        [scrollview_i setLineScroll: 64];
+        [scrollview_i setAutosizing: NX_WIDTHSIZABLE | NX_HEIGHTSIZABLE];
+        NXRect frame = self.frame;
+        [self createWithFrame:&frame button1:scalebutton_i button2:gridbutton_i];
+    }
+    return self;
+}
+
+- scaleMenuTarget: sender
+{
+    return [xyview_i scaleMenuTarget:sender];
+}
+
+- gridMenuTarget: sender
+{
+    return [xyview_i gridMenuTarget:sender];
+}
+
+@end/*/S&F*****<<<<<*/

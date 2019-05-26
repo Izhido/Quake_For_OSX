@@ -11,9 +11,9 @@ Initizes a scroll view with a button at it's lower right corner
 ====================
 */
 
-- initFrame:(const NXRect *)frameRect button1:b1 button2:b2
+- /*/S&F*****initFrame*/createWithFrame:(const NXRect *)frameRect button1:b1 button2:b2
 {
-	self = /*/S&F*****/[super  initFrame: frameRect];
+	//S&F*****[super  initFrame: frameRect];
 
 	[self addSubview: b1];
 	[self addSubview: b2];

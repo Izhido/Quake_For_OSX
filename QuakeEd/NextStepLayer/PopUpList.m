@@ -36,6 +36,7 @@
 Button* NXCreatePopUpListButton(PopUpList* list)
 {
     Button* button = [[Button alloc] initWithFrame:NSMakeRect(0,0,80,20) pullsDown:NO];
+    button.font = [NSFont systemFontOfSize:NSFont.smallSystemFontSize];
     for (NSString* item in list.items)
     {
         [button addItemWithTitle:item];

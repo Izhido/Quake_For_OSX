@@ -2,12 +2,11 @@
 
 @implementation ScrollView
 
--(instancetype)initFrame:(const NXRect*)frame
+-(instancetype)initWithCoder:(NSCoder *)coder
 {
-    self = [super initWithFrame:*frame];
+    self = [super initWithCoder:coder];
     if (self != nil)
     {
-        self.scrollerStyle = NSScrollerStyleLegacy;
         hScroller = [[Scroller alloc] initWithScrollView:self isVertical:NO];
         vScroller = [[Scroller alloc] initWithScrollView:self isVertical:YES];
     }
@@ -43,6 +42,11 @@
 -(void)setAutosizing:(int)mask
 {
     self.autoresizingMask = mask;
+}
+
++(BOOL)isCompatibleWithOverlayScrollers
+{
+    return NO;
 }
 
 @end
