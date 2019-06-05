@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/heribertodelgado/Projects/Quake-Tools/QuakeEd/jrbase1.map /Users/heribertodelgado/Projects/test_maps/quake/ID1/PAK0.PAK /Users/heribertodelgado/Projects/test_maps/quake/test_maps/gfx/base.wad"
+            argument = "/Users/heribertodelgado/Projects/test_map/quake/test_maps/maps/jrbase1.map /Users/heribertodelgado/Projects/test_maps/quake/ID1/PAK0.PAK /Users/heribertodelgado/Projects/test_maps/quake/test_maps/gfx/base.wad"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
