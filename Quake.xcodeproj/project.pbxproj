@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		280162D6229A412F005BE77C /* LegacyScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 280162D5229A412F005BE77C /* LegacyScroller.m */; };
 		2807AD681CFC9DC0004A2C68 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2807AD671CFC9DC0004A2C68 /* Settings.bundle */; };
+		2809E54F22A21CFF0039D438 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2809E54E22A21CFF0039D438 /* main.c */; };
+		2809E55322A223270039D438 /* bspfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 28FC49FB22908726002BEC13 /* bspfile.c */; };
+		2809E55422A2232B0039D438 /* cmdlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 28FC49FD22908772002BEC13 /* cmdlib.c */; };
+		2809E55522A2232E0039D438 /* mathlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 28FC49F6229086D4002BEC13 /* mathlib.c */; };
+		2809E55622A223320039D438 /* scriplib.c in Sources */ = {isa = PBXBuildFile; fileRef = 28FC49FF22908800002BEC13 /* scriplib.c */; };
+		2809E55722A223370039D438 /* wadlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 28FC49F8229086D5002BEC13 /* wadlib.c */; };
 		280A95C9227F7FB60068F8E5 /* Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 280A95C8227F7FB60068F8E5 /* Button.m */; };
 		280E8C681CF8C63F00500C75 /* id1 in Resources */ = {isa = PBXBuildFile; fileRef = 280E8C671CF8C63F00500C75 /* id1 */; };
 		281179672279D62E0099E9BB /* PopUpList.m in Sources */ = {isa = PBXBuildFile; fileRef = 281179662279D62E0099E9BB /* PopUpList.m */; };
@@ -351,6 +357,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		2809E54A22A21CFF0039D438 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		28B40F9D22950A5700C44B40 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -394,6 +409,8 @@
 		280162D4229A412F005BE77C /* LegacyScroller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LegacyScroller.h; sourceTree = "<group>"; };
 		280162D5229A412F005BE77C /* LegacyScroller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LegacyScroller.m; sourceTree = "<group>"; };
 		2807AD671CFC9DC0004A2C68 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		2809E54C22A21CFF0039D438 /* leechwad */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = leechwad; sourceTree = BUILT_PRODUCTS_DIR; };
+		2809E54E22A21CFF0039D438 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		280A95C7227F7FB60068F8E5 /* Button.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
 		280A95C8227F7FB60068F8E5 /* Button.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Button.m; sourceTree = "<group>"; };
 		280E8C671CF8C63F00500C75 /* id1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = id1; path = "../../../Downloads/Quake Shareware (1_06) PAK/id1"; sourceTree = "<group>"; };
@@ -756,6 +773,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2809E54922A21CFF0039D438 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2839AD3D1C5D6EF700CEC48E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -824,6 +848,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2809E54D22A21CFF0039D438 /* leechwad */ = {
+			isa = PBXGroup;
+			children = (
+				2809E54E22A21CFF0039D438 /* main.c */,
+			);
+			path = leechwad;
+			sourceTree = "<group>";
+		};
 		2839AD351C5D6E4B00CEC48E = {
 			isa = PBXGroup;
 			children = (
@@ -834,10 +866,11 @@
 				2887813C1CD83E0800AF4F24 /* Quake_iOS_VR */,
 				289AF1EA1D3400BE001CBC0F /* Quake_Asset_Generator */,
 				28EB47AB2275204F00953944 /* QuakeEd */,
-				28EAD4582286300900E8446B /* fakewad */,
 				28FC49D4229083F6002BEC13 /* qbsp */,
 				28CF56262295006400D6B5FC /* light */,
 				28B40FA022950A5700C44B40 /* vis */,
+				28EAD4582286300900E8446B /* fakewad */,
+				2809E54D22A21CFF0039D438 /* leechwad */,
 				2839AD411C5D6EF700CEC48E /* Products */,
 				EFA69186850D4E8E75706323 /* Frameworks */,
 				BD4B22393441F07265B7EBF8 /* Pods */,
@@ -856,6 +889,7 @@
 				28FC49D3229083F5002BEC13 /* qbsp */,
 				28CF56252295006400D6B5FC /* light */,
 				28B40F9F22950A5700C44B40 /* vis */,
+				2809E54C22A21CFF0039D438 /* leechwad */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1348,6 +1382,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2809E54B22A21CFF0039D438 /* leechwad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2809E55222A21CFF0039D438 /* Build configuration list for PBXNativeTarget "leechwad" */;
+			buildPhases = (
+				2809E54822A21CFF0039D438 /* Sources */,
+				2809E54922A21CFF0039D438 /* Frameworks */,
+				2809E54A22A21CFF0039D438 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = leechwad;
+			productName = leechwad;
+			productReference = 2809E54C22A21CFF0039D438 /* leechwad */;
+			productType = "com.apple.product-type.tool";
+		};
 		2839AD3F1C5D6EF700CEC48E /* Quake_OSX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2839AD4B1C5D6EF700CEC48E /* Build configuration list for PBXNativeTarget "Quake_OSX" */;
@@ -1513,6 +1564,11 @@
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 1020;
 				TargetAttributes = {
+					2809E54B22A21CFF0039D438 = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = EZ7GK5VS2K;
+						ProvisioningStyle = Automatic;
+					};
 					2839AD3F1C5D6EF700CEC48E = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = EZ7GK5VS2K;
@@ -1583,6 +1639,7 @@
 				28FC49D2229083F5002BEC13 /* qbsp */,
 				28CF56242295006400D6B5FC /* light */,
 				28B40F9E22950A5700C44B40 /* vis */,
+				2809E54B22A21CFF0039D438 /* leechwad */,
 			);
 		};
 /* End PBXProject section */
@@ -1741,6 +1798,19 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2809E54822A21CFF0039D438 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2809E55722A223370039D438 /* wadlib.c in Sources */,
+				2809E55422A2232B0039D438 /* cmdlib.c in Sources */,
+				2809E55622A223320039D438 /* scriplib.c in Sources */,
+				2809E54F22A21CFF0039D438 /* main.c in Sources */,
+				2809E55322A223270039D438 /* bspfile.c in Sources */,
+				2809E55522A2232E0039D438 /* mathlib.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2839AD3C1C5D6EF700CEC48E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2160,6 +2230,77 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2809E55022A21CFF0039D438 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = EZ7GK5VS2K;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2809E55122A21CFF0039D438 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = EZ7GK5VS2K;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		2839AD3A1C5D6E4B00CEC48E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2560,7 +2701,7 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2592,7 +2733,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3000,6 +3141,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2809E55222A21CFF0039D438 /* Build configuration list for PBXNativeTarget "leechwad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2809E55022A21CFF0039D438 /* Debug */,
+				2809E55122A21CFF0039D438 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2839AD391C5D6E4B00CEC48E /* Build configuration list for PBXProject "Quake" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

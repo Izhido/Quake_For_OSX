@@ -754,7 +754,7 @@ Called by open or the project panel
 	[self updateAll];
 
 	qprintf ("%s loaded\n", fname);
-	
+    /*/S&F*****/[NSDocumentController.sharedDocumentController noteNewRecentDocumentURL:[NSURL fileURLWithPath:[NSString stringWithCString:filename encoding:NSString.defaultCStringEncoding]]];/*/S&F*****/
 	return self;
 }
 

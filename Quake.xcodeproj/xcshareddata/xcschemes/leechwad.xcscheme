@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "28FC49D2229083F5002BEC13"
-               BuildableName = "qbsp"
-               BlueprintName = "qbsp"
+               BlueprintIdentifier = "2809E54B22A21CFF0039D438"
+               BuildableName = "leechwad"
+               BlueprintName = "leechwad"
                ReferencedContainer = "container:Quake.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "28FC49D2229083F5002BEC13"
-            BuildableName = "qbsp"
-            BlueprintName = "qbsp"
+            BlueprintIdentifier = "2809E54B22A21CFF0039D438"
+            BuildableName = "leechwad"
+            BlueprintName = "leechwad"
             ReferencedContainer = "container:Quake.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -55,15 +55,15 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "28FC49D2229083F5002BEC13"
-            BuildableName = "qbsp"
-            BlueprintName = "qbsp"
+            BlueprintIdentifier = "2809E54B22A21CFF0039D438"
+            BuildableName = "leechwad"
+            BlueprintName = "leechwad"
             ReferencedContainer = "container:Quake.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/heribertodelgado/Projects/test_maps/quake/test_maps/maps/lotsofdoors.map /Users/heribertodelgado/Projects/test_maps/quake/test_maps/maps/lotsofdoors.bsp"
+            argument = "/Users/heribertodelgado/Projects/Quake-Tools/QuakeEd/jrbase1.map /Users/heribertodelgado/Projects/test_maps/quake/ID1/PAK0.PAK /Users/heribertodelgado/Projects/test_maps/quake/test_maps/gfx/base.wad"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -80,9 +80,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "28FC49D2229083F5002BEC13"
-            BuildableName = "qbsp"
-            BlueprintName = "qbsp"
+            BlueprintIdentifier = "2809E54B22A21CFF0039D438"
+            BuildableName = "leechwad"
+            BlueprintName = "leechwad"
             ReferencedContainer = "container:Quake.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

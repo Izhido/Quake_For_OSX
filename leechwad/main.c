@@ -1,6 +1,42 @@
 #include "scriplib.h"
 #include "wadlib.h"
 #include "bspfile.h"
+#include <sys/stat.h>
+
+#define    MAX_QPATH        64            // max length of a quake game pathname
+#define    MAX_OSPATH        1024        // max length of a filesystem pathname
+
+#define MAX_FILES_IN_PACK       2048
+
+typedef struct
+{
+    char    name[MAX_QPATH];
+    int             filepos, filelen;
+} packfile_t;
+
+typedef struct pack_s
+{
+    char    filename[MAX_OSPATH];
+    int             handle;
+    int             numfiles;
+    packfile_t      *files;
+} pack_t;
+
+//
+// on disk
+//
+typedef struct
+{
+    char    name[56];
+    int             filepos, filelen;
+} dpackfile_t;
+
+typedef struct
+{
+    char    id[4];
+    int             dirofs;
+    int             dirlen;
+} dpackheader_t;
 
 unsigned char palette[] =
 {
@@ -51,11 +87,84 @@ unsigned char palette[] =
 
 #define TEXTURE_LEN 16
 
+#define MAX_HANDLES             10
+
+FILE    *sys_handles[MAX_HANDLES];
+
+int             findhandle (void)
+{
+    int             i;
+    
+    for (i=1 ; i<MAX_HANDLES ; i++)
+        if (!sys_handles[i])
+            return i;
+    printf ("out of handles");
+    return -1;
+}
+
+int Sys_FileOpenRead (char *path, int *hndl)
+{
+    FILE    *f;
+    int             i;
+    
+    i = findhandle ();
+    
+    f = fopen(path, "rb");
+    if (!f)
+    {
+        *hndl = -1;
+        return -1;
+    }
+    sys_handles[i] = f;
+    *hndl = i;
+    
+    return filelength(f);
+}
+
+int Sys_FileOpenWrite (char *path)
+{
+    FILE    *f;
+    int             i;
+    
+    i = findhandle ();
+    
+    f = fopen(path, "wb");
+    if (!f)
+    {
+        printf ("Error opening %s: %s", path,strerror(errno));
+        return -1;
+    }
+    sys_handles[i] = f;
+    
+    return i;
+}
+
+void Sys_FileClose (int handle)
+{
+    fclose (sys_handles[handle]);
+    sys_handles[handle] = NULL;
+}
+
+void Sys_FileSeek (int handle, int position)
+{
+    fseek (sys_handles[handle], position, SEEK_SET);
+}
+
+int Sys_FileRead (int handle, void *dest, int count)
+{
+    return fread (dest, 1, count, sys_handles[handle]);
+}
+
+int Sys_FileWrite (int handle, void *data, int count)
+{
+    return fwrite (data, 1, count, sys_handles[handle]);
+}
+
 int main(int argc, char* argv[])
 {
-    if (argc != 3)
+    if (argc != 4)
     {
-        Error("Usage: fakewad mapfile.map output.wad");
+        Error("Usage: leechwad mapfile.map pakfile.pak output.wad");
     }
     LoadScriptFile(argv[1]);
     int maxtextures = 512;
@@ -73,7 +182,7 @@ int main(int argc, char* argv[])
         }
         if (strcmp(token, "{"))
         {
-            Error("fakewad: { not found.");
+            Error("leechwad: { not found.");
         }
         do
         {
@@ -113,7 +222,7 @@ int main(int argc, char* argv[])
                         }
                         if (strcmp(token, "("))
                         {
-                            Error("fakewad: ( not found.");
+                            Error("leechwad: ( not found.");
                         }
                         GetToken(false);
                         GetToken(false);
@@ -121,13 +230,13 @@ int main(int argc, char* argv[])
                         GetToken(false);
                         if (strcmp(token, ")"))
                         {
-                            Error("fakewad: ) not found.");
+                            Error("leechwad: ) not found.");
                         }
                     }
                     GetToken(false);
                     if (strlen(token) >= 16)
                     {
-                        Error("fakewad: texture name too long.");
+                        Error("leechwad: texture name too long.");
                     }
                     char texture[TEXTURE_LEN];
                     strcpy(texture, token);
@@ -167,7 +276,58 @@ int main(int argc, char* argv[])
             }
         } while(true);
     } while(true);
-    W_NewWad(argv[2], false);
+
+    dpackheader_t   header;
+    int                             i;
+    packfile_t              *newfiles;
+    int                             numpackfiles;
+    int                             packhandle;
+    dpackfile_t             info[MAX_FILES_IN_PACK];
+    unsigned short          crc;
+    char* packfile = argv[2];
+    
+    if (Sys_FileOpenRead (packfile, &packhandle) == -1)
+    {
+        printf ("Couldn't open %s\n", packfile);
+        return EXIT_FAILURE;
+    }
+    Sys_FileRead (packhandle, (void *)&header, sizeof(header));
+    if (header.id[0] != 'P' || header.id[1] != 'A'
+        || header.id[2] != 'C' || header.id[3] != 'K')
+    {
+        printf ("%s is not a packfile", packfile);
+        return EXIT_FAILURE;
+    }
+    header.dirofs = LittleLong (header.dirofs);
+    header.dirlen = LittleLong (header.dirlen);
+    
+    numpackfiles = header.dirlen / sizeof(dpackfile_t);
+    
+    newfiles = malloc (numpackfiles * sizeof(packfile_t));
+    
+    Sys_FileSeek (packhandle, header.dirofs);
+    Sys_FileRead (packhandle, (void *)info, header.dirlen);
+    
+    // crc the directory to check for modifications
+    CRC_Init (&crc);
+    for (i=0 ; i<header.dirlen ; i++)
+        CRC_ProcessByte (&crc, ((byte *)info)[i]);
+    
+    // parse the directory
+    for (i=0 ; i<numpackfiles ; i++)
+    {
+        strcpy (newfiles[i].name, info[i].name);
+        newfiles[i].filepos = LittleLong(info[i].filepos);
+        newfiles[i].filelen = LittleLong(info[i].filelen);
+    }
+    
+    pack_t pack;
+    strcpy (pack.filename, packfile);
+    pack.handle = packhandle;
+    pack.numfiles = numpackfiles;
+    pack.files = newfiles;
+
+    W_NewWad(argv[3], false);
     W_AddLump("PALETTE", palette, 768, TYP_LUMPY, false);
     int lumpsize = sizeof(miptex_t) + 64 * 64 + 32 * 32 + 16 * 16 + 8 * 8;
     unsigned char* lump = malloc(lumpsize);
@@ -178,11 +338,75 @@ int main(int argc, char* argv[])
     miptex->offsets[1] = miptex->offsets[0] + 64 * 64;
     miptex->offsets[2] = miptex->offsets[1] + 32 * 32;
     miptex->offsets[3] = miptex->offsets[2] + 16 * 16;
-    srand(time(0));
+    time_t fortemp = time(0);
     for (int i = 0; i < numtextures; i++)
     {
         bzero(miptex->name, TEXTURE_LEN);
         strcpy(miptex->name, textures + i * TEXTURE_LEN);
+        qboolean found = false;
+        for (int j = 0; j < pack.numfiles; j++)
+        {
+            int namelen = strlen(pack.files[j].name);
+            if (pack.files[j].name[namelen - 4] == '.' && pack.files[j].name[namelen - 3] == 'b' && pack.files[j].name[namelen - 2] == 's' && pack.files[j].name[namelen - 1] == 'p')
+            {
+                int p = namelen - 1;
+                while (p >= 0)
+                {
+                    if (pack.files[j].name[p] == '/')
+                    {
+                        break;
+                    }
+                    p--;
+                }
+                char tempfilename[MAX_OSPATH];
+                strcpy(tempfilename, "/tmp/leechwad.");
+                sprintf(tempfilename, "/tmp/leechwad.%i.%s", (int)fortemp, pack.files[j].name + p + 1);
+                struct stat filestatus;
+                if (stat(tempfilename, &filestatus) != 0)
+                {
+                    Sys_FileSeek(packhandle, pack.files[j].filepos);
+                    unsigned char* bsp = malloc(pack.files[j].filelen);
+                    Sys_FileRead(packhandle, bsp, pack.files[j].filelen);
+                    int tempfile = -1;
+                    if ((tempfile = Sys_FileOpenWrite (tempfilename)) == -1)
+                    {
+                        printf ("Couldn't create %s\n", tempfilename);
+                        return EXIT_FAILURE;
+                    }
+                    Sys_FileWrite(tempfile, bsp, pack.files[j].filelen);
+                    Sys_FileClose(tempfile);
+                }
+                LoadBSPFile(tempfilename);
+                if (texdatasize > 0)
+                {
+                    dmiptexlump_t* mtl = (dmiptexlump_t *)dtexdata;
+                    int c = LittleLong(mtl->nummiptex);
+                    mtl->nummiptex = LittleLong (mtl->nummiptex);
+                    for (int k = 0; k < c; k++)
+                    {
+                        mtl->dataofs[k] = LittleLong(mtl->dataofs[k]);
+                        miptex_t* mt = (miptex_t *)((byte *)mtl + mtl->dataofs[k]);
+                        if (!strcasecmp(mt->name, miptex->name))
+                        {
+                            int width = LittleLong (mt->width);
+                            int height = LittleLong (mt->height);
+                            int pixels = width * height / 64 * 85;
+                            W_AddLump(miptex->name, mt, sizeof(miptex_t) + pixels, TYP_LUMPY + 3, false);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        if (found)
+        {
+            continue;
+        }
         unsigned char band = rand() % 15;
         unsigned char outer = band * 16 + (rand() % 16);
         unsigned char ul = band * 16 + (rand() % 16);
@@ -236,5 +460,25 @@ int main(int argc, char* argv[])
         W_AddLump(miptex->name, lump, lumpsize, TYP_LUMPY + 3, false);
     };
     W_WriteWad();
+    for (int i = 0; i < pack.numfiles; i++)
+    {
+        int namelen = strlen(pack.files[i].name);
+        if (pack.files[i].name[namelen - 4] == '.' && pack.files[i].name[namelen - 3] == 'b' && pack.files[i].name[namelen - 2] == 's' && pack.files[i].name[namelen - 1] == 'p')
+        {
+            int p = namelen - 1;
+            while (p >= 0)
+            {
+                if (pack.files[i].name[p] == '/')
+                {
+                    break;
+                }
+                p--;
+            }
+            char tempfilename[MAX_OSPATH];
+            strcpy(tempfilename, "/tmp/leechwad.");
+            sprintf(tempfilename, "/tmp/leechwad.%i.%s", (int)fortemp, pack.files[i].name + p + 1);
+            remove(tempfilename);
+        }
+    }
     return EXIT_SUCCESS;
 }

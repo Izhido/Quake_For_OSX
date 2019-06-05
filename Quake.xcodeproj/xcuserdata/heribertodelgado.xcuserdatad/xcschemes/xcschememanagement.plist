@@ -7,7 +7,7 @@
 		<key>QuakeEd.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>11</integer>
+			<integer>4</integer>
 		</dict>
 		<key>Quake_Asset_Generator.xcscheme</key>
 		<dict>
@@ -32,12 +32,17 @@
 		<key>fakewad.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>9</integer>
+			<integer>11</integer>
+		</dict>
+		<key>leechwad.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
 		</dict>
 		<key>light.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>12</integer>
+			<integer>13</integer>
 		</dict>
 		<key>qbsp.xcscheme_^#shared#^_</key>
 		<dict>
@@ -47,11 +52,16 @@
 		<key>vis.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>13</integer>
+			<integer>14</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>2809E54B22A21CFF0039D438</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>2839AD3F1C5D6EF700CEC48E</key>
 		<dict>
 			<key>primary</key>
@@ -78,6 +88,11 @@
 			<true/>
 		</dict>
 		<key>28EAD4562286300800E8446B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>28EB47A92275204F00953944</key>
 		<dict>
 			<key>primary</key>
 			<true/>

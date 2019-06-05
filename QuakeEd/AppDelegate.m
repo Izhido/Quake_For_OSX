@@ -34,4 +34,10 @@
     [(QuakeEd*)self.window applicationDefined:nil];
 }
 
+- (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename
+{
+    [(QuakeEd*)self.window doOpen:[filename cStringUsingEncoding:NSString.defaultCStringEncoding]];
+    return YES;
+}
+
 @end

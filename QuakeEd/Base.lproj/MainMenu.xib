@@ -477,7 +477,7 @@
         <window title="QuakeEd" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="QuakeEd">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <rect key="contentRect" x="203" y="87" width="1024" height="732"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="1024" height="732"/>
             <value key="maxSize" type="size" width="1024" height="732"/>
             <view key="contentView" id="EiT-Mj-1SZ">
@@ -1327,7 +1327,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Things" identifier="" id="HGZ-P1-JLp" customClass="TabViewItem">
-                                <view key="view" id="gTM-HR-DGa" customClass="View">
+                                <view key="view" ambiguous="YES" id="gTM-HR-DGa" customClass="View">
                                     <rect key="frame" x="0.0" y="0.0" width="286" height="682"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1393,10 +1393,10 @@
                                             <rect key="frame" x="13" y="449" width="262" height="146"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </browser>
-                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wMO-BE-Z8Q" customClass="TextField">
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMO-BE-Z8Q" customClass="TextField">
                                             <rect key="frame" x="13" y="384" width="262" height="64"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hiI-R1-P76">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hiI-R1-P76">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1572,7 +1572,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="PyI-s7-ksx">
                                                 <rect key="frame" x="1" y="1" width="260" height="87"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iU8-hJ-kT6" customClass="KeypairView">
                                                         <rect key="frame" x="0.0" y="0.0" width="245" height="72"/>
@@ -2072,7 +2072,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Output" identifier="" id="dDb-nD-HsN" customClass="TabViewItem">
-                                <view key="view" ambiguous="YES" id="fxT-IF-Wob" customClass="View">
+                                <view key="view" id="fxT-IF-Wob" customClass="View">
                                     <rect key="frame" x="0.0" y="0.0" width="286" height="682"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -2081,7 +2081,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="viB-bz-LRj">
                                                 <rect key="frame" x="0.0" y="0.0" width="286" height="635"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="1gc-ag-cJU" customClass="Text">
                                                         <rect key="frame" x="0.0" y="0.0" width="286" height="635"/>
