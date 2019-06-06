@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "28FC49D2229083F5002BEC13"
-               BuildableName = "qbsp"
-               BlueprintName = "qbsp"
+               BlueprintIdentifier = "28B40F9E22950A5700C44B40"
+               BuildableName = "vis"
+               BlueprintName = "vis"
                ReferencedContainer = "container:Quake.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "28FC49D2229083F5002BEC13"
-            BuildableName = "qbsp"
-            BlueprintName = "qbsp"
+            BlueprintIdentifier = "28B40F9E22950A5700C44B40"
+            BuildableName = "vis"
+            BlueprintName = "vis"
             ReferencedContainer = "container:Quake.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -55,15 +55,15 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "28FC49D2229083F5002BEC13"
-            BuildableName = "qbsp"
-            BlueprintName = "qbsp"
+            BlueprintIdentifier = "28B40F9E22950A5700C44B40"
+            BuildableName = "vis"
+            BlueprintName = "vis"
             ReferencedContainer = "container:Quake.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/heribertodelgado/Projects/test_maps/quake/test_maps/maps/awelllitroom.map /Users/heribertodelgado/Projects/test_maps/quake/test_maps/maps/awelllitroom.bsp"
+            argument = "/Users/heribertodelgado/Projects/test_maps/quake/test_maps/maps/awelllitroom.bsp"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -80,9 +80,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "28FC49D2229083F5002BEC13"
-            BuildableName = "qbsp"
-            BlueprintName = "qbsp"
+            BlueprintIdentifier = "28B40F9E22950A5700C44B40"
+            BuildableName = "vis"
+            BlueprintName = "vis"
             ReferencedContainer = "container:Quake.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

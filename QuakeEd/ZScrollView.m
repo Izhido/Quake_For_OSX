@@ -99,7 +99,7 @@ Adjust the size for the pop up scale menu
 	return self;
 }/S&F*****/
 
-
+/*/S&F*****/-(void)reflectScrolledClipView:(NSClipView *)cView { [super reflectScrolledClipView:cView]; if ([quakeed_i showCoordinates]) { [zview_i setNeedsDisplay:YES]; } }/*/S&F*****/
 
 @end
 
