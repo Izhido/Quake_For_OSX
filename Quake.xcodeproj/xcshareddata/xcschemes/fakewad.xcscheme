@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "$(SRCROOT)/../test_maps/quake/test_maps/maps/jrbase1.map $(SRCROOT)/../test_maps/quake/test_maps/gfx/base.wad"
+            argument = "$(SRCROOT)/../test_maps/quake/test_maps/maps/testmap.map $(SRCROOT)/../test_maps/quake/test_maps/gfx/testmaps.wad"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
