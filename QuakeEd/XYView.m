@@ -1440,13 +1440,4 @@ rightMouseDown
     return [xyview_i gridMenuTarget:sender];
 }
 
--(void)reflectScrolledClipView:(NSClipView *)cView
-{
-    [super reflectScrolledClipView:cView];
-    if ([quakeed_i showCoordinates])    // if coords are showing, redraw
-    {
-        [xyview_i setNeedsDisplay:YES];
-    }
-}
-
 @end/*/S&F*****<<<<<*/

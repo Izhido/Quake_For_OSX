@@ -193,8 +193,6 @@ CGContextRef currentContextForPSFunctions = nil;
 CGFloat currentXForPSFunctions = 0;
 CGFloat currentYForPSFunctions = 0;
 NSFont* currentFontForPSFunctions = nil;
-NSColor* currentFontColorForPSFunctions = nil;
-NSDictionary* currentFontAttributesForPSFunctions = nil;
 
 void PSnewinstance()
 {
@@ -208,8 +206,6 @@ void PSsetinstance(int instance)
         currentXForPSFunctions = 0;
         currentYForPSFunctions = 0;
         currentFontForPSFunctions = [NSFont systemFontOfSize:[NSFont smallSystemFontSize]];
-        currentFontColorForPSFunctions = NSColor.blackColor;
-        currentFontAttributesForPSFunctions = @{NSFontAttributeName:currentFontForPSFunctions, NSForegroundColorAttributeName: currentFontColorForPSFunctions};
     }
     else
     {
@@ -280,7 +276,6 @@ void PSselectfont(const char* name, float size)
     if (newFont != nil)
     {
         currentFontForPSFunctions = newFont;
-        currentFontAttributesForPSFunctions = @{NSFontAttributeName:currentFontForPSFunctions, NSForegroundColorAttributeName: currentFontColorForPSFunctions};
     }
 }
 
@@ -288,26 +283,22 @@ void PSsetgray(float gray)
 {
     CGContextSetGrayStrokeColor(currentContextForPSFunctions, gray, 1);
     CGContextSetGrayFillColor(currentContextForPSFunctions, gray, 1);
-    currentFontColorForPSFunctions = [NSColor colorWithDeviceWhite:gray alpha:1];
-    currentFontAttributesForPSFunctions = @{NSFontAttributeName:currentFontForPSFunctions, NSForegroundColorAttributeName: currentFontColorForPSFunctions};
 }
 
 void PSsetlinewidth(float width)
 {
-    CGContextSetLineWidth(currentContextForPSFunctions, (width > 0 ? 1 : 0));
+    CGContextSetLineWidth(currentContextForPSFunctions, width);
 }
 
 void PSsetrgbcolor(float r, float g, float b)
 {
     CGContextSetRGBStrokeColor(currentContextForPSFunctions, r, g, b, 1);
     CGContextSetRGBFillColor(currentContextForPSFunctions, r, g, b, 1);
-    currentFontColorForPSFunctions = [NSColor colorWithDeviceRed:r green:g blue:b alpha:1];
-    currentFontAttributesForPSFunctions = @{NSFontAttributeName:currentFontForPSFunctions, NSForegroundColorAttributeName: currentFontColorForPSFunctions};
 }
 
 void PSshow(const char* text)
 {
-    [[NSString stringWithCString:text encoding:NSString.defaultCStringEncoding] drawAtPoint:NSMakePoint(currentXForPSFunctions, currentYForPSFunctions) withAttributes:currentFontAttributesForPSFunctions];
+    [[NSString stringWithCString:text encoding:NSString.defaultCStringEncoding] drawAtPoint:NSMakePoint(currentXForPSFunctions, currentYForPSFunctions) withAttributes:@{NSFontAttributeName:currentFontForPSFunctions, NSForegroundColorAttributeName: NSColor.blackColor}];
 }
 
 void PSstroke()
