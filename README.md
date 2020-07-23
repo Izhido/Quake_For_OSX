@@ -2,6 +2,18 @@
 
 This is a port of the original Quake rendering engine for MacOS (formerly OS X) / tvOS / iOS.
 
+***********************************************************
+# IMPORTANT:
+This project has now been discontinued. No further changes will be applied to it. This repository will be kept here for historical purposes.
+
+An improved version of this project, with a different approach that allows support for community mods, retains the (software-rendered) look of the original game, and allows running in Windows 10, as well as Oculus devices, can be found here:
+
+https://bitbucket.org/Izhido/slipnfrag
+
+***********************************************************
+
+
+
 The source code contains an Xcode 10.2.1 workspace with three targets:
 - MacOS 10.11 and later;
 - tvOS 9.1 and later, playable in the 4th gen. Apple TV;
